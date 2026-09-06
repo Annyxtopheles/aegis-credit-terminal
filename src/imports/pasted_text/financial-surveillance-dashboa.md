@@ -28,9 +28,9 @@ Instant hierarchy: Critical information (threat level, upcoming maturity, debt p
 The Dashboard Components
 1. Global Header
 Height: 56px, Background: Pure Black (#000000)
-Left: Shield icon + "ICR SURVEILLANCE DASHBOARD" in 12px uppercase, Steel Gray
-Center: ICR logo (24px height)
-Right: "B&G Foods, Inc. • TICKER: BGS" (18px Semi-Bold company name, 16px monospace ticker)
+Left: Shield icon + "Aegis SURVEILLANCE DASHBOARD" in 12px uppercase, Steel Gray
+Center: Aegis logo (24px height)
+Right: "Apex Brands Group, Inc. • TICKER: APX" (18px Semi-Bold company name, 16px monospace ticker)
 Fixed position, 1px bottom border in #1A2332
 2. Threat Banner
 Height: 48px, Background: Critical Red (#DC2626) for ELEVATED status
@@ -59,13 +59,13 @@ Chart: Combination—Line (Cyan) + Volume bars (Amber) overlay
 Axes: Left Y (Debt Price $95-$100), Right Y (Volume 0-5M), X (Dates at 45°)
 Grid: Horizontal lines only, #2A3441 at 20% opacity
 Hover: Crosshair with data tooltip in floating card
-5. ICR Commentary Panels
+5. Aegis Commentary Panels
 Container: Background Amber (#F59E0B) at 8% opacity, 2px left border in full Amber, 20px padding
-Header: "ICR COMMENTARY" in 14px Bold, Amber
+Header: "Aegis COMMENTARY" in 14px Bold, Amber
 Body: 14px Regular, Line-height 1.6, White text, bulleted list
 Bullet style: Custom bullet (•) in Amber, 8px left indent
 Key entities (company names, dates, percentages) in Semi-Bold
-Content example: "Debt price dropped sharply after Green Giant's sale announcement to Nortera Foods (Oct 27, 2025), its Sr Secured Note due 9/15/27 hitting a 3-month low..."
+Content example: "Debt price dropped sharply after Verdant Harvest's sale announcement to Meridian Foods (Oct 27, 2025), its Sr Secured Note due 9/15/27 hitting a 3-month low..."
 6. Capital Structure Table
 Container: Background #1A2332, 1px border, table fills edge-to-edge
 Header: 14px Semi-Bold, White, with "Data as of March 29, 2025" right-aligned in 12px Steel Gray

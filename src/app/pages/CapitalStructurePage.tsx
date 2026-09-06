@@ -1,6 +1,6 @@
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
-import { AegisCommentary } from '../components/ICRCommentary';
+import { AegisCommentary } from '../components/AegisCommentary';
 import { CapitalStructureTable } from '../components/CapitalStructureTable';
 import { ThreatBanner } from '../components/ThreatBanner';
 import { MetricsCommandBar } from '../components/MetricsCommandBar';

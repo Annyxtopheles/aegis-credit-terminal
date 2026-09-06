@@ -46,5 +46,4 @@ export function AegisCommentary({ content = DEFAULT_CONTENT }: AegisCommentaryPr
   );
 }
 
-export const ICRCommentary = AegisCommentary;
 export default AegisCommentary;

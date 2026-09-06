@@ -41,7 +41,7 @@ export default function LoginPage() {
     if (!result.success) { setError(result.error || 'Login failed'); return; }
     if (result.requires2FA) { navigate('/2fa'); return; }
 
-    const stored = sessionStorage.getItem('icr-user');
+    const stored = sessionStorage.getItem('aegis-user');
     if (stored) {
       const u = JSON.parse(stored);
       navigate(getDashboardPath(u.role));

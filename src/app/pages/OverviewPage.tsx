@@ -1,7 +1,7 @@
 import { ThreatBanner } from '../components/ThreatBanner';
 import { MetricsCommandBar } from '../components/MetricsCommandBar';
 import { DebtPricingChart } from '../components/DebtPricingChart';
-import { AegisCommentary } from '../components/ICRCommentary';
+import { AegisCommentary } from '../components/AegisCommentary';
 import { LargestHoldersTable } from '../components/LargestHoldersTable';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';

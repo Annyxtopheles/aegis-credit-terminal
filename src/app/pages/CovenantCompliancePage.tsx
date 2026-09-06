@@ -1,5 +1,5 @@
 import { CovenantCompliance } from '../components/CovenantCompliance';
-import { AegisCommentary } from '../components/ICRCommentary';
+import { AegisCommentary } from '../components/AegisCommentary';
 import { ThreatBanner } from '../components/ThreatBanner';
 import { MetricsCommandBar } from '../components/MetricsCommandBar';
 import { useTheme } from '../context/ThemeContext';

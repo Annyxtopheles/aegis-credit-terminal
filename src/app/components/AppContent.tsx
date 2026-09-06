@@ -6,7 +6,7 @@ import { colors } from '../theme/colors';
 import { ThreatBanner } from './ThreatBanner';
 import { MetricsCommandBar } from './MetricsCommandBar';
 import { DebtPricingChart } from './DebtPricingChart';
-import { AegisCommentary } from './ICRCommentary';
+import { AegisCommentary } from './AegisCommentary';
 import { CapitalStructureTable } from './CapitalStructureTable';
 import { CovenantCompliance } from './CovenantCompliance';
 import { FinancialPerformanceGrid } from './FinancialPerformanceGrid';
@@ -129,7 +129,7 @@ export function AppContent() {
           lockTitle="Upgrade to Aegis Pro"
           lockMsg="Unlock full analyst commentary and proprietary insights"
         >
-          <AegisCommentary content={ICR_COMMENTARY} />
+          <AegisCommentary content={AEGIS_COMMENTARY} />
         </Section>
 
         <CapitalStructureTable />

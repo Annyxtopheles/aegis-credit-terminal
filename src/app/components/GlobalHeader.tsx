@@ -248,7 +248,7 @@ export function GlobalHeader() {
           </div>
         )}
 
-        {/* B&G label (when not logged in) */}
+        {/* Subject company label (when not logged in) */}
         {!isAuthenticated && (
           <div className="flex items-center gap-1">
             <span style={{ fontSize: '14px', fontWeight: 600, color: tc.textPrimary }}>Apex Brands Group</span>

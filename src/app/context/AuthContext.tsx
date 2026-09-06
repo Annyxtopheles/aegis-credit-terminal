@@ -88,7 +88,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUserState] = useState<User | null>(() => {
-    const saved = sessionStorage.getItem('icr-user');
+    const saved = sessionStorage.getItem('aegis-user');
     return saved ? JSON.parse(saved) : null;
   });
   const [pendingEmail, setPendingEmail] = useState<string | null>(null);
@@ -97,8 +97,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const setUser = useCallback((u: User | null) => {
     setUserState(u);
-    if (u) sessionStorage.setItem('icr-user', JSON.stringify(u));
-    else sessionStorage.removeItem('icr-user');
+    if (u) sessionStorage.setItem('aegis-user', JSON.stringify(u));
+    else sessionStorage.removeItem('aegis-user');
   }, []);
 
   const login = useCallback(async (email: string, password: string): Promise<LoginResult> => {

@@ -20,18 +20,18 @@ Debt Pricing Chart:
 ✓ Chart title: "DEBT PRICING CHART (30 DAY)"
 Below chart - 50/50 layout:
 
-✓ Left column: ICR Commentary panel (amber tint, left border)
+✓ Left column: Aegis Commentary panel (amber tint, left border)
 ✓ Right column: Largest Holders table with columns for holder names and percentage holdings
 ✓ Table has entity icons (🏛️ 📊) and color-coded percentages
 PAGE 2: CAPITAL STRUCTURE - CHECKLIST
 Content order from top to bottom:
 
-✓ ICR Commentary panel (full-width)
+✓ Aegis Commentary panel (full-width)
 ✓ Capital Structure table with columns: Instrument, Maturity Date, % EV, EBITDA Mult, Revenue Mult, Rating, Coupon, Call Provision, YTM
 ✓ Rating badges are colored pills (green/amber/red based on rating)
 ✓ Color coding on EBITDA Mult (red if >6x) and YTM (red if >7%)
 ✓ Four chart image placeholders in 2x2 grid labeled: "Debt/EBITDA Waterfall", "Revenue & YoY Growth", "Net Sales by Segment", "EBITDA % by Segment"
-✓ ICR Commentary panel below charts (full-width)
+✓ Aegis Commentary panel below charts (full-width)
 PAGE 3: COVENANT COMPLIANCE - CHECKLIST
 Covenant rows:
 
@@ -42,12 +42,12 @@ Covenant rows:
 ✓ Container has red border if any violations present
 Below covenants:
 
-✓ ICR Commentary panel (full-width)
+✓ Aegis Commentary panel (full-width)
 PAGE 4: PERFORMANCE ANALYSIS - CHECKLIST
 ✓ Four image placeholder boxes in 2x2 grid
 ✓ Each placeholder labeled with chart name
 ✓ Placeholders show "Upload Chart Image" or similar placeholder text
-✓ ICR Commentary panel below grid (full-width)
+✓ Aegis Commentary panel below grid (full-width)
 PAGE 5: SECTOR NEWS & MARKET TRENDS - CHECKLIST
 Layout:
 

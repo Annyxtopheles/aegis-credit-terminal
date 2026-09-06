@@ -36,7 +36,7 @@ export default function UserManagementPage() {
   };
 
   const handleCopyInviteLink = () => {
-    const inviteLink = `https://icr-surveillance.com/invite?token=${Math.random().toString(36).substring(2, 15)}`;
+    const inviteLink = `https://aegisterminal.com/invite?token=${Math.random().toString(36).substring(2, 15)}`;
 
     // Fallback copy method for environments where Clipboard API is blocked
     const textarea = document.createElement('textarea');

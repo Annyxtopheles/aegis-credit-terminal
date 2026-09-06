@@ -1,4 +1,4 @@
-Design a complete authentication and role-based dashboard system for the ICR Surveillance Platform. This is an enterprise B2B SaaS product serving institutional investors, credit analysts, and corporate treasury teams. The system requires secure login, role-based access control, and customized dashboard views based on user permissions and use cases.
+Design a complete authentication and role-based dashboard system for the Aegis Credit Terminal. This is an enterprise B2B SaaS product serving institutional investors, credit analysts, and corporate treasury teams. The system requires secure login, role-based access control, and customized dashboard views based on user permissions and use cases.
 
 ---
 
@@ -10,7 +10,7 @@ USER ROLES & ACCESS LEVELS:
 - Export capabilities: Charts, tables, PDF reports
 - Can create custom watchlists and alerts
 - Can add private annotations and notes
-- Access to: Real-time pricing, holder data, ICR commentary, covenant tracking
+- Access to: Real-time pricing, holder data, Aegis commentary, covenant tracking
 
 2. SENIOR ANALYST / PORTFOLIO MANAGER
 - Everything Analyst has, PLUS:
@@ -24,9 +24,9 @@ USER ROLES & ACCESS LEVELS:
 3. CORPORATE USER (Company-Side: CFO, Treasurer, IR)
 - Limited to viewing their own company's dashboard only
 - See how market perceives their debt (pricing, holder movements)
-- Cannot see: ICR internal commentary, competitive intelligence, other companies
+- Cannot see: Aegis internal commentary, competitive intelligence, other companies
 - Can see: Public holder data, debt pricing, covenant status, news mentions
-- Read-only access (no exports of sensitive ICR analysis)
+- Read-only access (no exports of sensitive Aegis analysis)
 - Custom "Company Portal" view with investor relations focus
 
 4. CREDIT RESEARCH ASSOCIATE (Sell-Side)
@@ -36,11 +36,11 @@ USER ROLES & ACCESS LEVELS:
 - Cannot export raw holder data (licensing restrictions)
 - Can create client-facing presentation exports (sanitized data)
 
-5. ADMIN (Internal ICR Staff)
+5. ADMIN (Internal Aegis Staff)
 - Full system access to all companies and data
 - User management (invite, remove, change permissions)
 - Usage analytics dashboard (who's viewing what, engagement metrics)
-- Can edit ICR commentary and flag critical alerts
+- Can edit Aegis commentary and flag critical alerts
 - Billing and subscription management
 - Audit logs for compliance
 
@@ -64,7 +64,7 @@ Visual Design:
 - Right side: Full-bleed image or abstract financial visualization (dark, sophisticated)
 
 Left Panel (Login Form):
-- ICR logo: Top-left, 32px height
+- Aegis logo: Top-left, 32px height
 - Heading: "Welcome Back" in 32px Bold, Charcoal (light mode) / White (dark mode)
 - Subheading: "Sign in to access your surveillance dashboard" in 16px Regular, Slate
 
@@ -185,7 +185,7 @@ Trust this device checkbox:
 Only accessible if user has received invite link from Admin
 
 Heading: "Create Your Account"
-Subheading: "You've been invited to join [Firm Name]'s ICR workspace"
+Subheading: "You've been invited to join [Firm Name]'s Aegis workspace"
 
 Form Fields:
 - Full Name input
@@ -271,7 +271,7 @@ Custom "Investor Relations Portal" Layout:
 
 Top Banner (replaces threat banner):
 - Background: Deep Cyan gradient
-- Text: "B&G Foods Investor Relations Dashboard"
+- Text: "Apex Brands Group Investor Relations Dashboard"
 - Icon: 🏢 Building icon
 - No threat level exposed (sensitive)
 
@@ -280,22 +280,22 @@ Visible Sections:
 ✅ Debt Pricing Chart (30-day)
 ✅ Equity Pricing Chart
 ✅ Capital Structure Table (basic info only: instruments, maturities, coupons)
-✅ Largest Holders Table (shows public 13F data only, no ICR proprietary holder intelligence)
+✅ Largest Holders Table (shows public 13F data only, no Aegis proprietary holder intelligence)
 ✅ Covenant Compliance (if disclosed publicly)
-✅ Sector News & Commentary (only news mentions, not ICR internal analysis)
+✅ Sector News & Commentary (only news mentions, not Aegis internal analysis)
 
 Hidden/Removed Sections:
-❌ ICR Commentary panels (proprietary analysis)
+❌ Aegis Commentary panels (proprietary analysis)
 ❌ Market Trends (competitive intelligence)
-❌ Top Priorities (internal ICR strategy)
+❌ Top Priorities (internal Aegis strategy)
 ❌ Holder trading patterns and engagement ratings (proprietary)
 ❌ Export functions (watermarked view only)
 
 Watermark:
-- Subtle "B&G Foods IR Portal View" text at 5% opacity diagonally across background
+- Subtle "Apex Brands Group IR Portal View" text at 5% opacity diagonally across background
 
 Special Features for Corporate Users:
-- "Request Meeting" button in header → Opens contact form to ICR team
+- "Request Meeting" button in header → Opens contact form to Aegis team
 - "Download IR Presentation" button → Generates sanitized PDF
 - "Peer Comparison" view → See how their metrics compare to sector averages (anonymized)
 
@@ -307,7 +307,7 @@ Dashboard Modifications:
 Blur/Lock Overlays:
 - Commentary panels: Blurred with overlay
   - Lock icon 🔒
-  - Text: "Upgrade to ICR Pro to unlock full analyst commentary"
+  - Text: "Upgrade to Aegis Pro to unlock full analyst commentary"
   - "View Plans" button
 - Holder distribution charts: First 3 holders visible, rest blurred
 - Export buttons: Disabled with tooltip "Available in paid plans"
@@ -317,7 +317,7 @@ Company Access Counter:
 - Progress bar showing 2/3
 
 Watermarks:
-- "ICR Trial Mode" text at 10% opacity on all charts
+- "Aegis Trial Mode" text at 10% opacity on all charts
 
 Upgrade CTAs:
 - Persistent banner at top: "Unlock full access to 500+ companies. Start your subscription today." + CTA button
@@ -363,7 +363,7 @@ Usage Analytics Dashboard:
 Commentary Editor:
 - List of all companies
 - Click company → Opens commentary panel editor
-  - Rich text editor for adding/editing ICR commentary bullets
+  - Rich text editor for adding/editing Aegis commentary bullets
   - Publish button with timestamp
   - Version history
 
@@ -380,7 +380,7 @@ NAVIGATION & USER MENU:
 Global Header (All Logged-In Users):
 
 Left Side:
-- ICR logo (clickable, returns to home/portfolio view)
+- Aegis logo (clickable, returns to home/portfolio view)
 - Company selector dropdown (if in single-company view)
   - Search companies: "Type to search 500+ companies..."
   - Recently viewed (max 5)
@@ -444,7 +444,7 @@ ONBOARDING FLOW (First-Time Users):
 After successful account creation, guide new users:
 
 Welcome Modal (full-screen overlay):
-- Step 1: "Welcome to ICR Surveillance"
+- Step 1: "Welcome to Aegis Credit Terminal"
   - Brief explainer: "Track distressed debt, monitor covenants, and analyze holder behavior."
   - "Let's get you set up" CTA
 
