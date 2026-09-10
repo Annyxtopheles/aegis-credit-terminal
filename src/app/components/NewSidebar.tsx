@@ -173,15 +173,35 @@ export function NewSidebar() {
               </div>
             </div>
           )}
-          {isCollapsed && (
-            <div className="w-9 h-9 flex items-center justify-center mx-auto rounded bg-[#06B6D4]/15 border border-[#06B6D4]/40">
-              <Shield className="w-5 h-5 text-[#06B6D4]" />
+          {isCollapsed ? (
+            <div className="flex flex-col items-center gap-2 w-full">
+              <button
+                onClick={toggleSidebar}
+                title="Expand sidebar"
+                aria-label="Expand sidebar"
+                className="w-10 h-10 flex items-center justify-center rounded-lg transition-colors cursor-pointer group"
+                style={{
+                  backgroundColor: 'transparent',
+                  color: tc.textSecondary
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.backgroundColor = tc.bgTertiary;
+                  e.currentTarget.style.color = tc.accentPrimary;
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = tc.textSecondary;
+                }}
+              >
+                <PanelLeft className="w-5 h-5 group-hover:scale-110 transition-transform" />
+              </button>
             </div>
-          )}
-          {!isCollapsed && (
+          ) : (
             <button
               onClick={toggleSidebar}
-              className="p-1.5 rounded transition-colors"
+              title="Collapse sidebar"
+              aria-label="Collapse sidebar"
+              className="p-1.5 rounded transition-colors cursor-pointer"
               style={{ color: tc.textSecondary }}
               onMouseEnter={e => e.currentTarget.style.backgroundColor = tc.bgTertiary}
               onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
@@ -347,30 +367,34 @@ export function NewSidebar() {
         {/* Bottom Section */}
         <div style={{ borderTop: `1px solid ${tc.borderPrimary}` }}>
           {/* Theme Toggle */}
-          {!isCollapsed && (
-            <button
-              onClick={toggleTheme}
-              onMouseEnter={() => setIsThemeHovered(true)}
-              onMouseLeave={() => setIsThemeHovered(false)}
-              className="w-full px-4 py-3 flex items-center gap-3 transition-colors duration-150 cursor-pointer"
-              style={{
-                backgroundColor: isThemeHovered ? tc.hoverBg : 'transparent',
-                color: isThemeHovered ? tc.textPrimary : tc.textSecondary
-              }}
-            >
-              {theme === 'dark' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+          <button
+            onClick={toggleTheme}
+            onMouseEnter={() => setIsThemeHovered(true)}
+            onMouseLeave={() => setIsThemeHovered(false)}
+            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            aria-label="Toggle theme"
+            className={`w-full py-3 flex items-center transition-colors duration-150 cursor-pointer ${isCollapsed ? 'justify-center px-0' : 'px-4 gap-3'}`}
+            style={{
+              backgroundColor: isThemeHovered ? tc.hoverBg : 'transparent',
+              color: isThemeHovered ? tc.textPrimary : tc.textSecondary
+            }}
+          >
+            {theme === 'dark' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+            {!isCollapsed && (
               <span style={{ fontSize: '13px', fontWeight: 500 }}>
                 {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
               </span>
-            </button>
-          )}
+            )}
+          </button>
 
           {/* User Profile & Settings */}
-          {!isCollapsed && user && (
+          {user && (
             <div className="relative" ref={settingsRef}>
               <button
                 onClick={() => setShowSettings(!showSettings)}
-                className="w-full px-4 py-3 flex items-center gap-3 transition-colors"
+                title={user.name}
+                aria-label="User settings"
+                className={`w-full py-3 flex items-center transition-colors cursor-pointer ${isCollapsed ? 'justify-center px-0' : 'px-4 gap-3'}`}
                 style={{ color: tc.textPrimary }}
                 onMouseEnter={e => e.currentTarget.style.backgroundColor = tc.hoverBg}
                 onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
@@ -381,11 +405,15 @@ export function NewSidebar() {
                 >
                   {user.initials}
                 </div>
-                <div className="flex-1 text-left">
-                  <div style={{ fontSize: '13px', fontWeight: 600, lineHeight: 1.2 }}>{user.name}</div>
-                  <div style={{ fontSize: '11px', color: tc.textSecondary, lineHeight: 1.2 }}>{getRoleLabel(user.role)}</div>
-                </div>
-                <ChevronDown className="w-3 h-3" style={{ color: tc.textSecondary }} />
+                {!isCollapsed && (
+                  <>
+                    <div className="flex-1 text-left min-w-0">
+                      <div className="truncate" style={{ fontSize: '13px', fontWeight: 600, lineHeight: 1.2 }}>{user.name}</div>
+                      <div className="truncate" style={{ fontSize: '11px', color: tc.textSecondary, lineHeight: 1.2 }}>{getRoleLabel(user.role)}</div>
+                    </div>
+                    <ChevronDown className="w-3 h-3 flex-shrink-0" style={{ color: tc.textSecondary }} />
+                  </>
+                )}
               </button>
 
               {showSettings && (
