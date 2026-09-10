@@ -10,7 +10,7 @@ export function MetricsCommandBar() {
       label: 'THREAT LEVEL',
       value: 'ELEVATED',
       secondary: '',
-      color: '#DC2626',
+      color: themeColors.alertRed,
       icon: true
     },
     {
@@ -29,13 +29,13 @@ export function MetricsCommandBar() {
       label: 'NET DEBT/EBITDA',
       value: '7.52x',
       secondary: '',
-      color: '#DC2626'
+      color: themeColors.alertRed
     },
     {
       label: 'DEBT PRICE',
       value: '$97.71',
       secondary: '',
-      color: '#DC2626'
+      color: themeColors.alertRed
     }
   ];
 

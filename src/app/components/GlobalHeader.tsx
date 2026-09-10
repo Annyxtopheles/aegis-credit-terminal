@@ -88,12 +88,31 @@ export function GlobalHeader() {
       {/* Left: Logo + Company Selector */}
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 flex items-center justify-center rounded" style={{ backgroundColor: '#FF6B35' }}>
-            <span style={{ color: '#FFFFFF', fontSize: '10px', fontWeight: 700 }}>AEGIS</span>
+          <div
+            className="w-7 h-7 flex items-center justify-center rounded"
+            style={{
+              backgroundColor: theme === 'dark' ? '#0891B2' : '#0E7490'
+            }}
+          >
+            <Shield className="w-4 h-4" style={{ color: '#FFFFFF' }} />
           </div>
-          <Shield className="w-4 h-4 hidden md:block" style={{ color: tc.textSecondary }} />
-          <span className="uppercase tracking-wide hidden md:inline" style={{ fontSize: '11px', color: tc.textSecondary }}>
-            Aegis SURVEILLANCE
+          <span
+            className="uppercase tracking-wider font-bold"
+            style={{
+              fontSize: '12px',
+              color: tc.textPrimary,
+              letterSpacing: '0.06em'
+            }}
+          >
+            AEGIS{' '}
+            <span
+              style={{
+                color: theme === 'dark' ? '#06B6D4' : '#0E7490',
+                fontWeight: 600
+              }}
+            >
+              SURVEILLANCE
+            </span>
           </span>
         </div>
 

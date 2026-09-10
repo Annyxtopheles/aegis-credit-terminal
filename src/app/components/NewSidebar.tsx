@@ -160,14 +160,28 @@ export function NewSidebar() {
         <div className="p-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${tc.borderPrimary}` }}>
           {!isCollapsed && (
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 flex items-center justify-center rounded bg-[#06B6D4]/15 border border-[#06B6D4]/40">
-                <Shield className="w-5 h-5 text-[#06B6D4]" />
+              <div
+                className="w-9 h-9 flex items-center justify-center rounded transition-colors"
+                style={{
+                  backgroundColor: theme === 'dark' ? 'rgba(6, 182, 212, 0.15)' : '#E0F2FE',
+                  border: theme === 'dark' ? '1px solid rgba(6, 182, 212, 0.4)' : '1px solid #BAE6FD'
+                }}
+              >
+                <Shield className="w-5 h-5" style={{ color: theme === 'dark' ? '#06B6D4' : '#0E7490' }} />
               </div>
               <div>
                 <div style={{ fontSize: '14px', fontWeight: 700, letterSpacing: '0.06em', color: tc.textPrimary, lineHeight: 1.2 }}>
                   AEGIS
                 </div>
-                <div style={{ fontSize: '9px', fontWeight: 600, letterSpacing: '0.12em', color: '#06B6D4', textTransform: 'uppercase' }}>
+                <div
+                  style={{
+                    fontSize: '9px',
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    color: theme === 'dark' ? '#06B6D4' : '#0E7490',
+                    textTransform: 'uppercase'
+                  }}
+                >
                   Credit Terminal
                 </div>
               </div>

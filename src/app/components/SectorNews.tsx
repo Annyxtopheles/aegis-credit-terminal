@@ -43,7 +43,7 @@ export function SectorNews() {
     <div
       className="p-4 md:p-6 transition-colors duration-300"
       style={{
-        backgroundColor: theme === 'dark' ? themeColors.bgSecondary : themeColors.bgPrimary,
+        backgroundColor: themeColors.bgSecondary,
         border: `1px solid ${themeColors.borderPrimary}`
       }}
     >

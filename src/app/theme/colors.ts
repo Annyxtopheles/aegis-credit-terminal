@@ -32,7 +32,7 @@ export const colors = {
     borderPrimary: '#E1E4EA',
     borderSubtle: '#ECEEF2',
     accentPrimary: '#111318',
-    alertRed: '#DC2626',
+    alertRed: '#B91C1C',
     alertAmber: '#D97706',
     alertGreen: '#16A34A',
     chartCyan: '#111318',

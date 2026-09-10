@@ -10,29 +10,29 @@ export function ThreatBanner() {
     <div
       className="h-8 flex items-center justify-between px-3 md:px-4 border rounded-sm transition-colors duration-200 overflow-hidden"
       style={{
-        backgroundColor: isDark ? '#161113' : '#FEF2F2',
-        borderColor: isDark ? 'rgba(229, 72, 77, 0.35)' : '#FECACA'
+        backgroundColor: isDark ? '#161113' : '#FEE2E2',
+        borderColor: isDark ? 'rgba(229, 72, 77, 0.35)' : '#FCA5A5'
       }}
     >
       <div className="flex items-center gap-2.5 min-w-0">
         <span
-          className="w-2 h-2 rounded-full animate-pulse flex-shrink-0"
-          style={{ backgroundColor: isDark ? '#E5484D' : '#DC2626' }}
+          className="w-2.5 h-2.5 rounded-full animate-pulse flex-shrink-0"
+          style={{ backgroundColor: isDark ? '#E5484D' : '#B91C1C' }}
         />
         <span
           className="uppercase tracking-[0.08em] font-mono text-[10px] md:text-[11px] font-bold truncate"
-          style={{ color: isDark ? '#E5484D' : '#DC2626' }}
+          style={{ color: isDark ? '#E5484D' : '#991B1B' }}
         >
           DIRECTIVE:{' '}
           <span
-            className="hidden sm:inline font-normal"
-            style={{ color: isDark ? '#EDEDED' : '#991B1B' }}
+            className="hidden sm:inline font-semibold"
+            style={{ color: isDark ? '#EDEDED' : '#7F1D1D' }}
           >
             CRITICAL TO MAINTAIN STAKEHOLDER SUPPORT AMID DIVESTITURE PLAN
           </span>
           <span
-            className="sm:hidden font-normal"
-            style={{ color: isDark ? '#EDEDED' : '#991B1B' }}
+            className="sm:hidden font-semibold"
+            style={{ color: isDark ? '#EDEDED' : '#7F1D1D' }}
           >
             MAINTAIN STAKEHOLDER SUPPORT
           </span>
@@ -40,7 +40,7 @@ export function ThreatBanner() {
       </div>
       <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
         <span
-          className="font-mono text-[9px] uppercase tracking-wider"
+          className="font-mono text-[9px] uppercase tracking-wider font-semibold"
           style={{ color: isDark ? '#8E939D' : '#7F1D1D' }}
         >
           STATUS: ACTIVE COVENANT BREACH (2)
