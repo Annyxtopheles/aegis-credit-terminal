@@ -86,8 +86,9 @@ export function EquityPricingChart() {
             yAxisId="right"
             dataKey="volume"
             name="Volume"
-            fill="#F59E0B"
-            opacity={0.85}
+            fill={theme === 'dark' ? 'rgba(6, 182, 212, 0.28)' : 'rgba(8, 145, 178, 0.25)'}
+            stroke={theme === 'dark' ? 'rgba(6, 182, 212, 0.55)' : 'rgba(8, 145, 178, 0.45)'}
+            strokeWidth={1}
             isAnimationActive={false}
           />
           <Line
@@ -96,8 +97,8 @@ export function EquityPricingChart() {
             dataKey="price"
             name="$APX"
             stroke="#10B981"
-            strokeWidth={3}
-            dot={false}
+            strokeWidth={2.5}
+            dot={{ r: 3, fill: '#10B981', stroke: themeColors.bgSecondary, strokeWidth: 1 }}
             activeDot={{ r: 6, fill: "#10B981" }}
             isAnimationActive={false}
           />

@@ -17,13 +17,14 @@ export function AegisCommentary({ content = DEFAULT_CONTENT }: AegisCommentaryPr
 
   return (
     <div
-      className="p-4 md:p-5 transition-colors duration-300"
+      className="p-4 md:p-5 transition-colors duration-300 rounded-sm"
       style={{
-        backgroundColor: theme === 'dark' ? 'rgba(245, 158, 11, 0.08)' : 'rgba(245, 158, 11, 0.06)',
-        borderLeft: '2px solid #F59E0B'
+        backgroundColor: theme === 'dark' ? 'rgba(6, 182, 212, 0.06)' : 'rgba(8, 145, 178, 0.05)',
+        border: `1px solid ${theme === 'dark' ? 'rgba(6, 182, 212, 0.2)' : 'rgba(8, 145, 178, 0.2)'}`,
+        borderLeft: '3px solid #06B6D4'
       }}
     >
-      <h4 style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '0.08em', color: '#F59E0B', marginBottom: '12px' }} className="md:text-sm uppercase font-mono">
+      <h4 style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '0.08em', color: '#06B6D4', marginBottom: '12px' }} className="md:text-sm uppercase font-mono">
         AEGIS INTELLIGENCE COMMENTARY
       </h4>
       <ul style={{ display: 'flex', flexDirection: 'column', gap: '12px' }} className="md:gap-3.5">
@@ -37,7 +38,7 @@ export function AegisCommentary({ content = DEFAULT_CONTENT }: AegisCommentaryPr
               color: themeColors.textPrimary
             }}
           >
-            <span style={{ color: '#F59E0B', flexShrink: 0 }}>•</span>
+            <span style={{ color: '#06B6D4', flexShrink: 0 }}>•</span>
             <span>{item}</span>
           </li>
         ))}

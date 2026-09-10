@@ -87,8 +87,9 @@ export function DebtPricingChart() {
             yAxisId="right"
             dataKey="volume"
             name="Volume"
-            fill="#F59E0B"
-            opacity={0.85}
+            fill={theme === 'dark' ? 'rgba(6, 182, 212, 0.28)' : 'rgba(8, 145, 178, 0.25)'}
+            stroke={theme === 'dark' ? 'rgba(6, 182, 212, 0.55)' : 'rgba(8, 145, 178, 0.45)'}
+            strokeWidth={1}
             isAnimationActive={false}
           />
           <Line
@@ -96,10 +97,10 @@ export function DebtPricingChart() {
             type="monotone"
             dataKey="price"
             name="Debt Pricing"
-            stroke="#EDEDED"
-            strokeWidth={3}
-            dot={false}
-            activeDot={{ r: 6, fill: "#06B6D4" }}
+            stroke="#06B6D4"
+            strokeWidth={2.5}
+            dot={{ r: 3, fill: '#06B6D4', stroke: themeColors.bgSecondary, strokeWidth: 1 }}
+            activeDot={{ r: 6, fill: '#06B6D4' }}
             isAnimationActive={false}
           />
         </ComposedChart>

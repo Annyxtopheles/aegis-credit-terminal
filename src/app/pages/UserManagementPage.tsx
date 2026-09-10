@@ -62,7 +62,7 @@ export default function UserManagementPage() {
   };
 
   const getRoleBadgeColor = (role: string) => {
-    return role === 'company_admin' ? '#F59E0B' : '#06B6D4';
+    return role === 'company_admin' ? '#0891B2' : '#06B6D4';
   };
 
   return (

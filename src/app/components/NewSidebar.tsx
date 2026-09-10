@@ -133,7 +133,7 @@ export function NewSidebar() {
   };
 
   const getRoleBadgeColor = (role?: string) => {
-    return role === 'super_admin' ? '#FF6B35' : role === 'company_admin' ? '#F59E0B' : '#06B6D4';
+    return role === 'super_admin' ? '#06B6D4' : role === 'company_admin' ? '#0891B2' : '#38BDF8';
   };
 
   const handleViewToggle = (mode: 'admin' | 'preview') => {
@@ -196,7 +196,7 @@ export function NewSidebar() {
             <div className="flex gap-1 p-1 rounded-lg" style={{ backgroundColor: tc.bgTertiary }}>
               <button
                 onClick={() => handleViewToggle('admin')}
-                className="flex-1 flex items-center justify-center gap-1.5 px-2.5 py-2 rounded transition-all"
+                className="flex-1 flex items-center justify-center gap-1.5 px-2 py-2 rounded transition-all whitespace-nowrap"
                 style={{
                   backgroundColor: viewMode === 'admin' ? (theme === 'dark' ? '#1A2332' : '#FFFFFF') : 'transparent',
                   color: viewMode === 'admin' ? tc.accentPrimary : tc.textSecondary,
@@ -205,12 +205,12 @@ export function NewSidebar() {
                   border: viewMode === 'admin' ? `1px solid ${tc.borderPrimary}` : '1px solid transparent'
                 }}
               >
-                <Shield className="w-3.5 h-3.5" />
-                Admin Console
+                <Shield className="w-3.5 h-3.5 flex-shrink-0" />
+                <span>Admin</span>
               </button>
               <button
                 onClick={() => handleViewToggle('preview')}
-                className="flex-1 flex items-center justify-center gap-1.5 px-2.5 py-2 rounded transition-all"
+                className="flex-1 flex items-center justify-center gap-1.5 px-2 py-2 rounded transition-all whitespace-nowrap"
                 style={{
                   backgroundColor: viewMode === 'preview' ? (theme === 'dark' ? '#1A2332' : '#FFFFFF') : 'transparent',
                   color: viewMode === 'preview' ? tc.accentPrimary : tc.textSecondary,
@@ -219,8 +219,8 @@ export function NewSidebar() {
                   border: viewMode === 'preview' ? `1px solid ${tc.borderPrimary}` : '1px solid transparent'
                 }}
               >
-                <Eye className="w-3.5 h-3.5" />
-                Preview
+                <Eye className="w-3.5 h-3.5 flex-shrink-0" />
+                <span>Preview</span>
               </button>
             </div>
           </div>
