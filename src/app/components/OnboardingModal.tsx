@@ -235,8 +235,8 @@ export function OnboardingModal() {
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-0">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 flex items-center justify-center rounded" style={{ backgroundColor: '#FF6B35' }}>
-              <span style={{ color: '#FFFFFF', fontSize: '9px', fontWeight: 700 }}>AEGIS</span>
+            <div className="w-6 h-6 flex items-center justify-center rounded bg-[#06B6D4]/20 border border-[#06B6D4]/40">
+              <span style={{ color: '#06B6D4', fontSize: '9px', fontWeight: 700 }}>AEGIS</span>
             </div>
             <span style={{ fontSize: '12px', color: tc.textSecondary, letterSpacing: '0.05em' }}>ACCOUNT SETUP</span>
           </div>

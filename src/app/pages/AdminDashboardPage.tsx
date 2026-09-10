@@ -131,16 +131,17 @@ function UserManagementTab() {
   const { theme } = useTheme();
   const tc = colors[theme];
   const [showInviteModal, setShowInviteModal] = useState(false);
+  const [editingUser, setEditingUser] = useState<any | null>(null);
   const [inviteForm, setInviteForm] = useState({ name: '', email: '', role: 'normal_user' as 'company_admin' | 'normal_user', company: 'apexbrands' });
   const [copied, setCopied] = useState(false);
 
-  const users = [
+  const [users, setUsers] = useState([
     { id: '1', name: 'James Miller', email: 'james.miller@apexbrands.com', role: 'company_admin', company: 'Apex Brands Group', status: 'active', lastActive: '2 hours ago' },
     { id: '2', name: 'Sarah Johnson', email: 'sarah.j@apexbrands.com', role: 'normal_user', company: 'Apex Brands Group', status: 'active', lastActive: '5 hours ago' },
     { id: '3', name: 'Michael Chen', email: 'mchen@chefs.com', role: 'company_admin', company: 'Chefs\' Warehouse', status: 'active', lastActive: '1 day ago' },
     { id: '4', name: 'Emily Davis', email: 'emily.davis@apexbrands.com', role: 'normal_user', company: 'Apex Brands Group', status: 'pending', lastActive: undefined },
     { id: '5', name: 'Robert Lee', email: 'rlee@horizon.com', role: 'normal_user', company: 'Horizon Global', status: 'active', lastActive: '3 hours ago' },
-  ];
+  ]);
 
   const getRoleLabel = (role: string) => {
     return role === 'company_admin' ? 'Company Admin' : 'User';
@@ -151,10 +152,35 @@ function UserManagementTab() {
   };
 
   const handleInvite = () => {
-    console.log('Inviting user:', inviteForm);
+    if (!inviteForm.name.trim() || !inviteForm.email.trim()) return;
+    const companyNames: Record<string, string> = {
+      apexbrands: 'Apex Brands Group',
+      chefs: "Chefs' Warehouse",
+      horizon: 'Horizon Global'
+    };
+    const newUser = {
+      id: Date.now().toString(),
+      name: inviteForm.name.trim(),
+      email: inviteForm.email.trim(),
+      role: inviteForm.role,
+      company: companyNames[inviteForm.company] || 'Apex Brands Group',
+      status: 'pending',
+      lastActive: undefined
+    };
+    setUsers(prev => [...prev, newUser]);
     setShowInviteModal(false);
     setInviteForm({ name: '', email: '', role: 'normal_user', company: 'apexbrands' });
     setCopied(false);
+  };
+
+  const handleDeleteUser = (id: string) => {
+    setUsers(prev => prev.filter(u => u.id !== id));
+  };
+
+  const handleUpdateUser = () => {
+    if (!editingUser) return;
+    setUsers(prev => prev.map(u => u.id === editingUser.id ? editingUser : u));
+    setEditingUser(null);
   };
 
   const handleCopyInviteLink = () => {
@@ -277,6 +303,7 @@ function UserManagementTab() {
                 <td style={{ padding: '16px' }}>
                   <div className="flex items-center justify-end gap-2">
                     <button
+                      onClick={() => setEditingUser({ ...user })}
                       className="p-2 rounded transition-colors"
                       style={{ color: tc.textSecondary }}
                       onMouseEnter={e => {
@@ -292,6 +319,7 @@ function UserManagementTab() {
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button
+                      onClick={() => handleDeleteUser(user.id)}
                       className="p-2 rounded transition-colors"
                       style={{ color: tc.textSecondary }}
                       onMouseEnter={e => {
@@ -488,6 +516,150 @@ function UserManagementTab() {
                 onMouseLeave={e => e.currentTarget.style.backgroundColor = '#0891B2'}
               >
                 Send Invitation
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit User Modal */}
+      {editingUser && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+          onClick={() => setEditingUser(null)}
+        >
+          <div
+            className="rounded-lg shadow-xl max-w-md w-full mx-4"
+            style={{
+              backgroundColor: tc.bgSecondary,
+              border: `1px solid ${tc.borderPrimary}`
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-6 border-b" style={{ borderColor: tc.borderPrimary }}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#0891B220' }}>
+                  <Edit2 className="w-5 h-5" style={{ color: '#0891B2' }} />
+                </div>
+                <div>
+                  <h2 style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary }}>Edit User</h2>
+                  <p style={{ fontSize: '13px', color: tc.textSecondary }}>Modify user details and permissions</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setEditingUser(null)}
+                className="p-1 rounded transition-colors"
+                style={{ color: tc.textSecondary }}
+                onMouseEnter={e => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#0F1A2A' : '#F3F4F6'}
+                onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 space-y-4">
+              <div>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
+                  Full Name *
+                </label>
+                <input
+                  type="text"
+                  value={editingUser.name}
+                  onChange={e => setEditingUser({ ...editingUser, name: e.target.value })}
+                  style={{
+                    width: '100%', height: '44px', padding: '0 12px',
+                    backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                    border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
+                    color: tc.textPrimary, fontSize: '14px', outline: 'none'
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  value={editingUser.email}
+                  onChange={e => setEditingUser({ ...editingUser, email: e.target.value })}
+                  style={{
+                    width: '100%', height: '44px', padding: '0 12px',
+                    backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                    border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
+                    color: tc.textPrimary, fontSize: '14px', outline: 'none'
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
+                  Status
+                </label>
+                <select
+                  value={editingUser.status}
+                  onChange={e => setEditingUser({ ...editingUser, status: e.target.value as 'active' | 'pending' })}
+                  style={{
+                    width: '100%', height: '44px', padding: '0 12px',
+                    backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                    border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
+                    color: tc.textPrimary, fontSize: '14px', outline: 'none', cursor: 'pointer'
+                  }}
+                >
+                  <option value="active">Active</option>
+                  <option value="pending">Pending</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
+                  Role *
+                </label>
+                <select
+                  value={editingUser.role}
+                  onChange={e => setEditingUser({ ...editingUser, role: e.target.value as 'company_admin' | 'normal_user' })}
+                  style={{
+                    width: '100%', height: '44px', padding: '0 12px',
+                    backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                    border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
+                    color: tc.textPrimary, fontSize: '14px', outline: 'none', cursor: 'pointer'
+                  }}
+                >
+                  <option value="normal_user">User</option>
+                  <option value="company_admin">Company Admin</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="flex items-center justify-end gap-3 p-6 border-t" style={{ borderColor: tc.borderPrimary }}>
+              <button
+                onClick={() => setEditingUser(null)}
+                className="px-4 py-2.5 rounded-lg transition-all"
+                style={{
+                  backgroundColor: 'transparent', color: tc.textSecondary,
+                  border: `1px solid ${tc.borderPrimary}`,
+                  fontSize: '14px', fontWeight: 600, cursor: 'pointer'
+                }}
+                onMouseEnter={e => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#0F1A2A' : '#F3F4F6'}
+                onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleUpdateUser}
+                className="px-4 py-2.5 rounded-lg transition-all"
+                style={{
+                  backgroundColor: '#0891B2', color: '#FFFFFF', border: 'none',
+                  fontSize: '14px', fontWeight: 600, cursor: 'pointer'
+                }}
+                onMouseEnter={e => e.currentTarget.style.backgroundColor = '#0E7490'}
+                onMouseLeave={e => e.currentTarget.style.backgroundColor = '#0891B2'}
+              >
+                Save Changes
               </button>
             </div>
           </div>

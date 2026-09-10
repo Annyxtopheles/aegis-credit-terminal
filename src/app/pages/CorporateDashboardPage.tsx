@@ -140,8 +140,8 @@ export default function CorporateDashboardPage() {
 
       {/* Info Banner */}
       <div className="px-3 md:px-6 pt-3">
-        <div className="p-3 rounded-lg flex items-center gap-2" style={{ backgroundColor: '#F59E0B15', border: '1px solid #F59E0B30' }}>
-          <BarChart3 className="w-4 h-4 flex-shrink-0" style={{ color: '#F59E0B' }} />
+        <div className="p-3 rounded-lg flex items-center gap-2" style={{ backgroundColor: '#0891B215', border: '1px solid #0891B230' }}>
+          <BarChart3 className="w-4 h-4 flex-shrink-0" style={{ color: '#06B6D4' }} />
           <p style={{ fontSize: '12px', color: tc.textSecondary }}>
             <strong style={{ color: tc.textPrimary }}>Corporate View:</strong> You are seeing public market data only. Aegis proprietary analysis, competitive intelligence, and internal commentary are not visible in this portal.
           </p>
