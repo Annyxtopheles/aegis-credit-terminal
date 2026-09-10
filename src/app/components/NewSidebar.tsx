@@ -19,9 +19,9 @@ interface NavItem {
   path?: string;
 }
 
-function getNavItems(role?: string, viewMode?: 'dashboard' | 'admin'): NavItem[] {
+function getNavItems(role?: string, viewMode?: 'admin' | 'preview'): NavItem[] {
   if (role === 'super_admin') {
-    if (viewMode === 'dashboard') {
+    if (viewMode === 'admin') {
       return [
         { id: 'onboarding', label: 'Onboarding', icon: Building2, path: '/admin?tab=onboarding' },
         { id: 'users', label: 'Users', icon: Users, path: '/admin?tab=users' },
@@ -39,6 +39,7 @@ function getNavItems(role?: string, viewMode?: 'dashboard' | 'admin'): NavItem[]
         { id: 'covenant-compliance', label: 'Covenant Compliance', icon: Shield, path: '/dashboard/covenant-compliance' },
         { id: 'performance-analysis', label: 'Priorities & Events', icon: Activity, path: '/dashboard/priorities-events' },
         { id: 'sector-news', label: 'Sector News', icon: Newspaper, path: '/dashboard/sector-news' },
+        { id: 'user-management', label: 'User Management', icon: Users, path: '/dashboard/user-management' },
       ];
     }
   }
@@ -72,7 +73,10 @@ export function NewSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [viewMode, setViewMode] = useState<'dashboard' | 'admin'>('dashboard');
+  // For Super Admin: preview mode when path starts with /dashboard, admin mode when path starts with /admin
+  const isPreviewMode = location.pathname.startsWith('/dashboard');
+  const viewMode: 'admin' | 'preview' = isPreviewMode ? 'preview' : 'admin';
+
   const [showSettings, setShowSettings] = useState(false);
   const [showCompanySearch, setShowCompanySearch] = useState(false);
   const [companySearch, setCompanySearch] = useState('');
@@ -80,19 +84,21 @@ export function NewSidebar() {
   const companyRef = useRef<HTMLDivElement>(null);
   const settingsRef = useRef<HTMLDivElement>(null);
 
-  const [activeItem, setActiveItem] = useState(() => {
-    if (location.pathname.includes('/admin')) {
+  const getActiveItem = () => {
+    if (location.pathname.startsWith('/admin')) {
       const params = new URLSearchParams(location.search);
-      const tab = params.get('tab') || 'onboarding';
-      return tab;
+      return params.get('tab') || 'onboarding';
     }
     if (location.pathname.includes('/capital-structure')) return 'capital-structure';
     if (location.pathname.includes('/covenant-compliance')) return 'covenant-compliance';
     if (location.pathname.includes('/priorities-events')) return 'performance-analysis';
     if (location.pathname.includes('/sector-news')) return 'sector-news';
     if (location.pathname.includes('/user-management')) return 'user-management';
-    return 'overview';
-  });
+    if (location.pathname === '/dashboard') return 'overview';
+    return '';
+  };
+
+  const activeItem = getActiveItem();
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -106,7 +112,6 @@ export function NewSidebar() {
   const navItems = getNavItems(user?.role, viewMode);
 
   const handleNavClick = (item: NavItem) => {
-    setActiveItem(item.id);
     if (item.path) navigate(item.path);
   };
 
@@ -115,7 +120,13 @@ export function NewSidebar() {
     navigate('/login');
   };
 
-  const isActive = (item: NavItem) => activeItem === item.id || (item.path && location.pathname === item.path);
+  const isActive = (item: NavItem) => {
+    if (item.id === activeItem) return true;
+    if (item.path && !item.path.includes('?')) {
+      return location.pathname === item.path;
+    }
+    return false;
+  };
 
   const getRoleLabel = (role?: string) => {
     return role === 'super_admin' ? 'Aegis Administrator' : role === 'company_admin' ? 'Company Admin' : 'User';
@@ -125,14 +136,11 @@ export function NewSidebar() {
     return role === 'super_admin' ? '#FF6B35' : role === 'company_admin' ? '#F59E0B' : '#06B6D4';
   };
 
-  const handleViewToggle = (mode: 'dashboard' | 'admin') => {
-    setViewMode(mode);
-    if (mode === 'dashboard') {
+  const handleViewToggle = (mode: 'admin' | 'preview') => {
+    if (mode === 'admin') {
       navigate('/admin?tab=onboarding');
-      setActiveItem('onboarding');
     } else {
       navigate('/dashboard');
-      setActiveItem('overview');
     }
   };
 
@@ -187,28 +195,28 @@ export function NewSidebar() {
           <div className="px-3 py-3" style={{ borderBottom: `1px solid ${tc.borderPrimary}` }}>
             <div className="flex gap-1 p-1 rounded-lg" style={{ backgroundColor: tc.bgTertiary }}>
               <button
-                onClick={() => handleViewToggle('dashboard')}
-                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded transition-all"
-                style={{
-                  backgroundColor: viewMode === 'dashboard' ? (theme === 'dark' ? '#1A2332' : '#FFFFFF') : 'transparent',
-                  color: viewMode === 'dashboard' ? tc.accentPrimary : tc.textSecondary,
-                  fontSize: '12px',
-                  fontWeight: 600,
-                  border: viewMode === 'dashboard' ? `1px solid ${tc.borderPrimary}` : '1px solid transparent'
-                }}
-              >
-                <LayoutDashboard className="w-3.5 h-3.5" />
-                Dashboard
-              </button>
-              <button
                 onClick={() => handleViewToggle('admin')}
-                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded transition-all"
+                className="flex-1 flex items-center justify-center gap-1.5 px-2.5 py-2 rounded transition-all"
                 style={{
                   backgroundColor: viewMode === 'admin' ? (theme === 'dark' ? '#1A2332' : '#FFFFFF') : 'transparent',
                   color: viewMode === 'admin' ? tc.accentPrimary : tc.textSecondary,
                   fontSize: '12px',
                   fontWeight: 600,
                   border: viewMode === 'admin' ? `1px solid ${tc.borderPrimary}` : '1px solid transparent'
+                }}
+              >
+                <Shield className="w-3.5 h-3.5" />
+                Admin Console
+              </button>
+              <button
+                onClick={() => handleViewToggle('preview')}
+                className="flex-1 flex items-center justify-center gap-1.5 px-2.5 py-2 rounded transition-all"
+                style={{
+                  backgroundColor: viewMode === 'preview' ? (theme === 'dark' ? '#1A2332' : '#FFFFFF') : 'transparent',
+                  color: viewMode === 'preview' ? tc.accentPrimary : tc.textSecondary,
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  border: viewMode === 'preview' ? `1px solid ${tc.borderPrimary}` : '1px solid transparent'
                 }}
               >
                 <Eye className="w-3.5 h-3.5" />

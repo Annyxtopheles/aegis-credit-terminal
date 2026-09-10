@@ -23,7 +23,8 @@ const data = [
 
 export function DebtPricingChart() {
   const { theme } = useTheme();
-  const themeColors = colors[theme];
+  const tc = colors[theme];
+  const themeColors = tc;
 
   return (
     <div

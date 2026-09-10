@@ -13,24 +13,9 @@ export default function AdminDashboardPage() {
   const navigate = useNavigate();
 
   const params = new URLSearchParams(location.search);
-  const activeTab = params.get('tab') || 'onboarding';
-
-  const tabs = (user?.role === 'super_admin' || user?.role === 'company_admin') ? [
-    { id: 'onboarding', label: 'Company Onboarding', icon: Building2 },
-    { id: 'users', label: 'User Management', icon: Users },
-    { id: 'data-upload', label: 'Data Upload', icon: Upload },
-    { id: 'commentary', label: 'Commentary Editor', icon: MessageSquare },
-    { id: 'images', label: 'Image Uploads', icon: Image },
-    { id: 'priorities', label: 'Top Priorities & Events', icon: ListTodo },
-    { id: 'sector-news', label: 'Sector News Editor', icon: Newspaper },
-    { id: 'market-trends', label: 'Market Trends Editor', icon: TrendingUp },
-  ] : [
-    { id: 'users', label: 'User Management', icon: Users },
-  ];
-
-  const setTab = (tab: string) => {
-    navigate(`/admin?tab=${tab}`);
-  };
+  const tabParam = params.get('tab') || 'onboarding';
+  const validTabs = ['onboarding', 'users', 'data-upload', 'commentary', 'images', 'priorities', 'sector-news', 'market-trends'];
+  const activeTab = validTabs.includes(tabParam) ? tabParam : 'onboarding';
 
   return (
     <div className="p-3 md:p-6">

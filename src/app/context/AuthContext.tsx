@@ -160,7 +160,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const newUser: User = {
       id: Math.random().toString(36).slice(2),
-      name: data.name, email: data.email, role: 'analyst',
+      name: data.name, email: data.email, role: 'normal_user',
       firm: 'New Organization', jobTitle: data.jobTitle || 'Analyst',
       initials, isNewUser: true
     };

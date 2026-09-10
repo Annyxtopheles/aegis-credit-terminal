@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router';
+import { createHashRouter, Navigate } from 'react-router';
 import { ReactNode } from 'react';
 import { SidebarProvider } from './context/SidebarContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -28,7 +28,7 @@ function DashboardWrapper({ children }: { children: ReactNode }) {
   );
 }
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   // ── Public / Auth Routes (redirect away if already authenticated) ──
   {
     path: '/login',
@@ -123,7 +123,7 @@ export const router = createBrowserRouter([
   {
     path: '/dashboard/user-management',
     element: (
-      <ProtectedRoute allowedRoles={['company_admin']}>
+      <ProtectedRoute allowedRoles={['super_admin', 'company_admin']}>
         <DashboardWrapper>
           <UserManagementPage />
         </DashboardWrapper>
@@ -133,7 +133,7 @@ export const router = createBrowserRouter([
   {
     path: '/admin',
     element: (
-      <ProtectedRoute allowedRoles={['super_admin', 'company_admin']}>
+      <ProtectedRoute allowedRoles={['super_admin']}>
         <DashboardWrapper>
           <AdminDashboardPage />
         </DashboardWrapper>
@@ -149,6 +149,28 @@ export const router = createBrowserRouter([
         </DashboardWrapper>
       </ProtectedRoute>
     ),
+  },
+
+  // ── Friendly Redirects & Aliases ──
+  {
+    path: '/company-admin',
+    element: <Navigate to="/dashboard" replace />,
+  },
+  {
+    path: '/dashboard/users',
+    element: <Navigate to="/dashboard/user-management" replace />,
+  },
+  {
+    path: '/admin/user-management',
+    element: <Navigate to="/dashboard/user-management" replace />,
+  },
+  {
+    path: '/admin/users',
+    element: <Navigate to="/admin?tab=users" replace />,
+  },
+  {
+    path: '/invite',
+    element: <Navigate to="/signup" replace />,
   },
 
   // ── Catch-all redirects ──
