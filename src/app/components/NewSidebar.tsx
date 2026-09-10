@@ -80,6 +80,7 @@ export function NewSidebar() {
   const [showSettings, setShowSettings] = useState(false);
   const [showCompanySearch, setShowCompanySearch] = useState(false);
   const [companySearch, setCompanySearch] = useState('');
+  const [isThemeHovered, setIsThemeHovered] = useState(false);
 
   const companyRef = useRef<HTMLDivElement>(null);
   const settingsRef = useRef<HTMLDivElement>(null);
@@ -349,10 +350,13 @@ export function NewSidebar() {
           {!isCollapsed && (
             <button
               onClick={toggleTheme}
-              className="w-full px-4 py-3 flex items-center gap-3 transition-colors"
-              style={{ color: tc.textSecondary }}
-              onMouseEnter={e => e.currentTarget.style.backgroundColor = tc.hoverBg}
-              onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
+              onMouseEnter={() => setIsThemeHovered(true)}
+              onMouseLeave={() => setIsThemeHovered(false)}
+              className="w-full px-4 py-3 flex items-center gap-3 transition-colors duration-150 cursor-pointer"
+              style={{
+                backgroundColor: isThemeHovered ? tc.hoverBg : 'transparent',
+                color: isThemeHovered ? tc.textPrimary : tc.textSecondary
+              }}
             >
               {theme === 'dark' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
               <span style={{ fontSize: '13px', fontWeight: 500 }}>

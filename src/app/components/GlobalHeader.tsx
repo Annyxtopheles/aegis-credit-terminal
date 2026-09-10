@@ -33,6 +33,7 @@ export function GlobalHeader() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showCompanySearch, setShowCompanySearch] = useState(false);
   const [companySearch, setCompanySearch] = useState('');
+  const [isThemeHovered, setIsThemeHovered] = useState(false);
   const [notifications, setNotifications] = useState(NOTIFICATIONS);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const notifRef = useRef<HTMLDivElement>(null);
@@ -69,9 +70,9 @@ export function GlobalHeader() {
 
   const getRoleBadgeColor = (role?: string) => {
     const map: Record<string, string> = {
-      super_admin: '#FF6B35',
-      company_admin: '#F59E0B',
-      normal_user: '#06B6D4'
+      super_admin: '#06B6D4',
+      company_admin: '#0891B2',
+      normal_user: '#38BDF8'
     };
     return role ? map[role] || '#8B96A5' : '#8B96A5';
   };
@@ -180,10 +181,13 @@ export function GlobalHeader() {
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          className="w-8 h-8 flex items-center justify-center rounded transition-colors duration-200"
-          style={{ color: tc.textSecondary }}
-          onMouseEnter={e => { e.currentTarget.style.backgroundColor = theme === 'dark' ? '#1F2937' : '#F3F4F6'; e.currentTarget.style.color = tc.accentPrimary; }}
-          onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = tc.textSecondary; }}
+          onMouseEnter={() => setIsThemeHovered(true)}
+          onMouseLeave={() => setIsThemeHovered(false)}
+          className="w-8 h-8 flex items-center justify-center rounded transition-colors duration-150 cursor-pointer"
+          style={{
+            backgroundColor: isThemeHovered ? (theme === 'dark' ? '#1F2937' : '#F3F4F6') : 'transparent',
+            color: isThemeHovered ? tc.accentPrimary : tc.textSecondary
+          }}
           aria-label="Toggle theme"
         >
           {theme === 'dark' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
