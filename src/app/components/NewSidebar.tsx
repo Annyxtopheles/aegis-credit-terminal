@@ -157,11 +157,11 @@ export function NewSidebar() {
     >
       <div className="flex flex-col h-full">
         {/* Logo and Toggle */}
-        <div className="p-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${tc.borderPrimary}` }}>
+        <div className="p-4 flex items-center justify-between overflow-hidden" style={{ borderBottom: `1px solid ${tc.borderPrimary}` }}>
           {!isCollapsed && (
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2.5 min-w-0 flex-shrink-0 whitespace-nowrap">
               <div
-                className="w-9 h-9 flex items-center justify-center rounded transition-colors"
+                className="w-9 h-9 flex items-center justify-center rounded transition-colors flex-shrink-0"
                 style={{
                   backgroundColor: theme === 'dark' ? 'rgba(6, 182, 212, 0.15)' : '#E0F2FE',
                   border: theme === 'dark' ? '1px solid rgba(6, 182, 212, 0.4)' : '1px solid #BAE6FD'
@@ -169,11 +169,12 @@ export function NewSidebar() {
               >
                 <Shield className="w-5 h-5" style={{ color: theme === 'dark' ? '#06B6D4' : '#0E7490' }} />
               </div>
-              <div>
+              <div className="whitespace-nowrap">
                 <div style={{ fontSize: '14px', fontWeight: 700, letterSpacing: '0.06em', color: tc.textPrimary, lineHeight: 1.2 }}>
                   AEGIS
                 </div>
                 <div
+                  className="whitespace-nowrap"
                   style={{
                     fontSize: '9px',
                     fontWeight: 700,
