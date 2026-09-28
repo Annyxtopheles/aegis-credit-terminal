@@ -10,7 +10,7 @@ const TABS = [
 ];
 
 export default function SettingsPage() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const tc = colors[theme];
   const [activeTab, setActiveTab] = useState('profile');
@@ -18,6 +18,10 @@ export default function SettingsPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [showCurrentPw, setShowCurrentPw] = useState(false);
   const [showNewPw, setShowNewPw] = useState(false);
+  const [currentPw, setCurrentPw] = useState('');
+  const [newPw, setNewPw] = useState('');
+  const [pwError, setPwError] = useState('');
+  const [pwSuccess, setPwSuccess] = useState(false);
 
   const [profile, setProfile] = useState({
     name: user?.name || '', jobTitle: user?.jobTitle || '', phone: '',
@@ -26,10 +30,44 @@ export default function SettingsPage() {
 
   const handleSave = async () => {
     setIsSaving(true);
-    await new Promise(r => setTimeout(r, 800));
+    await new Promise(r => setTimeout(r, 600));
     setIsSaving(false);
+    
+    // Update live user session state
+    if (user) {
+      const nameParts = profile.name.trim().split(' ');
+      const initials = nameParts.length >= 2
+        ? `${nameParts[0][0]}${nameParts[nameParts.length - 1][0]}`.toUpperCase()
+        : profile.name.slice(0, 2).toUpperCase() || user.initials;
+
+      setUser({
+        ...user,
+        name: profile.name.trim() || user.name,
+        jobTitle: profile.jobTitle.trim() || user.jobTitle,
+        firm: profile.company.trim() || user.firm,
+        initials
+      });
+    }
+
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
+  };
+
+  const handlePasswordUpdate = (e: React.FormEvent) => {
+    e.preventDefault();
+    setPwError('');
+    if (!currentPw) {
+      setPwError('Current password is required');
+      return;
+    }
+    if (newPw.length < 8) {
+      setPwError('New password must be at least 8 characters');
+      return;
+    }
+    setPwSuccess(true);
+    setCurrentPw('');
+    setNewPw('');
+    setTimeout(() => setPwSuccess(false), 3000);
   };
 
   const inputStyle = {
@@ -150,31 +188,67 @@ export default function SettingsPage() {
               {/* Change Password */}
               <div>
                 <h3 style={{ fontSize: '14px', fontWeight: 600, color: tc.textPrimary, marginBottom: '12px' }}>Change Password</h3>
-                <div className="space-y-3 max-w-sm">
-                  {[
-                    { label: 'Current Password', show: showCurrentPw, setShow: setShowCurrentPw },
-                    { label: 'New Password', show: showNewPw, setShow: setShowNewPw },
-                  ].map(f => (
-                    <div key={f.label}>
-                      <label style={labelStyle}>{f.label}</label>
-                      <div className="relative">
-                        <input type={f.show ? 'text' : 'password'} style={{ ...inputStyle, paddingRight: '40px' }}
-                          onFocus={e => { e.currentTarget.style.borderColor = '#0891B2'; }}
-                          onBlur={e => { e.currentTarget.style.borderColor = tc.borderPrimary; }} />
-                        <button type="button" onClick={() => f.setShow(!f.show)} className="absolute right-3 top-1/2 -translate-y-1/2"
-                          style={{ background: 'none', border: 'none', color: tc.textSecondary, cursor: 'pointer' }}>
-                          {f.show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                        </button>
-                      </div>
+                <form onSubmit={handlePasswordUpdate} className="space-y-3 max-w-sm">
+                  <div>
+                    <label style={labelStyle}>Current Password</label>
+                    <div className="relative">
+                      <input
+                        type={showCurrentPw ? 'text' : 'password'}
+                        value={currentPw}
+                        onChange={e => setCurrentPw(e.target.value)}
+                        placeholder="Enter current password"
+                        style={{ ...inputStyle, paddingRight: '40px' }}
+                        onFocus={e => { e.currentTarget.style.borderColor = '#0891B2'; }}
+                        onBlur={e => { e.currentTarget.style.borderColor = tc.borderPrimary; }}
+                      />
+                      <button type="button" onClick={() => setShowCurrentPw(!showCurrentPw)} className="absolute right-3 top-1/2 -translate-y-1/2"
+                        style={{ background: 'none', border: 'none', color: tc.textSecondary, cursor: 'pointer' }}>
+                        {showCurrentPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
                     </div>
-                  ))}
-                  <button className="px-4 py-2 rounded-lg transition-colors text-sm"
-                    style={{ backgroundColor: '#0891B2', color: '#FFFFFF', border: 'none', cursor: 'pointer', fontWeight: 600 }}
+                  </div>
+
+                  <div>
+                    <label style={labelStyle}>New Password</label>
+                    <div className="relative">
+                      <input
+                        type={showNewPw ? 'text' : 'password'}
+                        value={newPw}
+                        onChange={e => setNewPw(e.target.value)}
+                        placeholder="At least 8 characters"
+                        style={{ ...inputStyle, paddingRight: '40px' }}
+                        onFocus={e => { e.currentTarget.style.borderColor = '#0891B2'; }}
+                        onBlur={e => { e.currentTarget.style.borderColor = tc.borderPrimary; }}
+                      />
+                      <button type="button" onClick={() => setShowNewPw(!showNewPw)} className="absolute right-3 top-1/2 -translate-y-1/2"
+                        style={{ background: 'none', border: 'none', color: tc.textSecondary, cursor: 'pointer' }}>
+                        {showNewPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  {pwError && (
+                    <div style={{ fontSize: '12px', color: '#DC2626', marginTop: '4px' }}>
+                      {pwError}
+                    </div>
+                  )}
+
+                  {pwSuccess && (
+                    <div className="flex items-center gap-1.5" style={{ fontSize: '12px', color: '#10B981', marginTop: '4px' }}>
+                      <Check className="w-3.5 h-3.5" /> Password updated successfully!
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    className="px-4 py-2 rounded-lg transition-colors text-sm font-semibold cursor-pointer"
+                    style={{ backgroundColor: '#0891B2', color: '#FFFFFF', border: 'none' }}
                     onMouseEnter={e => e.currentTarget.style.backgroundColor = '#0E7490'}
-                    onMouseLeave={e => e.currentTarget.style.backgroundColor = '#0891B2'}>
+                    onMouseLeave={e => e.currentTarget.style.backgroundColor = '#0891B2'}
+                  >
                     Update Password
                   </button>
-                </div>
+                </form>
               </div>
             </div>
           )}

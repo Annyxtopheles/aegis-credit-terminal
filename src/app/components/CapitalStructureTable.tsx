@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { Download, Check } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { colors, ratingBadges } from '../theme/colors';
 
@@ -5,6 +7,7 @@ export function CapitalStructureTable() {
   const { theme } = useTheme();
   const themeColors = colors[theme];
   const badges = ratingBadges[theme];
+  const [downloaded, setDownloaded] = useState(false);
 
   const data = [
     {
@@ -104,6 +107,32 @@ export function CapitalStructureTable() {
     return themeColors.textPrimary;
   };
 
+  const handleExportCSV = () => {
+    const headers = ['Instrument', 'Maturity Date', '% EV', 'EBITDA Mult.', 'Revenue Mult.', 'Rating', 'Coupon', 'Call Provision', 'YTM'];
+    const rows = data.map(r => [
+      `"${r.instrument}"`,
+      `"${r.maturity}"`,
+      `"${r.evPercent}"`,
+      `"${r.ebitdaMult}"`,
+      `"${r.revMult}"`,
+      `"${r.rating}"`,
+      `"${r.coupon}"`,
+      `"${r.callProvision}"`,
+      `"${r.ytm}"`
+    ]);
+    const csvContent = [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `apex_brands_capital_structure_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setDownloaded(true);
+    setTimeout(() => setDownloaded(false), 2000);
+  };
+
   return (
     <div
       className="transition-colors duration-300"
@@ -112,13 +141,33 @@ export function CapitalStructureTable() {
         border: `1px solid ${themeColors.borderPrimary}`
       }}
     >
-      <div className="px-4 md:px-6 py-4 md:py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-2" style={{ borderBottom: `1px solid ${themeColors.borderPrimary}` }}>
-        <h3 style={{ fontSize: '14px', fontWeight: 600, color: themeColors.textPrimary }} className="md:text-base">
-          CAPITAL STRUCTURE
-        </h3>
-        <span style={{ fontSize: '11px', color: themeColors.textSecondary }} className="md:text-xs">
-          Data as of March 29, 2025
-        </span>
+      <div className="px-4 md:px-6 py-4 md:py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ borderBottom: `1px solid ${themeColors.borderPrimary}` }}>
+        <div>
+          <h3 style={{ fontSize: '14px', fontWeight: 600, color: themeColors.textPrimary }} className="md:text-base">
+            CAPITAL STRUCTURE
+          </h3>
+          <span style={{ fontSize: '11px', color: themeColors.textSecondary }} className="md:text-xs">
+            Data as of March 29, 2025
+          </span>
+        </div>
+        <button
+          onClick={handleExportCSV}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded transition-colors text-xs font-semibold cursor-pointer self-start sm:self-auto"
+          style={{
+            backgroundColor: theme === 'dark' ? 'rgba(6,182,212,0.12)' : '#EFF6FF',
+            color: theme === 'dark' ? '#06B6D4' : '#0284C7',
+            border: theme === 'dark' ? '1px solid rgba(6,182,212,0.3)' : '1px solid #BAE6FD'
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(6,182,212,0.22)' : '#E0F2FE';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(6,182,212,0.12)' : '#EFF6FF';
+          }}
+          title="Export table data to CSV"
+        >
+          {downloaded ? <><Check className="w-3.5 h-3.5" /> Exported</> : <><Download className="w-3.5 h-3.5" /> Export CSV</>}
+        </button>
       </div>
 
       <div className="overflow-x-auto -mx-4 md:mx-0">

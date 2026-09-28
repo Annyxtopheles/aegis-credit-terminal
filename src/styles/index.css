@@ -1,3 +1,16 @@
 @import './fonts.css';
 @import './tailwind.css';
 @import './theme.css';
+
+@media print {
+  aside, button, [title="Expand sidebar"], [title="Collapse sidebar"] {
+    display: none !important;
+  }
+  div[style*="margin-left"] {
+    margin-left: 0 !important;
+  }
+  body {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+  }
+}

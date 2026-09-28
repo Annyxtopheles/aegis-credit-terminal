@@ -1,9 +1,12 @@
+import { useState } from 'react';
+import { Download, Check } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
 
 export function LargestHoldersTable() {
   const { theme } = useTheme();
   const themeColors = colors[theme];
+  const [downloaded, setDownloaded] = useState(false);
 
   const holders = [
     {
@@ -39,6 +42,28 @@ export function LargestHoldersTable() {
     return themeColors.textSecondary;
   };
 
+  const handleExportCSV = () => {
+    const headers = ['Holder', 'Type', '2027 Note (%)', '2028 Note (%)', 'Term Loan'];
+    const rows = holders.map(h => [
+      `"${h.name}"`,
+      `"${h.type}"`,
+      `"${h.note2027 !== null ? h.note2027 + '%' : '-'}"`,
+      `"${h.note2028 !== null ? h.note2028 + '%' : '-'}"`,
+      `"${h.termLoan !== null ? h.termLoan : '-'}"`
+    ]);
+    const csvContent = [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `apex_brands_largest_holders_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setDownloaded(true);
+    setTimeout(() => setDownloaded(false), 2000);
+  };
+
   return (
     <div
       className="transition-colors duration-300"
@@ -47,10 +72,28 @@ export function LargestHoldersTable() {
         border: `1px solid ${themeColors.borderPrimary}`
       }}
     >
-      <div className="px-4 md:px-6 py-4 md:py-6" style={{ borderBottom: `1px solid ${themeColors.borderPrimary}` }}>
+      <div className="px-4 md:px-6 py-4 md:py-6 flex items-center justify-between" style={{ borderBottom: `1px solid ${themeColors.borderPrimary}` }}>
         <h3 style={{ fontSize: '14px', fontWeight: 600, color: themeColors.textPrimary }} className="md:text-base">
           LARGEST HOLDERS
         </h3>
+        <button
+          onClick={handleExportCSV}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded transition-colors text-xs font-semibold cursor-pointer"
+          style={{
+            backgroundColor: theme === 'dark' ? 'rgba(6,182,212,0.12)' : '#EFF6FF',
+            color: theme === 'dark' ? '#06B6D4' : '#0284C7',
+            border: theme === 'dark' ? '1px solid rgba(6,182,212,0.3)' : '1px solid #BAE6FD'
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(6,182,212,0.22)' : '#E0F2FE';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(6,182,212,0.12)' : '#EFF6FF';
+          }}
+          title="Export table data to CSV"
+        >
+          {downloaded ? <><Check className="w-3.5 h-3.5" /> Exported</> : <><Download className="w-3.5 h-3.5" /> Export CSV</>}
+        </button>
       </div>
 
       <div className="overflow-x-auto -mx-4 md:mx-0">

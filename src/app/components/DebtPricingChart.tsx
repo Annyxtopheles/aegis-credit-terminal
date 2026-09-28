@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ComposedChart, Legend } from 'recharts';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
 
-const data = [
+const rawData = [
   { id: 1, date: '24-Oct', price: 97.40, volume: 950000 },
   { id: 2, date: '26-Oct', price: 97.52, volume: 450000 },
   { id: 3, date: '28-Oct', price: 97.78, volume: 2200000 },
@@ -25,6 +26,19 @@ export function DebtPricingChart() {
   const { theme } = useTheme();
   const tc = colors[theme];
   const themeColors = tc;
+  const [range, setRange] = useState<'7D' | '14D' | '30D'>('30D');
+
+  const filteredData = range === '7D' 
+    ? rawData.slice(-5) 
+    : range === '14D' 
+      ? rawData.slice(-10) 
+      : rawData;
+
+  const formatVolume = (val: number) => {
+    if (val >= 1000000) return `${(val / 1000000).toFixed(1)}M`;
+    if (val >= 1000) return `${(val / 1000).toFixed(0)}k`;
+    return val.toString();
+  };
 
   return (
     <div
@@ -34,11 +48,29 @@ export function DebtPricingChart() {
         border: `1px solid ${themeColors.borderPrimary}`
       }}
     >
-      <h3 style={{ fontSize: '16px', fontWeight: 600, color: themeColors.textPrimary, marginBottom: '16px' }} className="md:text-lg md:mb-6">
-        DEBT PRICING CHART (30 DAY)
-      </h3>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 md:mb-6">
+        <h3 style={{ fontSize: '16px', fontWeight: 600, color: themeColors.textPrimary }} className="md:text-lg">
+          DEBT PRICING CHART ({range === '30D' ? '30 DAY' : range === '14D' ? '14 DAY' : '7 DAY'})
+        </h3>
+        <div className="flex items-center gap-1 p-1 rounded-md self-start sm:self-auto" style={{ backgroundColor: tc.bgTertiary, border: `1px solid ${tc.borderPrimary}` }}>
+          {(['7D', '14D', '30D'] as const).map(r => (
+            <button
+              key={r}
+              onClick={() => setRange(r)}
+              className="px-2.5 py-1 rounded text-xs font-semibold transition-all cursor-pointer"
+              style={{
+                backgroundColor: range === r ? (theme === 'dark' ? '#1A2332' : '#FFFFFF') : 'transparent',
+                color: range === r ? tc.accentPrimary : tc.textSecondary,
+                boxShadow: range === r && theme === 'light' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none'
+              }}
+            >
+              {r}
+            </button>
+          ))}
+        </div>
+      </div>
       <ResponsiveContainer width="100%" height={280}>
-        <ComposedChart data={data} margin={{ top: 5, right: 70, left: 0, bottom: 5 }}>
+        <ComposedChart data={filteredData} margin={{ top: 5, right: 70, left: 0, bottom: 5 }}>
           <CartesianGrid
             strokeDasharray="0"
             stroke={themeColors.gridLine}
@@ -66,16 +98,22 @@ export function DebtPricingChart() {
             stroke={themeColors.textSecondary}
             style={{ fontSize: '12px', fontWeight: 600 }}
             domain={[0, 5000000]}
+            tickFormatter={formatVolume}
             label={{ value: 'Volume', angle: 90, position: 'right', dx: 20, style: { fill: themeColors.textSecondary, fontWeight: 600 } }}
           />
           <Tooltip
             contentStyle={{
               backgroundColor: tc.bgSecondary,
               border: `1px solid ${tc.borderPrimary}`,
-              borderRadius: '4px',
+              borderRadius: '6px',
               color: themeColors.textPrimary,
-              boxShadow: theme === 'light' ? '0 2px 8px rgba(0,0,0,0.1)' : 'none'
+              boxShadow: theme === 'light' ? '0 4px 12px rgba(0,0,0,0.1)' : '0 4px 12px rgba(0,0,0,0.4)',
+              fontSize: '12px'
             }}
+            formatter={(value: any, name: any) => [
+              name === 'Volume' ? formatVolume(Number(value)) : `$${Number(value).toFixed(2)}`,
+              name
+            ]}
           />
           <Legend
             verticalAlign="bottom"

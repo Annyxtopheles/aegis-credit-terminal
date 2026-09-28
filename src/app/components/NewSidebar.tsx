@@ -356,25 +356,42 @@ export function NewSidebar() {
             const active = isActive(item);
 
             return (
-              <button
-                key={item.id}
-                onClick={() => handleNavClick(item)}
-                className={`w-full px-4 py-2.5 flex items-center gap-3 transition-colors ${isCollapsed ? 'justify-center' : ''}`}
-                style={{
-                  backgroundColor: active ? (theme === 'dark' ? '#1E222A' : '#F1F3F6') : 'transparent',
-                  color: active ? (theme === 'dark' ? '#EDEDED' : '#111318') : tc.textSecondary,
-                  borderLeft: active && !isCollapsed ? (theme === 'dark' ? '2px solid #EDEDED' : '2px solid #111318') : '2px solid transparent',
-                }}
-                onMouseEnter={e => { if (!active) e.currentTarget.style.backgroundColor = tc.hoverBg; }}
-                onMouseLeave={e => { if (!active) e.currentTarget.style.backgroundColor = 'transparent'; }}
-              >
-                <Icon className="w-4.5 h-4.5 flex-shrink-0" style={{ width: '18px', height: '18px' }} />
-                {!isCollapsed && (
-                  <span style={{ fontSize: '13px', fontWeight: active ? 600 : 500, flex: 1, textAlign: 'left' }}>
+              <div key={item.id} className="relative group">
+                <button
+                  onClick={() => handleNavClick(item)}
+                  title={isCollapsed ? item.label : undefined}
+                  aria-label={item.label}
+                  className={`w-full px-4 py-2.5 flex items-center gap-3 transition-colors cursor-pointer ${isCollapsed ? 'justify-center' : ''}`}
+                  style={{
+                    backgroundColor: active ? (theme === 'dark' ? '#1E222A' : '#F1F3F6') : 'transparent',
+                    color: active ? (theme === 'dark' ? '#EDEDED' : '#111318') : tc.textSecondary,
+                    borderLeft: active && !isCollapsed ? (theme === 'dark' ? '2px solid #EDEDED' : '2px solid #111318') : '2px solid transparent',
+                  }}
+                  onMouseEnter={e => { if (!active) e.currentTarget.style.backgroundColor = tc.hoverBg; }}
+                  onMouseLeave={e => { if (!active) e.currentTarget.style.backgroundColor = 'transparent'; }}
+                >
+                  <Icon className="w-4.5 h-4.5 flex-shrink-0" style={{ width: '18px', height: '18px' }} />
+                  {!isCollapsed && (
+                    <span style={{ fontSize: '13px', fontWeight: active ? 600 : 500, flex: 1, textAlign: 'left' }}>
+                      {item.label}
+                    </span>
+                  )}
+                </button>
+
+                {/* Micro tooltip when collapsed */}
+                {isCollapsed && (
+                  <div
+                    className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2.5 py-1 rounded text-xs font-semibold whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 z-50 shadow-lg"
+                    style={{
+                      backgroundColor: theme === 'dark' ? '#1E293B' : '#0F172A',
+                      color: '#FFFFFF',
+                      border: theme === 'dark' ? '1px solid #334155' : '1px solid #1E293B'
+                    }}
+                  >
                     {item.label}
-                  </span>
+                  </div>
                 )}
-              </button>
+              </div>
             );
           })}
         </nav>
@@ -382,25 +399,39 @@ export function NewSidebar() {
         {/* Bottom Section */}
         <div style={{ borderTop: `1px solid ${tc.borderPrimary}` }}>
           {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            onMouseEnter={() => setIsThemeHovered(true)}
-            onMouseLeave={() => setIsThemeHovered(false)}
-            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            aria-label="Toggle theme"
-            className={`w-full py-3 flex items-center transition-colors duration-150 cursor-pointer ${isCollapsed ? 'justify-center px-0' : 'px-4 gap-3'}`}
-            style={{
-              backgroundColor: isThemeHovered ? tc.hoverBg : 'transparent',
-              color: isThemeHovered ? tc.textPrimary : tc.textSecondary
-            }}
-          >
-            {theme === 'dark' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
-            {!isCollapsed && (
-              <span style={{ fontSize: '13px', fontWeight: 500 }}>
-                {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
-              </span>
+          <div className="relative group">
+            <button
+              onClick={toggleTheme}
+              onMouseEnter={() => setIsThemeHovered(true)}
+              onMouseLeave={() => setIsThemeHovered(false)}
+              title={isCollapsed ? (theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode') : undefined}
+              aria-label="Toggle theme"
+              className={`w-full py-3 flex items-center transition-colors duration-150 cursor-pointer ${isCollapsed ? 'justify-center px-0' : 'px-4 gap-3'}`}
+              style={{
+                backgroundColor: isThemeHovered ? tc.hoverBg : 'transparent',
+                color: isThemeHovered ? tc.textPrimary : tc.textSecondary
+              }}
+            >
+              {theme === 'dark' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+              {!isCollapsed && (
+                <span style={{ fontSize: '13px', fontWeight: 500 }}>
+                  {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
+                </span>
+              )}
+            </button>
+            {isCollapsed && (
+              <div
+                className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2.5 py-1 rounded text-xs font-semibold whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 z-50 shadow-lg"
+                style={{
+                  backgroundColor: theme === 'dark' ? '#1E293B' : '#0F172A',
+                  color: '#FFFFFF',
+                  border: theme === 'dark' ? '1px solid #334155' : '1px solid #1E293B'
+                }}
+              >
+                {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              </div>
             )}
-          </button>
+          </div>
 
           {/* User Profile & Settings */}
           {user && (
@@ -433,7 +464,7 @@ export function NewSidebar() {
 
               {showSettings && (
                 <div
-                  className="absolute left-full bottom-0 ml-2 w-56 rounded-lg shadow-xl z-50 overflow-hidden"
+                  className={`absolute ${isCollapsed ? 'left-full bottom-2 ml-2' : 'left-2 right-2 bottom-full mb-2'} w-56 rounded-lg shadow-2xl z-50 overflow-hidden`}
                   style={{
                     backgroundColor: tc.bgSecondary,
                     border: `1px solid ${tc.borderPrimary}`
