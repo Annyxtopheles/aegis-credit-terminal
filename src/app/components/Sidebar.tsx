@@ -104,8 +104,8 @@ export function Sidebar() {
         <div className="p-4 flex items-center justify-between" style={{ borderBottom: `1px solid ${tc.borderPrimary}` }}>
           {!isCollapsed && (
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 flex items-center justify-center rounded" style={{ backgroundColor: 'rgba(6, 182, 212, 0.16)', border: '1px solid rgba(6, 182, 212, 0.4)' }}>
-                <Radar className="w-5 h-5" style={{ color: '#06B6D4' }} />
+              <div className="w-10 h-10 flex items-center justify-center rounded" style={{ backgroundColor: 'rgba(245, 158, 11, 0.16)', border: '1px solid rgba(245, 158, 11, 0.4)' }}>
+                <Radar className="w-5 h-5" style={{ color: tc.accentPrimary }} />
               </div>
               <div className="font-mono" style={{ fontSize: '11px', lineHeight: '1.3', color: tc.textPrimary, fontWeight: 700 }}>
                 KESSLER<br />ORBITAL SSA
@@ -113,8 +113,8 @@ export function Sidebar() {
             </div>
           )}
           {isCollapsed && (
-            <div className="w-10 h-10 flex items-center justify-center mx-auto rounded" style={{ backgroundColor: 'rgba(6, 182, 212, 0.16)' }}>
-              <Radar className="w-5 h-5" style={{ color: '#06B6D4' }} />
+            <div className="w-10 h-10 flex items-center justify-center mx-auto rounded" style={{ backgroundColor: 'rgba(245, 158, 11, 0.16)' }}>
+              <Radar className="w-5 h-5" style={{ color: tc.accentPrimary }} />
             </div>
           )}
           {!isCollapsed && (
@@ -166,7 +166,7 @@ export function Sidebar() {
                   onClick={() => handleNavClick(item)}
                   className={`w-full px-4 py-2.5 flex items-center gap-3 transition-colors ${isCollapsed ? 'justify-center' : ''}`}
                   style={{
-                    backgroundColor: active ? (theme === 'dark' ? 'rgba(6,182,212,0.12)' : '#EFF6FF') : 'transparent',
+                    backgroundColor: active ? (theme === 'dark' ? 'rgba(245,158,11,0.12)' : '#FEF3C7') : 'transparent',
                     color: active ? tc.accentPrimary : tc.textSecondary,
                     borderLeft: active && !isCollapsed ? `2px solid ${tc.accentPrimary}` : '2px solid transparent',
                   }}

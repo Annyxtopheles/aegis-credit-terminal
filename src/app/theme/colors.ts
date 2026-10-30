@@ -1,62 +1,62 @@
 export const colors = {
   dark: {
-    bgPrimary: '#030508',       // Deep-space cosmic vacuum
-    bgSecondary: '#080D16',     // Aerospace carbon console chassis
-    bgTertiary: '#0F1726',      // Elevated telemetry instrument bay
-    bgZebra: '#05080E',         // Alternating SGP4 ephemeris vector stripe
-    textPrimary: '#F8FAFC',     // High-visibility optical telemetry white
-    textSecondary: '#8B9BB4',   // Ionized starlight cool slate
-    textTertiary: '#50637F',    // Deep-space coordinate marker
-    borderPrimary: '#16233B',   // Laser-machined HUD hairline border
-    borderSubtle: '#0D1728',    // Micro-grid radar divider
-    accentPrimary: '#00F0FF',   // Hyper-luminescent ion pulse cyan
-    alertRed: '#FF2A5F',        // Optical conjunction crimson (Pc > 1e-4)
-    alertAmber: '#FFB020',      // Solar radiation & drag phosphor gold
-    alertGreen: '#00E676',      // Radar vector nominal emerald
-    chartCyan: '#00F0FF',       // Primary apogee orbital trace
-    chartAmber: '#FFB020',      // Geomagnetic solar flux drag envelope
-    chartGreen: '#00E676',      // Nominal station-keeping orbit
-    gridLine: '#16233B',        // Radar scope polar grid
-    hoverBg: '#121D30',         // Telemetry console hover
-    tableBg: '#060B12',         // Ephemeris ledger base
-    tableHeaderBg: '#0B1320'    // Ephemeris header base
+    bgPrimary: '#0A0B0E',       // Matte Aerospace Stealth Carbon
+    bgSecondary: '#111318',     // Radar Console Chassis
+    bgTertiary: '#191C24',      // Elevated Telemetry Instrument Bay
+    bgZebra: '#0E1015',         // Alternating SGP4 Ephemeris Row
+    textPrimary: '#F8FAFC',     // High-Visibility Signal White
+    textSecondary: '#9CA3AF',   // Tactical Neutral Slate
+    textTertiary: '#6B7280',    // Muted Coordinate Marker
+    borderPrimary: '#262936',   // Machined Stealth Bezel
+    borderSubtle: '#1C1F2B',    // Micro-Grid Radar Divider
+    accentPrimary: '#F59E0B',   // Tactical Phosphor Amber / Solar Gold
+    alertRed: '#EF4444',        // Optical Conjunction Crimson (Pc > 1e-4)
+    alertAmber: '#F97316',      // Solar Flare Orange Warning
+    alertGreen: '#10B981',      // Nominal Vector Emerald
+    chartCyan: '#F59E0B',       // Primary Apogee Orbital Trace (Phosphor Amber)
+    chartAmber: '#FB923C',      // Geomagnetic Solar Flux Drag Envelope
+    chartGreen: '#10B981',      // Nominal Station-Keeping Orbit
+    gridLine: '#262936',        // Radar Scope Polar Grid
+    hoverBg: '#1E212B',         // Telemetry Console Hover
+    tableBg: '#0E1015',         // Ephemeris Ledger Base
+    tableHeaderBg: '#161821'    // Ephemeris Header Base
   },
   light: {
-    bgPrimary: '#F1F4F9',       // Clean aerodynamic flight-deck grey
-    bgSecondary: '#FFFFFF',     // Crisp instrument card surface
-    bgTertiary: '#E4EAF2',      // Elevated telemetry container
-    bgZebra: '#F8FAFC',         // Alternating ledger stripe
-    textPrimary: '#0A0F1D',     // Deep space carbon black (high contrast)
-    textSecondary: '#3E4D65',   // Aerospace slate
-    textTertiary: '#64748B',    // Muted flight metadata
-    borderPrimary: '#C5D2E0',   // Defined technical bezel
-    borderSubtle: '#E2E8F0',    // Micro-divider
-    accentPrimary: '#007799',   // Deep ion cobalt (high contrast against white)
-    alertRed: '#D61F48',        // High-contrast collision hazard crimson
-    alertAmber: '#C97A00',      // High-contrast solar drag warning
-    alertGreen: '#059669',      // Deep nominal orbital status emerald
-    chartCyan: '#007799',       // High-contrast flight telemetry trace
-    chartAmber: '#C97A00',      // High-contrast drag envelope
-    chartGreen: '#059669',      // High-contrast nominal trace
-    gridLine: '#C5D2E0',        // Daytime grid line
-    hoverBg: '#E6EDF6',         // Daytime hover
-    tableBg: '#FFFFFF',         // Daytime ledger surface
-    tableHeaderBg: '#F1F4F9'    // Daytime header surface
+    bgPrimary: '#F4F4F6',       // Warm Tactical Daylight Gray
+    bgSecondary: '#FFFFFF',     // Crisp Instrument Card Surface
+    bgTertiary: '#EAECEF',      // Elevated Telemetry Container
+    bgZebra: '#F9FAFB',         // Alternating Ledger Stripe
+    textPrimary: '#111318',     // Deep Carbon Black (High Contrast)
+    textSecondary: '#4B5563',   // Tactical Slate
+    textTertiary: '#6B7280',    // Muted Flight Metadata
+    borderPrimary: '#D1D5DB',   // Defined Technical Bezel
+    borderSubtle: '#E5E7EB',    // Micro-Divider
+    accentPrimary: '#D97706',   // Deep Tactical Amber (High Contrast on White)
+    alertRed: '#DC2626',        // High-Contrast Collision Hazard Crimson
+    alertAmber: '#EA580C',      // High-Contrast Solar Drag Orange
+    alertGreen: '#059669',      // Deep Nominal Orbital Status Emerald
+    chartCyan: '#D97706',       // High-Contrast Flight Telemetry Trace
+    chartAmber: '#EA580C',      // High-Contrast Drag Envelope
+    chartGreen: '#059669',      // High-Contrast Nominal Trace
+    gridLine: '#D1D5DB',        // Daytime Grid Line
+    hoverBg: '#E5E7EB',         // Daytime Hover
+    tableBg: '#FFFFFF',         // Daytime Ledger Surface
+    tableHeaderBg: '#F4F4F6'    // Daytime Header Surface
   }
 } as const;
 
 export const orbitalStatusBadges = {
   dark: {
-    nominal: { bg: 'rgba(0, 230, 118, 0.12)', text: '#00E676', border: 'rgba(0, 230, 118, 0.35)' },
-    warning: { bg: 'rgba(255, 176, 32, 0.12)', text: '#FFB020', border: 'rgba(255, 176, 32, 0.35)' },
-    critical: { bg: 'rgba(255, 42, 95, 0.15)', text: '#FF2A5F', border: 'rgba(255, 42, 95, 0.4)' },
-    maneuver: { bg: 'rgba(0, 240, 255, 0.12)', text: '#00F0FF', border: 'rgba(0, 240, 255, 0.35)' }
+    nominal: { bg: 'rgba(16, 185, 129, 0.14)', text: '#10B981', border: 'rgba(16, 185, 129, 0.35)' },
+    warning: { bg: 'rgba(249, 115, 22, 0.14)', text: '#F97316', border: 'rgba(249, 115, 22, 0.35)' },
+    critical: { bg: 'rgba(239, 68, 68, 0.16)', text: '#EF4444', border: 'rgba(239, 68, 68, 0.4)' },
+    maneuver: { bg: 'rgba(245, 158, 11, 0.14)', text: '#F59E0B', border: 'rgba(245, 158, 11, 0.35)' }
   },
   light: {
     nominal: { bg: '#ECFDF5', text: '#047857', border: '#A7F3D0' },
-    warning: { bg: '#FFFBEB', text: '#B45309', border: '#FDE68A' },
+    warning: { bg: '#FFF7ED', text: '#C2410C', border: '#FED7AA' },
     critical: { bg: '#FEF2F2', text: '#B91C1C', border: '#FECACA' },
-    maneuver: { bg: '#F0F9FF', text: '#0284C7', border: '#BAE6FD' }
+    maneuver: { bg: '#FFFBEB', text: '#B45309', border: '#FDE68A' }
   }
 } as const;
 

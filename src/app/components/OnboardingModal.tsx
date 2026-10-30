@@ -13,7 +13,7 @@ const SUGGESTED_SHELLS = [
 ];
 
 const threatColors: Record<string, string> = {
-  Critical: '#EF4444', Elevated: '#F59E0B', Moderate: '#06B6D4', Low: '#10B981'
+  Critical: '#EF4444', Elevated: '#F97316', Moderate: '#F59E0B', Low: '#10B981'
 };
 
 const ALERT_OPTIONS = [
@@ -54,8 +54,8 @@ export function OnboardingModal() {
     // Step 0: Welcome
     <div key="0" className="text-center">
       <div className="flex justify-center mb-6">
-        <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(6, 182, 212, 0.14)', border: '1px solid rgba(6, 182, 212, 0.35)' }}>
-          <Radar className="w-10 h-10" style={{ color: '#06B6D4' }} />
+        <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(245, 158, 11, 0.14)', border: '1px solid rgba(245, 158, 11, 0.35)' }}>
+          <Radar className="w-10 h-10" style={{ color: '#F59E0B' }} />
         </div>
       </div>
       <h2 style={{ fontSize: '24px', fontWeight: 700, color: tc.textPrimary, marginBottom: '12px' }} className="font-mono">
@@ -66,9 +66,9 @@ export function OnboardingModal() {
       </p>
       <div className="grid grid-cols-3 gap-3 mb-6">
         {[
-          { label: '48/48', sub: 'Active SV Nodes', color: '#06B6D4' },
+          { label: '48/48', sub: 'Active SV Nodes', color: '#F59E0B' },
           { label: '27,400+', sub: 'Tracked Objects', color: '#10B981' },
-          { label: '<180ms', sub: 'OISL Relay Latency', color: '#F59E0B' },
+          { label: '<180ms', sub: 'OISL Relay Latency', color: '#FB923C' },
         ].map(s => (
           <div key={s.label} className="rounded-lg p-3" style={{ backgroundColor: `${s.color}15`, border: `1px solid ${s.color}30` }}>
             <div style={{ fontSize: '18px', fontWeight: 700, color: s.color, fontFamily: 'JetBrains Mono, monospace' }}>{s.label}</div>
@@ -96,7 +96,7 @@ export function OnboardingModal() {
           onChange={e => setSearch(e.target.value)}
           style={{
             width: '100%', height: '42px', paddingLeft: '36px', paddingRight: '12px',
-            backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+            backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
             border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
             color: tc.textPrimary, fontSize: '13px', outline: 'none'
           }}
@@ -107,12 +107,12 @@ export function OnboardingModal() {
           <div
             key={co.ticker}
             className="flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer"
-            style={{ backgroundColor: co.added ? 'rgba(6, 182, 212, 0.08)' : (theme === 'dark' ? '#06080D' : '#F9FAFB'), border: `1px solid ${co.added ? 'rgba(6, 182, 212, 0.4)' : tc.borderPrimary}` }}
+            style={{ backgroundColor: co.added ? 'rgba(245, 158, 11, 0.10)' : (theme === 'dark' ? tc.bgPrimary : '#F9FAFB'), border: `1px solid ${co.added ? 'rgba(245, 158, 11, 0.4)' : tc.borderPrimary}` }}
             onClick={() => toggleShell(co.ticker)}
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-8 rounded flex items-center justify-center" style={{ backgroundColor: 'rgba(6, 182, 212, 0.15)' }}>
-                <span style={{ fontSize: '10px', fontWeight: 700, color: '#06B6D4', fontFamily: 'JetBrains Mono, monospace' }}>{co.ticker}</span>
+              <div className="w-10 h-8 rounded flex items-center justify-center" style={{ backgroundColor: 'rgba(245, 158, 11, 0.16)' }}>
+                <span style={{ fontSize: '10px', fontWeight: 700, color: tc.accentPrimary, fontFamily: 'JetBrains Mono, monospace' }}>{co.ticker}</span>
               </div>
               <div>
                 <div style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary }}>{co.name}</div>
@@ -124,7 +124,7 @@ export function OnboardingModal() {
                 {co.threat}
               </span>
               {co.added
-                ? <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: '#06B6D4' }}><Check className="w-3.5 h-3.5 text-white" /></div>
+                ? <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: tc.accentPrimary }}><Check className="w-3.5 h-3.5 text-white" /></div>
                 : <div className="w-6 h-6 rounded-full border flex items-center justify-center" style={{ borderColor: tc.borderPrimary }}><Star className="w-3 h-3" style={{ color: tc.textTertiary }} /></div>
               }
             </div>
@@ -132,7 +132,7 @@ export function OnboardingModal() {
         ))}
       </div>
       {addedShells.length > 0 && (
-        <p style={{ fontSize: '12px', color: '#06B6D4', marginTop: '10px' }} className="font-mono">
+        <p style={{ fontSize: '12px', color: tc.accentPrimary, marginTop: '10px' }} className="font-mono">
           {addedShells.length} orbital {addedShells.length === 1 ? 'shell' : 'shells'} locked to telemetry feed
         </p>
       )}
@@ -156,7 +156,7 @@ export function OnboardingModal() {
           onChange={e => setSelectedShell(e.target.value)}
           style={{
             width: '100%', height: '42px', padding: '0 12px',
-            backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+            backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
             border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
             color: tc.textPrimary, fontSize: '13px', outline: 'none', cursor: 'pointer'
           }}
@@ -173,21 +173,21 @@ export function OnboardingModal() {
             key={alert.id}
             className="flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors"
             style={{
-              backgroundColor: selectedAlerts.includes(alert.id) ? 'rgba(6, 182, 212, 0.12)' : (theme === 'dark' ? '#06080D' : '#F9FAFB'),
-              border: `1px solid ${selectedAlerts.includes(alert.id) ? 'rgba(6, 182, 212, 0.4)' : tc.borderPrimary}`
+              backgroundColor: selectedAlerts.includes(alert.id) ? 'rgba(245, 158, 11, 0.12)' : (theme === 'dark' ? tc.bgPrimary : '#F9FAFB'),
+              border: `1px solid ${selectedAlerts.includes(alert.id) ? 'rgba(245, 158, 11, 0.4)' : tc.borderPrimary}`
             }}
             onClick={() => toggleAlert(alert.id)}
           >
             <div className="flex items-center gap-3">
-              <Bell className="w-4 h-4" style={{ color: selectedAlerts.includes(alert.id) ? '#06B6D4' : tc.textSecondary }} />
+              <Bell className="w-4 h-4" style={{ color: selectedAlerts.includes(alert.id) ? tc.accentPrimary : tc.textSecondary }} />
               <div>
                 <div style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary }}>{alert.label}</div>
                 <div style={{ fontSize: '12px', color: tc.textSecondary }} className="font-mono">{alert.desc}</div>
               </div>
             </div>
             <div className="w-5 h-5 rounded flex items-center justify-center" style={{
-              backgroundColor: selectedAlerts.includes(alert.id) ? '#06B6D4' : 'transparent',
-              border: `1.5px solid ${selectedAlerts.includes(alert.id) ? '#06B6D4' : tc.borderPrimary}`
+              backgroundColor: selectedAlerts.includes(alert.id) ? tc.accentPrimary : 'transparent',
+              border: `1.5px solid ${selectedAlerts.includes(alert.id) ? tc.accentPrimary : tc.borderPrimary}`
             }}>
               {selectedAlerts.includes(alert.id) && <Check className="w-3 h-3 text-white" />}
             </div>
@@ -214,7 +214,7 @@ export function OnboardingModal() {
           </span>
         </div>
         <div className="flex items-center justify-center gap-2">
-          <Bell className="w-4 h-4" style={{ color: '#06B6D4' }} />
+          <Bell className="w-4 h-4" style={{ color: tc.accentPrimary }} />
           <span style={{ fontSize: '14px', color: tc.textSecondary }}>
             <strong style={{ color: tc.textPrimary }}>{selectedAlerts.length}</strong> automated CDM triggers armed
           </span>
@@ -234,8 +234,8 @@ export function OnboardingModal() {
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-0">
           <div className="flex items-center gap-2">
-            <div className="px-2 py-0.5 flex items-center justify-center rounded bg-[#06B6D4]/20 border border-[#06B6D4]/40">
-              <span className="font-mono" style={{ color: '#06B6D4', fontSize: '10px', fontWeight: 700 }}>KESSLER</span>
+            <div className="px-2 py-0.5 flex items-center justify-center rounded bg-amber-500/20 border border-amber-500/40">
+              <span className="font-mono" style={{ color: tc.accentPrimary, fontSize: '10px', fontWeight: 700 }}>KESSLER</span>
             </div>
             <span className="font-mono" style={{ fontSize: '11px', color: tc.textSecondary, letterSpacing: '0.06em' }}>FDO CONSOLE INITIALIZATION</span>
           </div>
@@ -257,7 +257,7 @@ export function OnboardingModal() {
               style={{
                 width: i === step ? '20px' : '8px',
                 height: '8px',
-                backgroundColor: i === step ? '#06B6D4' : i < step ? '#06B6D460' : tc.borderPrimary
+                backgroundColor: i === step ? tc.accentPrimary : i < step ? `${tc.accentPrimary}60` : tc.borderPrimary
               }}
             />
           ))}
@@ -286,7 +286,7 @@ export function OnboardingModal() {
             onClick={() => step < 3 ? setStep(s => s + 1) : dismissOnboarding()}
             className="flex items-center gap-2 transition-all font-mono"
             style={{
-              height: '40px', padding: '0 20px', backgroundColor: '#06B6D4', color: '#06080D',
+              height: '40px', padding: '0 20px', backgroundColor: tc.accentPrimary, color: tc.bgPrimary,
               border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: 700, cursor: 'pointer'
             }}
           >

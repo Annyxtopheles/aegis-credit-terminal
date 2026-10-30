@@ -77,9 +77,9 @@ export default function LoginPage() {
       <div
         className="hidden lg:flex lg:col-span-7 flex-col justify-between p-8 xl:p-12 relative overflow-hidden border-r"
         style={{
-          backgroundColor: '#030508',
+          backgroundColor: '#0A0B0E',
           borderColor: tc.borderPrimary,
-          backgroundImage: 'radial-gradient(rgba(0, 240, 255, 0.12) 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(rgba(245, 158, 11, 0.12) 1px, transparent 1px)',
           backgroundSize: '28px 28px'
         }}
       >
@@ -89,17 +89,17 @@ export default function LoginPage() {
             <div
               className="w-9 h-9 flex items-center justify-center rounded-sm"
               style={{
-                backgroundColor: 'rgba(0, 240, 255, 0.14)',
-                border: '1px solid rgba(0, 240, 255, 0.45)'
+                backgroundColor: 'rgba(245, 158, 11, 0.14)',
+                border: '1px solid rgba(245, 158, 11, 0.45)'
               }}
             >
-              <Radar className="w-5 h-5" style={{ color: '#00F0FF' }} />
+              <Radar className="w-5 h-5" style={{ color: '#F59E0B' }} />
             </div>
             <div>
               <div className="font-mono text-sm font-bold tracking-[0.14em] text-white">
                 KESSLER // VANGUARD ORBITAL SSA
               </div>
-              <div className="font-mono text-[10px] tracking-[0.18em]" style={{ color: '#00F0FF' }}>
+              <div className="font-mono text-[10px] tracking-[0.18em]" style={{ color: '#F59E0B' }}>
                 18TH SDS SPACESURV & CONJUNCTION COMMAND TERMINAL
               </div>
             </div>
@@ -108,9 +108,9 @@ export default function LoginPage() {
           <div
             className="px-3 py-1 rounded-sm font-mono text-xs flex items-center gap-2"
             style={{
-              backgroundColor: 'rgba(7, 12, 22, 0.9)',
-              border: '1px solid #16233B',
-              color: '#00F0FF'
+              backgroundColor: 'rgba(17, 19, 24, 0.9)',
+              border: '1px solid #262936',
+              color: '#F59E0B'
             }}
           >
             <Radio className="w-3.5 h-3.5 animate-pulse" />
@@ -123,31 +123,31 @@ export default function LoginPage() {
           <div
             className="rounded-sm p-5 relative overflow-hidden"
             style={{
-              backgroundColor: 'rgba(7, 12, 22, 0.85)',
-              border: '1px solid #16233B'
+              backgroundColor: 'rgba(17, 19, 24, 0.9)',
+              border: '1px solid #262936'
             }}
           >
-            <div className="flex items-center justify-between mb-3 font-mono text-[10px] text-[#8B9BB4]">
+            <div className="flex items-center justify-between mb-3 font-mono text-[10px] text-[#9CA3AF]">
               <span>GROUND-TRACK MERCATOR PROJECTION // SHELL-1 (53.0° INCLINATION)</span>
-              <span className="font-bold" style={{ color: '#FF2A5F' }}>ACTIVE CONJUNCTION: VGD-04 vs COSMOS-2251 DEB</span>
+              <span className="font-bold" style={{ color: '#EF4444' }}>ACTIVE CONJUNCTION: VGD-04 vs COSMOS-2251 DEB</span>
             </div>
 
-            <svg viewBox="0 0 680 280" className="w-full h-auto rounded-sm" style={{ backgroundColor: '#020407', border: '1px solid #16233B' }}>
+            <svg viewBox="0 0 680 280" className="w-full h-auto rounded-sm" style={{ backgroundColor: '#07080A', border: '1px solid #262936' }}>
               {/* Graticule Grid Lines */}
               {[70, 140, 210].map(y => (
-                <line key={y} x1="0" y1={y} x2="680" y2={y} stroke="#101A2D" strokeWidth="1" strokeDasharray="3 3" />
+                <line key={y} x1="0" y1={y} x2="680" y2={y} stroke="#191C24" strokeWidth="1" strokeDasharray="3 3" />
               ))}
               {[113, 226, 340, 453, 566].map(x => (
-                <line key={x} x1={x} y1="0" x2={x} y2="280" stroke="#101A2D" strokeWidth="1" strokeDasharray="3 3" />
+                <line key={x} x1={x} y1="0" x2={x} y2="280" stroke="#191C24" strokeWidth="1" strokeDasharray="3 3" />
               ))}
               {/* Equator */}
-              <line x1="0" y1="140" x2="680" y2="140" stroke="#1A2844" strokeWidth="1.2" />
+              <line x1="0" y1="140" x2="680" y2="140" stroke="#262936" strokeWidth="1.2" />
 
               {/* Orbital Sine Wave 1: Vanguard Plane A (53 deg) */}
               <path
                 d="M 0 140 C 85 20, 170 20, 255 140 C 340 260, 425 260, 510 140 C 595 20, 650 40, 680 90"
                 fill="none"
-                stroke="#00F0FF"
+                stroke="#F59E0B"
                 strokeWidth="2"
               />
 
@@ -155,7 +155,7 @@ export default function LoginPage() {
               <path
                 d="M 0 210 C 85 90, 170 20, 255 95 C 340 215, 425 260, 510 185 C 595 75, 650 30, 680 55"
                 fill="none"
-                stroke="rgba(0, 240, 255, 0.35)"
+                stroke="rgba(245, 158, 11, 0.35)"
                 strokeWidth="1.2"
                 strokeDasharray="5 4"
               />
@@ -164,24 +164,24 @@ export default function LoginPage() {
               <path
                 d="M 0 40 C 110 110, 210 250, 340 165 C 470 80, 560 15, 680 120"
                 fill="none"
-                stroke="#FF2A5F"
+                stroke="#EF4444"
                 strokeWidth="1.5"
                 strokeDasharray="4 3"
               />
 
               {/* Ground Station Footprints */}
-              <circle cx="365" cy="48" r="18" fill="rgba(0, 230, 118, 0.08)" stroke="#00E676" strokeWidth="0.8" strokeDasharray="2 2" />
-              <circle cx="365" cy="48" r="3" fill="#00E676" />
-              <text x="374" y="51" fill="#00E676" fontSize="8" fontFamily="JetBrains Mono">SVALBARD AOS</text>
+              <circle cx="365" cy="48" r="18" fill="rgba(16, 185, 129, 0.08)" stroke="#10B981" strokeWidth="0.8" strokeDasharray="2 2" />
+              <circle cx="365" cy="48" r="3" fill="#10B981" />
+              <text x="374" y="51" fill="#10B981" fontSize="8" fontFamily="JetBrains Mono">SVALBARD AOS</text>
 
-              <circle cx="545" cy="155" r="20" fill="rgba(0, 240, 255, 0.08)" stroke="#00F0FF" strokeWidth="0.8" strokeDasharray="2 2" />
-              <circle cx="545" cy="155" r="3" fill="#00F0FF" />
-              <text x="554" y="158" fill="#00F0FF" fontSize="8" fontFamily="JetBrains Mono">KWAJALEIN FENCE</text>
+              <circle cx="545" cy="155" r="20" fill="rgba(245, 158, 11, 0.08)" stroke="#F59E0B" strokeWidth="0.8" strokeDasharray="2 2" />
+              <circle cx="545" cy="155" r="3" fill="#F59E0B" />
+              <text x="554" y="158" fill="#F59E0B" fontSize="8" fontFamily="JetBrains Mono">KWAJALEIN FENCE</text>
 
               {/* Conjunction Intercept Node */}
-              <circle cx="272" cy="161" r="14" fill="rgba(255, 42, 95, 0.18)" stroke="#FF2A5F" strokeWidth="1.5" />
-              <circle cx="272" cy="161" r="4" fill="#FF2A5F" />
-              <text x="292" y="158" fill="#FF2A5F" fontSize="9" fontWeight="bold" fontFamily="JetBrains Mono">
+              <circle cx="272" cy="161" r="14" fill="rgba(239, 68, 68, 0.18)" stroke="#EF4444" strokeWidth="1.5" />
+              <circle cx="272" cy="161" r="4" fill="#EF4444" />
+              <text x="292" y="158" fill="#EF4444" fontSize="9" fontWeight="bold" fontFamily="JetBrains Mono">
                 TCA INTERCEPT // Pc: 4.8e-4
               </text>
               <text x="292" y="170" fill="#E2E8F0" fontSize="8" fontFamily="JetBrains Mono">
@@ -189,23 +189,23 @@ export default function LoginPage() {
               </text>
 
               {/* Nominal Spacecraft Nodes */}
-              <circle cx="128" cy="52" r="3.5" fill="#00F0FF" />
-              <text x="136" y="55" fill="#00F0FF" fontSize="8" fontFamily="JetBrains Mono">VGD-01</text>
+              <circle cx="128" cy="52" r="3.5" fill="#F59E0B" />
+              <text x="136" y="55" fill="#F59E0B" fontSize="8" fontFamily="JetBrains Mono">VGD-01</text>
 
-              <circle cx="485" cy="168" r="3.5" fill="#00F0FF" />
-              <text x="493" y="171" fill="#00F0FF" fontSize="8" fontFamily="JetBrains Mono">VGD-08</text>
+              <circle cx="485" cy="168" r="3.5" fill="#F59E0B" />
+              <text x="493" y="171" fill="#F59E0B" fontSize="8" fontFamily="JetBrains Mono">VGD-08</text>
             </svg>
 
             {/* Bottom Telemetry Readout Strip inside Left Pane */}
             <div className="grid grid-cols-4 gap-3 mt-4 font-mono">
               {[
-                { label: 'ACTIVE SV NODES', val: '48 / 48 LOCKED', color: '#00E676' },
-                { label: 'PEAK CONJUNCTION Pc', val: '4.82e-4 (RED)', color: '#FF2A5F' },
-                { label: 'SOLAR FLUX F10.7', val: '184.2 SFU', color: '#FFB020' },
-                { label: 'OISL MESH LATENCY', val: '142 ms', color: '#00F0FF' },
+                { label: 'ACTIVE SV NODES', val: '48 / 48 LOCKED', color: '#10B981' },
+                { label: 'PEAK CONJUNCTION Pc', val: '4.82e-4 (RED)', color: '#EF4444' },
+                { label: 'SOLAR FLUX F10.7', val: '184.2 SFU', color: '#F97316' },
+                { label: 'OISL MESH LATENCY', val: '142 ms', color: '#F59E0B' },
               ].map(s => (
-                <div key={s.label} className="p-2.5 rounded-sm" style={{ backgroundColor: '#030508', border: '1px solid #16233B' }}>
-                  <div className="text-[9px] text-[#50637F]">{s.label}</div>
+                <div key={s.label} className="p-2.5 rounded-sm" style={{ backgroundColor: '#0A0B0E', border: '1px solid #262936' }}>
+                  <div className="text-[9px] text-[#6B7280]">{s.label}</div>
                   <div className="text-xs font-bold mt-0.5" style={{ color: s.color }}>{s.val}</div>
                 </div>
               ))}
@@ -214,9 +214,9 @@ export default function LoginPage() {
         </div>
 
         {/* Footer Technical Spec */}
-        <div className="flex items-center justify-between font-mono text-[11px] text-[#64748B] z-10">
+        <div className="flex items-center justify-between font-mono text-[11px] text-[#6B7280] z-10">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-[#06B6D4]" />
+            <ShieldCheck className="w-4 h-4 text-[#F59E0B]" />
             <span>CCSDS 508.0-B-1 CDM COMPLIANT // SGP4 EPHEMERIS ENGINE</span>
           </div>
           <span>VANGUARD FLIGHT DYNAMICS DIVISION</span>
@@ -234,8 +234,8 @@ export default function LoginPage() {
             <div
               className="w-8 h-8 flex items-center justify-center rounded-sm"
               style={{
-                backgroundColor: 'rgba(0, 240, 255, 0.14)',
-                border: '1px solid rgba(0, 240, 255, 0.4)'
+                backgroundColor: `${tc.accentPrimary}25`,
+                border: `1px solid ${tc.accentPrimary}60`
               }}
             >
               <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
@@ -248,9 +248,9 @@ export default function LoginPage() {
           <div className="mb-6">
             <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-sm font-mono text-[10px] font-bold uppercase mb-2"
               style={{
-                backgroundColor: 'rgba(0, 240, 255, 0.12)',
+                backgroundColor: `${tc.accentPrimary}20`,
                 color: tc.accentPrimary,
-                border: '1px solid rgba(0, 240, 255, 0.35)'
+                border: `1px solid ${tc.accentPrimary}55`
               }}>
               <Terminal className="w-3 h-3" />
               <span>FDO GROUND LINK AUTHENTICATION</span>
@@ -278,7 +278,7 @@ export default function LoginPage() {
                     onClick={() => fillDemo(d.email)}
                     className="w-full p-2.5 rounded-sm flex items-center justify-between text-left font-mono transition-all cursor-pointer"
                     style={{
-                      backgroundColor: selected ? 'rgba(0, 240, 255, 0.12)' : tc.bgTertiary,
+                      backgroundColor: selected ? `${tc.accentPrimary}20` : tc.bgTertiary,
                       border: `1px solid ${selected ? tc.accentPrimary : tc.borderPrimary}`,
                       color: tc.textPrimary
                     }}

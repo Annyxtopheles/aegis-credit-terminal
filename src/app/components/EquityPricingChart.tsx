@@ -57,7 +57,7 @@ export function EquityPricingChart() {
               onClick={() => setRange(r)}
               className="px-2.5 py-1 rounded text-xs font-mono font-semibold transition-all cursor-pointer"
               style={{
-                backgroundColor: range === r ? (theme === 'dark' ? '#0D131C' : '#FFFFFF') : 'transparent',
+                backgroundColor: range === r ? tc.bgSecondary : 'transparent',
                 color: range === r ? tc.accentPrimary : tc.textSecondary
               }}
             >
@@ -123,7 +123,7 @@ export function EquityPricingChart() {
             yAxisId="right"
             dataKey="covariance"
             name="3σ Covariance (m)"
-            fill={theme === 'dark' ? 'rgba(6, 182, 212, 0.22)' : 'rgba(8, 145, 178, 0.22)'}
+            fill={theme === 'dark' ? 'rgba(245, 158, 11, 0.22)' : 'rgba(217, 119, 6, 0.22)'}
             stroke={tc.accentPrimary}
             strokeWidth={1}
             isAnimationActive={false}

@@ -83,7 +83,7 @@ export default function UserManagementPage() {
   };
 
   const getRoleBadgeColor = (role: string) => {
-    return role === 'company_admin' ? '#0891B2' : '#06B6D4';
+    return role === 'company_admin' ? '#D97706' : '#F59E0B';
   };
 
   return (
@@ -232,8 +232,8 @@ export default function UserManagementPage() {
           >
             <div className="flex items-center justify-between p-6 border-b" style={{ borderColor: tc.borderPrimary }}>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#06B6D420' }}>
-                  <Mail className="w-5 h-5" style={{ color: '#06B6D4' }} />
+                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(245, 158, 11, 0.16)' }}>
+                  <Mail className="w-5 h-5" style={{ color: tc.accentPrimary }} />
                 </div>
                 <div>
                   <h2 className="font-mono" style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary }}>Authorize Operator</h2>
@@ -253,7 +253,7 @@ export default function UserManagementPage() {
               <div
                 className="p-4 rounded-lg"
                 style={{
-                  backgroundColor: theme === 'dark' ? '#06080D' : '#F0F9FF',
+                  backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FEF3C7',
                   border: `1px solid ${tc.accentPrimary}40`
                 }}
               >
@@ -271,7 +271,7 @@ export default function UserManagementPage() {
                     className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-mono"
                     style={{
                       backgroundColor: copied ? '#10B981' : tc.accentPrimary,
-                      color: '#06080D',
+                      color: tc.bgPrimary,
                       border: 'none',
                       fontSize: '12px',
                       fontWeight: 700,
@@ -363,7 +363,7 @@ export default function UserManagementPage() {
                         width: '100%',
                         height: '44px',
                         padding: '0 12px',
-                        backgroundColor: theme === 'dark' ? '#06080D' : '#F3F4F6',
+                        backgroundColor: theme === 'dark' ? tc.bgPrimary : '#F3F4F6',
                         border: `1px solid ${tc.borderPrimary}`,
                         borderRadius: '8px',
                         color: tc.textSecondary,
@@ -399,8 +399,8 @@ export default function UserManagementPage() {
                 onClick={handleInvite}
                 className="px-4 py-2.5 rounded-lg transition-all font-mono"
                 style={{
-                  backgroundColor: '#06B6D4',
-                  color: '#06080D',
+                  backgroundColor: tc.accentPrimary,
+                  color: tc.bgPrimary,
                   border: 'none',
                   fontSize: '13px',
                   fontWeight: 700,
@@ -533,8 +533,8 @@ export default function UserManagementPage() {
                 onClick={handleUpdateUser}
                 className="px-4 py-2.5 rounded-lg transition-all font-mono"
                 style={{
-                  backgroundColor: '#06B6D4',
-                  color: '#06080D',
+                  backgroundColor: tc.accentPrimary,
+                  color: tc.bgPrimary,
                   border: 'none',
                   fontSize: '13px',
                   fontWeight: 700,

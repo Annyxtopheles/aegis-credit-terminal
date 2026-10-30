@@ -91,7 +91,7 @@ export default function CorporateDashboardPage() {
 
       <div className="px-3 md:px-6 pt-4">
         <div className="rounded-lg p-4 flex items-center justify-between flex-wrap gap-3"
-          style={{ background: 'linear-gradient(135deg, #0E7490 0%, #0891B2 50%, #06B6D4 100%)' }}>
+          style={{ background: 'linear-gradient(135deg, #B45309 0%, #D97706 50%, #F59E0B 100%)' }}>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}>
               <Orbit className="w-5 h-5 text-white" />
@@ -122,7 +122,7 @@ export default function CorporateDashboardPage() {
       </div>
 
       <div className="px-3 md:px-6 pt-3">
-        <div className="p-3 rounded-lg flex items-center gap-2" style={{ backgroundColor: 'rgba(6,182,212,0.1)', border: '1px solid rgba(6,182,212,0.3)' }}>
+        <div className="p-3 rounded-lg flex items-center gap-2" style={{ backgroundColor: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.3)' }}>
           <Radar className="w-4 h-4 flex-shrink-0" style={{ color: tc.accentPrimary }} />
           <p style={{ fontSize: '12px', color: tc.textSecondary }}>
             <strong style={{ color: tc.textPrimary }} className="font-mono">External Coordination Feed:</strong> Displaying public 18th SDS TLE vectors and ITU/FCC compliance disclosures.
@@ -153,12 +153,12 @@ export default function CorporateDashboardPage() {
               { label: 'Mean Xenon Reserve', your: '84.2%', avg: '76.5%', worse: false },
               { label: 'Active Red Conjunctions', your: '1 SV', avg: '2.4 SV', worse: true },
             ].map(m => (
-              <div key={m.label} className="p-3 rounded-lg" style={{ backgroundColor: theme === 'dark' ? '#06080D' : '#F9FAFB', border: `1px solid ${tc.borderPrimary}` }}>
+              <div key={m.label} className="p-3 rounded-lg" style={{ backgroundColor: theme === 'dark' ? tc.bgPrimary : '#F9FAFB', border: `1px solid ${tc.borderPrimary}` }}>
                 <p className="font-mono" style={{ fontSize: '11px', color: tc.textSecondary, marginBottom: '8px' }}>{m.label}</p>
                 <div className="flex items-center gap-3">
                   <div>
                     <div style={{ fontSize: '10px', color: tc.textTertiary }}>Vanguard Shell-1</div>
-                    <div style={{ fontSize: '14px', fontWeight: 700, color: m.worse ? '#F59E0B' : '#06B6D4', fontFamily: 'JetBrains Mono, monospace' }}>{m.your}</div>
+                    <div style={{ fontSize: '14px', fontWeight: 700, color: m.worse ? '#EF4444' : tc.accentPrimary, fontFamily: 'JetBrains Mono, monospace' }}>{m.your}</div>
                   </div>
                   <div style={{ color: tc.textTertiary, fontSize: '12px' }}>vs</div>
                   <div>

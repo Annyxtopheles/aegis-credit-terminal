@@ -71,9 +71,9 @@ export function BPlaneRadarScope() {
         <div
           className="relative w-full aspect-square max-w-[310px] mx-auto my-2 rounded-full flex items-center justify-center overflow-hidden"
           style={{
-            backgroundColor: theme === 'dark' ? '#020509' : '#0B1320',
+            backgroundColor: theme === 'dark' ? '#07080A' : '#111318',
             border: `1px solid ${tc.borderPrimary}`,
-            boxShadow: `inset 0 0 36px ${theme === 'dark' ? 'rgba(0, 240, 255, 0.08)' : 'rgba(0, 119, 153, 0.08)'}`
+            boxShadow: `inset 0 0 36px ${theme === 'dark' ? 'rgba(245, 158, 11, 0.1)' : 'rgba(217, 119, 6, 0.1)'}`
           }}
         >
           <svg viewBox="0 0 320 320" className="w-full h-full">

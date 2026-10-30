@@ -118,7 +118,7 @@ function ShellProvisioningTab() {
             onClick={handleCreate}
             className="px-6 py-2.5 rounded-lg transition-all font-mono"
             style={{
-              backgroundColor: saved ? '#10B981' : '#06B6D4', color: '#06080D', border: 'none',
+              backgroundColor: saved ? '#10B981' : tc.accentPrimary, color: tc.bgPrimary, border: 'none',
               fontSize: '13px', fontWeight: 700, cursor: 'pointer'
             }}
           >
@@ -151,7 +151,7 @@ function UserManagementTab() {
   };
 
   const getRoleBadgeColor = (role: string) => {
-    return role === 'company_admin' ? '#0891B2' : '#06B6D4';
+    return role === 'company_admin' ? '#D97706' : '#F59E0B';
   };
 
   const handleInvite = () => {
@@ -349,7 +349,7 @@ function UserManagementTab() {
               <div
                 className="p-4 rounded-lg"
                 style={{
-                  backgroundColor: theme === 'dark' ? '#06080D' : '#F0F9FF',
+                  backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FEF3C7',
                   border: `1px solid ${tc.accentPrimary}40`
                 }}
               >
@@ -367,7 +367,7 @@ function UserManagementTab() {
                     className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-mono"
                     style={{
                       backgroundColor: copied ? '#10B981' : tc.accentPrimary,
-                      color: '#06080D',
+                      color: tc.bgPrimary,
                       border: 'none',
                       fontSize: '12px',
                       fontWeight: 700,
@@ -603,7 +603,7 @@ function DataUploadTab() {
   return (
     <div className="max-w-2xl">
       <div className="p-8 rounded-lg text-center" style={{ backgroundColor: tc.bgSecondary, border: `2px dashed ${tc.borderPrimary}` }}>
-        <Upload className="w-12 h-12 mx-auto mb-4" style={{ color: '#06B6D4' }} />
+        <Upload className="w-12 h-12 mx-auto mb-4" style={{ color: tc.accentPrimary }} />
         <h2 className="font-mono" style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary, marginBottom: '8px' }}>
           Ingest Two-Line Element (TLE) & CCSDS CDM Batch
         </h2>
@@ -682,7 +682,7 @@ function CommentaryEditorTab() {
                 onClick={() => handleSectionClick(section.id)}
                 className="w-full text-left p-4 rounded-lg transition-all"
                 style={{
-                  backgroundColor: isExpanded ? (theme === 'dark' ? '#06080D' : '#F0F9FF') : tc.bgSecondary,
+                  backgroundColor: isExpanded ? (theme === 'dark' ? tc.bgPrimary : '#FEF3C7') : tc.bgSecondary,
                   border: isExpanded ? `1px solid ${tc.accentPrimary}` : `1px solid ${tc.borderPrimary}`,
                   cursor: 'pointer'
                 }}
@@ -778,11 +778,11 @@ function ImageUploadsTab() {
             key={i}
             className="aspect-video rounded-lg flex flex-col items-center justify-center p-6 cursor-pointer hover:opacity-80 transition-opacity"
             style={{
-              backgroundColor: theme === 'dark' ? '#06080D' : '#F9FAFB',
+              backgroundColor: theme === 'dark' ? tc.bgPrimary : '#F9FAFB',
               border: `2px dashed ${tc.borderPrimary}`
             }}
           >
-            <Image className="w-8 h-8 mb-3" style={{ color: '#06B6D4' }} />
+            <Image className="w-8 h-8 mb-3" style={{ color: tc.accentPrimary }} />
             <p className="font-mono" style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary, marginBottom: '4px', textAlign: 'center' }}>
               {label}
             </p>
@@ -890,7 +890,7 @@ function SectorNewsEditorTab() {
                 onClick={() => handleSubsectionClick(subsection.id)}
                 className="w-full text-left p-4 rounded-lg transition-all"
                 style={{
-                  backgroundColor: isExpanded ? (theme === 'dark' ? '#06080D' : '#F0F9FF') : tc.bgSecondary,
+                  backgroundColor: isExpanded ? (theme === 'dark' ? tc.bgPrimary : '#FEF3C7') : tc.bgSecondary,
                   border: isExpanded ? `1px solid ${tc.accentPrimary}` : `1px solid ${tc.borderPrimary}`,
                   cursor: 'pointer'
                 }}

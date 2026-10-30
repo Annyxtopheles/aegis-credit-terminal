@@ -117,11 +117,11 @@ export function SessionTimeoutModal() {
             onClick={handleStayLoggedIn}
             className="flex-1 transition-all"
             style={{
-              height: '48px', backgroundColor: '#0891B2', color: '#FFFFFF',
-              border: 'none', borderRadius: '8px', fontSize: '15px', fontWeight: 600, cursor: 'pointer'
+              height: '48px', backgroundColor: tc.accentPrimary, color: tc.bgPrimary,
+              border: 'none', borderRadius: '8px', fontSize: '15px', fontWeight: 700, cursor: 'pointer'
             }}
-            onMouseEnter={e => e.currentTarget.style.backgroundColor = '#0E7490'}
-            onMouseLeave={e => e.currentTarget.style.backgroundColor = '#0891B2'}
+            onMouseEnter={e => e.currentTarget.style.backgroundColor = '#D97706'}
+            onMouseLeave={e => e.currentTarget.style.backgroundColor = tc.accentPrimary}
           >
             Stay Logged In
           </button>
@@ -132,7 +132,7 @@ export function SessionTimeoutModal() {
               height: '48px', backgroundColor: 'transparent', color: tc.textSecondary,
               border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px', fontSize: '15px', fontWeight: 500, cursor: 'pointer'
             }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = theme === 'dark' ? '#0F1A2A' : '#F9FAFB'; }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = theme === 'dark' ? tc.bgTertiary : '#F9FAFB'; }}
             onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
           >
             Log Out

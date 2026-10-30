@@ -240,7 +240,7 @@ export function GlobalHeader() {
                       className="px-4 py-3 border-b transition-colors cursor-pointer"
                       style={{
                         borderColor: tc.borderPrimary,
-                        backgroundColor: n.unread ? (theme === 'dark' ? 'rgba(6,182,212,0.06)' : '#F0F9FF') : 'transparent'
+                        backgroundColor: n.unread ? (theme === 'dark' ? 'rgba(245,158,11,0.08)' : '#FEF3C7') : 'transparent'
                       }}
                     >
                       <div className="flex items-start gap-2.5">

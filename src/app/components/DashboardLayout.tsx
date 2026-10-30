@@ -32,8 +32,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         backgroundColor: tc.bgPrimary,
         backgroundImage:
           theme === 'dark'
-            ? 'radial-gradient(rgba(6, 182, 212, 0.07) 1px, transparent 1px)'
-            : 'radial-gradient(rgba(8, 145, 178, 0.08) 1px, transparent 1px)',
+            ? 'radial-gradient(rgba(245, 158, 11, 0.08) 1px, transparent 1px)'
+            : 'radial-gradient(rgba(217, 119, 6, 0.08) 1px, transparent 1px)',
         backgroundSize: '24px 24px'
       }}
     >

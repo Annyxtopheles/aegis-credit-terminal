@@ -360,8 +360,8 @@ export function NewSidebar() {
                 style={{
                   backgroundColor: active
                     ? theme === 'dark'
-                      ? 'rgba(0, 240, 255, 0.14)'
-                      : 'rgba(0, 119, 153, 0.12)'
+                      ? 'rgba(245, 158, 11, 0.16)'
+                      : 'rgba(217, 119, 6, 0.12)'
                     : 'transparent',
                   color: active ? tc.accentPrimary : tc.textSecondary,
                   borderLeft: active && !isCollapsed ? `3px solid ${tc.accentPrimary}` : '3px solid transparent'
@@ -399,7 +399,7 @@ export function NewSidebar() {
           onMouseEnter={e => (e.currentTarget.style.backgroundColor = tc.bgTertiary)}
           onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
         >
-          {theme === 'dark' ? <Moon className="w-4 h-4 text-cyan-400" /> : <Sun className="w-4 h-4 text-amber-500" />}
+          {theme === 'dark' ? <Moon className="w-4 h-4 text-amber-400" /> : <Sun className="w-4 h-4 text-amber-600" />}
           {!isCollapsed && (
             <span className="text-xs font-medium">
               {theme === 'dark' ? 'Deep-Space Radar' : 'Daylight Console'}
@@ -473,7 +473,7 @@ export function NewSidebar() {
                     setShowSettings(false);
                   }}
                 >
-                  <Settings className="w-3.5 h-3.5 text-cyan-400" />
+                  <Settings className="w-3.5 h-3.5 text-amber-500" />
                   <span>Console Preferences</span>
                 </button>
 
