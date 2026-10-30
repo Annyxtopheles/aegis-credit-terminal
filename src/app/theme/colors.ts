@@ -1,61 +1,61 @@
 export const colors = {
   dark: {
-    bgPrimary: '#0B0C0E',       // True neutral deep obsidian (no blue cast)
-    bgSecondary: '#1C2028',     // Card / panel neutral surface (elevated, a little less dark)
-    bgTertiary: '#252A36',      // Elevated container / inputs / header
-    bgZebra: '#14171E',         // Alternating row
-    textPrimary: '#EDEDED',     // Crisp platinum white
-    textSecondary: '#9AA0AC',   // Neutral cool grey
-    textTertiary: '#636976',    // Muted slate
-    borderPrimary: '#2E3544',   // Subtle architectural neutral border
-    borderSubtle: '#222733',    // Hairline divider
-    accentPrimary: '#EDEDED',   // Monochromatic active state
-    alertRed: '#E5484D',        // Crisp crimson breach indicator
-    alertAmber: '#E5A93C',      // Warm amber threshold
-    alertGreen: '#30A46C',      // Balanced emerald
-    chartCyan: '#EDEDED',       // Crisp platinum for primary chart line
-    chartAmber: '#E5A93C',      // Amber volume
-    chartGreen: '#30A46C',      // Green stock
-    gridLine: '#1E222A',        // Subtle grid
-    hoverBg: '#181B22',         // Neutral hover
-    tableBg: '#13151A',         // Table surface
-    tableHeaderBg: '#181B22'    // Table header
+    bgPrimary: '#06080D',       // Deep-space obsidian
+    bgSecondary: '#0D131C',     // Radar slate panel surface
+    bgTertiary: '#131C29',      // Elevated telemetry container / inputs
+    bgZebra: '#090E15',         // Alternating telemetry row
+    textPrimary: '#F1F5F9',     // Crisp orbital white
+    textSecondary: '#94A3B8',   // Radar cool slate
+    textTertiary: '#64748B',    // Muted telemetry label
+    borderPrimary: '#1A2636',   // Hairline grid borders
+    borderSubtle: '#111924',    // Subtle radar grid divider
+    accentPrimary: '#06B6D4',   // Radar cyan for nominal telemetry
+    alertRed: '#EF4444',        // Crimson critical collision probability (Pc > 1e-4)
+    alertAmber: '#F59E0B',      // Phosphor amber conjunction warning
+    alertGreen: '#10B981',      // Nominal orbital status emerald
+    chartCyan: '#06B6D4',       // Radar cyan primary trace
+    chartAmber: '#F59E0B',      // Phosphor amber drag / covariance
+    chartGreen: '#10B981',      // Nominal altitude envelope
+    gridLine: '#1A2636',        // Hairline radar grid
+    hoverBg: '#131D2B',         // Slate hover state
+    tableBg: '#0A0F17',         // Ephemeris ledger surface
+    tableHeaderBg: '#101824'    // Ephemeris header surface
   },
   light: {
-    bgPrimary: '#F6F7F9',
+    bgPrimary: '#F1F5F9',
     bgSecondary: '#FFFFFF',
-    bgTertiary: '#EEF0F3',
-    bgZebra: '#F9FAFB',
-    textPrimary: '#111318',
-    textSecondary: '#525866',
-    textTertiary: '#868C98',
-    borderPrimary: '#E1E4EA',
-    borderSubtle: '#ECEEF2',
-    accentPrimary: '#111318',
-    alertRed: '#B91C1C',
+    bgTertiary: '#E2E8F0',
+    bgZebra: '#F8FAFC',
+    textPrimary: '#0F172A',
+    textSecondary: '#475569',
+    textTertiary: '#64748B',
+    borderPrimary: '#CBD5E1',
+    borderSubtle: '#E2E8F0',
+    accentPrimary: '#0891B2',
+    alertRed: '#DC2626',
     alertAmber: '#D97706',
-    alertGreen: '#16A34A',
-    chartCyan: '#111318',
+    alertGreen: '#059669',
+    chartCyan: '#0891B2',
     chartAmber: '#D97706',
-    chartGreen: '#16A34A',
-    gridLine: '#E1E4EA',
-    hoverBg: '#F0F2F5',
+    chartGreen: '#059669',
+    gridLine: '#CBD5E1',
+    hoverBg: '#E2E8F0',
     tableBg: '#FFFFFF',
-    tableHeaderBg: '#EEF0F3'
+    tableHeaderBg: '#F1F5F9'
   }
 } as const;
 
 export const ratingBadges = {
   dark: {
-    investmentGrade: { bg: 'rgba(48, 164, 108, 0.15)', text: '#30A46C', border: 'rgba(48, 164, 108, 0.3)' },
-    highYield: { bg: 'rgba(229, 169, 60, 0.15)', text: '#E5A93C', border: 'rgba(229, 169, 60, 0.3)' },
-    distressed: { bg: 'rgba(229, 72, 77, 0.15)', text: '#E5484D', border: 'rgba(229, 72, 77, 0.35)' },
-    notRated: { bg: 'rgba(142, 147, 157, 0.15)', text: '#8E939D', border: 'rgba(142, 147, 157, 0.25)' }
+    investmentGrade: { bg: 'rgba(16, 185, 129, 0.14)', text: '#10B981', border: 'rgba(16, 185, 129, 0.35)' },
+    highYield: { bg: 'rgba(245, 158, 11, 0.14)', text: '#F59E0B', border: 'rgba(245, 158, 11, 0.35)' },
+    distressed: { bg: 'rgba(239, 68, 68, 0.16)', text: '#EF4444', border: 'rgba(239, 68, 68, 0.4)' },
+    notRated: { bg: 'rgba(6, 182, 212, 0.14)', text: '#06B6D4', border: 'rgba(6, 182, 212, 0.35)' }
   },
   light: {
-    investmentGrade: { bg: '#E8F7EE', text: '#15803D', border: '#B8E6CB' },
-    highYield: { bg: '#FEF7E6', text: '#B45309', border: '#FCE2A6' },
-    distressed: { bg: '#FDECEF', text: '#B91C1C', border: '#F8B4BD' },
-    notRated: { bg: '#F0F2F5', text: '#525866', border: '#D0D5DD' }
+    investmentGrade: { bg: '#ECFDF5', text: '#047857', border: '#A7F3D0' },
+    highYield: { bg: '#FFFBEB', text: '#B45309', border: '#FDE68A' },
+    distressed: { bg: '#FEF2F2', text: '#B91C1C', border: '#FECACA' },
+    notRated: { bg: '#ECFEFF', text: '#0E7490', border: '#A5F3FC' }
   }
 } as const;
