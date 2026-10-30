@@ -12,9 +12,9 @@ export default function SectorNewsPage() {
 
   return (
     <div>
-      {/* Sticky Telemetry Strip */}
+      {/* Sticky Telemetry Directive Strip */}
       <div
-        className="sticky top-14 z-30 px-3 md:px-5 py-2 space-y-2 border-b"
+        className="sticky top-0 z-20 px-3 md:px-5 py-2 space-y-2 border-b"
         style={{ backgroundColor: tc.bgPrimary, borderColor: tc.borderPrimary }}
       >
         <ThreatBanner />

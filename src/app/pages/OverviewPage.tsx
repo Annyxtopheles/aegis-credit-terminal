@@ -14,9 +14,9 @@ export default function OverviewPage() {
 
   return (
     <div>
-      {/* Sticky Telemetry Strip */}
+      {/* Sticky Telemetry Directive Strip */}
       <div
-        className="sticky top-14 z-30 px-3 md:px-5 py-2 space-y-2 border-b"
+        className="sticky top-0 z-20 px-3 md:px-5 py-2 space-y-2 border-b"
         style={{
           backgroundColor: tc.bgPrimary,
           borderColor: tc.borderPrimary
@@ -26,9 +26,9 @@ export default function OverviewPage() {
         <MetricsCommandBar />
       </div>
 
-      {/* Asymmetric 12-Column Mission Control Bento Grid */}
+      {/* Asymmetric Mission Control Bento Grid */}
       <div className="px-3 md:px-5 py-4 space-y-4">
-        {/* Top Row: Left 4-Col Interactive B-Plane Polar Radar + Right 8-Col Altitude & Drag Telemetry */}
+        {/* Top Row: Left B-Plane Polar Radar + Right Altitude/Drag Telemetry */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 items-stretch">
           <div className="xl:col-span-4">
             <BPlaneRadarScope />
@@ -39,7 +39,7 @@ export default function OverviewPage() {
           </div>
         </div>
 
-        {/* Bottom Row: Left 7-Col Debris Cloud Registry + Right 5-Col Streaming Console Log */}
+        {/* Bottom Row: Debris Registry + Streaming Log */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 items-stretch">
           <div className="xl:col-span-7">
             <LargestHoldersTable />
