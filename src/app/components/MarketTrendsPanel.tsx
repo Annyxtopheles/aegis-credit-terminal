@@ -5,10 +5,10 @@ export function MarketTrendsPanel() {
   const { theme } = useTheme();
   const themeColors = colors[theme];
 
-  const trends = [
-    'Out-of-court debt exchange offer contractually linked to a pre-arranged U.K. Restructuring Plan that activates if participation falls below threshold, enabling surgical capital restructuring without full chapter 11.',
-    'If sufficient holders tender, the exchange completes out-of-court; if not, the company activates the U.K. plan, obtains court sanction, and uses chapter 15 recognition to bind remaining U.S. creditors.',
-    'Preserves equity and listing while targeting only problematic debt (in Fossil\'s case retail bonds), leveraging U.K. flexibility on releases and cross-class cram-down for U.S.-law instruments.'
+  const protocols = [
+    'Automated Differential Drag Control: Pitching solar arrays to +42° high-drag profile during perigee transits enables propellantless in-track phasing adjustments before resorting to Hall-effect Xenon burns.',
+    'Multi-Sensor Covariance Fusion: Combining 18th SDS UHF radar tracks with commercial S-band phased-array observations shrinks 3σ in-track position ellipsoids from ±950m to ±180m at T-12 hours.',
+    'Optical Inter-Satellite Link (OISL) Relay: Autonomous cross-link handoffs route Emergency Conjunction Data Messages (CDMs) across Plane A and Plane B in <180ms without waiting for Svalbard or Punta Arenas ground station AOS.'
   ];
 
   return (
@@ -20,16 +20,16 @@ export function MarketTrendsPanel() {
         borderLeft: `3px solid ${themeColors.accentPrimary}`,
       }}
     >
-      <h3 style={{ fontSize: '14px', fontWeight: 600, color: themeColors.accentPrimary, marginBottom: '12px' }} className="md:text-base md:mb-4">
-        MARKET TRENDS
+      <h3 style={{ fontSize: '14px', fontWeight: 600, color: themeColors.accentPrimary, marginBottom: '12px' }} className="md:text-base md:mb-4 font-mono tracking-wide">
+        AUTONOMOUS CAM & COVARIANCE PROTOCOLS
       </h3>
 
       <p style={{ fontSize: '13px', lineHeight: '1.6', color: themeColors.textPrimary, marginBottom: '12px' }} className="md:text-sm md:leading-relaxed md:mb-4">
-        Law firm Weil Gotshal recently pioneered a new debt reduction transaction for Fossil Group that left equity stakes unimpaired.
+        Vanguard Flight Dynamics implements three-stage autonomous conjunction mitigation across the 550 km LEO shell:
       </p>
 
       <ul className="space-y-3 md:space-y-4">
-        {trends.map((trend, index) => (
+        {protocols.map((protocol, index) => (
           <li
             key={index}
             className="flex gap-2 md:gap-3"
@@ -39,8 +39,8 @@ export function MarketTrendsPanel() {
               color: themeColors.textPrimary
             }}
           >
-            <span style={{ color: themeColors.accentPrimary, flexShrink: 0 }}>•</span>
-            <span className="md:text-sm md:leading-relaxed">{trend}</span>
+            <span style={{ color: themeColors.accentPrimary, flexShrink: 0, fontFamily: 'JetBrains Mono, monospace' }}>•</span>
+            <span className="md:text-sm md:leading-relaxed">{protocol}</span>
           </li>
         ))}
       </ul>

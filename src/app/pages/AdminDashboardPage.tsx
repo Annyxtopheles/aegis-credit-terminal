@@ -1,16 +1,15 @@
 import { useState } from 'react';
-import { Building2, Users, Upload, MessageSquare, Image, ListTodo, Newspaper, TrendingUp, Settings, Edit2, Trash2, X, Mail, Copy, Check, ChevronDown } from 'lucide-react';
+import { Upload, Image, Edit2, Trash2, X, Copy, Check, ChevronDown } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import { colors } from '../theme/colors';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 
 export default function AdminDashboardPage() {
   const { theme } = useTheme();
   const { user } = useAuth();
   const tc = colors[theme];
   const location = useLocation();
-  const navigate = useNavigate();
 
   const params = new URLSearchParams(location.search);
   const tabParam = params.get('tab') || 'onboarding';
@@ -19,21 +18,19 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="p-3 md:p-6">
-      {/* Header - Super Admin only */}
       {user?.role === 'super_admin' && (
         <div className="mb-6">
-          <h1 style={{ fontSize: '28px', fontWeight: 700, color: tc.textPrimary, marginBottom: '4px' }}>
-            Admin Console
+          <h1 className="font-mono" style={{ fontSize: '26px', fontWeight: 700, color: tc.textPrimary, marginBottom: '4px' }}>
+            KESSLER FDO Command Console
           </h1>
-          <p style={{ fontSize: '14px', color: tc.textSecondary }}>
-            Aegis Credit Terminal Platform Management
+          <p className="font-mono" style={{ fontSize: '13px', color: tc.textSecondary }}>
+            Orbital Shell Provisioning, TLE/CDM Ephemeris Ingest & Crew Clearance Management
           </p>
         </div>
       )}
 
-      {/* Tab Content */}
       <div className="transition-colors duration-300">
-        {activeTab === 'onboarding' && <CompanyOnboardingTab />}
+        {activeTab === 'onboarding' && <ShellProvisioningTab />}
         {activeTab === 'users' && <UserManagementTab />}
         {activeTab === 'commentary' && <CommentaryEditorTab />}
         {activeTab === 'data-upload' && <DataUploadTab />}
@@ -42,84 +39,90 @@ export default function AdminDashboardPage() {
         {activeTab === 'sector-news' && <SectorNewsEditorTab />}
         {activeTab === 'market-trends' && <MarketTrendsEditorTab />}
       </div>
-
     </div>
   );
 }
 
-function CompanyOnboardingTab() {
+function ShellProvisioningTab() {
   const { theme } = useTheme();
   const tc = colors[theme];
   const [form, setForm] = useState({ name: '', description: '', email: '' });
+  const [saved, setSaved] = useState(false);
+
+  const handleCreate = () => {
+    if (!form.name.trim()) return;
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
+    setForm({ name: '', description: '', email: '' });
+  };
 
   return (
     <div className="max-w-2xl">
       <div className="p-6 rounded-lg" style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}>
-        <h2 style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary, marginBottom: '16px' }}>
-          Add New Company
+        <h2 className="font-mono" style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary, marginBottom: '16px' }}>
+          Provision New Orbital Shell
         </h2>
         <div className="space-y-4">
           <div>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-              Company Name *
+            <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
+              Constellation Shell Designator *
             </label>
             <input
               type="text"
-              placeholder="e.g., Apex Brands Group Inc."
+              placeholder="e.g., Vanguard Polar Shell-3 (810 km // 86.4°)"
               value={form.name}
               onChange={e => setForm({ ...form, name: e.target.value })}
               style={{
                 width: '100%', height: '44px', padding: '0 12px',
-                backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
                 border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                 color: tc.textPrimary, fontSize: '14px', outline: 'none'
               }}
             />
           </div>
           <div>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-              Description
+            <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
+              Orbital Regime & Ephemeris Parameters
             </label>
             <textarea
-              placeholder="Brief description of the company"
+              placeholder="Target apogee/perigee km, inclination °, RAAN spacing, Hall-effect Xenon reserve SLA..."
               value={form.description}
               onChange={e => setForm({ ...form, description: e.target.value })}
               rows={4}
               style={{
                 width: '100%', padding: '12px',
-                backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
                 border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                 color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
               }}
             />
           </div>
           <div>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-              Primary Contact Email *
+            <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
+              Lead Flight Director Callsign / Email *
             </label>
             <input
               type="email"
-              placeholder="cfo@company.com"
+              placeholder="fdo-lead@vanguard.space"
               value={form.email}
               onChange={e => setForm({ ...form, email: e.target.value })}
               style={{
                 width: '100%', height: '44px', padding: '0 12px',
-                backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
                 border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                 color: tc.textPrimary, fontSize: '14px', outline: 'none'
               }}
             />
           </div>
           <button
-            className="px-6 py-2.5 rounded-lg transition-all"
+            onClick={handleCreate}
+            className="px-6 py-2.5 rounded-lg transition-all font-mono"
             style={{
-              backgroundColor: '#0891B2', color: '#FFFFFF', border: 'none',
-              fontSize: '14px', fontWeight: 600, cursor: 'pointer'
+              backgroundColor: saved ? '#10B981' : '#06B6D4', color: '#06080D', border: 'none',
+              fontSize: '13px', fontWeight: 700, cursor: 'pointer'
             }}
-            onMouseEnter={e => e.currentTarget.style.backgroundColor = '#0E7490'}
-            onMouseLeave={e => e.currentTarget.style.backgroundColor = '#0891B2'}
           >
-            Create Company
+            {saved ? 'Orbital Shell Provisioned ✓' : 'Initialize Orbital Shell'}
           </button>
         </div>
       </div>
@@ -132,19 +135,19 @@ function UserManagementTab() {
   const tc = colors[theme];
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [editingUser, setEditingUser] = useState<any | null>(null);
-  const [inviteForm, setInviteForm] = useState({ name: '', email: '', role: 'normal_user' as 'company_admin' | 'normal_user', company: 'apexbrands' });
+  const [inviteForm, setInviteForm] = useState({ name: '', email: '', role: 'normal_user' as 'company_admin' | 'normal_user', company: 'vgd-s1' });
   const [copied, setCopied] = useState(false);
 
   const [users, setUsers] = useState([
-    { id: '1', name: 'James Miller', email: 'james.miller@apexbrands.com', role: 'company_admin', company: 'Apex Brands Group', status: 'active', lastActive: '2 hours ago' },
-    { id: '2', name: 'Sarah Johnson', email: 'sarah.j@apexbrands.com', role: 'normal_user', company: 'Apex Brands Group', status: 'active', lastActive: '5 hours ago' },
-    { id: '3', name: 'Michael Chen', email: 'mchen@chefs.com', role: 'company_admin', company: 'Chefs\' Warehouse', status: 'active', lastActive: '1 day ago' },
-    { id: '4', name: 'Emily Davis', email: 'emily.davis@apexbrands.com', role: 'normal_user', company: 'Apex Brands Group', status: 'pending', lastActive: undefined },
-    { id: '5', name: 'Robert Lee', email: 'rlee@horizon.com', role: 'normal_user', company: 'Horizon Global', status: 'active', lastActive: '3 hours ago' },
+    { id: '1', name: 'Cmdr. James Miller', email: 'j.miller@vanguard.space', role: 'company_admin', company: 'Vanguard LEO Shell-1', status: 'active', lastActive: '14m ago' },
+    { id: '2', name: 'Sarah Chen', email: 's.chen@vanguard.space', role: 'normal_user', company: 'Vanguard LEO Shell-1', status: 'active', lastActive: '38m ago' },
+    { id: '3', name: 'Dr. Marcus Vance', email: 'm.vance@vanguard.space', role: 'company_admin', company: 'Vanguard SSO Shell-2', status: 'active', lastActive: '2h ago' },
+    { id: '4', name: 'Elena Rostova', email: 'e.rostova@vanguard.space', role: 'normal_user', company: 'Vanguard LEO Shell-1', status: 'pending', lastActive: undefined },
+    { id: '5', name: 'Capt. David Park', email: 'd.park@vanguard.space', role: 'normal_user', company: 'Vanguard VLEO Recon', status: 'active', lastActive: '1h ago' },
   ]);
 
   const getRoleLabel = (role: string) => {
-    return role === 'company_admin' ? 'Company Admin' : 'User';
+    return role === 'company_admin' ? 'Constellation Lead' : 'Orbital Analyst';
   };
 
   const getRoleBadgeColor = (role: string) => {
@@ -153,23 +156,23 @@ function UserManagementTab() {
 
   const handleInvite = () => {
     if (!inviteForm.name.trim() || !inviteForm.email.trim()) return;
-    const companyNames: Record<string, string> = {
-      apexbrands: 'Apex Brands Group',
-      chefs: "Chefs' Warehouse",
-      horizon: 'Horizon Global'
+    const shellNames: Record<string, string> = {
+      'vgd-s1': 'Vanguard LEO Shell-1',
+      'vgd-s2': 'Vanguard SSO Shell-2',
+      'vgd-vleo': 'Vanguard VLEO Recon'
     };
     const newUser = {
       id: Date.now().toString(),
       name: inviteForm.name.trim(),
       email: inviteForm.email.trim(),
       role: inviteForm.role,
-      company: companyNames[inviteForm.company] || 'Apex Brands Group',
+      company: shellNames[inviteForm.company] || 'Vanguard LEO Shell-1',
       status: 'pending',
       lastActive: undefined
     };
     setUsers(prev => [...prev, newUser]);
     setShowInviteModal(false);
-    setInviteForm({ name: '', email: '', role: 'normal_user', company: 'apexbrands' });
+    setInviteForm({ name: '', email: '', role: 'normal_user', company: 'vgd-s1' });
     setCopied(false);
   };
 
@@ -184,9 +187,7 @@ function UserManagementTab() {
   };
 
   const handleCopyInviteLink = () => {
-    const inviteLink = `https://aegisterminal.com/invite?token=${Math.random().toString(36).substring(2, 15)}`;
-
-    // Fallback copy method for environments where Clipboard API is blocked
+    const inviteLink = `https://kessler-ssa.space/invite?token=${Math.random().toString(36).substring(2, 15)}`;
     const textarea = document.createElement('textarea');
     textarea.value = inviteLink;
     textarea.style.position = 'fixed';
@@ -208,20 +209,18 @@ function UserManagementTab() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h2 style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary }}>
-          Manage Users
+        <h2 className="font-mono" style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary }}>
+          Flight Dynamics Crew & Clearance Roster
         </h2>
         <button
           onClick={() => setShowInviteModal(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all"
+          className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-mono"
           style={{
-            backgroundColor: '#0891B2', color: '#FFFFFF', border: 'none',
-            fontSize: '14px', fontWeight: 600, cursor: 'pointer'
+            backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+            fontSize: '13px', fontWeight: 700, cursor: 'pointer'
           }}
-          onMouseEnter={e => e.currentTarget.style.backgroundColor = '#0E7490'}
-          onMouseLeave={e => e.currentTarget.style.backgroundColor = '#0891B2'}
         >
-          Invite User
+          Authorize Crew Member
         </button>
       </div>
 
@@ -229,22 +228,22 @@ function UserManagementTab() {
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ borderBottom: `1px solid ${tc.borderPrimary}` }}>
-              <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '12px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                User
+              <th className="font-mono" style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Operator
               </th>
-              <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '12px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Company
+              <th className="font-mono" style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Assigned Shell
               </th>
-              <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '12px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Role
+              <th className="font-mono" style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Clearance Level
               </th>
-              <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '12px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Status
+              <th className="font-mono" style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Link Status
               </th>
-              <th style={{ padding: '12px 16px', textAlign: 'left', fontSize: '12px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Last Active
+              <th className="font-mono" style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                Last Telemetry Sync
               </th>
-              <th style={{ padding: '12px 16px', textAlign: 'right', fontSize: '12px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <th className="font-mono" style={{ padding: '12px 16px', textAlign: 'right', fontSize: '11px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Actions
               </th>
             </tr>
@@ -257,23 +256,21 @@ function UserManagementTab() {
                 style={{
                   borderBottom: index < users.length - 1 ? `1px solid ${tc.borderPrimary}` : 'none'
                 }}
-                onMouseEnter={e => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#0F1A2A' : '#F9FAFB'}
-                onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
               >
                 <td style={{ padding: '16px' }}>
                   <div>
                     <div style={{ fontSize: '14px', fontWeight: 600, color: tc.textPrimary }}>{user.name}</div>
-                    <div style={{ fontSize: '13px', color: tc.textSecondary }}>{user.email}</div>
+                    <div className="font-mono" style={{ fontSize: '12px', color: tc.textSecondary }}>{user.email}</div>
                   </div>
                 </td>
-                <td style={{ padding: '16px', fontSize: '13px', color: tc.textPrimary }}>
+                <td className="font-mono" style={{ padding: '16px', fontSize: '13px', color: tc.textPrimary }}>
                   {user.company}
                 </td>
                 <td style={{ padding: '16px' }}>
                   <span
-                    className="inline-flex px-2.5 py-1 rounded-full"
+                    className="inline-flex px-2.5 py-1 rounded-full font-mono"
                     style={{
-                      fontSize: '12px',
+                      fontSize: '11px',
                       fontWeight: 600,
                       backgroundColor: `${getRoleBadgeColor(user.role)}20`,
                       color: getRoleBadgeColor(user.role),
@@ -285,19 +282,19 @@ function UserManagementTab() {
                 </td>
                 <td style={{ padding: '16px' }}>
                   <span
-                    className="inline-flex px-2.5 py-1 rounded-full"
+                    className="inline-flex px-2.5 py-1 rounded-full font-mono"
                     style={{
-                      fontSize: '12px',
+                      fontSize: '11px',
                       fontWeight: 600,
                       backgroundColor: user.status === 'active' ? '#10B98120' : '#F59E0B20',
                       color: user.status === 'active' ? '#10B981' : '#F59E0B',
                       border: `1px solid ${user.status === 'active' ? '#10B98140' : '#F59E0B40'}`
                     }}
                   >
-                    {user.status === 'active' ? 'Active' : 'Pending'}
+                    {user.status === 'active' ? 'NOMINAL' : 'PENDING'}
                   </span>
                 </td>
-                <td style={{ padding: '16px', fontSize: '13px', color: tc.textSecondary }}>
+                <td className="font-mono" style={{ padding: '16px', fontSize: '12px', color: tc.textSecondary }}>
                   {user.lastActive || '—'}
                 </td>
                 <td style={{ padding: '16px' }}>
@@ -306,15 +303,7 @@ function UserManagementTab() {
                       onClick={() => setEditingUser({ ...user })}
                       className="p-2 rounded transition-colors"
                       style={{ color: tc.textSecondary }}
-                      onMouseEnter={e => {
-                        e.currentTarget.style.backgroundColor = theme === 'dark' ? '#1A2332' : '#E5E7EB';
-                        e.currentTarget.style.color = tc.accentPrimary;
-                      }}
-                      onMouseLeave={e => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                        e.currentTarget.style.color = tc.textSecondary;
-                      }}
-                      title="Edit user"
+                      title="Edit operator"
                     >
                       <Edit2 className="w-4 h-4" />
                     </button>
@@ -322,15 +311,7 @@ function UserManagementTab() {
                       onClick={() => handleDeleteUser(user.id)}
                       className="p-2 rounded transition-colors"
                       style={{ color: tc.textSecondary }}
-                      onMouseEnter={e => {
-                        e.currentTarget.style.backgroundColor = '#DC262620';
-                        e.currentTarget.style.color = '#DC2626';
-                      }}
-                      onMouseLeave={e => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                        e.currentTarget.style.color = tc.textSecondary;
-                      }}
-                      title="Remove user"
+                      title="Revoke clearance"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -342,11 +323,11 @@ function UserManagementTab() {
         </table>
       </div>
 
-      {/* Invite User Modal */}
+      {/* Invite Modal */}
       {showInviteModal && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.65)' }}
           onClick={() => setShowInviteModal(false)}
         >
           <div
@@ -359,74 +340,57 @@ function UserManagementTab() {
           >
             <div className="flex items-center justify-between p-6 border-b" style={{ borderColor: tc.borderPrimary }}>
               <div>
-                <h2 style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary }}>Invite User</h2>
-                <p style={{ fontSize: '13px', color: tc.textSecondary }}>Send an invitation to join a company</p>
+                <h2 className="font-mono" style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary }}>Authorize Flight Crew</h2>
+                <p style={{ fontSize: '13px', color: tc.textSecondary }}>Issue console clearance for an orbital shell</p>
               </div>
             </div>
 
             <div className="p-6 space-y-4">
-              {/* Copy Invite Link */}
               <div
                 className="p-4 rounded-lg"
                 style={{
-                  backgroundColor: theme === 'dark' ? '#0F1A2A' : '#F0F9FF',
+                  backgroundColor: theme === 'dark' ? '#06080D' : '#F0F9FF',
                   border: `1px solid ${tc.accentPrimary}40`
                 }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
-                    <p style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary, marginBottom: '4px' }}>
-                      Invitation Link
+                    <p className="font-mono" style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary, marginBottom: '4px' }}>
+                      Encrypted Clearance Token Link
                     </p>
                     <p style={{ fontSize: '12px', color: tc.textSecondary }}>
-                      Copy and share this link with the user
+                      Transmit via secure FDO channel
                     </p>
                   </div>
                   <button
                     onClick={handleCopyInviteLink}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-mono"
                     style={{
                       backgroundColor: copied ? '#10B981' : tc.accentPrimary,
-                      color: '#FFFFFF',
+                      color: '#06080D',
                       border: 'none',
-                      fontSize: '13px',
-                      fontWeight: 600,
+                      fontSize: '12px',
+                      fontWeight: 700,
                       cursor: 'pointer'
                     }}
-                    onMouseEnter={e => {
-                      if (!copied) e.currentTarget.style.backgroundColor = '#0E7490';
-                    }}
-                    onMouseLeave={e => {
-                      if (!copied) e.currentTarget.style.backgroundColor = tc.accentPrimary;
-                    }}
                   >
-                    {copied ? (
-                      <>
-                        <Check className="w-4 h-4" />
-                        Copied!
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-4 h-4" />
-                        Copy Link
-                      </>
-                    )}
+                    {copied ? <><Check className="w-4 h-4" /> Copied</> : <><Copy className="w-4 h-4" /> Copy Link</>}
                   </button>
                 </div>
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-                  Full Name *
+                <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
+                  Operator Name *
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g., John Smith"
+                  placeholder="e.g., Lt. John Smith"
                   value={inviteForm.name}
                   onChange={e => setInviteForm({ ...inviteForm, name: e.target.value })}
                   style={{
                     width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
                     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                     color: tc.textPrimary, fontSize: '14px', outline: 'none'
                   }}
@@ -434,17 +398,17 @@ function UserManagementTab() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-                  Email Address *
+                <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
+                  Callsign / Email *
                 </label>
                 <input
                   type="email"
-                  placeholder="john.smith@company.com"
+                  placeholder="j.smith@vanguard.space"
                   value={inviteForm.email}
                   onChange={e => setInviteForm({ ...inviteForm, email: e.target.value })}
                   style={{
                     width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
                     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                     color: tc.textPrimary, fontSize: '14px', outline: 'none'
                   }}
@@ -452,41 +416,41 @@ function UserManagementTab() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-                  Company *
+                <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
+                  Orbital Shell *
                 </label>
                 <select
                   value={inviteForm.company}
                   onChange={e => setInviteForm({ ...inviteForm, company: e.target.value })}
                   style={{
                     width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
                     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                     color: tc.textPrimary, fontSize: '14px', outline: 'none', cursor: 'pointer'
                   }}
                 >
-                  <option value="apexbrands">Apex Brands Group</option>
-                  <option value="chefs">Chefs' Warehouse</option>
-                  <option value="horizon">Horizon Global</option>
+                  <option value="vgd-s1">Vanguard LEO Shell-1</option>
+                  <option value="vgd-s2">Vanguard SSO Shell-2</option>
+                  <option value="vgd-vleo">Vanguard VLEO Recon</option>
                 </select>
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-                  Role *
+                <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
+                  Clearance Level *
                 </label>
                 <select
                   value={inviteForm.role}
                   onChange={e => setInviteForm({ ...inviteForm, role: e.target.value as 'company_admin' | 'normal_user' })}
                   style={{
                     width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
                     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                     color: tc.textPrimary, fontSize: '14px', outline: 'none', cursor: 'pointer'
                   }}
                 >
-                  <option value="normal_user">User</option>
-                  <option value="company_admin">Company Admin</option>
+                  <option value="normal_user">Orbital Analyst</option>
+                  <option value="company_admin">Constellation Lead</option>
                 </select>
               </div>
             </div>
@@ -494,28 +458,24 @@ function UserManagementTab() {
             <div className="flex items-center justify-end gap-3 p-6 border-t" style={{ borderColor: tc.borderPrimary }}>
               <button
                 onClick={() => setShowInviteModal(false)}
-                className="px-4 py-2.5 rounded-lg transition-all"
+                className="px-4 py-2.5 rounded-lg transition-all font-mono"
                 style={{
                   backgroundColor: 'transparent', color: tc.textSecondary,
                   border: `1px solid ${tc.borderPrimary}`,
-                  fontSize: '14px', fontWeight: 600, cursor: 'pointer'
+                  fontSize: '13px', fontWeight: 600, cursor: 'pointer'
                 }}
-                onMouseEnter={e => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#0F1A2A' : '#F3F4F6'}
-                onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
               >
                 Cancel
               </button>
               <button
                 onClick={handleInvite}
-                className="px-4 py-2.5 rounded-lg transition-all"
+                className="px-4 py-2.5 rounded-lg transition-all font-mono"
                 style={{
-                  backgroundColor: '#0891B2', color: '#FFFFFF', border: 'none',
-                  fontSize: '14px', fontWeight: 600, cursor: 'pointer'
+                  backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+                  fontSize: '13px', fontWeight: 700, cursor: 'pointer'
                 }}
-                onMouseEnter={e => e.currentTarget.style.backgroundColor = '#0E7490'}
-                onMouseLeave={e => e.currentTarget.style.backgroundColor = '#0891B2'}
               >
-                Send Invitation
+                Issue Clearance
               </button>
             </div>
           </div>
@@ -526,7 +486,7 @@ function UserManagementTab() {
       {editingUser && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.65)' }}
           onClick={() => setEditingUser(null)}
         >
           <div
@@ -537,33 +497,24 @@ function UserManagementTab() {
             }}
             onClick={e => e.stopPropagation()}
           >
-            {/* Modal Header */}
             <div className="flex items-center justify-between p-6 border-b" style={{ borderColor: tc.borderPrimary }}>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#0891B220' }}>
-                  <Edit2 className="w-5 h-5" style={{ color: '#0891B2' }} />
-                </div>
-                <div>
-                  <h2 style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary }}>Edit User</h2>
-                  <p style={{ fontSize: '13px', color: tc.textSecondary }}>Modify user details and permissions</p>
-                </div>
+              <div>
+                <h2 className="font-mono" style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary }}>Modify Operator Clearance</h2>
+                <p style={{ fontSize: '13px', color: tc.textSecondary }}>Update callsign and shell permissions</p>
               </div>
               <button
                 onClick={() => setEditingUser(null)}
                 className="p-1 rounded transition-colors"
                 style={{ color: tc.textSecondary }}
-                onMouseEnter={e => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#0F1A2A' : '#F3F4F6'}
-                onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Modal Body */}
             <div className="p-6 space-y-4">
               <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-                  Full Name *
+                <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
+                  Operator Name *
                 </label>
                 <input
                   type="text"
@@ -571,7 +522,7 @@ function UserManagementTab() {
                   onChange={e => setEditingUser({ ...editingUser, name: e.target.value })}
                   style={{
                     width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
                     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                     color: tc.textPrimary, fontSize: '14px', outline: 'none'
                   }}
@@ -579,8 +530,8 @@ function UserManagementTab() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-                  Email Address *
+                <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
+                  Callsign / Email *
                 </label>
                 <input
                   type="email"
@@ -588,7 +539,7 @@ function UserManagementTab() {
                   onChange={e => setEditingUser({ ...editingUser, email: e.target.value })}
                   style={{
                     width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
                     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                     color: tc.textPrimary, fontSize: '14px', outline: 'none'
                   }}
@@ -596,70 +547,46 @@ function UserManagementTab() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-                  Status
-                </label>
-                <select
-                  value={editingUser.status}
-                  onChange={e => setEditingUser({ ...editingUser, status: e.target.value as 'active' | 'pending' })}
-                  style={{
-                    width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
-                    border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-                    color: tc.textPrimary, fontSize: '14px', outline: 'none', cursor: 'pointer'
-                  }}
-                >
-                  <option value="active">Active</option>
-                  <option value="pending">Pending</option>
-                </select>
-              </div>
-
-              <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-                  Role *
+                <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
+                  Clearance Role *
                 </label>
                 <select
                   value={editingUser.role}
                   onChange={e => setEditingUser({ ...editingUser, role: e.target.value as 'company_admin' | 'normal_user' })}
                   style={{
                     width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
                     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                     color: tc.textPrimary, fontSize: '14px', outline: 'none', cursor: 'pointer'
                   }}
                 >
-                  <option value="normal_user">User</option>
-                  <option value="company_admin">Company Admin</option>
+                  <option value="normal_user">Orbital Analyst</option>
+                  <option value="company_admin">Constellation Lead</option>
                 </select>
               </div>
             </div>
 
-            {/* Modal Footer */}
             <div className="flex items-center justify-end gap-3 p-6 border-t" style={{ borderColor: tc.borderPrimary }}>
               <button
                 onClick={() => setEditingUser(null)}
-                className="px-4 py-2.5 rounded-lg transition-all"
+                className="px-4 py-2.5 rounded-lg transition-all font-mono"
                 style={{
                   backgroundColor: 'transparent', color: tc.textSecondary,
                   border: `1px solid ${tc.borderPrimary}`,
-                  fontSize: '14px', fontWeight: 600, cursor: 'pointer'
+                  fontSize: '13px', fontWeight: 600, cursor: 'pointer'
                 }}
-                onMouseEnter={e => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#0F1A2A' : '#F3F4F6'}
-                onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
               >
                 Cancel
               </button>
               <button
                 onClick={handleUpdateUser}
-                className="px-4 py-2.5 rounded-lg transition-all"
+                className="px-4 py-2.5 rounded-lg transition-all font-mono"
                 style={{
-                  backgroundColor: '#0891B2', color: '#FFFFFF', border: 'none',
-                  fontSize: '14px', fontWeight: 600, cursor: 'pointer'
+                  backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+                  fontSize: '13px', fontWeight: 700, cursor: 'pointer'
                 }}
-                onMouseEnter={e => e.currentTarget.style.backgroundColor = '#0E7490'}
-                onMouseLeave={e => e.currentTarget.style.backgroundColor = '#0891B2'}
               >
-                Save Changes
+                Commit Changes
               </button>
             </div>
           </div>
@@ -676,21 +603,21 @@ function DataUploadTab() {
   return (
     <div className="max-w-2xl">
       <div className="p-8 rounded-lg text-center" style={{ backgroundColor: tc.bgSecondary, border: `2px dashed ${tc.borderPrimary}` }}>
-        <Upload className="w-12 h-12 mx-auto mb-4" style={{ color: tc.textTertiary }} />
-        <h2 style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary, marginBottom: '8px' }}>
-          Import Data
+        <Upload className="w-12 h-12 mx-auto mb-4" style={{ color: '#06B6D4' }} />
+        <h2 className="font-mono" style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary, marginBottom: '8px' }}>
+          Ingest Two-Line Element (TLE) & CCSDS CDM Batch
         </h2>
         <p style={{ fontSize: '14px', color: tc.textSecondary, marginBottom: '16px' }}>
-          Upload a single data file. ETL processing happens automatically behind the scenes.
+          Upload 18th SDS Spacetrack `.tle`, `.omm`, or `.cdm` covariance files. SGP4 propagation and conjunction screening execute automatically on ingest.
         </p>
         <button
-          className="px-6 py-2.5 rounded-lg transition-all"
+          className="px-6 py-2.5 rounded-lg transition-all font-mono"
           style={{
-            backgroundColor: '#0891B2', color: '#FFFFFF', border: 'none',
-            fontSize: '14px', fontWeight: 600, cursor: 'pointer'
+            backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+            fontSize: '13px', fontWeight: 700, cursor: 'pointer'
           }}
         >
-          Select File to Upload
+          Select TLE / CDM File
         </button>
       </div>
     </div>
@@ -706,27 +633,27 @@ function CommentaryEditorTab() {
 
   const sections = [
     {
-      id: 'debt-pricing',
-      label: 'Debt Pricing',
+      id: 'altitude-decay',
+      label: 'Orbital Altitude & Thermospheric Drag Log',
       status: 'published',
-      updated: '2h ago',
-      editor: 'Alex Torres',
+      updated: '18m ago',
+      editor: 'Dr. Alex Torres',
       subsections: 1
     },
     {
-      id: 'capital-structure',
-      label: 'Capital Structure',
+      id: 'constellation-ephemeris',
+      label: 'Constellation Ephemeris & Thruster ΔV Notes',
       status: 'published',
-      updated: '1d ago',
-      editor: 'Alex Torres',
+      updated: '1h ago',
+      editor: 'Dr. Alex Torres',
       subsections: 1
     },
     {
-      id: 'covenant-compliance',
-      label: 'Covenant Compliance',
+      id: 'deorbit-compliance',
+      label: 'FCC / ESA De-Orbit Reserve SLA Bulletins',
       status: 'draft',
-      updated: '3d ago',
-      editor: 'Alex Torres',
+      updated: '3h ago',
+      editor: 'Dr. Alex Torres',
       subsections: 2
     },
   ];
@@ -742,8 +669,8 @@ function CommentaryEditorTab() {
 
   return (
     <div className="max-w-4xl">
-      <h3 style={{ fontSize: '14px', fontWeight: 600, color: tc.textSecondary, marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-        Commentary Sections
+      <h3 className="font-mono" style={{ fontSize: '13px', fontWeight: 600, color: tc.textSecondary, marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        Flight Dynamics Automated Telemetry Logs
       </h3>
       <div className="space-y-2">
         {sections.map(section => {
@@ -755,29 +682,19 @@ function CommentaryEditorTab() {
                 onClick={() => handleSectionClick(section.id)}
                 className="w-full text-left p-4 rounded-lg transition-all"
                 style={{
-                  backgroundColor: isExpanded ? (theme === 'dark' ? '#0F1A2A' : '#F0F9FF') : tc.bgSecondary,
+                  backgroundColor: isExpanded ? (theme === 'dark' ? '#06080D' : '#F0F9FF') : tc.bgSecondary,
                   border: isExpanded ? `1px solid ${tc.accentPrimary}` : `1px solid ${tc.borderPrimary}`,
                   cursor: 'pointer'
-                }}
-                onMouseEnter={e => {
-                  if (!isExpanded) {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#1A2332' : '#F9FAFB';
-                  }
-                }}
-                onMouseLeave={e => {
-                  if (!isExpanded) {
-                    e.currentTarget.style.backgroundColor = tc.bgSecondary;
-                  }
                 }}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      <span style={{ fontSize: '14px', fontWeight: 600, color: tc.textPrimary }}>
+                      <span className="font-mono" style={{ fontSize: '14px', fontWeight: 600, color: tc.textPrimary }}>
                         {section.label}
                       </span>
                       <span
-                        className="px-2 py-0.5 rounded text-xs"
+                        className="px-2 py-0.5 rounded text-xs font-mono"
                         style={{
                           backgroundColor: section.status === 'published' ? '#10B98120' : '#F59E0B20',
                           color: section.status === 'published' ? '#10B981' : '#F59E0B',
@@ -786,17 +703,12 @@ function CommentaryEditorTab() {
                           fontWeight: 600
                         }}
                       >
-                        {section.status === 'published' ? 'Published' : 'Draft'}
+                        {section.status === 'published' ? 'LIVE' : 'STAGED'}
                       </span>
                     </div>
-                    <div style={{ fontSize: '12px', color: tc.textSecondary }}>
+                    <div className="font-mono" style={{ fontSize: '12px', color: tc.textSecondary }}>
                       Updated {section.updated} · {section.editor}
                     </div>
-                    {section.subsections > 1 && (
-                      <div style={{ fontSize: '11px', color: tc.accentPrimary, marginTop: '4px' }}>
-                        {section.subsections} commentaries
-                      </div>
-                    )}
                   </div>
                   <ChevronDown
                     className="w-5 h-5 transition-transform"
@@ -810,65 +722,30 @@ function CommentaryEditorTab() {
 
               {isExpanded && (
                 <div className="mt-2 p-4 rounded-lg" style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}>
-                  {section.subsections > 1 && (
-                    <div className="flex gap-2 mb-4">
-                      {[1, 2].map(num => (
-                        <button
-                          key={num}
-                          onClick={() => setSelectedSubSection(num)}
-                          className="px-3 py-1.5 rounded transition-all"
-                          style={{
-                            backgroundColor: selectedSubSection === num ? tc.accentPrimary : 'transparent',
-                            color: selectedSubSection === num ? '#FFFFFF' : tc.textSecondary,
-                            border: `1px solid ${selectedSubSection === num ? tc.accentPrimary : tc.borderPrimary}`,
-                            fontSize: '12px',
-                            fontWeight: 600,
-                            cursor: 'pointer'
-                          }}
-                        >
-                          Commentary {num}
-                        </button>
-                      ))}
-                    </div>
-                  )}
                   <textarea
-                    placeholder="Enter Aegis commentary..."
+                    placeholder="Enter Flight Dynamics telemetry log entry..."
                     value={commentaries[getCommentaryKey(section.id, section.subsections > 1 ? selectedSubSection : undefined)] || ''}
                     onChange={e => setCommentaries({
                       ...commentaries,
                       [getCommentaryKey(section.id, section.subsections > 1 ? selectedSubSection : undefined)]: e.target.value
                     })}
-                    rows={12}
+                    rows={8}
                     style={{
                       width: '100%', padding: '12px',
-                      backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                      backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
                       border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                       color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
                     }}
                   />
                   <div className="flex gap-3 mt-4">
                     <button
-                      className="px-6 py-2.5 rounded-lg transition-all"
+                      className="px-6 py-2.5 rounded-lg transition-all font-mono"
                       style={{
-                        backgroundColor: '#0891B2', color: '#FFFFFF', border: 'none',
-                        fontSize: '14px', fontWeight: 600, cursor: 'pointer'
+                        backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+                        fontSize: '13px', fontWeight: 700, cursor: 'pointer'
                       }}
-                      onMouseEnter={e => e.currentTarget.style.backgroundColor = '#0E7490'}
-                      onMouseLeave={e => e.currentTarget.style.backgroundColor = '#0891B2'}
                     >
-                      Publish
-                    </button>
-                    <button
-                      className="px-6 py-2.5 rounded-lg transition-all"
-                      style={{
-                        backgroundColor: 'transparent', color: tc.textSecondary,
-                        border: `1px solid ${tc.borderPrimary}`,
-                        fontSize: '14px', fontWeight: 600, cursor: 'pointer'
-                      }}
-                      onMouseEnter={e => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#0F1A2A' : '#F3F4F6'}
-                      onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
-                    >
-                      Save Draft
+                      Broadcast to Console
                     </button>
                   </div>
                 </div>
@@ -887,29 +764,29 @@ function ImageUploadsTab() {
 
   return (
     <div>
-      <h2 style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary, marginBottom: '16px' }}>
-        Chart Uploads (4 Slots)
+      <h2 className="font-mono" style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary, marginBottom: '16px' }}>
+        Radar Covariance & B-Plane Plot Uploads (4 Slots)
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {[
-          'Debt/EBITDA Waterfall',
-          'Revenue & YoY Growth',
-          'Net Sales by Segment',
-          'EBITDA % by Segment'
+          'B-Plane Conjunction Ellipsoid Contour',
+          'Xenon Hall-Effect Propellant Depletion Curve',
+          'S-Band / Optical ISL Link Margin Waterfall',
+          'Thermospheric Drag F10.7 Correlation Plot'
         ].map((label, i) => (
           <div
             key={i}
             className="aspect-video rounded-lg flex flex-col items-center justify-center p-6 cursor-pointer hover:opacity-80 transition-opacity"
             style={{
-              backgroundColor: theme === 'dark' ? '#0F1A2A' : '#F9FAFB',
+              backgroundColor: theme === 'dark' ? '#06080D' : '#F9FAFB',
               border: `2px dashed ${tc.borderPrimary}`
             }}
           >
-            <Image className="w-8 h-8 mb-3" style={{ color: tc.textTertiary }} />
-            <p style={{ fontSize: '14px', fontWeight: 600, color: tc.textPrimary, marginBottom: '4px' }}>
+            <Image className="w-8 h-8 mb-3" style={{ color: '#06B6D4' }} />
+            <p className="font-mono" style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary, marginBottom: '4px', textAlign: 'center' }}>
               {label}
             </p>
-            <p style={{ fontSize: '12px', color: tc.textSecondary }}>Click to upload chart</p>
+            <p style={{ fontSize: '12px', color: tc.textSecondary }}>Click to upload radar plot SVG/PNG</p>
           </div>
         ))}
       </div>
@@ -924,40 +801,40 @@ function PrioritiesEventsTab() {
   return (
     <div className="max-w-3xl">
       <div className="p-6 rounded-lg" style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}>
-        <h3 style={{ fontSize: '16px', fontWeight: 600, color: tc.textPrimary, marginBottom: '12px' }}>
-          Top Priorities
+        <h3 className="font-mono" style={{ fontSize: '16px', fontWeight: 600, color: tc.textPrimary, marginBottom: '12px' }}>
+          Flight Director Directives
         </h3>
         <textarea
-          placeholder="Enter priorities (one per line)..."
+          placeholder="Enter active CAM directives and orbital trim orders (one per line)..."
           rows={6}
           style={{
             width: '100%', padding: '12px', marginBottom: '24px',
-            backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+            backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
             border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
             color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
           }}
         />
-        <h3 style={{ fontSize: '16px', fontWeight: 600, color: tc.textPrimary, marginBottom: '12px' }}>
-          Key Events
+        <h3 className="font-mono" style={{ fontSize: '16px', fontWeight: 600, color: tc.textPrimary, marginBottom: '12px' }}>
+          Upcoming Ground Station AOS & Thruster Burn Windows
         </h3>
         <textarea
-          placeholder="Enter key events (one per line)..."
+          placeholder="Enter scheduled AOS passes and maneuver epochs (one per line)..."
           rows={6}
           style={{
             width: '100%', padding: '12px',
-            backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+            backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
             border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
             color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
           }}
         />
         <button
-          className="mt-4 px-6 py-2.5 rounded-lg transition-all"
+          className="mt-4 px-6 py-2.5 rounded-lg transition-all font-mono"
           style={{
-            backgroundColor: '#0891B2', color: '#FFFFFF', border: 'none',
-            fontSize: '14px', fontWeight: 600, cursor: 'pointer'
+            backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+            fontSize: '13px', fontWeight: 700, cursor: 'pointer'
           }}
         >
-          Save Changes
+          Commit Flight Plan
         </button>
       </div>
     </div>
@@ -972,25 +849,25 @@ function SectorNewsEditorTab() {
 
   const subsections = [
     {
-      id: 'regulatory',
-      label: 'Regulatory',
+      id: 'solar-weather',
+      label: 'NOAA SWPC Solar & Geomagnetic Advisories',
       status: 'published',
-      updated: '4h ago',
-      editor: 'Alex Torres',
+      updated: '12m ago',
+      editor: 'Dr. Alex Torres',
     },
     {
-      id: 'geopolitical',
-      label: 'Geopolitical',
+      id: 'catalog-bulletins',
+      label: '18th SDS & LeoLabs Conjunction Bulletins',
+      status: 'published',
+      updated: '1h ago',
+      editor: 'Dr. Alex Torres',
+    },
+    {
+      id: 'fcc-esa-policy',
+      label: 'FCC / ESA Orbital Sustainability Directives',
       status: 'published',
       updated: '1d ago',
-      editor: 'Alex Torres',
-    },
-    {
-      id: 'policy',
-      label: 'Policy',
-      status: 'published',
-      updated: '2d ago',
-      editor: 'Alex Torres',
+      editor: 'Dr. Alex Torres',
     },
   ];
 
@@ -1000,8 +877,8 @@ function SectorNewsEditorTab() {
 
   return (
     <div className="max-w-4xl">
-      <h3 style={{ fontSize: '14px', fontWeight: 600, color: tc.textSecondary, marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-        Sector News Subsections
+      <h3 className="font-mono" style={{ fontSize: '13px', fontWeight: 600, color: tc.textSecondary, marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        Space Weather & Orbital Bulletin Feeds
       </h3>
       <div className="space-y-2">
         {subsections.map(subsection => {
@@ -1013,41 +890,31 @@ function SectorNewsEditorTab() {
                 onClick={() => handleSubsectionClick(subsection.id)}
                 className="w-full text-left p-4 rounded-lg transition-all"
                 style={{
-                  backgroundColor: isExpanded ? (theme === 'dark' ? '#0F1A2A' : '#F0F9FF') : tc.bgSecondary,
+                  backgroundColor: isExpanded ? (theme === 'dark' ? '#06080D' : '#F0F9FF') : tc.bgSecondary,
                   border: isExpanded ? `1px solid ${tc.accentPrimary}` : `1px solid ${tc.borderPrimary}`,
                   cursor: 'pointer'
-                }}
-                onMouseEnter={e => {
-                  if (!isExpanded) {
-                    e.currentTarget.style.backgroundColor = theme === 'dark' ? '#1A2332' : '#F9FAFB';
-                  }
-                }}
-                onMouseLeave={e => {
-                  if (!isExpanded) {
-                    e.currentTarget.style.backgroundColor = tc.bgSecondary;
-                  }
                 }}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      <span style={{ fontSize: '14px', fontWeight: 600, color: tc.textPrimary }}>
+                      <span className="font-mono" style={{ fontSize: '14px', fontWeight: 600, color: tc.textPrimary }}>
                         {subsection.label}
                       </span>
                       <span
-                        className="px-2 py-0.5 rounded text-xs"
+                        className="px-2 py-0.5 rounded text-xs font-mono"
                         style={{
-                          backgroundColor: subsection.status === 'published' ? '#10B98120' : '#F59E0B20',
-                          color: subsection.status === 'published' ? '#10B981' : '#F59E0B',
-                          border: `1px solid ${subsection.status === 'published' ? '#10B98140' : '#F59E0B40'}`,
+                          backgroundColor: '#10B98120',
+                          color: '#10B981',
+                          border: '1px solid #10B98140',
                           fontSize: '11px',
                           fontWeight: 600
                         }}
                       >
-                        {subsection.status === 'published' ? 'Published' : 'Draft'}
+                        ACTIVE FEED
                       </span>
                     </div>
-                    <div style={{ fontSize: '12px', color: tc.textSecondary }}>
+                    <div className="font-mono" style={{ fontSize: '12px', color: tc.textSecondary }}>
                       Updated {subsection.updated} · {subsection.editor}
                     </div>
                   </div>
@@ -1064,43 +931,29 @@ function SectorNewsEditorTab() {
               {isExpanded && (
                 <div className="mt-2 p-4 rounded-lg" style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}>
                   <textarea
-                    placeholder="Enter sector news content..."
+                    placeholder="Enter space weather advisory or 18th SDS bulletin..."
                     value={newsContents[subsection.id] || ''}
                     onChange={e => setNewsContents({
                       ...newsContents,
                       [subsection.id]: e.target.value
                     })}
-                    rows={12}
+                    rows={8}
                     style={{
                       width: '100%', padding: '12px',
-                      backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                      backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
                       border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                       color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
                     }}
                   />
                   <div className="flex gap-3 mt-4">
                     <button
-                      className="px-6 py-2.5 rounded-lg transition-all"
+                      className="px-6 py-2.5 rounded-lg transition-all font-mono"
                       style={{
-                        backgroundColor: '#0891B2', color: '#FFFFFF', border: 'none',
-                        fontSize: '14px', fontWeight: 600, cursor: 'pointer'
+                        backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+                        fontSize: '13px', fontWeight: 700, cursor: 'pointer'
                       }}
-                      onMouseEnter={e => e.currentTarget.style.backgroundColor = '#0E7490'}
-                      onMouseLeave={e => e.currentTarget.style.backgroundColor = '#0891B2'}
                     >
-                      Publish
-                    </button>
-                    <button
-                      className="px-6 py-2.5 rounded-lg transition-all"
-                      style={{
-                        backgroundColor: 'transparent', color: tc.textSecondary,
-                        border: `1px solid ${tc.borderPrimary}`,
-                        fontSize: '14px', fontWeight: 600, cursor: 'pointer'
-                      }}
-                      onMouseEnter={e => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#0F1A2A' : '#F3F4F6'}
-                      onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
-                    >
-                      Save Draft
+                      Publish Bulletin
                     </button>
                   </div>
                 </div>
@@ -1120,27 +973,27 @@ function MarketTrendsEditorTab() {
   return (
     <div className="max-w-3xl">
       <div className="p-6 rounded-lg" style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}>
-        <h3 style={{ fontSize: '16px', fontWeight: 600, color: tc.textPrimary, marginBottom: '12px' }}>
-          Market Trends Content
+        <h3 className="font-mono" style={{ fontSize: '16px', fontWeight: 600, color: tc.textPrimary, marginBottom: '12px' }}>
+          Autonomous CAM & Covariance Protocol Specification
         </h3>
         <textarea
-          placeholder="Enter market trends content..."
-          rows={12}
+          placeholder="Enter updated differential drag and Hall-effect collision avoidance maneuver thresholds..."
+          rows={10}
           style={{
             width: '100%', padding: '12px',
-            backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+            backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
             border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
             color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
           }}
         />
         <button
-          className="mt-4 px-6 py-2.5 rounded-lg transition-all"
+          className="mt-4 px-6 py-2.5 rounded-lg transition-all font-mono"
           style={{
-            backgroundColor: '#0891B2', color: '#FFFFFF', border: 'none',
-            fontSize: '14px', fontWeight: 600, cursor: 'pointer'
+            backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+            fontSize: '13px', fontWeight: 700, cursor: 'pointer'
           }}
         >
-          Publish
+          Update CAM Protocol
         </button>
       </div>
     </div>

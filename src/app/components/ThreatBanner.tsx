@@ -8,42 +8,52 @@ export function ThreatBanner() {
 
   return (
     <div
-      className="h-8 flex items-center justify-between px-3 md:px-4 border rounded-sm transition-colors duration-200 overflow-hidden"
+      className="h-9 flex items-center justify-between px-3 md:px-4 border rounded-sm transition-colors duration-200 overflow-hidden"
       style={{
-        backgroundColor: isDark ? '#161113' : '#FEE2E2',
-        borderColor: isDark ? 'rgba(229, 72, 77, 0.35)' : '#FCA5A5'
+        backgroundColor: isDark ? 'rgba(239, 68, 68, 0.12)' : '#FEF2F2',
+        borderColor: isDark ? 'rgba(239, 68, 68, 0.45)' : '#FCA5A5'
       }}
     >
       <div className="flex items-center gap-2.5 min-w-0">
         <span
           className="w-2.5 h-2.5 rounded-full animate-pulse flex-shrink-0"
-          style={{ backgroundColor: isDark ? '#E5484D' : '#B91C1C' }}
+          style={{ backgroundColor: tc.alertRed }}
         />
         <span
-          className="uppercase tracking-[0.08em] font-mono text-[10px] md:text-[11px] font-bold truncate"
-          style={{ color: isDark ? '#E5484D' : '#991B1B' }}
+          className="uppercase tracking-[0.06em] font-mono text-[10px] md:text-[11px] font-bold truncate"
+          style={{ color: tc.alertRed }}
         >
-          DIRECTIVE:{' '}
+          CONJUNCTION ALERT:{' '}
           <span
             className="hidden sm:inline font-semibold"
-            style={{ color: isDark ? '#EDEDED' : '#7F1D1D' }}
+            style={{ color: tc.textPrimary }}
           >
-            CRITICAL TO MAINTAIN STAKEHOLDER SUPPORT AMID DIVESTITURE PLAN
+            COSMOS-2251 DEB [34427] vs. VANGUARD-04 [58214] // TCA: T-01:42:19 // MISS DIST: 142m // Pc: 4.8e-4
           </span>
           <span
             className="sm:hidden font-semibold"
-            style={{ color: isDark ? '#EDEDED' : '#7F1D1D' }}
+            style={{ color: tc.textPrimary }}
           >
-            MAINTAIN STAKEHOLDER SUPPORT
+            COSMOS-2251 DEB vs VANGUARD-04 // Pc: 4.8e-4
           </span>
         </span>
       </div>
-      <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
+      <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
         <span
-          className="font-mono text-[9px] uppercase tracking-wider font-semibold"
-          style={{ color: isDark ? '#8E939D' : '#7F1D1D' }}
+          className="px-2 py-0.5 rounded font-mono text-[9px] uppercase tracking-wider font-bold"
+          style={{
+            backgroundColor: isDark ? 'rgba(245, 158, 11, 0.18)' : '#FEF3C7',
+            color: tc.alertAmber,
+            border: `1px solid ${isDark ? 'rgba(245, 158, 11, 0.35)' : '#FCD34D'}`
+          }}
         >
-          STATUS: ACTIVE COVENANT BREACH (2)
+          CAM BURN ARMED
+        </span>
+        <span
+          className="font-mono text-[10px] uppercase tracking-wider font-semibold"
+          style={{ color: tc.textSecondary }}
+        >
+          SHELL: 540 KM SUN-SYNC
         </span>
       </div>
     </div>

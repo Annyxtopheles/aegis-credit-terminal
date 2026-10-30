@@ -11,121 +11,106 @@ export function CapitalStructureTable() {
 
   const data = [
     {
-      instrument: '$550M Sr Notes',
-      maturity: '9-15-2027',
-      evPercent: '86.80%',
-      ebitdaMult: '7.77x',
-      revMult: '1.10x',
-      rating: 'Caa2 / CCC',
-      coupon: '5.250',
-      callProvision: '3-1-2022 at 103.938%',
-      ytm: '6.53%'
+      svId: 'VANGUARD-01 [58211]',
+      cosparId: '2024-018A',
+      inclination: '97.54°',
+      eccentricity: '0.00014',
+      meanMotion: '15.08 rev/d',
+      status: 'NOMINAL',
+      propellantPct: '88.4%',
+      nextBurnWindow: '2026-11-04 04:12Z (+0.18 m/s)',
+      deltaVBudget: '142.6 m/s'
     },
     {
-      instrument: '$550M Sr Secd Notes',
-      maturity: '9-15-2028',
-      evPercent: '23.53%',
-      ebitdaMult: '2.11x',
-      revMult: '0.30x',
-      rating: 'B2 / B+',
-      coupon: '8.000',
-      callProvision: '9-15-2026 at 100.000%',
-      ytm: '8.41%'
+      svId: 'VANGUARD-04 [58214]',
+      cosparId: '2024-018D',
+      inclination: '97.56°',
+      eccentricity: '0.00048',
+      meanMotion: '15.11 rev/d',
+      status: 'CAM ARMED',
+      propellantPct: '41.2%',
+      nextBurnWindow: '2026-10-30 16:14Z (+0.42 m/s)',
+      deltaVBudget: '54.8 m/s'
     },
     {
-      instrument: '$250M Sr Secd Notes',
-      maturity: '9-15-2028',
-      evPercent: '34.23%',
-      ebitdaMult: '3.06x',
-      revMult: '0.43x',
-      rating: 'B2 / B+',
-      coupon: '8.000',
-      callProvision: '9-15-2025 at 104.000%',
-      ytm: '8.41%'
+      svId: 'VANGUARD-09 [58219]',
+      cosparId: '2024-018J',
+      inclination: '97.53°',
+      eccentricity: '0.00019',
+      meanMotion: '15.09 rev/d',
+      status: 'DRAG COMP',
+      propellantPct: '64.8%',
+      nextBurnWindow: '2026-10-31 21:40Z (+0.25 m/s)',
+      deltaVBudget: '98.2 m/s'
     },
     {
-      instrument: '$475M Revolving Credit',
-      maturity: '12-16-2028',
-      evPercent: '44.07%',
-      ebitdaMult: '3.94x',
-      revMult: '0.56x',
-      rating: '—',
-      coupon: '—',
-      callProvision: '—',
-      ytm: '—'
+      svId: 'VANGUARD-12 [58222]',
+      cosparId: '2024-018M',
+      inclination: '97.55°',
+      eccentricity: '0.00012',
+      meanMotion: '15.08 rev/d',
+      status: 'NOMINAL',
+      propellantPct: '91.0%',
+      nextBurnWindow: '2026-11-08 11:05Z (+0.12 m/s)',
+      deltaVBudget: '151.4 m/s'
     },
     {
-      instrument: '$450M Term Loan B',
-      maturity: '10-10-2029',
-      evPercent: '63.27',
-      ebitdaMult: '5.66x',
-      revMult: '0.80x',
-      rating: '—',
-      coupon: '—',
-      callProvision: '8-12-2024 at 101.000%',
-      ytm: '—'
+      svId: 'VANGUARD-18 [58228]',
+      cosparId: '2024-018T',
+      inclination: '97.52°',
+      eccentricity: '0.00031',
+      meanMotion: '15.10 rev/d',
+      status: 'DRAG COMP',
+      propellantPct: '59.5%',
+      nextBurnWindow: '2026-11-01 09:22Z (+0.31 m/s)',
+      deltaVBudget: '84.0 m/s'
     },
     {
-      instrument: 'Total Debt',
-      maturity: '',
-      evPercent: '85.56%',
-      ebitdaMult: '7.77x',
-      revMult: '1.1x',
-      rating: '',
-      coupon: '',
-      callProvision: '',
-      ytm: ''
+      svId: 'SHELL-1 MEAN FLEET (48 SVs)',
+      cosparId: '2024-018*',
+      inclination: '97.54°',
+      eccentricity: '0.00021',
+      meanMotion: '15.09 rev/d',
+      status: 'SYNC LOCKED',
+      propellantPct: '74.2%',
+      nextBurnWindow: 'AUTO STATION-KEEPING',
+      deltaVBudget: '116.4 m/s'
     }
   ];
 
-  const getRatingBadgeStyle = (rating: string) => {
-    if (rating === 'NR' || rating === '—' || rating === '') {
-      return badges.notRated;
-    }
-    if (rating.includes('CCC') || rating.includes('Caa')) {
-      return badges.distressed;
-    }
-    if (rating.includes('B')) {
-      return badges.highYield;
-    }
-    return badges.investmentGrade;
+  const getStatusBadgeStyle = (status: string) => {
+    if (status === 'CAM ARMED') return badges.distressed;
+    if (status === 'DRAG COMP') return badges.highYield;
+    if (status === 'NOMINAL') return badges.investmentGrade;
+    return badges.notRated;
   };
 
-  const getYTMColor = (ytm: string) => {
-    if (ytm === '-') return themeColors.textPrimary;
-    const value = parseFloat(ytm);
-    if (value > 7) return themeColors.alertRed;
-    if (value >= 5) return theme === 'dark' ? '#F59E0B' : '#D97706';
-    return themeColors.textPrimary;
-  };
-
-  const getEBITDAColor = (mult: string) => {
-    if (mult === '-') return themeColors.textPrimary;
-    const value = parseFloat(mult);
-    if (value > 6) return themeColors.alertRed;
-    if (value >= 4) return theme === 'dark' ? '#F59E0B' : '#D97706';
-    return themeColors.textPrimary;
+  const getPropellantColor = (pctStr: string) => {
+    const value = parseFloat(pctStr);
+    if (value < 45) return themeColors.alertRed;
+    if (value < 65) return themeColors.alertAmber;
+    return themeColors.alertGreen;
   };
 
   const handleExportCSV = () => {
-    const headers = ['Instrument', 'Maturity Date', '% EV', 'EBITDA Mult.', 'Revenue Mult.', 'Rating', 'Coupon', 'Call Provision', 'YTM'];
+    const headers = ['SV Designator [NORAD]', 'COSPAR ID', 'Inclination', 'Eccentricity', 'Mean Motion', 'Telemetry Status', 'Xenon Propellant %', 'Next Burn Window (UTC)', 'Remaining Delta-V'];
     const rows = data.map(r => [
-      `"${r.instrument}"`,
-      `"${r.maturity}"`,
-      `"${r.evPercent}"`,
-      `"${r.ebitdaMult}"`,
-      `"${r.revMult}"`,
-      `"${r.rating}"`,
-      `"${r.coupon}"`,
-      `"${r.callProvision}"`,
-      `"${r.ytm}"`
+      `"${r.svId}"`,
+      `"${r.cosparId}"`,
+      `"${r.inclination}"`,
+      `"${r.eccentricity}"`,
+      `"${r.meanMotion}"`,
+      `"${r.status}"`,
+      `"${r.propellantPct}"`,
+      `"${r.nextBurnWindow}"`,
+      `"${r.deltaVBudget}"`
     ]);
     const csvContent = [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', `apex_brands_capital_structure_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute('download', `vanguard_constellation_ephemeris_${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -135,66 +120,64 @@ export function CapitalStructureTable() {
 
   return (
     <div
-      className="transition-colors duration-300"
+      className="transition-colors duration-300 rounded-sm"
       style={{
         backgroundColor: themeColors.tableBg,
         border: `1px solid ${themeColors.borderPrimary}`
       }}
     >
-      <div className="px-4 md:px-6 py-4 md:py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ borderBottom: `1px solid ${themeColors.borderPrimary}` }}>
+      <div className="px-4 md:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ borderBottom: `1px solid ${themeColors.borderPrimary}` }}>
         <div>
-          <h3 style={{ fontSize: '14px', fontWeight: 600, color: themeColors.textPrimary }} className="md:text-base">
-            CAPITAL STRUCTURE
+          <h3 style={{ fontSize: '14px', fontWeight: 700, color: themeColors.textPrimary, letterSpacing: '0.05em' }} className="md:text-base uppercase">
+            CONSTELLATION EPHEMERIS & THRUSTER DELTA-V LEDGER
           </h3>
-          <span style={{ fontSize: '11px', color: themeColors.textSecondary }} className="md:text-xs">
-            Data as of March 29, 2025
+          <span className="font-mono" style={{ fontSize: '11px', color: themeColors.textSecondary }}>
+            TLE EPOCH 2026-303.59182044 // HALL-EFFECT XENON PROPULSION TELEMETRY
           </span>
         </div>
         <button
           onClick={handleExportCSV}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded transition-colors text-xs font-semibold cursor-pointer self-start sm:self-auto"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded transition-colors text-xs font-mono font-semibold cursor-pointer self-start sm:self-auto"
           style={{
             backgroundColor: theme === 'dark' ? 'rgba(6,182,212,0.12)' : '#EFF6FF',
-            color: theme === 'dark' ? '#06B6D4' : '#0284C7',
-            border: theme === 'dark' ? '1px solid rgba(6,182,212,0.3)' : '1px solid #BAE6FD'
+            color: themeColors.accentPrimary,
+            border: `1px solid ${theme === 'dark' ? 'rgba(6,182,212,0.35)' : '#BAE6FD'}`
           }}
-          onMouseEnter={e => {
-            e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(6,182,212,0.22)' : '#E0F2FE';
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(6,182,212,0.12)' : '#EFF6FF';
-          }}
-          title="Export table data to CSV"
+          title="Export Ephemeris TLE Ledger to CSV"
         >
-          {downloaded ? <><Check className="w-3.5 h-3.5" /> Exported</> : <><Download className="w-3.5 h-3.5" /> Export CSV</>}
+          {downloaded ? <><Check className="w-3.5 h-3.5" /> EXPORTED TLE</> : <><Download className="w-3.5 h-3.5" /> EXPORT TLE CSV</>}
         </button>
       </div>
 
       <div className="overflow-x-auto -mx-4 md:mx-0">
-        <table className="w-full min-w-[800px]">
+        <table className="w-full min-w-[900px]">
           <thead style={{ backgroundColor: themeColors.tableHeaderBg }}>
             <tr>
-              <th className="px-3.5 py-3 text-left uppercase" style={{ fontSize: '12px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.1em' }}>Instrument</th>
-              <th className="px-3.5 py-3 text-center uppercase" style={{ fontSize: '12px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.1em' }}>Maturity Date</th>
-              <th className="px-3.5 py-3 text-right uppercase" style={{ fontSize: '12px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.1em' }}>% EV</th>
-              <th className="px-3.5 py-3 text-right uppercase" style={{ fontSize: '12px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.1em' }}>EBITDA Mult.</th>
-              <th className="px-3.5 py-3 text-right uppercase" style={{ fontSize: '12px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.1em' }}>Revenue Mult.</th>
-              <th className="px-3.5 py-3 text-center uppercase" style={{ fontSize: '12px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.1em' }}>Rating</th>
-              <th className="px-3.5 py-3 text-right uppercase" style={{ fontSize: '12px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.1em' }}>Coupon</th>
-              <th className="px-3.5 py-3 text-right uppercase" style={{ fontSize: '12px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.1em' }}>Call Provision</th>
-              <th className="px-3.5 py-3 text-right uppercase" style={{ fontSize: '12px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.1em' }}>YTM</th>
+              <th className="px-3.5 py-3 text-left uppercase font-mono" style={{ fontSize: '11px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.08em' }}>Spacecraft [NORAD ID]</th>
+              <th className="px-3.5 py-3 text-center uppercase font-mono" style={{ fontSize: '11px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.08em' }}>COSPAR ID</th>
+              <th className="px-3.5 py-3 text-right uppercase font-mono" style={{ fontSize: '11px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.08em' }}>Inclination</th>
+              <th className="px-3.5 py-3 text-right uppercase font-mono" style={{ fontSize: '11px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.08em' }}>Eccentricity</th>
+              <th className="px-3.5 py-3 text-right uppercase font-mono" style={{ fontSize: '11px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.08em' }}>Mean Motion</th>
+              <th className="px-3.5 py-3 text-center uppercase font-mono" style={{ fontSize: '11px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.08em' }}>Mode Status</th>
+              <th className="px-3.5 py-3 text-right uppercase font-mono" style={{ fontSize: '11px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.08em' }}>Xenon Fuel %</th>
+              <th className="px-3.5 py-3 text-right uppercase font-mono" style={{ fontSize: '11px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.08em' }}>Next Burn Window</th>
+              <th className="px-3.5 py-3 text-right uppercase font-mono" style={{ fontSize: '11px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.08em' }}>Rem. ΔV</th>
             </tr>
           </thead>
           <tbody>
             {data.map((row, index) => {
-              const ratingStyle = getRatingBadgeStyle(row.rating);
+              const isTotal = row.svId.startsWith('SHELL-1');
+              const badgeStyle = getStatusBadgeStyle(row.status);
+
               return (
                 <tr
                   key={index}
-                  className="transition-colors duration-200"
+                  className="transition-colors"
                   style={{
                     backgroundColor: index % 2 === 0 ? themeColors.tableBg : themeColors.bgZebra,
-                    borderBottom: `1px solid ${themeColors.borderSubtle}`
+                    borderBottom: `1px solid ${themeColors.borderSubtle}`,
+                    borderTop: isTotal ? `2px solid ${themeColors.accentPrimary}` : undefined,
+                    fontWeight: isTotal ? 700 : 400
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.backgroundColor = themeColors.hoverBg;
@@ -203,31 +186,31 @@ export function CapitalStructureTable() {
                     e.currentTarget.style.backgroundColor = index % 2 === 0 ? themeColors.tableBg : themeColors.bgZebra;
                   }}
                 >
-                  <td className="px-3.5 py-3" style={{ fontSize: '14px', color: themeColors.textPrimary }}>{row.instrument}</td>
-                  <td className="px-3.5 py-3 text-center" style={{ fontSize: '14px', color: themeColors.textPrimary, fontFamily: 'JetBrains Mono, monospace' }}>{row.maturity}</td>
-                  <td className="px-3.5 py-3 text-right" style={{ fontSize: '14px', color: themeColors.textPrimary, fontFamily: 'JetBrains Mono, monospace' }}>{row.evPercent}</td>
-                  <td className="px-3.5 py-3 text-right" style={{ fontSize: '14px', color: getEBITDAColor(row.ebitdaMult), fontFamily: 'JetBrains Mono, monospace' }}>{row.ebitdaMult}</td>
-                  <td className="px-3.5 py-3 text-right" style={{ fontSize: '14px', color: themeColors.textPrimary, fontFamily: 'JetBrains Mono, monospace' }}>{row.revMult}</td>
+                  <td className="px-3.5 py-3 font-mono" style={{ fontSize: '13px', color: themeColors.textPrimary }}>{row.svId}</td>
+                  <td className="px-3.5 py-3 text-center font-mono" style={{ fontSize: '13px', color: themeColors.textSecondary }}>{row.cosparId}</td>
+                  <td className="px-3.5 py-3 text-right font-mono" style={{ fontSize: '13px', color: themeColors.textPrimary }}>{row.inclination}</td>
+                  <td className="px-3.5 py-3 text-right font-mono" style={{ fontSize: '13px', color: themeColors.textPrimary }}>{row.eccentricity}</td>
+                  <td className="px-3.5 py-3 text-right font-mono" style={{ fontSize: '13px', color: themeColors.textPrimary }}>{row.meanMotion}</td>
                   <td className="px-3.5 py-3 text-center">
                     <span
                       style={{
-                        fontSize: '12px',
-                        fontWeight: 600,
-                        color: ratingStyle.text,
-                        backgroundColor: ratingStyle.bg,
-                        border: theme === 'light' && 'border' in ratingStyle ? `1px solid ${ratingStyle.border}` : 'none',
+                        fontSize: '11px',
+                        fontWeight: 700,
+                        color: badgeStyle.text,
+                        backgroundColor: badgeStyle.bg,
+                        border: `1px solid ${badgeStyle.border}`,
                         fontFamily: 'JetBrains Mono, monospace',
-                        padding: '6px 10px',
-                        borderRadius: '6px',
+                        padding: '4px 8px',
+                        borderRadius: '4px',
                         display: 'inline-block'
                       }}
                     >
-                      {row.rating}
+                      {row.status}
                     </span>
                   </td>
-                  <td className="px-3.5 py-3 text-right" style={{ fontSize: '14px', color: themeColors.textPrimary, fontFamily: 'JetBrains Mono, monospace' }}>{row.coupon}</td>
-                  <td className="px-3.5 py-3 text-right" style={{ fontSize: '14px', color: themeColors.textPrimary, fontFamily: 'JetBrains Mono, monospace' }}>{row.callProvision}</td>
-                  <td className="px-3.5 py-3 text-right" style={{ fontSize: '14px', color: getYTMColor(row.ytm), fontFamily: 'JetBrains Mono, monospace' }}>{row.ytm}</td>
+                  <td className="px-3.5 py-3 text-right font-mono" style={{ fontSize: '13px', fontWeight: 600, color: getPropellantColor(row.propellantPct) }}>{row.propellantPct}</td>
+                  <td className="px-3.5 py-3 text-right font-mono" style={{ fontSize: '12px', color: themeColors.textSecondary }}>{row.nextBurnWindow}</td>
+                  <td className="px-3.5 py-3 text-right font-mono" style={{ fontSize: '13px', color: themeColors.accentPrimary, fontWeight: 600 }}>{row.deltaVBudget}</td>
                 </tr>
               );
             })}

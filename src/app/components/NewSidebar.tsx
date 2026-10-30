@@ -1,15 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
-import { Building2, Users, BarChart3, Settings, PanelLeftClose, PanelLeft, LogOut, LayoutDashboard, Activity, MessageSquare, ListTodo, Newspaper, TrendingUp, Shield, Image, Upload, Sun, Moon, ChevronDown, Search, Clock, LayoutGrid, Eye } from 'lucide-react';
+import { Orbit, Users, BarChart3, Settings, PanelLeftClose, PanelLeft, LogOut, LayoutDashboard, Activity, MessageSquare, ListTodo, Newspaper, TrendingUp, Shield, Image, Upload, Sun, Moon, ChevronDown, Search, Clock, Eye, Radar } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useSidebar } from '../context/SidebarContext';
 import { useAuth } from '../context/AuthContext';
 import { colors } from '../theme/colors';
 import { useNavigate, useLocation } from 'react-router';
 
-const RECENT_COMPANIES = [
-  { ticker: 'APX', name: 'Apex Brands Group' },
-  { ticker: 'CHEF', name: 'Chefs\' Warehouse' },
-  { ticker: 'SFM', name: 'Sprouts Farmers' },
+const RECENT_SHELLS = [
+  { ticker: 'VGD-S1', name: 'Vanguard LEO Shell-1 (550km)' },
+  { ticker: 'VGD-S2', name: 'Vanguard Sun-Sync Shell-2 (720km)' },
+  { ticker: 'VGD-VLEO', name: 'Vanguard VLEO Recon Shell (380km)' },
 ];
 
 interface NavItem {
@@ -23,45 +23,45 @@ function getNavItems(role?: string, viewMode?: 'admin' | 'preview'): NavItem[] {
   if (role === 'super_admin') {
     if (viewMode === 'admin') {
       return [
-        { id: 'onboarding', label: 'Onboarding', icon: Building2, path: '/admin?tab=onboarding' },
-        { id: 'users', label: 'Users', icon: Users, path: '/admin?tab=users' },
-        { id: 'commentary', label: 'Commentary', icon: MessageSquare, path: '/admin?tab=commentary' },
-        { id: 'data-upload', label: 'Data Upload', icon: Upload, path: '/admin?tab=data-upload' },
-        { id: 'images', label: 'Charts Upload', icon: Image, path: '/admin?tab=images' },
-        { id: 'priorities', label: 'Priorities & Events', icon: ListTodo, path: '/admin?tab=priorities' },
-        { id: 'sector-news', label: 'Sector News & Commentary', icon: Newspaper, path: '/admin?tab=sector-news' },
-        { id: 'market-trends', label: 'Market Trends', icon: TrendingUp, path: '/admin?tab=market-trends' },
+        { id: 'onboarding', label: 'Shell Provisioning', icon: Orbit, path: '/admin?tab=onboarding' },
+        { id: 'users', label: 'Flight Crew & Access', icon: Users, path: '/admin?tab=users' },
+        { id: 'commentary', label: 'FDO Telemetry Log', icon: MessageSquare, path: '/admin?tab=commentary' },
+        { id: 'data-upload', label: 'TLE / CDM Ingest', icon: Upload, path: '/admin?tab=data-upload' },
+        { id: 'images', label: 'Radar Plots Upload', icon: Image, path: '/admin?tab=images' },
+        { id: 'priorities', label: 'Directives & Passes', icon: ListTodo, path: '/admin?tab=priorities' },
+        { id: 'sector-news', label: 'Space Weather Bulletins', icon: Newspaper, path: '/admin?tab=sector-news' },
+        { id: 'market-trends', label: 'CAM Protocols', icon: TrendingUp, path: '/admin?tab=market-trends' },
       ];
     } else {
       return [
-        { id: 'overview', label: 'Overview', icon: LayoutDashboard, path: '/dashboard' },
-        { id: 'capital-structure', label: 'Capital Structure', icon: BarChart3, path: '/dashboard/capital-structure' },
-        { id: 'covenant-compliance', label: 'Covenant Compliance', icon: Shield, path: '/dashboard/covenant-compliance' },
-        { id: 'performance-analysis', label: 'Priorities & Events', icon: Activity, path: '/dashboard/priorities-events' },
-        { id: 'sector-news', label: 'Sector News', icon: Newspaper, path: '/dashboard/sector-news' },
-        { id: 'user-management', label: 'User Management', icon: Users, path: '/dashboard/user-management' },
+        { id: 'overview', label: 'Telemetry Overview', icon: LayoutDashboard, path: '/dashboard' },
+        { id: 'capital-structure', label: 'Constellation Ephemeris', icon: BarChart3, path: '/dashboard/capital-structure' },
+        { id: 'covenant-compliance', label: 'Orbital Safety & SLA', icon: Shield, path: '/dashboard/covenant-compliance' },
+        { id: 'performance-analysis', label: 'Maneuvers & Passes', icon: Activity, path: '/dashboard/priorities-events' },
+        { id: 'sector-news', label: 'Space Weather & Advisories', icon: Newspaper, path: '/dashboard/sector-news' },
+        { id: 'user-management', label: 'Flight Crew Access', icon: Users, path: '/dashboard/user-management' },
       ];
     }
   }
 
   if (role === 'company_admin') {
     return [
-      { id: 'overview', label: 'Overview', icon: LayoutDashboard, path: '/dashboard' },
-      { id: 'capital-structure', label: 'Capital Structure', icon: BarChart3, path: '/dashboard/capital-structure' },
-      { id: 'covenant-compliance', label: 'Covenant Compliance', icon: Shield, path: '/dashboard/covenant-compliance' },
-      { id: 'performance-analysis', label: 'Priorities & Events', icon: Activity, path: '/dashboard/priorities-events' },
-      { id: 'sector-news', label: 'Sector News', icon: Newspaper, path: '/dashboard/sector-news' },
-      { id: 'user-management', label: 'User Management', icon: Users, path: '/dashboard/user-management' },
+      { id: 'overview', label: 'Telemetry Overview', icon: LayoutDashboard, path: '/dashboard' },
+      { id: 'capital-structure', label: 'Constellation Ephemeris', icon: BarChart3, path: '/dashboard/capital-structure' },
+      { id: 'covenant-compliance', label: 'Orbital Safety & SLA', icon: Shield, path: '/dashboard/covenant-compliance' },
+      { id: 'performance-analysis', label: 'Maneuvers & Passes', icon: Activity, path: '/dashboard/priorities-events' },
+      { id: 'sector-news', label: 'Space Weather & Advisories', icon: Newspaper, path: '/dashboard/sector-news' },
+      { id: 'user-management', label: 'Flight Crew Access', icon: Users, path: '/dashboard/user-management' },
     ];
   }
 
   // Default: normal_user
   return [
-    { id: 'overview', label: 'Overview', icon: LayoutDashboard, path: '/dashboard' },
-    { id: 'capital-structure', label: 'Capital Structure', icon: BarChart3, path: '/dashboard/capital-structure' },
-    { id: 'covenant-compliance', label: 'Covenant Compliance', icon: Shield, path: '/dashboard/covenant-compliance' },
-    { id: 'performance-analysis', label: 'Priorities & Events', icon: Activity, path: '/dashboard/priorities-events' },
-    { id: 'sector-news', label: 'Sector News', icon: Newspaper, path: '/dashboard/sector-news' },
+    { id: 'overview', label: 'Telemetry Overview', icon: LayoutDashboard, path: '/dashboard' },
+    { id: 'capital-structure', label: 'Constellation Ephemeris', icon: BarChart3, path: '/dashboard/capital-structure' },
+    { id: 'covenant-compliance', label: 'Orbital Safety & SLA', icon: Shield, path: '/dashboard/covenant-compliance' },
+    { id: 'performance-analysis', label: 'Maneuvers & Passes', icon: Activity, path: '/dashboard/priorities-events' },
+    { id: 'sector-news', label: 'Space Weather & Advisories', icon: Newspaper, path: '/dashboard/sector-news' },
   ];
 }
 
@@ -73,7 +73,6 @@ export function NewSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // For Super Admin: preview mode when path starts with /dashboard, admin mode when path starts with /admin
   const isPreviewMode = location.pathname.startsWith('/dashboard');
   const viewMode: 'admin' | 'preview' = isPreviewMode ? 'preview' : 'admin';
 
@@ -130,7 +129,7 @@ export function NewSidebar() {
   };
 
   const getRoleLabel = (role?: string) => {
-    return role === 'super_admin' ? 'Aegis Administrator' : role === 'company_admin' ? 'Company Admin' : 'User';
+    return role === 'super_admin' ? 'Kessler Flight Director' : role === 'company_admin' ? 'Constellation Lead' : 'Orbital Analyst';
   };
 
   const getRoleBadgeColor = (role?: string) => {
@@ -167,14 +166,14 @@ export function NewSidebar() {
                   border: theme === 'dark' ? '1px solid rgba(6, 182, 212, 0.4)' : '1px solid #BAE6FD'
                 }}
               >
-                <Shield className="w-5 h-5" style={{ color: theme === 'dark' ? '#06B6D4' : '#0E7490' }} />
+                <Radar className="w-5 h-5" style={{ color: theme === 'dark' ? '#06B6D4' : '#0E7490' }} />
               </div>
               <div className="whitespace-nowrap">
-                <div style={{ fontSize: '14px', fontWeight: 700, letterSpacing: '0.06em', color: tc.textPrimary, lineHeight: 1.2 }}>
-                  AEGIS
+                <div className="font-mono" style={{ fontSize: '14px', fontWeight: 700, letterSpacing: '0.08em', color: tc.textPrimary, lineHeight: 1.2 }}>
+                  KESSLER
                 </div>
                 <div
-                  className="whitespace-nowrap"
+                  className="whitespace-nowrap font-mono"
                   style={{
                     fontSize: '9px',
                     fontWeight: 700,
@@ -183,7 +182,7 @@ export function NewSidebar() {
                     textTransform: 'uppercase'
                   }}
                 >
-                  Credit Terminal
+                  Orbital SSA Terminal
                 </div>
               </div>
             </div>
@@ -226,43 +225,43 @@ export function NewSidebar() {
           )}
         </div>
 
-        {/* Aegis Admin View Toggle */}
+        {/* Kessler Admin View Toggle */}
         {user?.role === 'super_admin' && !isCollapsed && (
           <div className="px-3 py-3" style={{ borderBottom: `1px solid ${tc.borderPrimary}` }}>
             <div className="flex gap-1 p-1 rounded-lg" style={{ backgroundColor: tc.bgTertiary }}>
               <button
                 onClick={() => handleViewToggle('admin')}
-                className="flex-1 flex items-center justify-center gap-1.5 px-2 py-2 rounded transition-all whitespace-nowrap"
+                className="flex-1 flex items-center justify-center gap-1.5 px-2 py-2 rounded transition-all whitespace-nowrap font-mono"
                 style={{
-                  backgroundColor: viewMode === 'admin' ? (theme === 'dark' ? '#1A2332' : '#FFFFFF') : 'transparent',
+                  backgroundColor: viewMode === 'admin' ? (theme === 'dark' ? '#06080D' : '#FFFFFF') : 'transparent',
                   color: viewMode === 'admin' ? tc.accentPrimary : tc.textSecondary,
-                  fontSize: '12px',
+                  fontSize: '11px',
                   fontWeight: 600,
                   border: viewMode === 'admin' ? `1px solid ${tc.borderPrimary}` : '1px solid transparent'
                 }}
               >
-                <Shield className="w-3.5 h-3.5 flex-shrink-0" />
-                <span>Admin</span>
+                <Radar className="w-3.5 h-3.5 flex-shrink-0" />
+                <span>FDO Console</span>
               </button>
               <button
                 onClick={() => handleViewToggle('preview')}
-                className="flex-1 flex items-center justify-center gap-1.5 px-2 py-2 rounded transition-all whitespace-nowrap"
+                className="flex-1 flex items-center justify-center gap-1.5 px-2 py-2 rounded transition-all whitespace-nowrap font-mono"
                 style={{
-                  backgroundColor: viewMode === 'preview' ? (theme === 'dark' ? '#1A2332' : '#FFFFFF') : 'transparent',
+                  backgroundColor: viewMode === 'preview' ? (theme === 'dark' ? '#06080D' : '#FFFFFF') : 'transparent',
                   color: viewMode === 'preview' ? tc.accentPrimary : tc.textSecondary,
-                  fontSize: '12px',
+                  fontSize: '11px',
                   fontWeight: 600,
                   border: viewMode === 'preview' ? `1px solid ${tc.borderPrimary}` : '1px solid transparent'
                 }}
               >
                 <Eye className="w-3.5 h-3.5 flex-shrink-0" />
-                <span>Preview</span>
+                <span>Live Telemetry</span>
               </button>
             </div>
           </div>
         )}
 
-        {/* Company Selector - Super Admin Only */}
+        {/* Orbital Shell Selector - Super Admin Only */}
         {user?.role === 'super_admin' && !isCollapsed && (
           <div className="px-3 py-3 relative" style={{ borderBottom: `1px solid ${tc.borderPrimary}` }} ref={companyRef}>
             <button
@@ -273,9 +272,11 @@ export function NewSidebar() {
                 border: `1px solid ${tc.borderPrimary}`
               }}
             >
-              <Building2 className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
-              <span style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary, flex: 1, textAlign: 'left' }}>Apex Brands Group</span>
-              <span style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: tc.accentPrimary }}>APX</span>
+              <Orbit className="w-3.5 h-3.5" style={{ color: tc.accentPrimary }} />
+              <span style={{ fontSize: '12px', fontWeight: 600, color: tc.textPrimary, flex: 1, textAlign: 'left' }} className="truncate">
+                Vanguard LEO Shell-1
+              </span>
+              <span style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: tc.accentPrimary }}>VGD-S1</span>
               <ChevronDown className="w-3 h-3" style={{ color: tc.textSecondary }} />
             </button>
 
@@ -292,7 +293,7 @@ export function NewSidebar() {
                     <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: tc.textSecondary }} />
                     <input
                       type="text"
-                      placeholder="Search companies..."
+                      placeholder="Filter orbital shells..."
                       value={companySearch}
                       onChange={e => setCompanySearch(e.target.value)}
                       autoFocus
@@ -301,32 +302,32 @@ export function NewSidebar() {
                         height: '36px',
                         paddingLeft: '32px',
                         paddingRight: '10px',
-                        backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                        backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
                         border: `1px solid ${tc.borderPrimary}`,
                         borderRadius: '6px',
                         color: tc.textPrimary,
-                        fontSize: '13px',
+                        fontSize: '12px',
                         outline: 'none'
                       }}
                     />
                   </div>
                 </div>
                 <div className="p-2 max-h-48 overflow-y-auto">
-                  <p style={{ fontSize: '11px', color: tc.textSecondary, padding: '4px 8px 6px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                    Recently Viewed
+                  <p style={{ fontSize: '10px', color: tc.textSecondary, padding: '4px 8px 6px', textTransform: 'uppercase', letterSpacing: '0.08em' }} className="font-mono">
+                    Active Orbital Shells
                   </p>
-                  {RECENT_COMPANIES.map(co => (
+                  {RECENT_SHELLS.map(shell => (
                     <button
-                      key={co.ticker}
-                      className="w-full flex items-center gap-3 px-2 py-2 rounded-md transition-colors text-left"
+                      key={shell.ticker}
+                      className="w-full flex items-center gap-2 px-2 py-2 rounded-md transition-colors text-left"
                       style={{ color: tc.textPrimary }}
                       onMouseEnter={e => e.currentTarget.style.backgroundColor = tc.bgTertiary}
                       onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
                       onClick={() => setShowCompanySearch(false)}
                     >
-                      <Clock className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
-                      <span style={{ fontSize: '13px' }}>{co.name}</span>
-                      <span style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: tc.accentPrimary, marginLeft: 'auto' }}>{co.ticker}</span>
+                      <Clock className="w-3.5 h-3.5 flex-shrink-0" style={{ color: tc.textSecondary }} />
+                      <span style={{ fontSize: '12px' }} className="truncate">{shell.name}</span>
+                      <span style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', color: tc.accentPrimary, marginLeft: 'auto' }}>{shell.ticker}</span>
                     </button>
                   ))}
                 </div>
@@ -335,16 +336,16 @@ export function NewSidebar() {
           </div>
         )}
 
-        {/* Company Display - Non-Admin */}
+        {/* Orbital Shell Display - Non-Admin */}
         {(user?.role === 'company_admin' || user?.role === 'normal_user') && !isCollapsed && (
           <div className="px-3 py-3" style={{ borderBottom: `1px solid ${tc.borderPrimary}` }}>
             <div className="flex items-center gap-2 px-3 py-2 rounded-md" style={{
               backgroundColor: tc.bgTertiary,
               border: `1px solid ${tc.borderPrimary}`
             }}>
-              <Building2 className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
-              <span style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary }}>Apex Brands Group</span>
-              <span style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: tc.accentPrimary }}>APX</span>
+              <Orbit className="w-3.5 h-3.5" style={{ color: tc.accentPrimary }} />
+              <span style={{ fontSize: '12px', fontWeight: 600, color: tc.textPrimary }} className="truncate flex-1">Vanguard LEO Shell-1</span>
+              <span style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: tc.accentPrimary }}>VGD-S1</span>
             </div>
           </div>
         )}
@@ -363,9 +364,9 @@ export function NewSidebar() {
                   aria-label={item.label}
                   className={`w-full px-4 py-2.5 flex items-center gap-3 transition-colors cursor-pointer ${isCollapsed ? 'justify-center' : ''}`}
                   style={{
-                    backgroundColor: active ? (theme === 'dark' ? '#1E222A' : '#F1F3F6') : 'transparent',
-                    color: active ? (theme === 'dark' ? '#EDEDED' : '#111318') : tc.textSecondary,
-                    borderLeft: active && !isCollapsed ? (theme === 'dark' ? '2px solid #EDEDED' : '2px solid #111318') : '2px solid transparent',
+                    backgroundColor: active ? (theme === 'dark' ? 'rgba(6, 182, 212, 0.12)' : '#E0F2FE') : 'transparent',
+                    color: active ? tc.accentPrimary : tc.textSecondary,
+                    borderLeft: active && !isCollapsed ? `2px solid ${tc.accentPrimary}` : '2px solid transparent',
                   }}
                   onMouseEnter={e => { if (!active) e.currentTarget.style.backgroundColor = tc.hoverBg; }}
                   onMouseLeave={e => { if (!active) e.currentTarget.style.backgroundColor = 'transparent'; }}
@@ -383,9 +384,9 @@ export function NewSidebar() {
                   <div
                     className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2.5 py-1 rounded text-xs font-semibold whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 z-50 shadow-lg"
                     style={{
-                      backgroundColor: theme === 'dark' ? '#1E293B' : '#0F172A',
+                      backgroundColor: theme === 'dark' ? '#131C2A' : '#0F172A',
                       color: '#FFFFFF',
-                      border: theme === 'dark' ? '1px solid #334155' : '1px solid #1E293B'
+                      border: theme === 'dark' ? '1px solid #1A2636' : '1px solid #1E293B'
                     }}
                   >
                     {item.label}
@@ -404,7 +405,7 @@ export function NewSidebar() {
               onClick={toggleTheme}
               onMouseEnter={() => setIsThemeHovered(true)}
               onMouseLeave={() => setIsThemeHovered(false)}
-              title={isCollapsed ? (theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode') : undefined}
+              title={isCollapsed ? (theme === 'dark' ? 'Switch to Daylight Console' : 'Switch to Deep-Space Mode') : undefined}
               aria-label="Toggle theme"
               className={`w-full py-3 flex items-center transition-colors duration-150 cursor-pointer ${isCollapsed ? 'justify-center px-0' : 'px-4 gap-3'}`}
               style={{
@@ -415,7 +416,7 @@ export function NewSidebar() {
               {theme === 'dark' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
               {!isCollapsed && (
                 <span style={{ fontSize: '13px', fontWeight: 500 }}>
-                  {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
+                  {theme === 'dark' ? 'Deep-Space Radar' : 'Daylight Console'}
                 </span>
               )}
             </button>
@@ -423,12 +424,12 @@ export function NewSidebar() {
               <div
                 className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2.5 py-1 rounded text-xs font-semibold whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 z-50 shadow-lg"
                 style={{
-                  backgroundColor: theme === 'dark' ? '#1E293B' : '#0F172A',
+                  backgroundColor: theme === 'dark' ? '#131C2A' : '#0F172A',
                   color: '#FFFFFF',
-                  border: theme === 'dark' ? '1px solid #334155' : '1px solid #1E293B'
+                  border: theme === 'dark' ? '1px solid #1A2636' : '1px solid #1E293B'
                 }}
               >
-                {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                {theme === 'dark' ? 'Switch to Daylight Console' : 'Switch to Deep-Space Mode'}
               </div>
             )}
           </div>
@@ -446,7 +447,7 @@ export function NewSidebar() {
                 onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
               >
                 <div
-                  className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                  className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-mono"
                   style={{ backgroundColor: getRoleBadgeColor(user.role), color: '#FFFFFF', fontSize: '12px', fontWeight: 700 }}
                 >
                   {user.initials}
@@ -455,7 +456,7 @@ export function NewSidebar() {
                   <>
                     <div className="flex-1 text-left min-w-0">
                       <div className="truncate" style={{ fontSize: '13px', fontWeight: 600, lineHeight: 1.2 }}>{user.name}</div>
-                      <div className="truncate" style={{ fontSize: '11px', color: tc.textSecondary, lineHeight: 1.2 }}>{getRoleLabel(user.role)}</div>
+                      <div className="truncate font-mono" style={{ fontSize: '10px', color: tc.textSecondary, lineHeight: 1.2 }}>{getRoleLabel(user.role)}</div>
                     </div>
                     <ChevronDown className="w-3 h-3 flex-shrink-0" style={{ color: tc.textSecondary }} />
                   </>
@@ -472,8 +473,8 @@ export function NewSidebar() {
                 >
                   <div className="px-4 py-3 border-b" style={{ borderColor: tc.borderPrimary }}>
                     <div style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary }}>{user.name}</div>
-                    <div style={{ fontSize: '12px', color: tc.textSecondary }}>{user.email}</div>
-                    <div className="mt-1.5 inline-flex px-2 py-0.5 rounded text-xs" style={{
+                    <div style={{ fontSize: '12px', color: tc.textSecondary }} className="font-mono">{user.email}</div>
+                    <div className="mt-1.5 inline-flex px-2 py-0.5 rounded text-xs font-mono" style={{
                       backgroundColor: `${getRoleBadgeColor(user.role)}20`,
                       color: getRoleBadgeColor(user.role),
                       border: `1px solid ${getRoleBadgeColor(user.role)}40`
@@ -490,19 +491,19 @@ export function NewSidebar() {
                     onClick={() => { navigate('/settings'); setShowSettings(false); }}
                   >
                     <Settings className="w-4 h-4" style={{ color: tc.textSecondary }} />
-                    <span style={{ fontSize: '13px' }}>Account Settings</span>
+                    <span style={{ fontSize: '13px' }}>Console Preferences</span>
                   </button>
 
                   <div className="border-t" style={{ borderColor: tc.borderPrimary }}>
                     <button
                       className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors"
-                      style={{ color: '#DC2626' }}
-                      onMouseEnter={e => e.currentTarget.style.backgroundColor = '#DC262615'}
+                      style={{ color: '#EF4444' }}
+                      onMouseEnter={e => e.currentTarget.style.backgroundColor = '#EF444415'}
                       onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
                       onClick={handleLogout}
                     >
                       <LogOut className="w-4 h-4" />
-                      <span style={{ fontSize: '13px' }}>Sign Out</span>
+                      <span style={{ fontSize: '13px' }}>Terminate Session</span>
                     </button>
                   </div>
                 </div>

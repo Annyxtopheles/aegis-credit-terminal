@@ -46,31 +46,55 @@ const MOCK_USERS: Record<string, { password: string; user: User }> = {
     password: 'Password123!',
     user: {
       id: '1', name: 'Sarah Chen', email: 'analyst@firm.com',
-      role: 'normal_user', firm: 'Apex Brands Group', jobTitle: 'Financial Analyst', initials: 'SC',
-      companyId: 'apexbrands', companyName: 'Apex Brands Group'
+      role: 'normal_user', firm: 'Vanguard Space Systems', jobTitle: 'Orbital Dynamics Analyst', initials: 'SC',
+      companyId: 'vanguard-leo', companyName: 'Vanguard LEO Shell-1'
+    }
+  },
+  'fdo@vanguard.space': {
+    password: 'Password123!',
+    user: {
+      id: '1', name: 'Sarah Chen', email: 'fdo@vanguard.space',
+      role: 'normal_user', firm: 'Vanguard Space Systems', jobTitle: 'Orbital Dynamics Analyst', initials: 'SC',
+      companyId: 'vanguard-leo', companyName: 'Vanguard LEO Shell-1'
     }
   },
   'pm@firm.com': {
     password: 'Password123!',
     user: {
       id: '2', name: 'Michael Ross', email: 'pm@firm.com',
-      role: 'normal_user', firm: 'Apex Brands Group', jobTitle: 'IR Manager', initials: 'MR',
-      companyId: 'apexbrands', companyName: 'Apex Brands Group'
+      role: 'normal_user', firm: 'Vanguard Space Systems', jobTitle: 'Telemetry Systems Engineer', initials: 'MR',
+      companyId: 'vanguard-leo', companyName: 'Vanguard LEO Shell-1'
     }
   },
   'cfo@apexbrands.com': {
     password: 'Password123!',
     user: {
-      id: '3', name: 'James Miller', email: 'cfo@apexbrands.com',
-      role: 'company_admin', firm: 'Apex Brands Group', jobTitle: 'Chief Financial Officer', initials: 'JM',
-      companyId: 'apexbrands', companyName: 'Apex Brands Group'
+      id: '3', name: 'Cmdr. James Miller', email: 'cfo@apexbrands.com',
+      role: 'company_admin', firm: 'Vanguard Space Systems', jobTitle: 'Constellation Flight Director', initials: 'JM',
+      companyId: 'vanguard-leo', companyName: 'Vanguard LEO Shell-1'
+    }
+  },
+  'lead@vanguard.space': {
+    password: 'Password123!',
+    user: {
+      id: '3', name: 'Cmdr. James Miller', email: 'lead@vanguard.space',
+      role: 'company_admin', firm: 'Vanguard Space Systems', jobTitle: 'Constellation Flight Director', initials: 'JM',
+      companyId: 'vanguard-leo', companyName: 'Vanguard LEO Shell-1'
     }
   },
   'admin@aegisterminal.com': {
     password: 'Password123!',
     user: {
-      id: '4', name: 'Alex Torres', email: 'admin@aegisterminal.com',
-      role: 'super_admin', firm: 'AEGIS', jobTitle: 'Platform Administrator', initials: 'AT',
+      id: '4', name: 'Dr. Alex Torres', email: 'admin@aegisterminal.com',
+      role: 'super_admin', firm: 'KESSLER SSA COMMAND', jobTitle: 'Chief Orbital Safety Director', initials: 'AT',
+      twoFactorEnabled: true
+    }
+  },
+  'director@kessler.space': {
+    password: 'Password123!',
+    user: {
+      id: '4', name: 'Dr. Alex Torres', email: 'director@kessler.space',
+      role: 'super_admin', firm: 'KESSLER SSA COMMAND', jobTitle: 'Chief Orbital Safety Director', initials: 'AT',
       twoFactorEnabled: true
     }
   },
@@ -78,8 +102,8 @@ const MOCK_USERS: Record<string, { password: string; user: User }> = {
     password: 'Password123!',
     user: {
       id: '5', name: 'Jordan Smith', email: 'trial@firm.com',
-      role: 'normal_user', firm: 'Apex Brands Group', jobTitle: 'Analyst', initials: 'JS',
-      companyId: 'apexbrands', companyName: 'Apex Brands Group'
+      role: 'normal_user', firm: 'Vanguard Space Systems', jobTitle: 'Conjunction Screening Officer', initials: 'JS',
+      companyId: 'vanguard-leo', companyName: 'Vanguard LEO Shell-1'
     }
   }
 };
@@ -88,7 +112,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUserState] = useState<User | null>(() => {
-    const saved = sessionStorage.getItem('aegis-user');
+    const saved = sessionStorage.getItem('kessler-user') || sessionStorage.getItem('aegis-user');
     return saved ? JSON.parse(saved) : null;
   });
   const [pendingEmail, setPendingEmail] = useState<string | null>(null);
@@ -97,8 +121,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const setUser = useCallback((u: User | null) => {
     setUserState(u);
-    if (u) sessionStorage.setItem('aegis-user', JSON.stringify(u));
-    else sessionStorage.removeItem('aegis-user');
+    if (u) {
+      sessionStorage.setItem('kessler-user', JSON.stringify(u));
+    } else {
+      sessionStorage.removeItem('kessler-user');
+      sessionStorage.removeItem('aegis-user');
+    }
   }, []);
 
   const login = useCallback(async (email: string, password: string): Promise<LoginResult> => {
@@ -107,13 +135,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(false);
 
     if (loginAttempts >= 5) {
-      return { success: false, error: 'Too many attempts. Try again in 15 minutes.' };
+      return { success: false, error: 'Too many authentication attempts. Lockout active for 15 minutes.' };
     }
 
     const entry = MOCK_USERS[email.toLowerCase()];
     if (!entry || entry.password !== password) {
       setLoginAttempts(p => p + 1);
-      return { success: false, error: 'Invalid email or password.' };
+      return { success: false, error: 'Invalid operator callsign/email or security key.' };
     }
 
     setLoginAttempts(0);
@@ -132,11 +160,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await new Promise(r => setTimeout(r, 700));
     setIsLoading(false);
 
-    if (code !== '123456') return { success: false, error: 'Invalid verification code.' };
-    if (!pendingEmail) return { success: false, error: 'Session expired. Please log in again.' };
+    if (code !== '123456') return { success: false, error: 'Invalid cryptographic token.' };
+    if (!pendingEmail) return { success: false, error: 'Telemetry session expired. Please re-authenticate.' };
 
     const entry = MOCK_USERS[pendingEmail];
-    if (!entry) return { success: false, error: 'User not found.' };
+    if (!entry) return { success: false, error: 'Operator record not found.' };
 
     setUser(entry.user);
     setPendingEmail(null);
@@ -161,7 +189,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const newUser: User = {
       id: Math.random().toString(36).slice(2),
       name: data.name, email: data.email, role: 'normal_user',
-      firm: 'New Organization', jobTitle: data.jobTitle || 'Analyst',
+      firm: 'Vanguard Space Systems', jobTitle: data.jobTitle || 'Orbital Dynamics Analyst',
       initials, isNewUser: true
     };
 

@@ -6,9 +6,9 @@ export function KeyEvents() {
   const themeColors = colors[theme];
 
   const events = [
-    'Next Earning Date',
-    'Lender Call Date',
-    '$550m Senior Unsecured Note due Sep. 15, 2027 ($550m Outstanding)'
+    'TCA Red Conjunction Window: VANGUARD-04 vs. COSMOS-2251 DEB (T-01:42:19 UTC)',
+    'Svalbard S-Band Ground Station AOS Pass — Command Uplink & Ephemeris Refresh (16:40 UTC)',
+    'Scheduled Plane-B Inclination Trim & Momentum Wheel Desaturation Burn (Nov 02, 04:15 UTC)'
   ];
 
   return (
@@ -20,15 +20,15 @@ export function KeyEvents() {
       }}
     >
       <h3
-        className="mb-4 md:mb-6"
+        className="mb-4 md:mb-6 font-mono"
         style={{
-          fontSize: '16px',
+          fontSize: '15px',
           fontWeight: 700,
           color: themeColors.textPrimary,
-          letterSpacing: '0.02em'
+          letterSpacing: '0.04em'
         }}
       >
-        KEY EVENTS
+        UPCOMING ORBITAL BURN & PASS WINDOWS
       </h3>
 
       <ul className="space-y-3 md:space-y-4">
@@ -42,8 +42,8 @@ export function KeyEvents() {
               color: themeColors.textPrimary
             }}
           >
-            <span style={{ color: themeColors.textPrimary, flexShrink: 0 }}>•</span>
-            <span className="md:text-base">{event}</span>
+            <span style={{ color: themeColors.accentPrimary, flexShrink: 0, fontFamily: 'JetBrains Mono, monospace' }}>•</span>
+            <span className="md:text-sm">{event}</span>
           </li>
         ))}
       </ul>

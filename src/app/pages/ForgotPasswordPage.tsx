@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Shield, ArrowLeft, Loader2, CheckCircle2 } from 'lucide-react';
+import { Radar, ArrowLeft, Loader2, CheckCircle2 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
 
@@ -14,7 +14,7 @@ export default function ForgotPasswordPage() {
   const [emailError, setEmailError] = useState('');
 
   const validate = () => {
-    if (!email) { setEmailError('Email is required'); return false; }
+    if (!email) { setEmailError('Operator email is required'); return false; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setEmailError('Invalid email format'); return false; }
     setEmailError(''); return true;
   };
@@ -40,39 +40,38 @@ export default function ForgotPasswordPage() {
           border: `1px solid ${tc.borderPrimary}`
         }}
       >
-        {/* Top Brand Bar */}
         <div className="flex items-center gap-2.5 mb-8">
           <div
             className="w-8 h-8 flex items-center justify-center rounded border"
             style={{
-              backgroundColor: tc.bgTertiary,
-              borderColor: tc.borderPrimary
+              backgroundColor: 'rgba(6, 182, 212, 0.14)',
+              borderColor: 'rgba(6, 182, 212, 0.4)'
             }}
           >
-            <Shield className="w-4 h-4" style={{ color: tc.textPrimary }} />
+            <Radar className="w-4 h-4" style={{ color: '#06B6D4' }} />
           </div>
           <span
+            className="font-mono"
             style={{
-              fontSize: '15px',
+              fontSize: '14px',
               fontWeight: 700,
               color: tc.textPrimary,
-              letterSpacing: '0.06em'
+              letterSpacing: '0.08em'
             }}
           >
-            AEGIS CREDIT TERMINAL
+            KESSLER // ORBITAL SSA TERMINAL
           </span>
         </div>
 
-        {/* Hero Centered Shield Badge */}
         <div className="flex justify-center mb-6">
           <div
             className="w-16 h-16 rounded-full flex items-center justify-center border"
             style={{
-              backgroundColor: tc.bgTertiary,
-              borderColor: tc.borderPrimary
+              backgroundColor: 'rgba(6, 182, 212, 0.1)',
+              borderColor: 'rgba(6, 182, 212, 0.35)'
             }}
           >
-            <Shield className="w-8 h-8" style={{ color: tc.textPrimary }} />
+            <Radar className="w-8 h-8" style={{ color: '#06B6D4' }} />
           </div>
         </div>
 
@@ -80,24 +79,26 @@ export default function ForgotPasswordPage() {
           <>
             <div className="mb-7 text-center">
               <h1
+                className="font-mono"
                 style={{
-                  fontSize: '28px',
+                  fontSize: '26px',
                   fontWeight: 700,
                   color: tc.textPrimary,
                   marginBottom: '8px',
                   letterSpacing: '-0.02em'
                 }}
               >
-                Reset Your Password
+                Reset Security Key
               </h1>
-              <p style={{ fontSize: '15px', color: tc.textSecondary }}>
-                Enter your institutional email to receive a reset link
+              <p style={{ fontSize: '14px', color: tc.textSecondary }}>
+                Enter your Flight Dynamics operator email to receive a cryptographic key reset link
               </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label
+                  className="font-mono"
                   style={{
                     display: 'block',
                     fontSize: '11px',
@@ -108,7 +109,7 @@ export default function ForgotPasswordPage() {
                     textTransform: 'uppercase'
                   }}
                 >
-                  Institutional Email
+                  Operator Email
                 </label>
                 <input
                   type="text"
@@ -116,30 +117,30 @@ export default function ForgotPasswordPage() {
                   onChange={e => { setEmail(e.target.value); if (emailError) setEmailError(''); }}
                   onBlur={validate}
                   placeholder="analyst@firm.com"
-                  className="w-full h-11 px-3.5 text-[13px] rounded-lg outline-none transition-colors"
+                  className="w-full h-11 px-3.5 text-[13px] rounded-lg outline-none transition-colors font-mono"
                   style={{
                     backgroundColor: tc.bgTertiary,
-                    border: `1px solid ${emailError ? '#E5484D' : tc.borderPrimary}`,
+                    border: `1px solid ${emailError ? '#EF4444' : tc.borderPrimary}`,
                     color: tc.textPrimary
                   }}
                   disabled={isLoading}
                   aria-describedby={emailError ? 'email-err' : undefined}
                 />
-                {emailError && <p id="email-err" style={{ color: '#E5484D', fontSize: '11px', marginTop: '4px' }}>{emailError}</p>}
+                {emailError && <p id="email-err" style={{ color: '#EF4444', fontSize: '11px', marginTop: '4px' }}>{emailError}</p>}
               </div>
 
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-12 rounded-lg font-bold text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
+                className="w-full h-12 rounded-lg font-mono font-bold text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
                 style={{
-                  backgroundColor: theme === 'dark' ? '#EDEDED' : '#111318',
-                  color: theme === 'dark' ? '#0B0C0E' : '#FFFFFF',
+                  backgroundColor: '#06B6D4',
+                  color: '#06080D',
                   border: 'none',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
               >
-                {isLoading ? <><Loader2 className="w-4 h-4 animate-spin" />Sending Reset Link...</> : 'Send Reset Link'}
+                {isLoading ? <><Loader2 className="w-4 h-4 animate-spin" />Transmitting Reset Token...</> : 'Send Key Recovery Token'}
               </button>
             </form>
           </>
@@ -148,24 +149,24 @@ export default function ForgotPasswordPage() {
             <div className="flex justify-center mb-6">
               <div
                 className="w-16 h-16 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: 'rgba(48, 164, 108, 0.12)', border: '1px solid rgba(48, 164, 108, 0.3)' }}
+                style={{ backgroundColor: 'rgba(16, 185, 129, 0.12)', border: '1px solid rgba(16, 185, 129, 0.3)' }}
               >
-                <CheckCircle2 className="w-8 h-8" style={{ color: '#30A46C' }} />
+                <CheckCircle2 className="w-8 h-8" style={{ color: '#10B981' }} />
               </div>
             </div>
-            <h2 style={{ fontSize: '24px', fontWeight: 700, color: tc.textPrimary, marginBottom: '8px' }}>
-              Check Your Email
+            <h2 className="font-mono" style={{ fontSize: '22px', fontWeight: 700, color: tc.textPrimary, marginBottom: '8px' }}>
+              Recovery Token Dispatched
             </h2>
-            <p style={{ fontSize: '15px', color: tc.textSecondary, marginBottom: '6px' }}>
-              We've dispatched password recovery instructions to:
+            <p style={{ fontSize: '14px', color: tc.textSecondary, marginBottom: '6px' }}>
+              Cryptographic key recovery instructions transmitted to:
             </p>
-            <p style={{ fontSize: '15px', fontWeight: 600, color: tc.textPrimary, marginBottom: '24px' }}>
+            <p className="font-mono" style={{ fontSize: '14px', fontWeight: 600, color: '#06B6D4', marginBottom: '24px' }}>
               {email}
             </p>
             <p style={{ fontSize: '13px', color: tc.textTertiary }}>
-              Didn't receive it? Check spam folder or{' '}
+              Didn't receive it? Check secure relay or{' '}
               <span style={{ color: tc.textPrimary, cursor: 'pointer', textDecoration: 'underline' }} onClick={() => setSuccess(false)}>
-                try another email
+                try another callsign
               </span>
             </p>
           </div>
@@ -173,7 +174,7 @@ export default function ForgotPasswordPage() {
 
         <button
           onClick={() => navigate('/login')}
-          className="flex items-center justify-center gap-2 mt-7 transition-colors hover:underline"
+          className="flex items-center justify-center gap-2 mt-7 transition-colors hover:underline font-mono"
           style={{
             background: 'none',
             border: 'none',
@@ -185,7 +186,7 @@ export default function ForgotPasswordPage() {
           }}
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Sign In
+          Return to Flight Control Sign In
         </button>
       </div>
     </div>

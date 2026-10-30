@@ -5,13 +5,13 @@ import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
 
 const TABS = [
-  { id: 'profile', label: 'Profile', icon: User },
-  { id: 'security', label: 'Security', icon: Shield },
+  { id: 'profile', label: 'Operator Profile', icon: User },
+  { id: 'security', label: 'Cryptographic Keys', icon: Shield },
 ];
 
 export default function SettingsPage() {
   const { user, setUser } = useAuth();
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const tc = colors[theme];
   const [activeTab, setActiveTab] = useState('profile');
   const [saved, setSaved] = useState(false);
@@ -32,8 +32,7 @@ export default function SettingsPage() {
     setIsSaving(true);
     await new Promise(r => setTimeout(r, 600));
     setIsSaving(false);
-    
-    // Update live user session state
+
     if (user) {
       const nameParts = profile.name.trim().split(' ');
       const initials = nameParts.length >= 2
@@ -57,11 +56,11 @@ export default function SettingsPage() {
     e.preventDefault();
     setPwError('');
     if (!currentPw) {
-      setPwError('Current password is required');
+      setPwError('Current security key is required');
       return;
     }
     if (newPw.length < 8) {
-      setPwError('New password must be at least 8 characters');
+      setPwError('New security key must be at least 8 characters');
       return;
     }
     setPwSuccess(true);
@@ -72,40 +71,38 @@ export default function SettingsPage() {
 
   const inputStyle = {
     width: '100%', height: '44px', padding: '0 12px',
-    backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
     color: tc.textPrimary, fontSize: '14px', outline: 'none'
   };
 
-  const labelStyle = { display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '5px' };
+  const labelStyle = { display: 'block', fontSize: '12px', fontWeight: 600, color: tc.textPrimary, marginBottom: '5px', fontFamily: 'JetBrains Mono, monospace' };
 
   return (
     <div className="px-3 md:px-6 py-6 max-w-4xl mx-auto">
       <div className="mb-6">
-        <h1 style={{ fontSize: '20px', fontWeight: 700, color: tc.textPrimary }}>Account Settings</h1>
-        <p style={{ fontSize: '13px', color: tc.textSecondary }}>Manage your profile, security, and preferences</p>
+        <h1 className="font-mono" style={{ fontSize: '20px', fontWeight: 700, color: tc.textPrimary }}>Console Preferences & Operator Profile</h1>
+        <p style={{ fontSize: '13px', color: tc.textSecondary }}>Configure your Flight Dynamics callsign, orbital shell assignment, and cryptographic credentials</p>
       </div>
 
       <div className="flex gap-6 flex-col md:flex-row">
         {/* Sidebar Tabs */}
-        <div className="w-full md:w-48 flex-shrink-0">
+        <div className="w-full md:w-52 flex-shrink-0">
           <div className="rounded-lg overflow-hidden" style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}>
             {TABS.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left transition-colors border-b"
+                className="w-full flex items-center gap-3 px-4 py-3 text-left transition-colors border-b font-mono"
                 style={{
                   borderColor: tc.borderPrimary,
                   backgroundColor: activeTab === tab.id ? (theme === 'dark' ? 'rgba(6,182,212,0.12)' : '#EFF6FF') : 'transparent',
                   color: activeTab === tab.id ? tc.accentPrimary : tc.textSecondary,
                   borderLeft: activeTab === tab.id ? `2px solid ${tc.accentPrimary}` : '2px solid transparent'
                 }}
-                onMouseEnter={e => { if (activeTab !== tab.id) e.currentTarget.style.backgroundColor = theme === 'dark' ? '#0F1A2A' : '#F9FAFB'; }}
-                onMouseLeave={e => { if (activeTab !== tab.id) e.currentTarget.style.backgroundColor = 'transparent'; }}
               >
                 <tab.icon className="w-4 h-4" />
-                <span style={{ fontSize: '13px', fontWeight: activeTab === tab.id ? 600 : 400 }}>{tab.label}</span>
+                <span style={{ fontSize: '12px', fontWeight: activeTab === tab.id ? 600 : 400 }}>{tab.label}</span>
               </button>
             ))}
           </div>
@@ -113,33 +110,30 @@ export default function SettingsPage() {
 
         {/* Content */}
         <div className="flex-1 rounded-lg" style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}>
-
-          {/* ---- PROFILE ---- */}
           {activeTab === 'profile' && (
             <div className="p-6">
-              <h2 style={{ fontSize: '16px', fontWeight: 700, color: tc.textPrimary, marginBottom: '20px' }}>Profile Information</h2>
+              <h2 className="font-mono" style={{ fontSize: '16px', fontWeight: 700, color: tc.textPrimary, marginBottom: '20px' }}>Flight Dynamics Operator Record</h2>
 
-              {/* Avatar */}
               <div className="flex items-center gap-4 mb-6 pb-6 border-b" style={{ borderColor: tc.borderPrimary }}>
-                <div className="w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold"
-                  style={{ backgroundColor: '#0891B2', color: '#FFFFFF' }}>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold font-mono"
+                  style={{ backgroundColor: '#06B6D4', color: '#06080D' }}>
                   {user?.initials}
                 </div>
                 <div>
-                  <button className="px-3 py-1.5 rounded text-sm transition-colors"
-                    style={{ backgroundColor: '#0891B220', color: '#0891B2', border: '1px solid #0891B240', cursor: 'pointer' }}>
-                    Upload Photo
+                  <button className="px-3 py-1.5 rounded text-xs font-mono font-semibold transition-colors"
+                    style={{ backgroundColor: 'rgba(6,182,212,0.15)', color: '#06B6D4', border: '1px solid rgba(6,182,212,0.4)', cursor: 'pointer' }}>
+                    Update Operator Badge
                   </button>
-                  <p style={{ fontSize: '12px', color: tc.textSecondary, marginTop: '4px' }}>JPG, GIF or PNG. Max 2MB.</p>
+                  <p style={{ fontSize: '12px', color: tc.textSecondary, marginTop: '4px' }}>CCSDS Operator ID Verified</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
-                  { label: 'Full Name', key: 'name' },
-                  { label: 'Job Title', key: 'jobTitle' },
-                  { label: 'Phone Number', key: 'phone' },
-                  { label: 'Company / Organization', key: 'company' },
+                  { label: 'OPERATOR FULL NAME', key: 'name' },
+                  { label: 'FLIGHT DYNAMICS ROLE', key: 'jobTitle' },
+                  { label: 'SECURE DUTY COMMS', key: 'phone' },
+                  { label: 'CONSTELLATION AUTHORITY', key: 'company' },
                 ].map(f => (
                   <div key={f.key}>
                     <label style={labelStyle}>{f.label}</label>
@@ -148,19 +142,21 @@ export default function SettingsPage() {
                       value={(profile as any)[f.key]}
                       onChange={e => setProfile(p => ({ ...p, [f.key]: e.target.value }))}
                       style={inputStyle}
-                      onFocus={e => { e.currentTarget.style.borderColor = '#0891B2'; e.currentTarget.style.boxShadow = '0 0 0 2px rgba(8,145,178,0.15)'; }}
-                      onBlur={e => { e.currentTarget.style.borderColor = tc.borderPrimary; e.currentTarget.style.boxShadow = 'none'; }}
                     />
                   </div>
                 ))}
                 <div>
-                  <label style={labelStyle}>Email Address</label>
+                  <label style={labelStyle}>CALLSIGN / EMAIL</label>
                   <input type="email" value={user?.email || ''} disabled style={{ ...inputStyle, opacity: 0.6, cursor: 'not-allowed' }} />
-                  <p style={{ fontSize: '11px', color: tc.textSecondary, marginTop: '3px' }}>Contact support to change email</p>
                 </div>
                 <div>
-                  <label style={labelStyle}>Role</label>
-                  <input type="text" value={user?.role?.replace('_', ' ') || ''} disabled style={{ ...inputStyle, opacity: 0.6, cursor: 'not-allowed', textTransform: 'capitalize' }} />
+                  <label style={labelStyle}>CLEARANCE TIER</label>
+                  <input
+                    type="text"
+                    value={user?.role === 'super_admin' ? 'Kessler Flight Director' : user?.role === 'company_admin' ? 'Constellation Lead' : 'Orbital Analyst'}
+                    disabled
+                    style={{ ...inputStyle, opacity: 0.6, cursor: 'not-allowed' }}
+                  />
                 </div>
               </div>
 
@@ -168,38 +164,32 @@ export default function SettingsPage() {
                 <button
                   onClick={handleSave}
                   disabled={isSaving}
-                  className="flex items-center gap-2 px-5 py-2 rounded-lg transition-colors"
-                  style={{ backgroundColor: '#0891B2', color: '#FFFFFF', border: 'none', cursor: 'pointer', fontWeight: 600 }}
-                  onMouseEnter={e => { if (!isSaving) e.currentTarget.style.backgroundColor = '#0E7490'; }}
-                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#0891B2'; }}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-lg transition-colors font-mono text-xs font-bold"
+                  style={{ backgroundColor: '#06B6D4', color: '#06080D', border: 'none', cursor: 'pointer' }}
                 >
-                  {isSaving ? <><Loader2 className="w-4 h-4 animate-spin" />Saving...</>
-                    : saved ? <><Check className="w-4 h-4" />Saved!</> : 'Save Changes'}
+                  {isSaving ? <><Loader2 className="w-4 h-4 animate-spin" />Syncing...</>
+                    : saved ? <><Check className="w-4 h-4" />Telemetry Profile Synced</> : 'Commit Profile Changes'}
                 </button>
               </div>
             </div>
           )}
 
-          {/* ---- SECURITY ---- */}
           {activeTab === 'security' && (
             <div className="p-6 space-y-6">
-              <h2 style={{ fontSize: '16px', fontWeight: 700, color: tc.textPrimary }}>Security Settings</h2>
+              <h2 className="font-mono" style={{ fontSize: '16px', fontWeight: 700, color: tc.textPrimary }}>Cryptographic Key Rotation</h2>
 
-              {/* Change Password */}
               <div>
-                <h3 style={{ fontSize: '14px', fontWeight: 600, color: tc.textPrimary, marginBottom: '12px' }}>Change Password</h3>
+                <h3 style={{ fontSize: '14px', fontWeight: 600, color: tc.textPrimary, marginBottom: '12px' }}>Rotate Operator Security Key</h3>
                 <form onSubmit={handlePasswordUpdate} className="space-y-3 max-w-sm">
                   <div>
-                    <label style={labelStyle}>Current Password</label>
+                    <label style={labelStyle}>CURRENT SECURITY KEY</label>
                     <div className="relative">
                       <input
                         type={showCurrentPw ? 'text' : 'password'}
                         value={currentPw}
                         onChange={e => setCurrentPw(e.target.value)}
-                        placeholder="Enter current password"
+                        placeholder="Enter current key"
                         style={{ ...inputStyle, paddingRight: '40px' }}
-                        onFocus={e => { e.currentTarget.style.borderColor = '#0891B2'; }}
-                        onBlur={e => { e.currentTarget.style.borderColor = tc.borderPrimary; }}
                       />
                       <button type="button" onClick={() => setShowCurrentPw(!showCurrentPw)} className="absolute right-3 top-1/2 -translate-y-1/2"
                         style={{ background: 'none', border: 'none', color: tc.textSecondary, cursor: 'pointer' }}>
@@ -209,7 +199,7 @@ export default function SettingsPage() {
                   </div>
 
                   <div>
-                    <label style={labelStyle}>New Password</label>
+                    <label style={labelStyle}>NEW SECURITY KEY</label>
                     <div className="relative">
                       <input
                         type={showNewPw ? 'text' : 'password'}
@@ -217,8 +207,6 @@ export default function SettingsPage() {
                         onChange={e => setNewPw(e.target.value)}
                         placeholder="At least 8 characters"
                         style={{ ...inputStyle, paddingRight: '40px' }}
-                        onFocus={e => { e.currentTarget.style.borderColor = '#0891B2'; }}
-                        onBlur={e => { e.currentTarget.style.borderColor = tc.borderPrimary; }}
                       />
                       <button type="button" onClick={() => setShowNewPw(!showNewPw)} className="absolute right-3 top-1/2 -translate-y-1/2"
                         style={{ background: 'none', border: 'none', color: tc.textSecondary, cursor: 'pointer' }}>
@@ -228,31 +216,28 @@ export default function SettingsPage() {
                   </div>
 
                   {pwError && (
-                    <div style={{ fontSize: '12px', color: '#DC2626', marginTop: '4px' }}>
+                    <div style={{ fontSize: '12px', color: '#EF4444', marginTop: '4px' }}>
                       {pwError}
                     </div>
                   )}
 
                   {pwSuccess && (
-                    <div className="flex items-center gap-1.5" style={{ fontSize: '12px', color: '#10B981', marginTop: '4px' }}>
-                      <Check className="w-3.5 h-3.5" /> Password updated successfully!
+                    <div className="flex items-center gap-1.5 font-mono" style={{ fontSize: '12px', color: '#10B981', marginTop: '4px' }}>
+                      <Check className="w-3.5 h-3.5" /> Security key rotated!
                     </div>
                   )}
 
                   <button
                     type="submit"
-                    className="px-4 py-2 rounded-lg transition-colors text-sm font-semibold cursor-pointer"
-                    style={{ backgroundColor: '#0891B2', color: '#FFFFFF', border: 'none' }}
-                    onMouseEnter={e => e.currentTarget.style.backgroundColor = '#0E7490'}
-                    onMouseLeave={e => e.currentTarget.style.backgroundColor = '#0891B2'}
+                    className="px-4 py-2.5 rounded-lg transition-colors text-xs font-mono font-bold cursor-pointer"
+                    style={{ backgroundColor: '#06B6D4', color: '#06080D', border: 'none' }}
                   >
-                    Update Password
+                    Rotate Security Key
                   </button>
                 </form>
               </div>
             </div>
           )}
-
         </div>
       </div>
     </div>

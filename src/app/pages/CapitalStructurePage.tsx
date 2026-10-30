@@ -24,9 +24,9 @@ export default function CapitalStructurePage() {
       <div className="p-3 md:p-6 space-y-4 md:space-y-6">
         <AegisCommentary
           content={[
-            "The Capital Group (via Capital World Investors, Capital Research and Management Co., & Capital International Inc.) increased its debt holding position in the Sr Secured Note due 9/15/28 by ~234.4% between Q2 and Q4'25. Between the three subsidiaries, total Q4'25 holdings of the instrument amount to ~$192.054M.",
-            "Prudential Financial Inc.'s \"PGIM High Yield Fund\" increased its position from $20.550M to $26.375M (28.34%) between Q2 and Q4'25.",
-            "PIMCO significantly reduced its holdings from Q3'24 to Q2'25 (−72.1%). In Q3, they bought back in, increasing their holdings from $8.534M to $17.175M (101.3%)"
+            "VANGUARD-04 [NORAD 58214] has expended 1.92 kg of Xenon propellant across three debris avoidance maneuvers in Q3-Q4, reducing remaining ΔV capacity to 64.2 m/s (71.4% tank reserve).",
+            "VANGUARD-08 [NORAD 58218] is scheduled for a prograde perigee-raising station-keeping burn (+0.32 m/s ΔV) at 19:15 UTC to offset thermospheric drag decay across Plane B.",
+            "All Plane A and Plane C spacecraft maintain >84% Xenon propellant reserves with nominal 15.06 rev/day mean motion and <0.0002 eccentricity."
           ]}
         />
         <CapitalStructureTable />

@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Eye, EyeOff, Loader2, AlertCircle, Shield } from 'lucide-react';
+import { Eye, EyeOff, Loader2, AlertCircle, Radar } from 'lucide-react';
 import { useAuth, getDashboardPath } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
 
 const DEMO_CREDENTIALS = [
-  { email: 'analyst@firm.com', label: 'User' },
-  { email: 'cfo@apexbrands.com', label: 'Company Admin' },
-  { email: 'admin@aegisterminal.com', label: 'Aegis Admin' },
+  { email: 'analyst@firm.com', label: 'Orbital Analyst' },
+  { email: 'cfo@apexbrands.com', label: 'Constellation Lead' },
+  { email: 'admin@aegisterminal.com', label: 'Kessler FDO Director' },
 ];
 
 export default function LoginPage() {
@@ -25,8 +25,8 @@ export default function LoginPage() {
   const [emailError, setEmailError] = useState('');
 
   const validateEmail = (val: string) => {
-    if (!val) { setEmailError('Email is required'); return false; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) { setEmailError('Please enter a valid email'); return false; }
+    if (!val) { setEmailError('Operator email is required'); return false; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) { setEmailError('Please enter a valid mission control email'); return false; }
     setEmailError('');
     return true;
   };
@@ -35,13 +35,13 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     if (!validateEmail(email)) return;
-    if (!password) { setError('Password is required'); return; }
+    if (!password) { setError('Security key / password is required'); return; }
 
     const result = await login(email, password);
-    if (!result.success) { setError(result.error || 'Login failed'); return; }
+    if (!result.success) { setError(result.error || 'Authentication failed'); return; }
     if (result.requires2FA) { navigate('/2fa'); return; }
 
-    const stored = sessionStorage.getItem('aegis-user');
+    const stored = sessionStorage.getItem('kessler-user') || sessionStorage.getItem('aegis-user');
     if (stored) {
       const u = JSON.parse(stored);
       navigate(getDashboardPath(u.role));
@@ -74,52 +74,54 @@ export default function LoginPage() {
           <div
             className="w-8 h-8 flex items-center justify-center rounded border"
             style={{
-              backgroundColor: tc.bgTertiary,
-              borderColor: tc.borderPrimary
+              backgroundColor: 'rgba(6, 182, 212, 0.14)',
+              borderColor: 'rgba(6, 182, 212, 0.4)'
             }}
           >
-            <Shield className="w-4 h-4" style={{ color: tc.textPrimary }} />
+            <Radar className="w-4 h-4" style={{ color: '#06B6D4' }} />
           </div>
           <span
+            className="font-mono"
             style={{
-              fontSize: '15px',
+              fontSize: '14px',
               fontWeight: 700,
               color: tc.textPrimary,
-              letterSpacing: '0.06em'
+              letterSpacing: '0.08em'
             }}
           >
-            AEGIS CREDIT TERMINAL
+            KESSLER // ORBITAL SSA TERMINAL
           </span>
         </div>
 
-        {/* Hero Centered Shield Badge */}
+        {/* Hero Centered Radar Badge */}
         <div className="flex justify-center mb-6">
           <div
             className="w-16 h-16 rounded-full flex items-center justify-center border"
             style={{
-              backgroundColor: tc.bgTertiary,
-              borderColor: tc.borderPrimary
+              backgroundColor: 'rgba(6, 182, 212, 0.1)',
+              borderColor: 'rgba(6, 182, 212, 0.35)'
             }}
           >
-            <Shield className="w-8 h-8" style={{ color: tc.textPrimary }} />
+            <Radar className="w-8 h-8" style={{ color: '#06B6D4' }} />
           </div>
         </div>
 
         {/* Centered Heading */}
         <div className="mb-7 text-center">
           <h1
+            className="font-mono"
             style={{
-              fontSize: '28px',
+              fontSize: '26px',
               fontWeight: 700,
               color: tc.textPrimary,
               marginBottom: '8px',
               letterSpacing: '-0.02em'
             }}
           >
-            Terminal Sign In
+            Flight Control Sign In
           </h1>
-          <p style={{ fontSize: '15px', color: tc.textSecondary }}>
-            Authenticate with institutional credentials
+          <p style={{ fontSize: '14px', color: tc.textSecondary }}>
+            Authenticate with Vanguard LEO telemetry credentials
           </p>
         </div>
 
@@ -132,6 +134,7 @@ export default function LoginPage() {
           }}
         >
           <p
+            className="font-mono"
             style={{
               fontSize: '10px',
               color: tc.textTertiary,
@@ -141,7 +144,7 @@ export default function LoginPage() {
               fontWeight: 600
             }}
           >
-            1-Click Demo Accounts (Pass: Password123!)
+            1-Click Mission Crew Demo (Key: Password123!)
           </p>
           <div className="flex justify-center flex-wrap gap-1.5">
             {DEMO_CREDENTIALS.map(d => (
@@ -149,11 +152,11 @@ export default function LoginPage() {
                 key={d.email}
                 type="button"
                 onClick={() => fillDemo(d.email)}
-                className="px-2.5 py-1 rounded text-[11px] font-medium transition-all hover:opacity-90 active:scale-95"
+                className="px-2.5 py-1 rounded text-[11px] font-mono font-medium transition-all hover:opacity-90 active:scale-95"
                 style={{
-                  backgroundColor: email === d.email ? (theme === 'dark' ? '#EDEDED' : '#111318') : 'transparent',
-                  border: `1px solid ${email === d.email ? tc.textPrimary : tc.borderPrimary}`,
-                  color: email === d.email ? (theme === 'dark' ? '#0B0C0E' : '#FFFFFF') : tc.textSecondary,
+                  backgroundColor: email === d.email ? '#06B6D4' : 'transparent',
+                  border: `1px solid ${email === d.email ? '#06B6D4' : tc.borderPrimary}`,
+                  color: email === d.email ? '#06080D' : tc.textSecondary,
                   cursor: 'pointer'
                 }}
               >
@@ -166,10 +169,10 @@ export default function LoginPage() {
         {loginAttempts >= 5 && (
           <div
             className="mb-4 p-3 rounded-lg flex items-center gap-2"
-            style={{ backgroundColor: 'rgba(229, 72, 77, 0.1)', border: '1px solid rgba(229, 72, 77, 0.3)' }}
+            style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)' }}
           >
-            <AlertCircle className="w-4 h-4 flex-shrink-0" style={{ color: '#E5484D' }} />
-            <span style={{ fontSize: '12px', color: '#E5484D' }}>Too many attempts. Locked for 15 minutes.</span>
+            <AlertCircle className="w-4 h-4 flex-shrink-0" style={{ color: '#EF4444' }} />
+            <span style={{ fontSize: '12px', color: '#EF4444' }}>Too many attempts. Telemetry console locked for 15 minutes.</span>
           </div>
         )}
 
@@ -177,6 +180,7 @@ export default function LoginPage() {
           {/* Email */}
           <div>
             <label
+              className="font-mono"
               style={{
                 display: 'block',
                 fontSize: '11px',
@@ -187,7 +191,7 @@ export default function LoginPage() {
                 textTransform: 'uppercase'
               }}
             >
-              Institutional Email
+              Operator Callsign / Email
             </label>
             <input
               type="text"
@@ -195,16 +199,16 @@ export default function LoginPage() {
               onChange={e => { setEmail(e.target.value); if (emailError) validateEmail(e.target.value); }}
               onBlur={e => validateEmail(e.target.value)}
               placeholder="analyst@firm.com"
-              className="w-full h-11 px-3.5 text-[13px] rounded-lg outline-none transition-colors"
+              className="w-full h-11 px-3.5 text-[13px] rounded-lg outline-none transition-colors font-mono"
               style={{
                 backgroundColor: tc.bgTertiary,
-                border: `1px solid ${emailError ? '#E5484D' : tc.borderPrimary}`,
+                border: `1px solid ${emailError ? '#EF4444' : tc.borderPrimary}`,
                 color: tc.textPrimary
               }}
               disabled={isLoading}
             />
             {emailError && (
-              <p style={{ color: '#E5484D', fontSize: '11px', marginTop: '4px' }}>{emailError}</p>
+              <p style={{ color: '#EF4444', fontSize: '11px', marginTop: '4px' }}>{emailError}</p>
             )}
           </div>
 
@@ -212,6 +216,7 @@ export default function LoginPage() {
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <label
+                className="font-mono"
                 style={{
                   fontSize: '11px',
                   fontWeight: 600,
@@ -220,15 +225,15 @@ export default function LoginPage() {
                   textTransform: 'uppercase'
                 }}
               >
-                Password
+                Security Key
               </label>
               <button
                 type="button"
                 onClick={() => navigate('/forgot-password')}
-                className="hover:underline"
+                className="hover:underline font-mono"
                 style={{ fontSize: '11px', color: tc.textSecondary, background: 'none', border: 'none', cursor: 'pointer' }}
               >
-                Forgot password?
+                Reset key?
               </button>
             </div>
             <div className="relative">
@@ -237,10 +242,10 @@ export default function LoginPage() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full h-11 px-3.5 pr-10 text-[13px] rounded-lg outline-none transition-colors"
+                className="w-full h-11 px-3.5 pr-10 text-[13px] rounded-lg outline-none transition-colors font-mono"
                 style={{
                   backgroundColor: tc.bgTertiary,
-                  border: `1px solid ${error ? '#E5484D' : tc.borderPrimary}`,
+                  border: `1px solid ${error ? '#EF4444' : tc.borderPrimary}`,
                   color: tc.textPrimary
                 }}
                 disabled={isLoading}
@@ -264,19 +269,19 @@ export default function LoginPage() {
                 checked={rememberMe}
                 onChange={e => setRememberMe(e.target.checked)}
                 className="w-3.5 h-3.5 rounded"
-                style={{ accentColor: tc.textPrimary }}
+                style={{ accentColor: '#06B6D4' }}
               />
-              Remember this device
+              Maintain ground-link session on this terminal
             </label>
           </div>
 
           {error && (
             <div
               className="p-2.5 rounded-lg flex items-center gap-2"
-              style={{ backgroundColor: 'rgba(229, 72, 77, 0.1)', border: '1px solid rgba(229, 72, 77, 0.3)' }}
+              style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)' }}
             >
-              <AlertCircle className="w-4 h-4 flex-shrink-0" style={{ color: '#E5484D' }} />
-              <span style={{ fontSize: '12px', color: '#E5484D' }}>{error}</span>
+              <AlertCircle className="w-4 h-4 flex-shrink-0" style={{ color: '#EF4444' }} />
+              <span style={{ fontSize: '12px', color: '#EF4444' }}>{error}</span>
             </div>
           )}
 
@@ -284,24 +289,24 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isLoading || loginAttempts >= 5}
-            className="w-full h-12 rounded-lg font-bold text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
+            className="w-full h-12 rounded-lg font-mono font-bold text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
             style={{
-              backgroundColor: theme === 'dark' ? '#EDEDED' : '#111318',
-              color: theme === 'dark' ? '#0B0C0E' : '#FFFFFF',
+              backgroundColor: '#06B6D4',
+              color: '#06080D',
               border: 'none',
               cursor: (isLoading || loginAttempts >= 5) ? 'not-allowed' : 'pointer',
               opacity: loginAttempts >= 5 ? 0.5 : 1
             }}
           >
-            {isLoading ? <><Loader2 className="w-4 h-4 animate-spin" />Authenticating...</> : 'Sign In to Terminal'}
+            {isLoading ? <><Loader2 className="w-4 h-4 animate-spin" />Establishing Uplink...</> : 'Initialize Telemetry Session'}
           </button>
         </form>
 
         {/* Divider */}
         <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-px" style={{ backgroundColor: tc.borderSubtle }} />
-          <span style={{ fontSize: '10px', color: tc.textTertiary, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-            Or continue with
+          <span className="font-mono" style={{ fontSize: '10px', color: tc.textTertiary, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            Or authenticate via
           </span>
           <div className="flex-1 h-px" style={{ backgroundColor: tc.borderSubtle }} />
         </div>
@@ -309,7 +314,7 @@ export default function LoginPage() {
         {/* SSO */}
         <button
           type="button"
-          className="w-full h-10 rounded-lg flex items-center justify-center gap-2 text-[12px] font-medium transition-all hover:opacity-90"
+          className="w-full h-10 rounded-lg flex items-center justify-center gap-2 text-[12px] font-mono font-medium transition-all hover:opacity-90"
           style={{
             backgroundColor: tc.bgTertiary,
             border: `1px solid ${tc.borderPrimary}`,
@@ -317,24 +322,24 @@ export default function LoginPage() {
             cursor: 'pointer'
           }}
         >
-          Institutional SSO (Azure AD / Okta)
+          Space-Track / DoD PKI CAC Federation
         </button>
 
         {/* Footer */}
         <div className="mt-6 text-center">
           <p style={{ fontSize: '12px', color: tc.textSecondary }}>
-            Need institutional access?{' '}
+            New Flight Dynamics operator?{' '}
             <span
-              style={{ color: tc.textPrimary, fontWeight: 600, cursor: 'pointer', textDecoration: 'underline' }}
+              style={{ color: '#06B6D4', fontWeight: 600, cursor: 'pointer', textDecoration: 'underline' }}
               onClick={() => navigate('/signup')}
             >
-              Request Access
+              Request Console Clearance
             </span>
           </p>
-          <div className="flex items-center justify-center gap-3 mt-3 text-[11px]" style={{ color: tc.textTertiary }}>
-            <span>SOC 2 Type II Certified</span>
+          <div className="flex items-center justify-center gap-3 mt-3 text-[11px] font-mono" style={{ color: tc.textTertiary }}>
+            <span>CCSDS CDM v2.0</span>
             <span>•</span>
-            <span>256-bit TLS</span>
+            <span>256-bit NSA Suite-B TLS</span>
           </div>
         </div>
       </div>

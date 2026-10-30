@@ -28,7 +28,8 @@ export default function OverviewPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
           <AegisCommentary
             content={[
-              "Debt price dropped sharply after Verdant Harvest's sale announcement to Nortera Foods (Oct 27, 2025), its Sr Secured Note due 9/15/27 hitting a 3-month low of $0.9526 on Nov 4, down from $0.9778 on announcement day. The volume of debt traded in the 7 days following the trade was ~179% higher than the 7 days preceding the trade."
+              "VANGUARD-04 [NORAD 58214] entered Red-Threshold Conjunction Watch against COSMOS-2251 DEB [34427] following the 06:00 UTC 18th SDS Spacetrack CDM update. Radial miss distance is projected at 142m (Pc = 4.8e-4) at T-01:42:19 UTC. An automated prograde Hall-effect thruster burn (+0.85 m/s ΔV) is armed to raise apogee by +1.85 km.",
+              "Thermospheric scale-height expansion from NOAA G2 geomagnetic storming (F10.7 = 184 SFU) has increased atmospheric drag across Plane B by +18.4% over the trailing 72-hour epoch."
             ]}
           />
           <LargestHoldersTable />

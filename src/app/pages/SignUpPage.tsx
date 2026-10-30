@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Eye, EyeOff, Loader2, Check, X, Shield, ArrowLeft } from 'lucide-react';
+import { Eye, EyeOff, Loader2, Check, X, Radar } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
@@ -14,10 +14,10 @@ const passwordRules = [
 
 function getStrength(p: string) {
   const n = passwordRules.filter(r => r.test(p)).length;
-  if (n <= 1) return { label: 'Weak', color: '#E5484D', w: '25%' };
-  if (n <= 2) return { label: 'Medium', color: '#E5A93C', w: '50%' };
-  if (n <= 3) return { label: 'Good', color: '#E5A93C', w: '75%' };
-  return { label: 'Strong', color: '#30A46C', w: '100%' };
+  if (n <= 1) return { label: 'Weak', color: '#EF4444', w: '25%' };
+  if (n <= 2) return { label: 'Medium', color: '#F59E0B', w: '50%' };
+  if (n <= 3) return { label: 'Good', color: '#F59E0B', w: '75%' };
+  return { label: 'Strong', color: '#10B981', w: '100%' };
 }
 
 export default function SignUpPage() {
@@ -26,7 +26,7 @@ export default function SignUpPage() {
   const tc = colors[theme];
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({ name: '', email: 'invited@firm.com', password: '', confirm: '', jobTitle: '', phone: '' });
+  const [form, setForm] = useState({ name: '', email: 'operator@vanguard.space', password: '', confirm: '', jobTitle: '', phone: '' });
   const [showP, setShowP] = useState(false);
   const [showC, setShowC] = useState(false);
   const [agreed, setAgreed] = useState(false);
@@ -36,11 +36,11 @@ export default function SignUpPage() {
 
   const validate = () => {
     const errs: Record<string, string> = {};
-    if (!form.name.trim()) errs.name = 'Full name is required';
-    if (!form.password) errs.password = 'Password is required';
-    else if (!passwordRules.every(r => r.test(form.password))) errs.password = 'Password does not meet requirements';
-    if (form.password !== form.confirm) errs.confirm = 'Passwords do not match';
-    if (!agreed) errs.agreed = 'You must agree to the Terms of Service';
+    if (!form.name.trim()) errs.name = 'Operator full name is required';
+    if (!form.password) errs.password = 'Security key is required';
+    else if (!passwordRules.every(r => r.test(form.password))) errs.password = 'Security key does not meet requirements';
+    if (form.password !== form.confirm) errs.confirm = 'Security keys do not match';
+    if (!agreed) errs.agreed = 'You must agree to the Orbital Telemetry Security Protocol';
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -50,12 +50,12 @@ export default function SignUpPage() {
     if (!validate()) return;
     const result = await signup({ name: form.name, email: form.email, password: form.password, jobTitle: form.jobTitle, phone: form.phone });
     if (result.success) navigate('/dashboard');
-    else setErrors({ global: result.error || 'Signup failed' });
+    else setErrors({ global: result.error || 'Registration failed' });
   };
 
   const inputStyle = (err?: string) => ({
     backgroundColor: tc.bgTertiary,
-    border: `1px solid ${err ? '#E5484D' : tc.borderPrimary}`,
+    border: `1px solid ${err ? '#EF4444' : tc.borderPrimary}`,
     color: tc.textPrimary,
     borderRadius: '8px',
     height: '44px',
@@ -69,6 +69,7 @@ export default function SignUpPage() {
     <div>
       <label
         htmlFor={id}
+        className="font-mono"
         style={{
           display: 'block',
           fontSize: '11px',
@@ -93,7 +94,7 @@ export default function SignUpPage() {
         />
         {children}
       </div>
-      {error && <p style={{ color: '#E5484D', fontSize: '11px', marginTop: '4px' }}>{error}</p>}
+      {error && <p style={{ color: '#EF4444', fontSize: '11px', marginTop: '4px' }}>{error}</p>}
     </div>
   );
 
@@ -109,72 +110,59 @@ export default function SignUpPage() {
           border: `1px solid ${tc.borderPrimary}`
         }}
       >
-        {/* Top Brand Bar */}
         <div className="flex items-center gap-2.5 mb-8">
           <div
             className="w-8 h-8 flex items-center justify-center rounded border"
             style={{
-              backgroundColor: tc.bgTertiary,
-              borderColor: tc.borderPrimary
+              backgroundColor: 'rgba(6, 182, 212, 0.14)',
+              borderColor: 'rgba(6, 182, 212, 0.4)'
             }}
           >
-            <Shield className="w-4 h-4" style={{ color: tc.textPrimary }} />
+            <Radar className="w-4 h-4" style={{ color: '#06B6D4' }} />
           </div>
           <span
+            className="font-mono"
             style={{
-              fontSize: '15px',
+              fontSize: '14px',
               fontWeight: 700,
               color: tc.textPrimary,
-              letterSpacing: '0.06em'
+              letterSpacing: '0.08em'
             }}
           >
-            AEGIS CREDIT TERMINAL
+            KESSLER // ORBITAL SSA TERMINAL
           </span>
         </div>
 
-        {/* Hero Centered Shield Badge */}
-        <div className="flex justify-center mb-6">
-          <div
-            className="w-16 h-16 rounded-full flex items-center justify-center border"
-            style={{
-              backgroundColor: tc.bgTertiary,
-              borderColor: tc.borderPrimary
-            }}
-          >
-            <Shield className="w-8 h-8" style={{ color: tc.textPrimary }} />
-          </div>
-        </div>
-
-        {/* Invite notice */}
         <div
           className="mb-6 p-3 rounded-lg text-center"
           style={{ backgroundColor: tc.bgTertiary, border: `1px solid ${tc.borderSubtle}` }}
         >
-          <p style={{ fontSize: '12px', color: tc.textSecondary }}>
-            Workspace invitation: <strong style={{ color: tc.textPrimary }}>Apex Brands Group</strong> surveillance pool
+          <p className="font-mono" style={{ fontSize: '12px', color: tc.textSecondary }}>
+            Constellation Clearance: <strong style={{ color: '#06B6D4' }}>Vanguard LEO Shell-1 (550 km)</strong> Flight Dynamics Pool
           </p>
         </div>
 
         <div className="mb-7 text-center">
           <h1
+            className="font-mono"
             style={{
-              fontSize: '28px',
+              fontSize: '26px',
               fontWeight: 700,
               color: tc.textPrimary,
               marginBottom: '8px',
               letterSpacing: '-0.02em'
             }}
           >
-            Create Your Account
+            Operator Console Clearance
           </h1>
-          <p style={{ fontSize: '15px', color: tc.textSecondary }}>
-            Complete your profile to access institutional models
+          <p style={{ fontSize: '14px', color: tc.textSecondary }}>
+            Register your Flight Dynamics operator credentials
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <Field
-            label="Full Name"
+            label="Operator Full Name"
             id="name"
             value={form.name}
             onChange={(e: any) => setForm(f => ({ ...f, name: e.target.value }))}
@@ -183,17 +171,17 @@ export default function SignUpPage() {
           />
 
           <Field
-            label="Institutional Email"
+            label="Assigned Callsign / Email"
             id="email"
             value={form.email}
             onChange={() => {}}
             disabled={true}
-            placeholder="invited@firm.com"
+            placeholder="operator@vanguard.space"
           />
 
-          {/* Password */}
           <div>
             <label
+              className="font-mono"
               style={{
                 display: 'block',
                 fontSize: '11px',
@@ -204,7 +192,7 @@ export default function SignUpPage() {
                 textTransform: 'uppercase'
               }}
             >
-              Create Password
+              Create Security Key
             </label>
             <div className="relative">
               <input
@@ -225,7 +213,7 @@ export default function SignUpPage() {
             {form.password && (
               <div className="mt-2">
                 <div className="flex justify-between mb-1">
-                  <span style={{ fontSize: '11px', color: tc.textSecondary }}>Strength</span>
+                  <span style={{ fontSize: '11px', color: tc.textSecondary }}>Entropy</span>
                   <span style={{ fontSize: '11px', fontWeight: 600, color: strength.color }}>{strength.label}</span>
                 </div>
                 <div className="h-1.5 rounded-full" style={{ backgroundColor: tc.borderSubtle }}>
@@ -236,20 +224,20 @@ export default function SignUpPage() {
                     const met = r.test(form.password);
                     return (
                       <div key={r.id} className="flex items-center gap-1.5">
-                        {met ? <Check className="w-3 h-3" style={{ color: '#30A46C' }} /> : <X className="w-3 h-3" style={{ color: tc.textTertiary }} />}
-                        <span style={{ fontSize: '11px', color: met ? '#30A46C' : tc.textTertiary }}>{r.label}</span>
+                        {met ? <Check className="w-3 h-3" style={{ color: '#10B981' }} /> : <X className="w-3 h-3" style={{ color: tc.textTertiary }} />}
+                        <span style={{ fontSize: '11px', color: met ? '#10B981' : tc.textTertiary }}>{r.label}</span>
                       </div>
                     );
                   })}
                 </div>
               </div>
             )}
-            {errors.password && <p style={{ color: '#E5484D', fontSize: '11px', marginTop: '4px' }}>{errors.password}</p>}
+            {errors.password && <p style={{ color: '#EF4444', fontSize: '11px', marginTop: '4px' }}>{errors.password}</p>}
           </div>
 
-          {/* Confirm */}
           <div>
             <label
+              className="font-mono"
               style={{
                 display: 'block',
                 fontSize: '11px',
@@ -260,7 +248,7 @@ export default function SignUpPage() {
                 textTransform: 'uppercase'
               }}
             >
-              Confirm Password
+              Confirm Security Key
             </label>
             <div className="relative">
               <input
@@ -278,26 +266,25 @@ export default function SignUpPage() {
                 {showC ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
-            {errors.confirm && <p style={{ color: '#E5484D', fontSize: '11px', marginTop: '4px' }}>{errors.confirm}</p>}
+            {errors.confirm && <p style={{ color: '#EF4444', fontSize: '11px', marginTop: '4px' }}>{errors.confirm}</p>}
           </div>
 
           <Field
-            label="Job Title (Optional)"
+            label="Flight Dynamics Role (Optional)"
             id="jobTitle"
             value={form.jobTitle}
             onChange={(e: any) => setForm(f => ({ ...f, jobTitle: e.target.value }))}
-            placeholder="e.g. Senior Credit Analyst"
+            placeholder="e.g. Orbital Conjunction Analyst"
           />
 
           <Field
-            label="Phone Number (Optional, for 2FA)"
+            label="Secure Duty Comms (Optional, for 2FA)"
             id="phone"
             value={form.phone}
             onChange={(e: any) => setForm(f => ({ ...f, phone: e.target.value }))}
-            placeholder="+1 (555) 000-0000"
+            placeholder="+1 (555) 019-2834"
           />
 
-          {/* Terms */}
           <div>
             <div className="flex items-start gap-2">
               <input
@@ -305,36 +292,36 @@ export default function SignUpPage() {
                 id="terms"
                 checked={agreed}
                 onChange={e => setAgreed(e.target.checked)}
-                style={{ accentColor: tc.textPrimary, marginTop: '2px', width: '15px', height: '15px', cursor: 'pointer' }}
+                style={{ accentColor: '#06B6D4', marginTop: '2px', width: '15px', height: '15px', cursor: 'pointer' }}
               />
               <label htmlFor="terms" style={{ fontSize: '13px', color: tc.textSecondary, cursor: 'pointer', lineHeight: 1.4 }}>
-                I agree to the Institutional Terms of Service and Privacy Policy
+                I acknowledge CCSDS Conjunction Data Message (CDM) handling protocols and orbital security directives
               </label>
             </div>
-            {errors.agreed && <p style={{ color: '#E5484D', fontSize: '11px', marginTop: '4px' }}>{errors.agreed}</p>}
+            {errors.agreed && <p style={{ color: '#EF4444', fontSize: '11px', marginTop: '4px' }}>{errors.agreed}</p>}
           </div>
 
-          {errors.global && <p style={{ color: '#E5484D', fontSize: '12px' }}>{errors.global}</p>}
+          {errors.global && <p style={{ color: '#EF4444', fontSize: '12px' }}>{errors.global}</p>}
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full h-12 rounded-lg font-bold text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
+            className="w-full h-12 rounded-lg font-mono font-bold text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
             style={{
-              backgroundColor: theme === 'dark' ? '#EDEDED' : '#111318',
-              color: theme === 'dark' ? '#0B0C0E' : '#FFFFFF',
+              backgroundColor: '#06B6D4',
+              color: '#06080D',
               border: 'none',
               cursor: isLoading ? 'not-allowed' : 'pointer'
             }}
           >
-            {isLoading ? <><Loader2 className="w-4 h-4 animate-spin" />Creating Account...</> : 'Complete Institutional Registration'}
+            {isLoading ? <><Loader2 className="w-4 h-4 animate-spin" />Provisioning Console...</> : 'Activate Flight Dynamics Console'}
           </button>
         </form>
 
         <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '13px', color: tc.textSecondary }}>
-          Already have an account?{' '}
+          Already hold active clearance?{' '}
           <span
-            style={{ color: tc.textPrimary, cursor: 'pointer', fontWeight: 600, textDecoration: 'underline' }}
+            style={{ color: '#06B6D4', cursor: 'pointer', fontWeight: 600, textDecoration: 'underline' }}
             onClick={() => navigate('/login')}
           >
             Sign In

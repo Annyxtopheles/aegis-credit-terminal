@@ -1,26 +1,26 @@
 import { useState, useRef, useEffect } from 'react';
-import { Shield, Sun, Moon, Bell, ChevronDown, Settings, LogOut, Search, Clock, Building2 } from 'lucide-react';
+import { Radar, Sun, Moon, Bell, ChevronDown, Settings, LogOut, Search, Clock, Satellite } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import { colors } from '../theme/colors';
 import { useNavigate } from 'react-router';
 
 const NOTIFICATIONS = [
-  { id: '1', type: 'alert', text: 'APX covenant ratio approaching threshold (7.4x vs 7.0x limit)', time: '5m ago', unread: true },
-  { id: '2', type: 'price', text: 'APX Sr Secured Note dropped 2.3% to $95.40', time: '12m ago', unread: true },
-  { id: '3', type: 'holder', text: 'BlackRock increased position in APX by 8.2%', time: '1h ago', unread: true },
-  { id: '4', type: 'system', text: 'Weekly portfolio summary is ready for download', time: '3h ago', unread: false },
-  { id: '5', type: 'alert', text: 'CHEF maturity alert: 180 days remaining on 2025 notes', time: '1d ago', unread: false },
+  { id: '1', type: 'alert', text: 'RED CONJUNCTION: COSMOS-2251 DEB [34427] vs VANGUARD-04 (Pc: 4.82e-4)', time: '4m ago', unread: true },
+  { id: '2', type: 'price', text: 'F10.7 Solar Flux spiked +14.2 SFU; thermospheric drag model updated', time: '18m ago', unread: true },
+  { id: '3', type: 'holder', text: 'Svalbard S-Band Ground Station acquired VANGUARD-12 telemetry lock', time: '42m ago', unread: true },
+  { id: '4', type: 'system', text: 'Automated TLE batch ephemeris propagation completed (48/48 SVs)', time: '2h ago', unread: false },
+  { id: '5', type: 'alert', text: 'FCC De-Orbit Reserve alert: VANGUARD-04 xenon margin at 4.12 kg', time: '6h ago', unread: false },
 ];
 
-const RECENT_COMPANIES = [
-  { ticker: 'APX', name: 'Apex Brands Group' },
-  { ticker: 'CHEF', name: 'Chefs\' Warehouse' },
-  { ticker: 'SFM', name: 'Sprouts Farmers' },
+const RECENT_CONSTELLATIONS = [
+  { ticker: 'VGD-LEO', name: 'Vanguard LEO Shell-1 (540km)' },
+  { ticker: 'PLR-SSO', name: 'Polaris Sun-Sync Relay (720km)' },
+  { ticker: 'AEX-VLEO', name: 'Aether VLEO Recon (380km)' },
 ];
 
 const notifTypeColor: Record<string, string> = {
-  alert: '#DC2626', price: '#F59E0B', holder: '#06B6D4', system: '#10B981'
+  alert: '#EF4444', price: '#F59E0B', holder: '#06B6D4', system: '#10B981'
 };
 
 export function GlobalHeader() {
@@ -61,9 +61,9 @@ export function GlobalHeader() {
 
   const getRoleLabel = (role?: string) => {
     const map: Record<string, string> = {
-      super_admin: 'Super Administrator',
-      company_admin: 'Company Admin',
-      normal_user: 'User'
+      super_admin: 'Flight Dynamics Director',
+      company_admin: 'Constellation Lead',
+      normal_user: 'Orbital Analyst'
     };
     return role ? map[role] || role : '';
   };
@@ -77,79 +77,70 @@ export function GlobalHeader() {
     return role ? map[role] || '#8B96A5' : '#8B96A5';
   };
 
-  const headerBg = theme === 'dark' ? '#000000' : '#FFFFFF';
-  const headerBorder = theme === 'dark' ? '1px solid #1A2332' : '2px solid #E5E7EB';
+  const headerBg = theme === 'dark' ? '#06080D' : '#FFFFFF';
+  const headerBorder = `1px solid ${tc.borderPrimary}`;
 
   return (
     <header
       className="h-14 px-3 md:px-6 flex items-center justify-between fixed top-0 left-0 right-0 z-50 transition-colors duration-300"
       style={{ backgroundColor: headerBg, borderBottom: headerBorder }}
     >
-      {/* Left: Logo + Company Selector */}
+      {/* Left: Logo + Constellation Selector */}
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-2">
           <div
             className="w-7 h-7 flex items-center justify-center rounded"
             style={{
-              backgroundColor: theme === 'dark' ? '#0891B2' : '#0E7490'
+              backgroundColor: theme === 'dark' ? 'rgba(6, 182, 212, 0.15)' : '#E0F2FE',
+              border: `1px solid ${tc.accentPrimary}`
             }}
           >
-            <Shield className="w-4 h-4" style={{ color: '#FFFFFF' }} />
+            <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
           </div>
           <span
             className="uppercase tracking-wider font-bold"
-            style={{
-              fontSize: '12px',
-              color: tc.textPrimary,
-              letterSpacing: '0.06em'
-            }}
+            style={{ fontSize: '15px', color: tc.textPrimary }}
           >
-            AEGIS{' '}
-            <span
-              style={{
-                color: theme === 'dark' ? '#06B6D4' : '#0E7490',
-                fontWeight: 600
-              }}
-            >
-              SURVEILLANCE
-            </span>
+            KESSLER
           </span>
         </div>
 
-        {/* Company Selector - Super Admin only can change */}
+        {/* Constellation Selector Dropdown */}
         {isAuthenticated && user?.role === 'super_admin' && (
           <div className="relative" ref={companyRef}>
             <button
               onClick={() => setShowCompanySearch(!showCompanySearch)}
               className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-md transition-colors"
               style={{
-                backgroundColor: theme === 'dark' ? '#1A2332' : '#F3F4F6',
+                backgroundColor: tc.bgSecondary,
                 border: `1px solid ${tc.borderPrimary}`,
-                color: tc.textPrimary
+                color: tc.textPrimary,
+                cursor: 'pointer'
               }}
             >
-              <Building2 className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
-              <span style={{ fontSize: '13px', fontWeight: 600 }}>Apex Brands Group</span>
-              <span style={{ fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', color: tc.accentPrimary }}>APX</span>
-              <ChevronDown className="w-3 h-3" style={{ color: tc.textSecondary }} />
+              <Satellite className="w-3.5 h-3.5" style={{ color: tc.accentPrimary }} />
+              <span style={{ fontSize: '13px', fontWeight: 600 }}>Vanguard LEO Shell-1</span>
+              <span style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: tc.accentPrimary }}>VGD-LEO</span>
+              <ChevronDown className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
             </button>
 
             {showCompanySearch && (
-              <div className="absolute top-full left-0 mt-1 w-72 rounded-lg shadow-xl z-50" style={{
-                backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}`
-              }}>
+              <div
+                className="absolute left-0 top-full mt-1 w-72 rounded-lg shadow-xl z-50"
+                style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}
+              >
                 <div className="p-3 border-b" style={{ borderColor: tc.borderPrimary }}>
                   <div className="relative">
                     <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: tc.textSecondary }} />
                     <input
                       type="text"
-                      placeholder="Search 500+ companies..."
+                      placeholder="Search orbital shells..."
                       value={companySearch}
                       onChange={e => setCompanySearch(e.target.value)}
                       autoFocus
                       style={{
                         width: '100%', height: '36px', paddingLeft: '32px', paddingRight: '10px',
-                        backgroundColor: theme === 'dark' ? '#0F1A2A' : '#FFFFFF',
+                        backgroundColor: tc.bgTertiary,
                         border: `1px solid ${tc.borderPrimary}`, borderRadius: '6px',
                         color: tc.textPrimary, fontSize: '13px', outline: 'none'
                       }}
@@ -158,14 +149,14 @@ export function GlobalHeader() {
                 </div>
                 <div className="p-2">
                   <p style={{ fontSize: '11px', color: tc.textSecondary, padding: '4px 8px 6px', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                    Recently Viewed
+                    Active Orbital Shells
                   </p>
-                  {RECENT_COMPANIES.map(co => (
+                  {RECENT_CONSTELLATIONS.map(co => (
                     <button
                       key={co.ticker}
                       className="w-full flex items-center gap-3 px-2 py-2 rounded-md transition-colors text-left"
                       style={{ color: tc.textPrimary }}
-                      onMouseEnter={e => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#0F1A2A' : '#F3F4F6'}
+                      onMouseEnter={e => e.currentTarget.style.backgroundColor = tc.hoverBg}
                       onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
                       onClick={() => setShowCompanySearch(false)}
                     >
@@ -180,31 +171,29 @@ export function GlobalHeader() {
           </div>
         )}
 
-        {/* Company Display - Company Admin and Normal User (no dropdown) */}
+        {/* Constellation Display - Non-Super Admin */}
         {isAuthenticated && (user?.role === 'company_admin' || user?.role === 'normal_user') && (
           <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-md" style={{
-            backgroundColor: theme === 'dark' ? '#1A2332' : '#F3F4F6',
+            backgroundColor: tc.bgSecondary,
             border: `1px solid ${tc.borderPrimary}`,
             color: tc.textPrimary
           }}>
-            <Building2 className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
-            <span style={{ fontSize: '13px', fontWeight: 600 }}>Apex Brands Group</span>
-            <span style={{ fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', color: tc.accentPrimary }}>APX</span>
+            <Satellite className="w-3.5 h-3.5" style={{ color: tc.accentPrimary }} />
+            <span style={{ fontSize: '13px', fontWeight: 600 }}>Vanguard LEO Shell-1</span>
+            <span style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: tc.accentPrimary }}>VGD-LEO</span>
           </div>
         )}
-
       </div>
 
       {/* Right: Theme, Notifications, User */}
       <div className="flex items-center gap-2 md:gap-3">
-        {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
           onMouseEnter={() => setIsThemeHovered(true)}
           onMouseLeave={() => setIsThemeHovered(false)}
           className="w-8 h-8 flex items-center justify-center rounded transition-colors duration-150 cursor-pointer"
           style={{
-            backgroundColor: isThemeHovered ? (theme === 'dark' ? '#1F2937' : '#F3F4F6') : 'transparent',
+            backgroundColor: isThemeHovered ? tc.hoverBg : 'transparent',
             color: isThemeHovered ? tc.accentPrimary : tc.textSecondary
           }}
           aria-label="Toggle theme"
@@ -219,14 +208,14 @@ export function GlobalHeader() {
               onClick={() => { setShowNotifications(!showNotifications); setShowUserMenu(false); }}
               className="relative w-8 h-8 flex items-center justify-center rounded transition-colors"
               style={{ color: tc.textSecondary }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = theme === 'dark' ? '#1F2937' : '#F3F4F6'; }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = tc.hoverBg; }}
               onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
-              aria-label="Notifications"
+              aria-label="Telemetry Alerts"
             >
               <Bell className="w-4 h-4" />
               {unreadCount > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full flex items-center justify-center"
-                  style={{ backgroundColor: '#DC2626', fontSize: '10px', fontWeight: 700, color: '#FFFFFF' }}>
+                  style={{ backgroundColor: tc.alertRed, fontSize: '10px', fontWeight: 700, color: '#FFFFFF' }}>
                   {unreadCount}
                 </span>
               )}
@@ -237,10 +226,10 @@ export function GlobalHeader() {
                 backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}`
               }}>
                 <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: tc.borderPrimary }}>
-                  <span style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary }}>Notifications</span>
+                  <span style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary }}>Orbital Alerts</span>
                   {unreadCount > 0 && (
-                    <button onClick={markAllRead} style={{ fontSize: '12px', color: '#0891B2', background: 'none', border: 'none', cursor: 'pointer' }}>
-                      Mark all read
+                    <button onClick={markAllRead} style={{ fontSize: '12px', color: tc.accentPrimary, background: 'none', border: 'none', cursor: 'pointer' }}>
+                      Acknowledge all
                     </button>
                   )}
                 </div>
@@ -248,20 +237,18 @@ export function GlobalHeader() {
                   {notifications.map(n => (
                     <div
                       key={n.id}
-                      className="flex gap-3 px-4 py-3 transition-colors cursor-pointer border-b"
+                      className="px-4 py-3 border-b transition-colors cursor-pointer"
                       style={{
-                        backgroundColor: n.unread ? (theme === 'dark' ? '#0F1A2A' : '#F0F9FF') : 'transparent',
-                        borderColor: tc.borderPrimary
+                        borderColor: tc.borderPrimary,
+                        backgroundColor: n.unread ? (theme === 'dark' ? 'rgba(6,182,212,0.06)' : '#F0F9FF') : 'transparent'
                       }}
-                      onMouseEnter={e => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#1A2332' : '#F9FAFB'}
-                      onMouseLeave={e => e.currentTarget.style.backgroundColor = n.unread ? (theme === 'dark' ? '#0F1A2A' : '#F0F9FF') : 'transparent'}
                     >
-                      <div className="mt-0.5 flex-shrink-0">
-                        <div className="w-2 h-2 rounded-full mt-1" style={{ backgroundColor: notifTypeColor[n.type] || '#8B96A5', opacity: n.unread ? 1 : 0.4 }} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p style={{ fontSize: '12px', color: tc.textPrimary, lineHeight: 1.5 }}>{n.text}</p>
-                        <p style={{ fontSize: '11px', color: tc.textSecondary, marginTop: '2px' }}>{n.time}</p>
+                      <div className="flex items-start gap-2.5">
+                        <span className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: notifTypeColor[n.type] }} />
+                        <div className="flex-1 min-w-0">
+                          <p style={{ fontSize: '12px', color: tc.textPrimary, lineHeight: 1.4 }}>{n.text}</p>
+                          <span className="font-mono" style={{ fontSize: '10px', color: tc.textSecondary }}>{n.time}</span>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -271,47 +258,33 @@ export function GlobalHeader() {
           </div>
         )}
 
-        {/* Subject company label (when not logged in) */}
-        {!isAuthenticated && (
-          <div className="flex items-center gap-1">
-            <span style={{ fontSize: '14px', fontWeight: 600, color: tc.textPrimary }}>Apex Brands Group</span>
-            <span className="hidden sm:inline" style={{ fontSize: '14px', fontFamily: 'JetBrains Mono, monospace', color: tc.accentPrimary }}>• APX</span>
-          </div>
-        )}
-
-        {/* User Avatar Menu */}
+        {/* User Menu */}
         {isAuthenticated && user && (
           <div className="relative" ref={userMenuRef}>
             <button
               onClick={() => { setShowUserMenu(!showUserMenu); setShowNotifications(false); }}
-              className="flex items-center gap-2 rounded-lg px-2 py-1 transition-colors"
+              className="flex items-center gap-2 px-2 py-1 rounded transition-colors cursor-pointer"
               style={{ color: tc.textPrimary }}
-              onMouseEnter={e => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#1A2332' : '#F3F4F6'}
-              onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
-              aria-label="User menu"
             >
               <div
-                className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-                style={{ backgroundColor: getRoleBadgeColor(user.role), color: '#FFFFFF', fontSize: '12px', fontWeight: 700 }}
+                className="w-7 h-7 rounded-full flex items-center justify-center"
+                style={{ backgroundColor: getRoleBadgeColor(user.role), color: '#FFFFFF', fontSize: '11px', fontWeight: 700 }}
               >
                 {user.initials}
               </div>
-              <div className="hidden md:block text-left">
-                <div style={{ fontSize: '13px', fontWeight: 600, lineHeight: 1.2 }}>{user.name}</div>
-                <div style={{ fontSize: '11px', color: tc.textSecondary, lineHeight: 1.2 }}>{getRoleLabel(user.role)}</div>
-              </div>
-              <ChevronDown className="w-3 h-3 hidden md:block" style={{ color: tc.textSecondary }} />
+              <span className="hidden md:inline text-xs font-semibold">{user.name}</span>
+              <ChevronDown className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
             </button>
 
             {showUserMenu && (
-              <div className="absolute right-0 top-full mt-1 w-56 rounded-lg shadow-xl z-50 overflow-hidden" style={{
-                backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}`
-              }}>
-                {/* User Info */}
+              <div
+                className="absolute right-0 top-full mt-1 w-56 rounded-lg shadow-xl z-50 overflow-hidden"
+                style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}
+              >
                 <div className="px-4 py-3 border-b" style={{ borderColor: tc.borderPrimary }}>
                   <div style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary }}>{user.name}</div>
-                  <div style={{ fontSize: '12px', color: tc.textSecondary }}>{user.email}</div>
-                  <div className="mt-1.5 inline-flex px-2 py-0.5 rounded text-xs" style={{
+                  <div style={{ fontSize: '11px', color: tc.textSecondary }}>{user.email}</div>
+                  <div className="mt-1.5 inline-flex px-2 py-0.5 rounded text-[10px] font-mono uppercase" style={{
                     backgroundColor: `${getRoleBadgeColor(user.role)}20`,
                     color: getRoleBadgeColor(user.role),
                     border: `1px solid ${getRoleBadgeColor(user.role)}40`
@@ -319,31 +292,22 @@ export function GlobalHeader() {
                     {getRoleLabel(user.role)}
                   </div>
                 </div>
-
-                {/* Menu Items */}
                 <button
-                  className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors"
+                  onClick={() => { setShowUserMenu(false); navigate('/settings'); }}
+                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left text-xs transition-colors"
                   style={{ color: tc.textPrimary }}
-                  onMouseEnter={e => e.currentTarget.style.backgroundColor = theme === 'dark' ? '#0F1A2A' : '#F9FAFB'}
-                  onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
-                  onClick={() => { navigate('/settings'); setShowUserMenu(false); }}
                 >
                   <Settings className="w-4 h-4" style={{ color: tc.textSecondary }} />
-                  <span style={{ fontSize: '13px' }}>Account Settings</span>
+                  Console Preferences
                 </button>
-
-                <div className="border-t" style={{ borderColor: tc.borderPrimary }}>
-                  <button
-                    className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors"
-                    style={{ color: '#DC2626' }}
-                    onMouseEnter={e => e.currentTarget.style.backgroundColor = '#DC262615'}
-                    onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}
-                    onClick={handleLogout}
-                  >
-                    <LogOut className="w-4 h-4" />
-                    <span style={{ fontSize: '13px' }}>Sign Out</span>
-                  </button>
-                </div>
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-2.5 px-4 py-2.5 text-left text-xs border-t transition-colors"
+                  style={{ color: tc.alertRed, borderColor: tc.borderPrimary }}
+                >
+                  <LogOut className="w-4 h-4" />
+                  Terminate Session
+                </button>
               </div>
             )}
           </div>

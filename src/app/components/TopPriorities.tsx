@@ -6,11 +6,11 @@ export function TopPriorities() {
   const themeColors = colors[theme];
 
   const priorities = [
-    'Continue to focus on execution and communication of restructuring plan',
-    'Regain compliance with covenants / update surrounding comms planning',
-    'Analyze debt trading activity and update threat matrix',
-    'Scenario planning / sensitivity analysis around potential divestitures',
-    'Crisis simulation around supply chain and foreign currency shocks'
+    'Execute automated prograde Hall-effect CAM burn (+0.85 m/s) on VANGUARD-04 prior to COSMOS-2251 DEB TCA',
+    'Re-allocate Plane B station-keeping propellant budget to preserve 5-year FCC de-orbit reserve threshold (≥4.50 kg)',
+    'Cross-calibrate LeoLabs S-Band radar tracks against onboard GNSS ephemeris to shrink 3σ covariance ellipsoids',
+    'Perform differential drag phasing across Plane A nodes during NOAA G2 geomagnetic thermospheric expansion',
+    'Run autonomous star-tracker blinding recovery drill for South Atlantic Anomaly (SAA) high-proton flux transits'
   ];
 
   return (
@@ -22,15 +22,15 @@ export function TopPriorities() {
       }}
     >
       <h3
-        className="mb-4 md:mb-6"
+        className="mb-4 md:mb-6 font-mono"
         style={{
-          fontSize: '16px',
+          fontSize: '15px',
           fontWeight: 700,
           color: themeColors.textPrimary,
-          letterSpacing: '0.02em'
+          letterSpacing: '0.04em'
         }}
       >
-        TOP PRIORITIES
+        FLIGHT DIRECTOR DIRECTIVES
       </h3>
 
       <ul className="space-y-3 md:space-y-4">
@@ -44,8 +44,8 @@ export function TopPriorities() {
               color: themeColors.textPrimary
             }}
           >
-            <span style={{ color: themeColors.textPrimary, flexShrink: 0 }}>•</span>
-            <span className="md:text-base">{priority}</span>
+            <span style={{ color: themeColors.accentPrimary, flexShrink: 0, fontFamily: 'JetBrains Mono, monospace' }}>•</span>
+            <span className="md:text-sm">{priority}</span>
           </li>
         ))}
       </ul>

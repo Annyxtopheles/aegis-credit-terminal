@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Shield, Eye, EyeOff, Loader2, Check, X, ArrowLeft } from 'lucide-react';
+import { Radar, Eye, EyeOff, Loader2, Check, X, ArrowLeft } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
 
@@ -19,10 +19,10 @@ const passwordRules: PasswordRule[] = [
 
 function getStrength(password: string): { level: 'weak' | 'medium' | 'strong'; label: string; color: string; width: string } {
   const passed = passwordRules.filter(r => r.test(password)).length;
-  if (passed <= 1) return { level: 'weak', label: 'Weak', color: '#E5484D', width: '25%' };
-  if (passed <= 2) return { level: 'medium', label: 'Medium', color: '#E5A93C', width: '50%' };
-  if (passed <= 3) return { level: 'medium', label: 'Good', color: '#E5A93C', width: '75%' };
-  return { level: 'strong', label: 'Strong', color: '#30A46C', width: '100%' };
+  if (passed <= 1) return { level: 'weak', label: 'Weak', color: '#EF4444', width: '25%' };
+  if (passed <= 2) return { level: 'medium', label: 'Medium', color: '#F59E0B', width: '50%' };
+  if (passed <= 3) return { level: 'medium', label: 'Good', color: '#F59E0B', width: '75%' };
+  return { level: 'strong', label: 'Strong', color: '#10B981', width: '100%' };
 }
 
 export default function ResetPasswordPage() {
@@ -37,12 +37,12 @@ export default function ResetPasswordPage() {
   const [error, setError] = useState('');
 
   const strength = getStrength(password);
-  const confirmError = confirm && confirm !== password ? 'Passwords do not match' : '';
+  const confirmError = confirm && confirm !== password ? 'Security keys do not match' : '';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password !== confirm) { setError('Passwords do not match'); return; }
-    if (!passwordRules.every(r => r.test(password))) { setError('Password does not meet requirements'); return; }
+    if (password !== confirm) { setError('Security keys do not match'); return; }
+    if (!passwordRules.every(r => r.test(password))) { setError('Security key does not meet cryptographic requirements'); return; }
     setIsLoading(true);
     await new Promise(r => setTimeout(r, 1000));
     setIsLoading(false);
@@ -51,7 +51,7 @@ export default function ResetPasswordPage() {
 
   const inputStyle = (err?: string) => ({
     backgroundColor: tc.bgTertiary,
-    border: `1px solid ${err ? '#E5484D' : tc.borderPrimary}`,
+    border: `1px solid ${err ? '#EF4444' : tc.borderPrimary}`,
     color: tc.textPrimary,
     borderRadius: '8px',
     height: '44px',
@@ -73,63 +73,63 @@ export default function ResetPasswordPage() {
           border: `1px solid ${tc.borderPrimary}`
         }}
       >
-        {/* Top Brand Bar */}
         <div className="flex items-center gap-2.5 mb-8">
           <div
             className="w-8 h-8 flex items-center justify-center rounded border"
             style={{
-              backgroundColor: tc.bgTertiary,
-              borderColor: tc.borderPrimary
+              backgroundColor: 'rgba(6, 182, 212, 0.14)',
+              borderColor: 'rgba(6, 182, 212, 0.4)'
             }}
           >
-            <Shield className="w-4 h-4" style={{ color: tc.textPrimary }} />
+            <Radar className="w-4 h-4" style={{ color: '#06B6D4' }} />
           </div>
           <span
+            className="font-mono"
             style={{
-              fontSize: '15px',
+              fontSize: '14px',
               fontWeight: 700,
               color: tc.textPrimary,
-              letterSpacing: '0.06em'
+              letterSpacing: '0.08em'
             }}
           >
-            AEGIS CREDIT TERMINAL
+            KESSLER // ORBITAL SSA TERMINAL
           </span>
         </div>
 
-        {/* Hero Centered Shield Badge */}
         <div className="flex justify-center mb-6">
           <div
             className="w-16 h-16 rounded-full flex items-center justify-center border"
             style={{
-              backgroundColor: tc.bgTertiary,
-              borderColor: tc.borderPrimary
+              backgroundColor: 'rgba(6, 182, 212, 0.1)',
+              borderColor: 'rgba(6, 182, 212, 0.35)'
             }}
           >
-            <Shield className="w-8 h-8" style={{ color: tc.textPrimary }} />
+            <Radar className="w-8 h-8" style={{ color: '#06B6D4' }} />
           </div>
         </div>
 
         <div className="mb-7 text-center">
           <h1
+            className="font-mono"
             style={{
-              fontSize: '28px',
+              fontSize: '26px',
               fontWeight: 700,
               color: tc.textPrimary,
               marginBottom: '8px',
               letterSpacing: '-0.02em'
             }}
           >
-            Create New Password
+            Provision New Security Key
           </h1>
-          <p style={{ fontSize: '15px', color: tc.textSecondary }}>
-            Set a secure credential for institutional authentication
+          <p style={{ fontSize: '14px', color: tc.textSecondary }}>
+            Set a new cryptographic credential for Flight Control access
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* New Password */}
           <div>
             <label
+              className="font-mono"
               style={{
                 display: 'block',
                 fontSize: '11px',
@@ -140,7 +140,7 @@ export default function ResetPasswordPage() {
                 textTransform: 'uppercase'
               }}
             >
-              New Password
+              New Security Key
             </label>
             <div className="relative">
               <input
@@ -160,11 +160,10 @@ export default function ResetPasswordPage() {
               </button>
             </div>
 
-            {/* Strength meter */}
             {password && (
               <div className="mt-2">
                 <div className="flex items-center justify-between mb-1">
-                  <span style={{ fontSize: '11px', color: tc.textSecondary }}>Strength</span>
+                  <span style={{ fontSize: '11px', color: tc.textSecondary }}>Entropy</span>
                   <span style={{ fontSize: '11px', fontWeight: 600, color: strength.color }}>{strength.label}</span>
                 </div>
                 <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: tc.borderSubtle }}>
@@ -173,23 +172,22 @@ export default function ResetPasswordPage() {
               </div>
             )}
 
-            {/* Requirements */}
             <div className="mt-3 space-y-1.5">
               {passwordRules.map(rule => {
                 const met = rule.test(password);
                 return (
                   <div key={rule.id} className="flex items-center gap-2">
-                    {met ? <Check className="w-3.5 h-3.5" style={{ color: '#30A46C' }} /> : <X className="w-3.5 h-3.5" style={{ color: tc.textTertiary }} />}
-                    <span style={{ fontSize: '11px', color: met ? '#30A46C' : tc.textTertiary }}>{rule.label}</span>
+                    {met ? <Check className="w-3.5 h-3.5" style={{ color: '#10B981' }} /> : <X className="w-3.5 h-3.5" style={{ color: tc.textTertiary }} />}
+                    <span style={{ fontSize: '11px', color: met ? '#10B981' : tc.textTertiary }}>{rule.label}</span>
                   </div>
                 );
               })}
             </div>
           </div>
 
-          {/* Confirm Password */}
           <div>
             <label
+              className="font-mono"
               style={{
                 display: 'block',
                 fontSize: '11px',
@@ -200,7 +198,7 @@ export default function ResetPasswordPage() {
                 textTransform: 'uppercase'
               }}
             >
-              Confirm Password
+              Confirm Security Key
             </label>
             <div className="relative">
               <input
@@ -219,31 +217,31 @@ export default function ResetPasswordPage() {
                 {showC ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
-            {confirmError && <p style={{ color: '#E5484D', fontSize: '11px', marginTop: '4px' }}>{confirmError}</p>}
+            {confirmError && <p style={{ color: '#EF4444', fontSize: '11px', marginTop: '4px' }}>{confirmError}</p>}
           </div>
 
           {error && (
-            <p style={{ color: '#E5484D', fontSize: '12px' }}>{error}</p>
+            <p style={{ color: '#EF4444', fontSize: '12px' }}>{error}</p>
           )}
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full h-12 rounded-lg font-bold text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
+            className="w-full h-12 rounded-lg font-mono font-bold text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
             style={{
-              backgroundColor: theme === 'dark' ? '#EDEDED' : '#111318',
-              color: theme === 'dark' ? '#0B0C0E' : '#FFFFFF',
+              backgroundColor: '#06B6D4',
+              color: '#06080D',
               border: 'none',
               cursor: isLoading ? 'not-allowed' : 'pointer'
             }}
           >
-            {isLoading ? <><Loader2 className="w-4 h-4 animate-spin" />Resetting Password...</> : 'Confirm New Password'}
+            {isLoading ? <><Loader2 className="w-4 h-4 animate-spin" />Updating Key...</> : 'Commit Security Key'}
           </button>
         </form>
 
         <button
           onClick={() => navigate('/login')}
-          className="flex items-center justify-center gap-2 mt-6 transition-colors hover:underline"
+          className="flex items-center justify-center gap-2 mt-6 transition-colors hover:underline font-mono"
           style={{
             background: 'none',
             border: 'none',
@@ -255,7 +253,7 @@ export default function ResetPasswordPage() {
           }}
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Sign In
+          Return to Flight Control Sign In
         </button>
       </div>
     </div>
