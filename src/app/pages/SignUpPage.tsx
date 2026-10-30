@@ -12,19 +12,19 @@ const passwordRules = [
   { id: 'special', label: 'One special character', test: (p: string) => /[!@#$%^&*]/.test(p) },
 ];
 
-function getStrength(p: string) {
-  const n = passwordRules.filter(r => r.test(p)).length;
-  if (n <= 1) return { label: 'Weak', color: '#EF4444', w: '25%' };
-  if (n <= 2) return { label: 'Medium', color: '#F59E0B', w: '50%' };
-  if (n <= 3) return { label: 'Good', color: '#F59E0B', w: '75%' };
-  return { label: 'Strong', color: '#10B981', w: '100%' };
-}
-
 export default function SignUpPage() {
   const { signup, isLoading } = useAuth();
   const { theme } = useTheme();
   const tc = colors[theme];
   const navigate = useNavigate();
+
+  const getStrength = (p: string) => {
+    const n = passwordRules.filter(r => r.test(p)).length;
+    if (n <= 1) return { label: 'Weak', color: tc.alertRed, w: '25%' };
+    if (n <= 2) return { label: 'Medium', color: tc.alertAmber, w: '50%' };
+    if (n <= 3) return { label: 'Good', color: tc.alertAmber, w: '75%' };
+    return { label: 'Strong', color: tc.alertGreen, w: '100%' };
+  };
 
   const [form, setForm] = useState({ name: '', email: 'operator@vanguard.space', password: '', confirm: '', jobTitle: '', phone: '' });
   const [showP, setShowP] = useState(false);
@@ -55,7 +55,7 @@ export default function SignUpPage() {
 
   const inputStyle = (err?: string) => ({
     backgroundColor: tc.bgTertiary,
-    border: `1px solid ${err ? '#EF4444' : tc.borderPrimary}`,
+    border: `1px solid ${err ? tc.alertRed : tc.borderPrimary}`,
     color: tc.textPrimary,
     borderRadius: '8px',
     height: '44px',
@@ -114,11 +114,11 @@ export default function SignUpPage() {
           <div
             className="w-8 h-8 flex items-center justify-center rounded border"
             style={{
-              backgroundColor: 'rgba(6, 182, 212, 0.14)',
-              borderColor: 'rgba(6, 182, 212, 0.4)'
+              backgroundColor: `${tc.accentPrimary}25`,
+              borderColor: `${tc.accentPrimary}60`
             }}
           >
-            <Radar className="w-4 h-4" style={{ color: '#06B6D4' }} />
+            <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
           </div>
           <span
             className="font-mono"
@@ -138,7 +138,7 @@ export default function SignUpPage() {
           style={{ backgroundColor: tc.bgTertiary, border: `1px solid ${tc.borderSubtle}` }}
         >
           <p className="font-mono" style={{ fontSize: '12px', color: tc.textSecondary }}>
-            Constellation Clearance: <strong style={{ color: '#06B6D4' }}>Vanguard LEO Shell-1 (550 km)</strong> Flight Dynamics Pool
+            Constellation Clearance: <strong style={{ color: tc.accentPrimary }}>Vanguard LEO Shell-1 (550 km)</strong> Flight Dynamics Pool
           </p>
         </div>
 
@@ -224,15 +224,15 @@ export default function SignUpPage() {
                     const met = r.test(form.password);
                     return (
                       <div key={r.id} className="flex items-center gap-1.5">
-                        {met ? <Check className="w-3 h-3" style={{ color: '#10B981' }} /> : <X className="w-3 h-3" style={{ color: tc.textTertiary }} />}
-                        <span style={{ fontSize: '11px', color: met ? '#10B981' : tc.textTertiary }}>{r.label}</span>
+                        {met ? <Check className="w-3 h-3" style={{ color: tc.alertGreen }} /> : <X className="w-3 h-3" style={{ color: tc.textTertiary }} />}
+                        <span style={{ fontSize: '11px', color: met ? tc.alertGreen : tc.textTertiary }}>{r.label}</span>
                       </div>
                     );
                   })}
                 </div>
               </div>
             )}
-            {errors.password && <p style={{ color: '#EF4444', fontSize: '11px', marginTop: '4px' }}>{errors.password}</p>}
+            {errors.password && <p style={{ color: tc.alertRed, fontSize: '11px', marginTop: '4px' }}>{errors.password}</p>}
           </div>
 
           <div>
@@ -266,7 +266,7 @@ export default function SignUpPage() {
                 {showC ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
-            {errors.confirm && <p style={{ color: '#EF4444', fontSize: '11px', marginTop: '4px' }}>{errors.confirm}</p>}
+            {errors.confirm && <p style={{ color: tc.alertRed, fontSize: '11px', marginTop: '4px' }}>{errors.confirm}</p>}
           </div>
 
           <Field
@@ -292,24 +292,24 @@ export default function SignUpPage() {
                 id="terms"
                 checked={agreed}
                 onChange={e => setAgreed(e.target.checked)}
-                style={{ accentColor: '#06B6D4', marginTop: '2px', width: '15px', height: '15px', cursor: 'pointer' }}
+                style={{ accentColor: tc.accentPrimary, marginTop: '2px', width: '15px', height: '15px', cursor: 'pointer' }}
               />
               <label htmlFor="terms" style={{ fontSize: '13px', color: tc.textSecondary, cursor: 'pointer', lineHeight: 1.4 }}>
                 I acknowledge CCSDS Conjunction Data Message (CDM) handling protocols and orbital security directives
               </label>
             </div>
-            {errors.agreed && <p style={{ color: '#EF4444', fontSize: '11px', marginTop: '4px' }}>{errors.agreed}</p>}
+            {errors.agreed && <p style={{ color: tc.alertRed, fontSize: '11px', marginTop: '4px' }}>{errors.agreed}</p>}
           </div>
 
-          {errors.global && <p style={{ color: '#EF4444', fontSize: '12px' }}>{errors.global}</p>}
+          {errors.global && <p style={{ color: tc.alertRed, fontSize: '12px' }}>{errors.global}</p>}
 
           <button
             type="submit"
             disabled={isLoading}
             className="w-full h-12 rounded-lg font-mono font-bold text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
             style={{
-              backgroundColor: '#06B6D4',
-              color: '#06080D',
+              backgroundColor: tc.accentPrimary,
+              color: tc.bgPrimary,
               border: 'none',
               cursor: isLoading ? 'not-allowed' : 'pointer'
             }}
@@ -321,7 +321,7 @@ export default function SignUpPage() {
         <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '13px', color: tc.textSecondary }}>
           Already hold active clearance?{' '}
           <span
-            style={{ color: '#06B6D4', cursor: 'pointer', fontWeight: 600, textDecoration: 'underline' }}
+            style={{ color: tc.accentPrimary, cursor: 'pointer', fontWeight: 600, textDecoration: 'underline' }}
             onClick={() => navigate('/login')}
           >
             Sign In

@@ -61,32 +61,32 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         >
           <div className="flex items-center gap-4 overflow-hidden">
             <div className="flex items-center gap-1.5 whitespace-nowrap">
-              <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
+              <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: tc.alertGreen }} />
               <span className="font-bold" style={{ color: tc.textPrimary }}>SVALBARD SVAL-02:</span>
-              <span style={{ color: '#10B981' }}>AOS LOCKED (Ka-Band 32.4 GHz)</span>
+              <span style={{ color: tc.alertGreen }}>AOS LOCKED (Ka-Band 32.4 GHz)</span>
             </div>
             <span style={{ color: tc.borderPrimary }}>|</span>
             <div className="hidden sm:flex items-center gap-1.5 whitespace-nowrap">
-              <Radio className="w-3 h-3" style={{ color: '#06B6D4' }} />
+              <Radio className="w-3 h-3" style={{ color: tc.accentPrimary }} />
               <span className="font-bold" style={{ color: tc.textPrimary }}>KWAJALEIN:</span>
-              <span style={{ color: '#06B6D4' }}>S-BAND TRACKING [27,412 OBJ]</span>
+              <span style={{ color: tc.accentPrimary }}>S-BAND TRACKING [27,412 OBJ]</span>
             </div>
             <span className="hidden md:inline" style={{ color: tc.borderPrimary }}>|</span>
             <div className="hidden md:flex items-center gap-1.5 whitespace-nowrap">
-              <Wifi className="w-3 h-3" style={{ color: '#F59E0B' }} />
+              <Wifi className="w-3 h-3" style={{ color: tc.alertAmber }} />
               <span className="font-bold" style={{ color: tc.textPrimary }}>PUNTA ARENAS:</span>
-              <span style={{ color: '#F59E0B' }}>LOS T-00:14:22</span>
+              <span style={{ color: tc.alertAmber }}>LOS T-00:14:22</span>
             </div>
           </div>
 
           <div className="flex items-center gap-4 flex-shrink-0">
             <div className="hidden lg:flex items-center gap-1.5">
-              <Activity className="w-3 h-3" style={{ color: '#06B6D4' }} />
+              <Activity className="w-3 h-3" style={{ color: tc.accentPrimary }} />
               <span>STREAM:</span>
-              <span className="font-bold" style={{ color: '#06B6D4' }}>{packetCount} pkt/s</span>
+              <span className="font-bold" style={{ color: tc.accentPrimary }}>{packetCount} pkt/s</span>
             </div>
             <div className="flex items-center gap-1">
-              <ShieldCheck className="w-3 h-3" style={{ color: '#10B981' }} />
+              <ShieldCheck className="w-3 h-3" style={{ color: tc.alertGreen }} />
               <span className="uppercase">CCSDS CDM v2.0 // SGP4</span>
             </div>
           </div>

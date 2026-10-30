@@ -44,11 +44,11 @@ export default function ForgotPasswordPage() {
           <div
             className="w-8 h-8 flex items-center justify-center rounded border"
             style={{
-              backgroundColor: 'rgba(6, 182, 212, 0.14)',
-              borderColor: 'rgba(6, 182, 212, 0.4)'
+              backgroundColor: `${tc.accentPrimary}25`,
+              borderColor: `${tc.accentPrimary}60`
             }}
           >
-            <Radar className="w-4 h-4" style={{ color: '#06B6D4' }} />
+            <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
           </div>
           <span
             className="font-mono"
@@ -67,11 +67,11 @@ export default function ForgotPasswordPage() {
           <div
             className="w-16 h-16 rounded-full flex items-center justify-center border"
             style={{
-              backgroundColor: 'rgba(6, 182, 212, 0.1)',
-              borderColor: 'rgba(6, 182, 212, 0.35)'
+              backgroundColor: `${tc.accentPrimary}20`,
+              borderColor: `${tc.accentPrimary}50`
             }}
           >
-            <Radar className="w-8 h-8" style={{ color: '#06B6D4' }} />
+            <Radar className="w-8 h-8" style={{ color: tc.accentPrimary }} />
           </div>
         </div>
 
@@ -120,13 +120,13 @@ export default function ForgotPasswordPage() {
                   className="w-full h-11 px-3.5 text-[13px] rounded-lg outline-none transition-colors font-mono"
                   style={{
                     backgroundColor: tc.bgTertiary,
-                    border: `1px solid ${emailError ? '#EF4444' : tc.borderPrimary}`,
+                    border: `1px solid ${emailError ? tc.alertRed : tc.borderPrimary}`,
                     color: tc.textPrimary
                   }}
                   disabled={isLoading}
                   aria-describedby={emailError ? 'email-err' : undefined}
                 />
-                {emailError && <p id="email-err" style={{ color: '#EF4444', fontSize: '11px', marginTop: '4px' }}>{emailError}</p>}
+                {emailError && <p id="email-err" style={{ color: tc.alertRed, fontSize: '11px', marginTop: '4px' }}>{emailError}</p>}
               </div>
 
               <button
@@ -134,8 +134,8 @@ export default function ForgotPasswordPage() {
                 disabled={isLoading}
                 className="w-full h-12 rounded-lg font-mono font-bold text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
                 style={{
-                  backgroundColor: '#06B6D4',
-                  color: '#06080D',
+                  backgroundColor: tc.accentPrimary,
+                  color: tc.bgPrimary,
                   border: 'none',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
@@ -149,9 +149,9 @@ export default function ForgotPasswordPage() {
             <div className="flex justify-center mb-6">
               <div
                 className="w-16 h-16 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: 'rgba(16, 185, 129, 0.12)', border: '1px solid rgba(16, 185, 129, 0.3)' }}
+                style={{ backgroundColor: `${tc.alertGreen}20`, border: `1px solid ${tc.alertGreen}50` }}
               >
-                <CheckCircle2 className="w-8 h-8" style={{ color: '#10B981' }} />
+                <CheckCircle2 className="w-8 h-8" style={{ color: tc.alertGreen }} />
               </div>
             </div>
             <h2 className="font-mono" style={{ fontSize: '22px', fontWeight: 700, color: tc.textPrimary, marginBottom: '8px' }}>
@@ -160,7 +160,7 @@ export default function ForgotPasswordPage() {
             <p style={{ fontSize: '14px', color: tc.textSecondary, marginBottom: '6px' }}>
               Cryptographic key recovery instructions transmitted to:
             </p>
-            <p className="font-mono" style={{ fontSize: '14px', fontWeight: 600, color: '#06B6D4', marginBottom: '24px' }}>
+            <p className="font-mono" style={{ fontSize: '14px', fontWeight: 600, color: tc.accentPrimary, marginBottom: '24px' }}>
               {email}
             </p>
             <p style={{ fontSize: '13px', color: tc.textTertiary }}>

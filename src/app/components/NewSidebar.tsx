@@ -160,17 +160,17 @@ export function NewSidebar() {
               <div
                 className="w-8 h-8 flex items-center justify-center rounded-sm flex-shrink-0"
                 style={{
-                  backgroundColor: 'rgba(6, 182, 212, 0.14)',
-                  border: '1px solid rgba(6, 182, 212, 0.45)'
+                  backgroundColor: `${tc.accentPrimary}25`,
+                  border: `1px solid ${tc.accentPrimary}60`
                 }}
               >
-                <Radar className="w-4 h-4" style={{ color: '#06B6D4' }} />
+                <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
               </div>
               <div className="leading-tight truncate">
-                <div className="font-bold tracking-widest text-sm text-white">
+                <div className="font-bold tracking-widest text-sm" style={{ color: tc.textPrimary }}>
                   KESSLER
                 </div>
-                <div className="text-[10px] tracking-wider uppercase font-semibold text-[#06B6D4]">
+                <div className="text-[10px] tracking-wider uppercase font-semibold" style={{ color: tc.accentPrimary }}>
                   Orbital SSA Terminal
                 </div>
               </div>
@@ -182,12 +182,12 @@ export function NewSidebar() {
               onClick={() => navigate('/dashboard')}
               className="w-9 h-9 mx-auto flex items-center justify-center rounded-sm cursor-pointer"
               style={{
-                backgroundColor: 'rgba(6, 182, 212, 0.14)',
-                border: '1px solid rgba(6, 182, 212, 0.45)'
+                backgroundColor: `${tc.accentPrimary}25`,
+                border: `1px solid ${tc.accentPrimary}60`
               }}
               title="KESSLER Orbital SSA"
             >
-              <Radar className="w-4 h-4" style={{ color: '#06B6D4' }} />
+              <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
             </div>
           )}
 
@@ -239,18 +239,18 @@ export function NewSidebar() {
                 <span
                   className="px-2 py-0.5 rounded text-[10px] font-mono font-bold flex-shrink-0"
                   style={{
-                    backgroundColor: 'rgba(6, 182, 212, 0.15)',
-                    color: '#06B6D4',
-                    border: '1px solid rgba(6, 182, 212, 0.35)'
+                    backgroundColor: `${tc.accentPrimary}25`,
+                    color: tc.accentPrimary,
+                    border: `1px solid ${tc.accentPrimary}60`
                   }}
                 >
                   {selectedShell.ticker}
                 </span>
                 <div className="min-w-0 truncate">
-                  <div className="text-xs font-semibold text-slate-100 truncate">
+                  <div className="text-xs font-semibold truncate" style={{ color: tc.textPrimary }}>
                     {selectedShell.name}
                   </div>
-                  <div className="text-[10px] text-slate-400 font-mono truncate">
+                  <div className="text-[10px] font-mono truncate" style={{ color: tc.textSecondary }}>
                     {selectedShell.details}
                   </div>
                 </div>
@@ -302,9 +302,9 @@ export function NewSidebar() {
                     >
                       <div className="min-w-0">
                         <div className="text-xs font-semibold">{shell.name}</div>
-                        <div className="text-[10px] text-slate-400 font-mono">{shell.details}</div>
+                        <div className="text-[10px] font-mono opacity-70">{shell.details}</div>
                       </div>
-                      <span className="text-[10px] font-mono font-bold text-[#06B6D4] ml-2">{shell.ticker}</span>
+                      <span className="text-[10px] font-mono font-bold ml-2" style={{ color: tc.accentPrimary }}>{shell.ticker}</span>
                     </button>
                   ))}
                 </div>
@@ -321,8 +321,8 @@ export function NewSidebar() {
                 onClick={() => handleViewToggle('admin')}
                 className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded text-xs font-bold transition-all cursor-pointer"
                 style={{
-                  backgroundColor: viewMode === 'admin' ? '#06B6D4' : 'transparent',
-                  color: viewMode === 'admin' ? '#06080D' : tc.textSecondary
+                  backgroundColor: viewMode === 'admin' ? tc.accentPrimary : 'transparent',
+                  color: viewMode === 'admin' ? tc.bgPrimary : tc.textSecondary
                 }}
               >
                 <Radar className="w-3.5 h-3.5" />
@@ -332,8 +332,8 @@ export function NewSidebar() {
                 onClick={() => handleViewToggle('preview')}
                 className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded text-xs font-bold transition-all cursor-pointer"
                 style={{
-                  backgroundColor: viewMode === 'preview' ? '#06B6D4' : 'transparent',
-                  color: viewMode === 'preview' ? '#06080D' : tc.textSecondary
+                  backgroundColor: viewMode === 'preview' ? tc.accentPrimary : 'transparent',
+                  color: viewMode === 'preview' ? tc.bgPrimary : tc.textSecondary
                 }}
               >
                 <Eye className="w-3.5 h-3.5" />
@@ -360,11 +360,11 @@ export function NewSidebar() {
                 style={{
                   backgroundColor: active
                     ? theme === 'dark'
-                      ? 'rgba(6, 182, 212, 0.16)'
-                      : '#E0F2FE'
+                      ? 'rgba(0, 240, 255, 0.14)'
+                      : 'rgba(0, 119, 153, 0.12)'
                     : 'transparent',
-                  color: active ? '#06B6D4' : tc.textSecondary,
-                  borderLeft: active && !isCollapsed ? '3px solid #06B6D4' : '3px solid transparent'
+                  color: active ? tc.accentPrimary : tc.textSecondary,
+                  borderLeft: active && !isCollapsed ? `3px solid ${tc.accentPrimary}` : '3px solid transparent'
                 }}
                 onMouseEnter={e => {
                   if (!active) e.currentTarget.style.backgroundColor = tc.hoverBg;
@@ -422,7 +422,7 @@ export function NewSidebar() {
             >
               <div
                 className="w-7 h-7 rounded-sm flex items-center justify-center font-mono text-[11px] font-bold flex-shrink-0"
-                style={{ backgroundColor: '#06B6D4', color: '#06080D' }}
+                style={{ backgroundColor: tc.accentPrimary, color: tc.bgPrimary }}
               >
                 {user.initials}
               </div>
@@ -430,11 +430,11 @@ export function NewSidebar() {
                 <>
                   <div className="flex-1 min-w-0 leading-tight">
                     <div className="text-xs font-bold truncate">{user.name}</div>
-                    <div className="text-[10px] font-mono text-[#06B6D4] font-semibold truncate">
+                    <div className="text-[10px] font-mono font-semibold truncate" style={{ color: tc.accentPrimary }}>
                       {getRoleLabel(user.role)}
                     </div>
                   </div>
-                  <ChevronDown className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+                  <ChevronDown className="w-3.5 h-3.5 opacity-60 flex-shrink-0" />
                 </>
               )}
             </button>
@@ -450,13 +450,13 @@ export function NewSidebar() {
                 }}
               >
                 <div className="px-3.5 py-2.5 border-b" style={{ borderColor: tc.borderPrimary }}>
-                  <div className="text-xs font-bold text-slate-100">{user.name}</div>
-                  <div className="text-[11px] font-mono text-slate-400 truncate">{user.email}</div>
+                  <div className="text-xs font-bold" style={{ color: tc.textPrimary }}>{user.name}</div>
+                  <div className="text-[11px] font-mono opacity-60 truncate">{user.email}</div>
                   <div
                     className="mt-1 inline-flex px-1.5 py-0.5 rounded text-[9px] font-mono font-bold"
                     style={{
-                      backgroundColor: 'rgba(6, 182, 212, 0.15)',
-                      color: '#06B6D4'
+                      backgroundColor: `${tc.accentPrimary}25`,
+                      color: tc.accentPrimary
                     }}
                   >
                     {getRoleLabel(user.role)}

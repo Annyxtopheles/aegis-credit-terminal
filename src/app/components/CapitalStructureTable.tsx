@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Download, Check } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { colors, ratingBadges } from '../theme/colors';
+import { colors, orbitalStatusBadges } from '../theme/colors';
 
 export function CapitalStructureTable() {
   const { theme } = useTheme();
   const themeColors = colors[theme];
-  const badges = ratingBadges[theme];
+  const badges = orbitalStatusBadges[theme];
   const [downloaded, setDownloaded] = useState(false);
 
   const data = [
@@ -79,10 +79,10 @@ export function CapitalStructureTable() {
   ];
 
   const getStatusBadgeStyle = (status: string) => {
-    if (status === 'CAM ARMED') return badges.distressed;
-    if (status === 'DRAG COMP') return badges.highYield;
-    if (status === 'NOMINAL') return badges.investmentGrade;
-    return badges.notRated;
+    if (status === 'CAM ARMED') return badges.critical;
+    if (status === 'DRAG COMP') return badges.warning;
+    if (status === 'NOMINAL') return badges.nominal;
+    return badges.maneuver;
   };
 
   const getPropellantColor = (pctStr: string) => {
@@ -139,9 +139,9 @@ export function CapitalStructureTable() {
           onClick={handleExportCSV}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded transition-colors text-xs font-mono font-semibold cursor-pointer self-start sm:self-auto"
           style={{
-            backgroundColor: theme === 'dark' ? 'rgba(6,182,212,0.12)' : '#EFF6FF',
+            backgroundColor: `${themeColors.accentPrimary}20`,
             color: themeColors.accentPrimary,
-            border: `1px solid ${theme === 'dark' ? 'rgba(6,182,212,0.35)' : '#BAE6FD'}`
+            border: `1px solid ${themeColors.accentPrimary}50`
           }}
           title="Export Ephemeris TLE Ledger to CSV"
         >

@@ -36,7 +36,7 @@ function RequestCoordinationModal({ onClose }: { onClose: () => void }) {
                 onChange={e => setForm(fm => ({ ...fm, [f.key]: e.target.value }))}
                 style={{
                   width: '100%', height: '42px', padding: '0 12px',
-                  backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+                  backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
                   border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                   color: tc.textPrimary, fontSize: '13px', outline: 'none'
                 }}
@@ -52,7 +52,7 @@ function RequestCoordinationModal({ onClose }: { onClose: () => void }) {
               onChange={e => setForm(fm => ({ ...fm, message: e.target.value }))}
               style={{
                 width: '100%', padding: '10px 12px',
-                backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+                backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
                 border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                 color: tc.textPrimary, fontSize: '13px', outline: 'none', resize: 'none'
               }}
@@ -61,7 +61,7 @@ function RequestCoordinationModal({ onClose }: { onClose: () => void }) {
           <div className="flex gap-3 pt-2">
             <button
               className="flex-1 transition-colors rounded-lg font-mono"
-              style={{ height: '42px', backgroundColor: '#06B6D4', color: '#06080D', border: 'none', cursor: 'pointer', fontWeight: 700, fontSize: '13px' }}
+              style={{ height: '42px', backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none', cursor: 'pointer', fontWeight: 700, fontSize: '13px' }}
               onClick={onClose}
             >
               Transmit Directive
@@ -123,7 +123,7 @@ export default function CorporateDashboardPage() {
 
       <div className="px-3 md:px-6 pt-3">
         <div className="p-3 rounded-lg flex items-center gap-2" style={{ backgroundColor: 'rgba(6,182,212,0.1)', border: '1px solid rgba(6,182,212,0.3)' }}>
-          <Radar className="w-4 h-4 flex-shrink-0" style={{ color: '#06B6D4' }} />
+          <Radar className="w-4 h-4 flex-shrink-0" style={{ color: tc.accentPrimary }} />
           <p style={{ fontSize: '12px', color: tc.textSecondary }}>
             <strong style={{ color: tc.textPrimary }} className="font-mono">External Coordination Feed:</strong> Displaying public 18th SDS TLE vectors and ITU/FCC compliance disclosures.
           </p>

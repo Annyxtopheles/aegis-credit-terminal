@@ -17,14 +17,6 @@ const passwordRules: PasswordRule[] = [
   { id: 'special', label: 'One special character', test: p => /[!@#$%^&*]/.test(p) },
 ];
 
-function getStrength(password: string): { level: 'weak' | 'medium' | 'strong'; label: string; color: string; width: string } {
-  const passed = passwordRules.filter(r => r.test(password)).length;
-  if (passed <= 1) return { level: 'weak', label: 'Weak', color: '#EF4444', width: '25%' };
-  if (passed <= 2) return { level: 'medium', label: 'Medium', color: '#F59E0B', width: '50%' };
-  if (passed <= 3) return { level: 'medium', label: 'Good', color: '#F59E0B', width: '75%' };
-  return { level: 'strong', label: 'Strong', color: '#10B981', width: '100%' };
-}
-
 export default function ResetPasswordPage() {
   const { theme } = useTheme();
   const tc = colors[theme];
@@ -35,6 +27,14 @@ export default function ResetPasswordPage() {
   const [showC, setShowC] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const getStrength = (p: string) => {
+    const passed = passwordRules.filter(r => r.test(p)).length;
+    if (passed <= 1) return { level: 'weak', label: 'Weak', color: tc.alertRed, width: '25%' };
+    if (passed <= 2) return { level: 'medium', label: 'Medium', color: tc.alertAmber, width: '50%' };
+    if (passed <= 3) return { level: 'medium', label: 'Good', color: tc.alertAmber, width: '75%' };
+    return { level: 'strong', label: 'Strong', color: tc.alertGreen, width: '100%' };
+  };
 
   const strength = getStrength(password);
   const confirmError = confirm && confirm !== password ? 'Security keys do not match' : '';
@@ -51,7 +51,7 @@ export default function ResetPasswordPage() {
 
   const inputStyle = (err?: string) => ({
     backgroundColor: tc.bgTertiary,
-    border: `1px solid ${err ? '#EF4444' : tc.borderPrimary}`,
+    border: `1px solid ${err ? tc.alertRed : tc.borderPrimary}`,
     color: tc.textPrimary,
     borderRadius: '8px',
     height: '44px',
@@ -77,11 +77,11 @@ export default function ResetPasswordPage() {
           <div
             className="w-8 h-8 flex items-center justify-center rounded border"
             style={{
-              backgroundColor: 'rgba(6, 182, 212, 0.14)',
-              borderColor: 'rgba(6, 182, 212, 0.4)'
+              backgroundColor: `${tc.accentPrimary}25`,
+              borderColor: `${tc.accentPrimary}60`
             }}
           >
-            <Radar className="w-4 h-4" style={{ color: '#06B6D4' }} />
+            <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
           </div>
           <span
             className="font-mono"
@@ -100,11 +100,11 @@ export default function ResetPasswordPage() {
           <div
             className="w-16 h-16 rounded-full flex items-center justify-center border"
             style={{
-              backgroundColor: 'rgba(6, 182, 212, 0.1)',
-              borderColor: 'rgba(6, 182, 212, 0.35)'
+              backgroundColor: `${tc.accentPrimary}20`,
+              borderColor: `${tc.accentPrimary}50`
             }}
           >
-            <Radar className="w-8 h-8" style={{ color: '#06B6D4' }} />
+            <Radar className="w-8 h-8" style={{ color: tc.accentPrimary }} />
           </div>
         </div>
 
@@ -177,8 +177,8 @@ export default function ResetPasswordPage() {
                 const met = rule.test(password);
                 return (
                   <div key={rule.id} className="flex items-center gap-2">
-                    {met ? <Check className="w-3.5 h-3.5" style={{ color: '#10B981' }} /> : <X className="w-3.5 h-3.5" style={{ color: tc.textTertiary }} />}
-                    <span style={{ fontSize: '11px', color: met ? '#10B981' : tc.textTertiary }}>{rule.label}</span>
+                    {met ? <Check className="w-3.5 h-3.5" style={{ color: tc.alertGreen }} /> : <X className="w-3.5 h-3.5" style={{ color: tc.textTertiary }} />}
+                    <span style={{ fontSize: '11px', color: met ? tc.alertGreen : tc.textTertiary }}>{rule.label}</span>
                   </div>
                 );
               })}
@@ -217,11 +217,11 @@ export default function ResetPasswordPage() {
                 {showC ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
-            {confirmError && <p style={{ color: '#EF4444', fontSize: '11px', marginTop: '4px' }}>{confirmError}</p>}
+            {confirmError && <p style={{ color: tc.alertRed, fontSize: '11px', marginTop: '4px' }}>{confirmError}</p>}
           </div>
 
           {error && (
-            <p style={{ color: '#EF4444', fontSize: '12px' }}>{error}</p>
+            <p style={{ color: tc.alertRed, fontSize: '12px' }}>{error}</p>
           )}
 
           <button
@@ -229,8 +229,8 @@ export default function ResetPasswordPage() {
             disabled={isLoading}
             className="w-full h-12 rounded-lg font-mono font-bold text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
             style={{
-              backgroundColor: '#06B6D4',
-              color: '#06080D',
+              backgroundColor: tc.accentPrimary,
+              color: tc.bgPrimary,
               border: 'none',
               cursor: isLoading ? 'not-allowed' : 'pointer'
             }}

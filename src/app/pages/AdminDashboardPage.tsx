@@ -74,7 +74,7 @@ function ShellProvisioningTab() {
               onChange={e => setForm({ ...form, name: e.target.value })}
               style={{
                 width: '100%', height: '44px', padding: '0 12px',
-                backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+                backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
                 border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                 color: tc.textPrimary, fontSize: '14px', outline: 'none'
               }}
@@ -91,7 +91,7 @@ function ShellProvisioningTab() {
               rows={4}
               style={{
                 width: '100%', padding: '12px',
-                backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+                backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
                 border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                 color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
               }}
@@ -108,7 +108,7 @@ function ShellProvisioningTab() {
               onChange={e => setForm({ ...form, email: e.target.value })}
               style={{
                 width: '100%', height: '44px', padding: '0 12px',
-                backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+                backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
                 border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                 color: tc.textPrimary, fontSize: '14px', outline: 'none'
               }}
@@ -216,7 +216,7 @@ function UserManagementTab() {
           onClick={() => setShowInviteModal(true)}
           className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-mono"
           style={{
-            backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+            backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
             fontSize: '13px', fontWeight: 700, cursor: 'pointer'
           }}
         >
@@ -390,7 +390,7 @@ function UserManagementTab() {
                   onChange={e => setInviteForm({ ...inviteForm, name: e.target.value })}
                   style={{
                     width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+                    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
                     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                     color: tc.textPrimary, fontSize: '14px', outline: 'none'
                   }}
@@ -408,7 +408,7 @@ function UserManagementTab() {
                   onChange={e => setInviteForm({ ...inviteForm, email: e.target.value })}
                   style={{
                     width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+                    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
                     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                     color: tc.textPrimary, fontSize: '14px', outline: 'none'
                   }}
@@ -424,7 +424,7 @@ function UserManagementTab() {
                   onChange={e => setInviteForm({ ...inviteForm, company: e.target.value })}
                   style={{
                     width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+                    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
                     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                     color: tc.textPrimary, fontSize: '14px', outline: 'none', cursor: 'pointer'
                   }}
@@ -444,7 +444,7 @@ function UserManagementTab() {
                   onChange={e => setInviteForm({ ...inviteForm, role: e.target.value as 'company_admin' | 'normal_user' })}
                   style={{
                     width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+                    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
                     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                     color: tc.textPrimary, fontSize: '14px', outline: 'none', cursor: 'pointer'
                   }}
@@ -471,7 +471,7 @@ function UserManagementTab() {
                 onClick={handleInvite}
                 className="px-4 py-2.5 rounded-lg transition-all font-mono"
                 style={{
-                  backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+                  backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
                   fontSize: '13px', fontWeight: 700, cursor: 'pointer'
                 }}
               >
@@ -522,7 +522,7 @@ function UserManagementTab() {
                   onChange={e => setEditingUser({ ...editingUser, name: e.target.value })}
                   style={{
                     width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+                    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
                     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                     color: tc.textPrimary, fontSize: '14px', outline: 'none'
                   }}
@@ -539,7 +539,7 @@ function UserManagementTab() {
                   onChange={e => setEditingUser({ ...editingUser, email: e.target.value })}
                   style={{
                     width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+                    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
                     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                     color: tc.textPrimary, fontSize: '14px', outline: 'none'
                   }}
@@ -555,7 +555,7 @@ function UserManagementTab() {
                   onChange={e => setEditingUser({ ...editingUser, role: e.target.value as 'company_admin' | 'normal_user' })}
                   style={{
                     width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+                    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
                     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                     color: tc.textPrimary, fontSize: '14px', outline: 'none', cursor: 'pointer'
                   }}
@@ -582,7 +582,7 @@ function UserManagementTab() {
                 onClick={handleUpdateUser}
                 className="px-4 py-2.5 rounded-lg transition-all font-mono"
                 style={{
-                  backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+                  backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
                   fontSize: '13px', fontWeight: 700, cursor: 'pointer'
                 }}
               >
@@ -613,7 +613,7 @@ function DataUploadTab() {
         <button
           className="px-6 py-2.5 rounded-lg transition-all font-mono"
           style={{
-            backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+            backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
             fontSize: '13px', fontWeight: 700, cursor: 'pointer'
           }}
         >
@@ -732,7 +732,7 @@ function CommentaryEditorTab() {
                     rows={8}
                     style={{
                       width: '100%', padding: '12px',
-                      backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+                      backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
                       border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                       color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
                     }}
@@ -741,7 +741,7 @@ function CommentaryEditorTab() {
                     <button
                       className="px-6 py-2.5 rounded-lg transition-all font-mono"
                       style={{
-                        backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+                        backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
                         fontSize: '13px', fontWeight: 700, cursor: 'pointer'
                       }}
                     >
@@ -809,7 +809,7 @@ function PrioritiesEventsTab() {
           rows={6}
           style={{
             width: '100%', padding: '12px', marginBottom: '24px',
-            backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+            backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
             border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
             color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
           }}
@@ -822,7 +822,7 @@ function PrioritiesEventsTab() {
           rows={6}
           style={{
             width: '100%', padding: '12px',
-            backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+            backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
             border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
             color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
           }}
@@ -830,7 +830,7 @@ function PrioritiesEventsTab() {
         <button
           className="mt-4 px-6 py-2.5 rounded-lg transition-all font-mono"
           style={{
-            backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+            backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
             fontSize: '13px', fontWeight: 700, cursor: 'pointer'
           }}
         >
@@ -940,7 +940,7 @@ function SectorNewsEditorTab() {
                     rows={8}
                     style={{
                       width: '100%', padding: '12px',
-                      backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+                      backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
                       border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
                       color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
                     }}
@@ -949,7 +949,7 @@ function SectorNewsEditorTab() {
                     <button
                       className="px-6 py-2.5 rounded-lg transition-all font-mono"
                       style={{
-                        backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+                        backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
                         fontSize: '13px', fontWeight: 700, cursor: 'pointer'
                       }}
                     >
@@ -981,7 +981,7 @@ function MarketTrendsEditorTab() {
           rows={10}
           style={{
             width: '100%', padding: '12px',
-            backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+            backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
             border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
             color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
           }}
@@ -989,7 +989,7 @@ function MarketTrendsEditorTab() {
         <button
           className="mt-4 px-6 py-2.5 rounded-lg transition-all font-mono"
           style={{
-            backgroundColor: '#06B6D4', color: '#06080D', border: 'none',
+            backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
             fontSize: '13px', fontWeight: 700, cursor: 'pointer'
           }}
         >

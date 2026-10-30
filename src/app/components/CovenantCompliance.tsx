@@ -15,7 +15,7 @@ export function CovenantCompliance() {
       threshold: '4.50 kg SLA',
       pct: 68,
       status: 'SLA BREACH',
-      color: '#EF4444'
+      color: tc.alertRed
     },
     {
       id: 'cam',
@@ -25,7 +25,7 @@ export function CovenantCompliance() {
       threshold: 'T-180 min SLA',
       pct: 82,
       status: 'ARMED // WARN',
-      color: '#F59E0B'
+      color: tc.alertAmber
     },
     {
       id: 'isl',
@@ -35,7 +35,7 @@ export function CovenantCompliance() {
       threshold: '+6.0 dB MIN',
       pct: 94,
       status: 'NOMINAL LOCK',
-      color: '#06B6D4'
+      color: tc.accentPrimary
     }
   ];
 
@@ -56,7 +56,7 @@ export function CovenantCompliance() {
       {/* Header */}
       <div className="flex items-center justify-between pb-3 mb-4 border-b" style={{ borderColor: tc.borderPrimary }}>
         <div className="flex items-center gap-2">
-          <ShieldAlert className="w-4 h-4" style={{ color: '#EF4444' }} />
+          <ShieldAlert className="w-4 h-4" style={{ color: tc.alertRed }} />
           <h3 className="font-mono text-xs md:text-sm font-bold tracking-wider uppercase" style={{ color: tc.textPrimary }}>
             FCC / ESA DE-ORBIT & CAM TELEMETRY GAUGES
           </h3>
@@ -64,9 +64,9 @@ export function CovenantCompliance() {
         <span
           className="px-2 py-0.5 rounded-sm font-mono text-[10px] font-bold uppercase"
           style={{
-            backgroundColor: 'rgba(239, 68, 68, 0.15)',
-            color: '#EF4444',
-            border: '1px solid rgba(239, 68, 68, 0.4)'
+            backgroundColor: `${tc.alertRed}20`,
+            color: tc.alertRed,
+            border: `1px solid ${tc.alertRed}50`
           }}
         >
           1 RESERVE DEFICIT
@@ -148,12 +148,12 @@ export function CovenantCompliance() {
               key={v.axis}
               className="p-2 rounded-sm"
               style={{
-                backgroundColor: theme === 'dark' ? '#06080D' : '#F8FAFC',
+                backgroundColor: tc.bgPrimary,
                 border: `1px solid ${tc.borderPrimary}`
               }}
             >
               <div className="text-[9px]" style={{ color: tc.textSecondary }}>{v.axis}</div>
-              <div className="text-xs font-bold mt-0.5" style={{ color: '#06B6D4' }}>{v.val}</div>
+              <div className="text-xs font-bold mt-0.5" style={{ color: tc.accentPrimary }}>{v.val}</div>
               <div className="text-[8px] mt-0.5" style={{ color: tc.textTertiary }}>TOL: {v.tol}</div>
             </div>
           ))}

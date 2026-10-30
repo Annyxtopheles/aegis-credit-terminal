@@ -96,15 +96,15 @@ export function LargestHoldersTable() {
           onClick={handleExportCSV}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded transition-colors text-xs font-semibold cursor-pointer font-mono"
           style={{
-            backgroundColor: theme === 'dark' ? 'rgba(6,182,212,0.12)' : '#EFF6FF',
-            color: theme === 'dark' ? '#06B6D4' : '#0284C7',
-            border: theme === 'dark' ? '1px solid rgba(6,182,212,0.3)' : '1px solid #BAE6FD'
+            backgroundColor: `${themeColors.accentPrimary}20`,
+            color: themeColors.accentPrimary,
+            border: `1px solid ${themeColors.accentPrimary}50`
           }}
           onMouseEnter={e => {
-            e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(6,182,212,0.22)' : '#E0F2FE';
+            e.currentTarget.style.backgroundColor = `${themeColors.accentPrimary}35`;
           }}
           onMouseLeave={e => {
-            e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(6,182,212,0.12)' : '#EFF6FF';
+            e.currentTarget.style.backgroundColor = `${themeColors.accentPrimary}20`;
           }}
           title="Export debris registry to CSV"
         >

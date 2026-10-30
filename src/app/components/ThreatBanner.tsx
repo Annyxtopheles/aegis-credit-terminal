@@ -10,8 +10,8 @@ export function ThreatBanner() {
     <div
       className="h-9 flex items-center justify-between px-3 md:px-4 border rounded-sm transition-colors duration-200 overflow-hidden"
       style={{
-        backgroundColor: isDark ? 'rgba(239, 68, 68, 0.12)' : '#FEF2F2',
-        borderColor: isDark ? 'rgba(239, 68, 68, 0.45)' : '#FCA5A5'
+        backgroundColor: `${tc.alertRed}18`,
+        borderColor: `${tc.alertRed}55`
       }}
     >
       <div className="flex items-center gap-2.5 min-w-0">
@@ -42,9 +42,9 @@ export function ThreatBanner() {
         <span
           className="px-2 py-0.5 rounded font-mono text-[9px] uppercase tracking-wider font-bold"
           style={{
-            backgroundColor: isDark ? 'rgba(245, 158, 11, 0.18)' : '#FEF3C7',
+            backgroundColor: `${tc.alertAmber}25`,
             color: tc.alertAmber,
-            border: `1px solid ${isDark ? 'rgba(245, 158, 11, 0.35)' : '#FCD34D'}`
+            border: `1px solid ${tc.alertAmber}60`
           }}
         >
           CAM BURN ARMED

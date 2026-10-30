@@ -12,16 +12,16 @@ const DEFAULT_CONTENT = [
   "Constellation-wide Xenon propellant reserves average 84.2% across all 48 active SV nodes, with only VGD-04 dipping slightly below the 5-year FCC de-orbit reserve threshold (4.12 kg vs 4.50 kg SLA) following three consecutive debris avoidance maneuvers in Q3-Q4."
 ];
 
-const LOG_META = [
-  { ts: '14:28:04.19Z', tag: 'CRIT // CDM-34427', color: '#EF4444', sub: 'SGP4-BPLANE' },
-  { ts: '14:24:51.82Z', tag: 'WARN // SWPC-G2', color: '#F59E0B', sub: 'THERMO-DRAG' },
-  { ts: '14:19:12.05Z', tag: 'INFO // XENON-SLA', color: '#06B6D4', sub: 'PROP-LEDGER' },
-  { ts: '14:11:39.44Z', tag: 'SYNC // SVAL-02', color: '#10B981', sub: 'OISL-RELAY' },
-];
-
 export function AegisCommentary({ content = DEFAULT_CONTENT }: AegisCommentaryProps) {
   const { theme } = useTheme();
   const tc = colors[theme];
+
+  const logMeta = [
+    { ts: '14:28:04.19Z', tag: 'CRIT // CDM-34427', color: tc.alertRed, sub: 'SGP4-BPLANE' },
+    { ts: '14:24:51.82Z', tag: 'WARN // SWPC-G2', color: tc.alertAmber, sub: 'THERMO-DRAG' },
+    { ts: '14:19:12.05Z', tag: 'INFO // XENON-SLA', color: tc.accentPrimary, sub: 'PROP-LEDGER' },
+    { ts: '14:11:39.44Z', tag: 'SYNC // SVAL-02', color: tc.alertGreen, sub: 'OISL-RELAY' },
+  ];
 
   return (
     <div
@@ -40,14 +40,14 @@ export function AegisCommentary({ content = DEFAULT_CONTENT }: AegisCommentaryPr
         }}
       >
         <div className="flex items-center gap-2">
-          <Terminal className="w-3.5 h-3.5" style={{ color: '#06B6D4' }} />
+          <Terminal className="w-3.5 h-3.5" style={{ color: tc.accentPrimary }} />
           <h4 className="font-mono text-xs font-bold tracking-wider uppercase" style={{ color: tc.textPrimary }}>
             FDO AUTONOMOUS TELEMETRY EVENT STREAM // /dev/ttyS0-KESSLER
           </h4>
         </div>
         <div className="flex items-center gap-2">
-          <Radio className="w-3 h-3 animate-pulse" style={{ color: '#10B981' }} />
-          <span className="font-mono text-[10px] font-bold" style={{ color: '#10B981' }}>
+          <Radio className="w-3 h-3 animate-pulse" style={{ color: tc.alertGreen }} />
+          <span className="font-mono text-[10px] font-bold" style={{ color: tc.alertGreen }}>
             STREAMING
           </span>
         </div>
@@ -56,13 +56,13 @@ export function AegisCommentary({ content = DEFAULT_CONTENT }: AegisCommentaryPr
       {/* Monospace Timestamped Console Rows */}
       <div className="p-3 md:p-4 space-y-2.5 font-mono">
         {content.map((item, index) => {
-          const meta = LOG_META[index % LOG_META.length];
+          const meta = logMeta[index % logMeta.length];
           return (
             <div
               key={index}
               className="p-2.5 rounded-sm transition-colors"
               style={{
-                backgroundColor: theme === 'dark' ? '#06080D' : '#F8FAFC',
+                backgroundColor: tc.bgPrimary,
                 border: `1px solid ${tc.borderPrimary}`,
                 borderLeft: `3px solid ${meta.color}`
               }}

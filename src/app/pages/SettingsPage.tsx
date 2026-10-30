@@ -71,7 +71,7 @@ export default function SettingsPage() {
 
   const inputStyle = {
     width: '100%', height: '44px', padding: '0 12px',
-    backgroundColor: theme === 'dark' ? '#06080D' : '#FFFFFF',
+    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
     border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
     color: tc.textPrimary, fontSize: '14px', outline: 'none'
   };
@@ -96,7 +96,7 @@ export default function SettingsPage() {
                 className="w-full flex items-center gap-3 px-4 py-3 text-left transition-colors border-b font-mono"
                 style={{
                   borderColor: tc.borderPrimary,
-                  backgroundColor: activeTab === tab.id ? (theme === 'dark' ? 'rgba(6,182,212,0.12)' : '#EFF6FF') : 'transparent',
+                  backgroundColor: activeTab === tab.id ? `${tc.accentPrimary}20` : 'transparent',
                   color: activeTab === tab.id ? tc.accentPrimary : tc.textSecondary,
                   borderLeft: activeTab === tab.id ? `2px solid ${tc.accentPrimary}` : '2px solid transparent'
                 }}
@@ -116,12 +116,12 @@ export default function SettingsPage() {
 
               <div className="flex items-center gap-4 mb-6 pb-6 border-b" style={{ borderColor: tc.borderPrimary }}>
                 <div className="w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold font-mono"
-                  style={{ backgroundColor: '#06B6D4', color: '#06080D' }}>
+                  style={{ backgroundColor: tc.accentPrimary, color: tc.bgPrimary }}>
                   {user?.initials}
                 </div>
                 <div>
                   <button className="px-3 py-1.5 rounded text-xs font-mono font-semibold transition-colors"
-                    style={{ backgroundColor: 'rgba(6,182,212,0.15)', color: '#06B6D4', border: '1px solid rgba(6,182,212,0.4)', cursor: 'pointer' }}>
+                    style={{ backgroundColor: `${tc.accentPrimary}20`, color: tc.accentPrimary, border: `1px solid ${tc.accentPrimary}50`, cursor: 'pointer' }}>
                     Update Operator Badge
                   </button>
                   <p style={{ fontSize: '12px', color: tc.textSecondary, marginTop: '4px' }}>CCSDS Operator ID Verified</p>
@@ -165,7 +165,7 @@ export default function SettingsPage() {
                   onClick={handleSave}
                   disabled={isSaving}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-lg transition-colors font-mono text-xs font-bold"
-                  style={{ backgroundColor: '#06B6D4', color: '#06080D', border: 'none', cursor: 'pointer' }}
+                  style={{ backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none', cursor: 'pointer' }}
                 >
                   {isSaving ? <><Loader2 className="w-4 h-4 animate-spin" />Syncing...</>
                     : saved ? <><Check className="w-4 h-4" />Telemetry Profile Synced</> : 'Commit Profile Changes'}
@@ -216,13 +216,13 @@ export default function SettingsPage() {
                   </div>
 
                   {pwError && (
-                    <div style={{ fontSize: '12px', color: '#EF4444', marginTop: '4px' }}>
+                    <div style={{ fontSize: '12px', color: tc.alertRed, marginTop: '4px' }}>
                       {pwError}
                     </div>
                   )}
 
                   {pwSuccess && (
-                    <div className="flex items-center gap-1.5 font-mono" style={{ fontSize: '12px', color: '#10B981', marginTop: '4px' }}>
+                    <div className="flex items-center gap-1.5 font-mono" style={{ fontSize: '12px', color: tc.alertGreen, marginTop: '4px' }}>
                       <Check className="w-3.5 h-3.5" /> Security key rotated!
                     </div>
                   )}
@@ -230,7 +230,7 @@ export default function SettingsPage() {
                   <button
                     type="submit"
                     className="px-4 py-2.5 rounded-lg transition-colors text-xs font-mono font-bold cursor-pointer"
-                    style={{ backgroundColor: '#06B6D4', color: '#06080D', border: 'none' }}
+                    style={{ backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none' }}
                   >
                     Rotate Security Key
                   </button>

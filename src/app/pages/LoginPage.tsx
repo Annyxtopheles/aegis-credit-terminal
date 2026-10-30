@@ -8,7 +8,7 @@ import { colors } from '../theme/colors';
 const DEMO_CREDENTIALS = [
   { email: 'analyst@firm.com', code: 'OP-01', label: 'Orbital Analyst', sub: 'Read-Only Telemetry' },
   { email: 'cfo@apexbrands.com', code: 'OP-02', label: 'Constellation Lead', sub: 'Shell-1 Command' },
-  { email: 'admin@aegisterminal.com', code: 'OP-03', label: 'Kessler FDO Director', sub: 'Full CAM + 2FA' },
+  { email: 'director@kessler.space', code: 'OP-03', label: 'Kessler FDO Director', sub: 'Full CAM + 2FA' },
 ];
 
 export default function LoginPage() {
@@ -77,9 +77,9 @@ export default function LoginPage() {
       <div
         className="hidden lg:flex lg:col-span-7 flex-col justify-between p-8 xl:p-12 relative overflow-hidden border-r"
         style={{
-          backgroundColor: '#05070B',
+          backgroundColor: '#030508',
           borderColor: tc.borderPrimary,
-          backgroundImage: 'radial-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(rgba(0, 240, 255, 0.12) 1px, transparent 1px)',
           backgroundSize: '28px 28px'
         }}
       >
@@ -89,17 +89,17 @@ export default function LoginPage() {
             <div
               className="w-9 h-9 flex items-center justify-center rounded-sm"
               style={{
-                backgroundColor: 'rgba(6, 182, 212, 0.14)',
-                border: '1px solid rgba(6, 182, 212, 0.45)'
+                backgroundColor: 'rgba(0, 240, 255, 0.14)',
+                border: '1px solid rgba(0, 240, 255, 0.45)'
               }}
             >
-              <Radar className="w-5 h-5" style={{ color: '#06B6D4' }} />
+              <Radar className="w-5 h-5" style={{ color: '#00F0FF' }} />
             </div>
             <div>
               <div className="font-mono text-sm font-bold tracking-[0.14em] text-white">
                 KESSLER // VANGUARD ORBITAL SSA
               </div>
-              <div className="font-mono text-[10px] tracking-[0.18em] text-[#06B6D4]">
+              <div className="font-mono text-[10px] tracking-[0.18em]" style={{ color: '#00F0FF' }}>
                 18TH SDS SPACESURV & CONJUNCTION COMMAND TERMINAL
               </div>
             </div>
@@ -108,9 +108,9 @@ export default function LoginPage() {
           <div
             className="px-3 py-1 rounded-sm font-mono text-xs flex items-center gap-2"
             style={{
-              backgroundColor: 'rgba(13, 19, 28, 0.9)',
-              border: '1px solid #1A2636',
-              color: '#06B6D4'
+              backgroundColor: 'rgba(7, 12, 22, 0.9)',
+              border: '1px solid #16233B',
+              color: '#00F0FF'
             }}
           >
             <Radio className="w-3.5 h-3.5 animate-pulse" />
@@ -123,31 +123,31 @@ export default function LoginPage() {
           <div
             className="rounded-sm p-5 relative overflow-hidden"
             style={{
-              backgroundColor: 'rgba(13, 19, 28, 0.82)',
-              border: '1px solid #1A2636'
+              backgroundColor: 'rgba(7, 12, 22, 0.85)',
+              border: '1px solid #16233B'
             }}
           >
-            <div className="flex items-center justify-between mb-3 font-mono text-[10px] text-[#94A3B8]">
+            <div className="flex items-center justify-between mb-3 font-mono text-[10px] text-[#8B9BB4]">
               <span>GROUND-TRACK MERCATOR PROJECTION // SHELL-1 (53.0° INCLINATION)</span>
-              <span className="text-[#EF4444] font-bold">ACTIVE CONJUNCTION: VGD-04 vs COSMOS-2251 DEB</span>
+              <span className="font-bold" style={{ color: '#FF2A5F' }}>ACTIVE CONJUNCTION: VGD-04 vs COSMOS-2251 DEB</span>
             </div>
 
-            <svg viewBox="0 0 680 280" className="w-full h-auto rounded-sm" style={{ backgroundColor: '#04060A', border: '1px solid #1A2636' }}>
+            <svg viewBox="0 0 680 280" className="w-full h-auto rounded-sm" style={{ backgroundColor: '#020407', border: '1px solid #16233B' }}>
               {/* Graticule Grid Lines */}
               {[70, 140, 210].map(y => (
-                <line key={y} x1="0" y1={y} x2="680" y2={y} stroke="#131D2B" strokeWidth="1" strokeDasharray="3 3" />
+                <line key={y} x1="0" y1={y} x2="680" y2={y} stroke="#101A2D" strokeWidth="1" strokeDasharray="3 3" />
               ))}
               {[113, 226, 340, 453, 566].map(x => (
-                <line key={x} x1={x} y1="0" x2={x} y2="280" stroke="#131D2B" strokeWidth="1" strokeDasharray="3 3" />
+                <line key={x} x1={x} y1="0" x2={x} y2="280" stroke="#101A2D" strokeWidth="1" strokeDasharray="3 3" />
               ))}
               {/* Equator */}
-              <line x1="0" y1="140" x2="680" y2="140" stroke="#1E293B" strokeWidth="1.2" />
+              <line x1="0" y1="140" x2="680" y2="140" stroke="#1A2844" strokeWidth="1.2" />
 
               {/* Orbital Sine Wave 1: Vanguard Plane A (53 deg) */}
               <path
                 d="M 0 140 C 85 20, 170 20, 255 140 C 340 260, 425 260, 510 140 C 595 20, 650 40, 680 90"
                 fill="none"
-                stroke="#06B6D4"
+                stroke="#00F0FF"
                 strokeWidth="2"
               />
 
@@ -155,7 +155,7 @@ export default function LoginPage() {
               <path
                 d="M 0 210 C 85 90, 170 20, 255 95 C 340 215, 425 260, 510 185 C 595 75, 650 30, 680 55"
                 fill="none"
-                stroke="rgba(6, 182, 212, 0.35)"
+                stroke="rgba(0, 240, 255, 0.35)"
                 strokeWidth="1.2"
                 strokeDasharray="5 4"
               />
@@ -164,24 +164,24 @@ export default function LoginPage() {
               <path
                 d="M 0 40 C 110 110, 210 250, 340 165 C 470 80, 560 15, 680 120"
                 fill="none"
-                stroke="#EF4444"
+                stroke="#FF2A5F"
                 strokeWidth="1.5"
                 strokeDasharray="4 3"
               />
 
               {/* Ground Station Footprints */}
-              <circle cx="365" cy="48" r="18" fill="rgba(16, 185, 129, 0.08)" stroke="#10B981" strokeWidth="0.8" strokeDasharray="2 2" />
-              <circle cx="365" cy="48" r="3" fill="#10B981" />
-              <text x="374" y="51" fill="#10B981" fontSize="8" fontFamily="JetBrains Mono">SVALBARD AOS</text>
+              <circle cx="365" cy="48" r="18" fill="rgba(0, 230, 118, 0.08)" stroke="#00E676" strokeWidth="0.8" strokeDasharray="2 2" />
+              <circle cx="365" cy="48" r="3" fill="#00E676" />
+              <text x="374" y="51" fill="#00E676" fontSize="8" fontFamily="JetBrains Mono">SVALBARD AOS</text>
 
-              <circle cx="545" cy="155" r="20" fill="rgba(6, 182, 212, 0.08)" stroke="#06B6D4" strokeWidth="0.8" strokeDasharray="2 2" />
-              <circle cx="545" cy="155" r="3" fill="#06B6D4" />
-              <text x="554" y="158" fill="#06B6D4" fontSize="8" fontFamily="JetBrains Mono">KWAJALEIN FENCE</text>
+              <circle cx="545" cy="155" r="20" fill="rgba(0, 240, 255, 0.08)" stroke="#00F0FF" strokeWidth="0.8" strokeDasharray="2 2" />
+              <circle cx="545" cy="155" r="3" fill="#00F0FF" />
+              <text x="554" y="158" fill="#00F0FF" fontSize="8" fontFamily="JetBrains Mono">KWAJALEIN FENCE</text>
 
               {/* Conjunction Intercept Node */}
-              <circle cx="272" cy="161" r="14" fill="rgba(239, 68, 68, 0.18)" stroke="#EF4444" strokeWidth="1.5" />
-              <circle cx="272" cy="161" r="4" fill="#EF4444" />
-              <text x="292" y="158" fill="#EF4444" fontSize="9" fontWeight="bold" fontFamily="JetBrains Mono">
+              <circle cx="272" cy="161" r="14" fill="rgba(255, 42, 95, 0.18)" stroke="#FF2A5F" strokeWidth="1.5" />
+              <circle cx="272" cy="161" r="4" fill="#FF2A5F" />
+              <text x="292" y="158" fill="#FF2A5F" fontSize="9" fontWeight="bold" fontFamily="JetBrains Mono">
                 TCA INTERCEPT // Pc: 4.8e-4
               </text>
               <text x="292" y="170" fill="#E2E8F0" fontSize="8" fontFamily="JetBrains Mono">
@@ -189,23 +189,23 @@ export default function LoginPage() {
               </text>
 
               {/* Nominal Spacecraft Nodes */}
-              <circle cx="128" cy="52" r="3.5" fill="#06B6D4" />
-              <text x="136" y="55" fill="#06B6D4" fontSize="8" fontFamily="JetBrains Mono">VGD-01</text>
+              <circle cx="128" cy="52" r="3.5" fill="#00F0FF" />
+              <text x="136" y="55" fill="#00F0FF" fontSize="8" fontFamily="JetBrains Mono">VGD-01</text>
 
-              <circle cx="485" cy="168" r="3.5" fill="#06B6D4" />
-              <text x="493" y="171" fill="#06B6D4" fontSize="8" fontFamily="JetBrains Mono">VGD-08</text>
+              <circle cx="485" cy="168" r="3.5" fill="#00F0FF" />
+              <text x="493" y="171" fill="#00F0FF" fontSize="8" fontFamily="JetBrains Mono">VGD-08</text>
             </svg>
 
             {/* Bottom Telemetry Readout Strip inside Left Pane */}
             <div className="grid grid-cols-4 gap-3 mt-4 font-mono">
               {[
-                { label: 'ACTIVE SV NODES', val: '48 / 48 LOCKED', color: '#10B981' },
-                { label: 'PEAK CONJUNCTION Pc', val: '4.82e-4 (RED)', color: '#EF4444' },
-                { label: 'SOLAR FLUX F10.7', val: '184.2 SFU', color: '#F59E0B' },
-                { label: 'OISL MESH LATENCY', val: '142 ms', color: '#06B6D4' },
+                { label: 'ACTIVE SV NODES', val: '48 / 48 LOCKED', color: '#00E676' },
+                { label: 'PEAK CONJUNCTION Pc', val: '4.82e-4 (RED)', color: '#FF2A5F' },
+                { label: 'SOLAR FLUX F10.7', val: '184.2 SFU', color: '#FFB020' },
+                { label: 'OISL MESH LATENCY', val: '142 ms', color: '#00F0FF' },
               ].map(s => (
-                <div key={s.label} className="p-2.5 rounded-sm" style={{ backgroundColor: '#06080D', border: '1px solid #1A2636' }}>
-                  <div className="text-[9px] text-[#64748B]">{s.label}</div>
+                <div key={s.label} className="p-2.5 rounded-sm" style={{ backgroundColor: '#030508', border: '1px solid #16233B' }}>
+                  <div className="text-[9px] text-[#50637F]">{s.label}</div>
                   <div className="text-xs font-bold mt-0.5" style={{ color: s.color }}>{s.val}</div>
                 </div>
               ))}
@@ -234,11 +234,11 @@ export default function LoginPage() {
             <div
               className="w-8 h-8 flex items-center justify-center rounded-sm"
               style={{
-                backgroundColor: 'rgba(6, 182, 212, 0.14)',
-                border: '1px solid rgba(6, 182, 212, 0.4)'
+                backgroundColor: 'rgba(0, 240, 255, 0.14)',
+                border: '1px solid rgba(0, 240, 255, 0.4)'
               }}
             >
-              <Radar className="w-4 h-4" style={{ color: '#06B6D4' }} />
+              <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
             </div>
             <span className="font-mono text-xs font-bold tracking-widest" style={{ color: tc.textPrimary }}>
               KESSLER // ORBITAL SSA TERMINAL
@@ -247,7 +247,11 @@ export default function LoginPage() {
 
           <div className="mb-6">
             <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-sm font-mono text-[10px] font-bold uppercase mb-2"
-              style={{ backgroundColor: 'rgba(6, 182, 212, 0.14)', color: '#06B6D4', border: '1px solid rgba(6, 182, 212, 0.35)' }}>
+              style={{
+                backgroundColor: 'rgba(0, 240, 255, 0.12)',
+                color: tc.accentPrimary,
+                border: '1px solid rgba(0, 240, 255, 0.35)'
+              }}>
               <Terminal className="w-3 h-3" />
               <span>FDO GROUND LINK AUTHENTICATION</span>
             </div>
@@ -274,8 +278,8 @@ export default function LoginPage() {
                     onClick={() => fillDemo(d.email)}
                     className="w-full p-2.5 rounded-sm flex items-center justify-between text-left font-mono transition-all cursor-pointer"
                     style={{
-                      backgroundColor: selected ? 'rgba(6, 182, 212, 0.14)' : tc.bgTertiary,
-                      border: `1px solid ${selected ? '#06B6D4' : tc.borderPrimary}`,
+                      backgroundColor: selected ? 'rgba(0, 240, 255, 0.12)' : tc.bgTertiary,
+                      border: `1px solid ${selected ? tc.accentPrimary : tc.borderPrimary}`,
                       color: tc.textPrimary
                     }}
                   >
@@ -283,8 +287,8 @@ export default function LoginPage() {
                       <span
                         className="px-1.5 py-0.5 rounded-sm text-[10px] font-bold"
                         style={{
-                          backgroundColor: selected ? '#06B6D4' : tc.bgSecondary,
-                          color: selected ? '#06080D' : '#06B6D4'
+                          backgroundColor: selected ? tc.accentPrimary : tc.bgSecondary,
+                          color: selected ? tc.bgPrimary : tc.accentPrimary
                         }}
                       >
                         {d.code}
@@ -294,7 +298,7 @@ export default function LoginPage() {
                         <div className="text-[10px]" style={{ color: tc.textSecondary }}>{d.email}</div>
                       </div>
                     </div>
-                    <span className="text-[10px]" style={{ color: selected ? '#06B6D4' : tc.textTertiary }}>
+                    <span className="text-[10px]" style={{ color: selected ? tc.accentPrimary : tc.textTertiary }}>
                       {d.sub}
                     </span>
                   </button>
@@ -306,10 +310,10 @@ export default function LoginPage() {
           {loginAttempts >= 5 && (
             <div
               className="mb-4 p-3 rounded-sm flex items-center gap-2"
-              style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)' }}
+              style={{ backgroundColor: 'rgba(255, 42, 95, 0.1)', border: '1px solid rgba(255, 42, 95, 0.3)' }}
             >
-              <AlertCircle className="w-4 h-4 flex-shrink-0" style={{ color: '#EF4444' }} />
-              <span className="font-mono text-xs" style={{ color: '#EF4444' }}>
+              <AlertCircle className="w-4 h-4 flex-shrink-0" style={{ color: tc.alertRed }} />
+              <span className="font-mono text-xs" style={{ color: tc.alertRed }}>
                 Lockout active: 5 failed attempts. Wait 15 minutes.
               </span>
             </div>
@@ -332,13 +336,13 @@ export default function LoginPage() {
                 className="w-full h-10 px-3 text-xs rounded-sm outline-none transition-colors font-mono"
                 style={{
                   backgroundColor: tc.bgPrimary,
-                  border: `1px solid ${emailError ? '#EF4444' : tc.borderPrimary}`,
+                  border: `1px solid ${emailError ? tc.alertRed : tc.borderPrimary}`,
                   color: tc.textPrimary
                 }}
                 disabled={isLoading}
               />
               {emailError && (
-                <p className="font-mono text-[11px] mt-1" style={{ color: '#EF4444' }}>{emailError}</p>
+                <p className="font-mono text-[11px] mt-1" style={{ color: tc.alertRed }}>{emailError}</p>
               )}
             </div>
 
@@ -354,7 +358,7 @@ export default function LoginPage() {
                   type="button"
                   onClick={() => navigate('/forgot-password')}
                   className="hover:underline font-mono text-[11px] cursor-pointer"
-                  style={{ color: '#06B6D4', background: 'none', border: 'none' }}
+                  style={{ color: tc.accentPrimary, background: 'none', border: 'none' }}
                 >
                   Reset key?
                 </button>
@@ -368,7 +372,7 @@ export default function LoginPage() {
                   className="w-full h-10 px-3 pr-10 text-xs rounded-sm outline-none transition-colors font-mono"
                   style={{
                     backgroundColor: tc.bgPrimary,
-                    border: `1px solid ${error ? '#EF4444' : tc.borderPrimary}`,
+                    border: `1px solid ${error ? tc.alertRed : tc.borderPrimary}`,
                     color: tc.textPrimary
                   }}
                   disabled={isLoading}
@@ -391,7 +395,7 @@ export default function LoginPage() {
                   checked={rememberMe}
                   onChange={e => setRememberMe(e.target.checked)}
                   className="w-3.5 h-3.5 rounded-sm"
-                  style={{ accentColor: '#06B6D4' }}
+                  style={{ accentColor: tc.accentPrimary }}
                 />
                 Persist ground-station telemetry lock
               </label>
@@ -400,10 +404,10 @@ export default function LoginPage() {
             {error && (
               <div
                 className="p-2.5 rounded-sm flex items-center gap-2"
-                style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)' }}
+                style={{ backgroundColor: 'rgba(255, 42, 95, 0.1)', border: '1px solid rgba(255, 42, 95, 0.3)' }}
               >
-                <AlertCircle className="w-4 h-4 flex-shrink-0" style={{ color: '#EF4444' }} />
-                <span className="font-mono text-xs" style={{ color: '#EF4444' }}>{error}</span>
+                <AlertCircle className="w-4 h-4 flex-shrink-0" style={{ color: tc.alertRed }} />
+                <span className="font-mono text-xs" style={{ color: tc.alertRed }}>{error}</span>
               </div>
             )}
 
@@ -412,8 +416,8 @@ export default function LoginPage() {
               disabled={isLoading || loginAttempts >= 5}
               className="w-full h-11 rounded-sm font-mono font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer"
               style={{
-                backgroundColor: '#06B6D4',
-                color: '#06080D',
+                backgroundColor: tc.accentPrimary,
+                color: tc.bgPrimary,
                 border: 'none',
                 opacity: loginAttempts >= 5 ? 0.5 : 1
               }}
@@ -435,7 +439,7 @@ export default function LoginPage() {
           <div className="mt-6 pt-5 border-t flex items-center justify-between font-mono text-xs" style={{ borderColor: tc.borderPrimary }}>
             <span style={{ color: tc.textSecondary }}>New Flight Dynamics operator?</span>
             <span
-              style={{ color: '#06B6D4', fontWeight: 700, cursor: 'pointer' }}
+              style={{ color: tc.accentPrimary, fontWeight: 700, cursor: 'pointer' }}
               onClick={() => navigate('/signup')}
               className="hover:underline"
             >

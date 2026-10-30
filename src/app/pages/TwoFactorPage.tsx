@@ -92,11 +92,11 @@ export default function TwoFactorPage() {
           <div
             className="w-8 h-8 flex items-center justify-center rounded border"
             style={{
-              backgroundColor: 'rgba(6, 182, 212, 0.14)',
-              borderColor: 'rgba(6, 182, 212, 0.4)'
+              backgroundColor: `${tc.accentPrimary}25`,
+              borderColor: `${tc.accentPrimary}60`
             }}
           >
-            <Radar className="w-4 h-4" style={{ color: '#06B6D4' }} />
+            <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
           </div>
           <span
             className="font-mono"
@@ -115,11 +115,11 @@ export default function TwoFactorPage() {
           <div
             className="w-16 h-16 rounded-full flex items-center justify-center border"
             style={{
-              backgroundColor: 'rgba(6, 182, 212, 0.1)',
-              borderColor: 'rgba(6, 182, 212, 0.35)'
+              backgroundColor: `${tc.accentPrimary}20`,
+              borderColor: `${tc.accentPrimary}50`
             }}
           >
-            <Radar className="w-8 h-8" style={{ color: '#06B6D4' }} />
+            <Radar className="w-8 h-8" style={{ color: tc.accentPrimary }} />
           </div>
         </div>
 
@@ -141,14 +141,14 @@ export default function TwoFactorPage() {
           </p>
           {pendingEmail && (
             <p className="font-mono" style={{ fontSize: '12px', color: tc.textTertiary, marginTop: '6px' }}>
-              Operator: <span style={{ color: '#06B6D4', fontWeight: 600 }}>{pendingEmail}</span>
+              Operator: <span style={{ color: tc.accentPrimary, fontWeight: 600 }}>{pendingEmail}</span>
             </p>
           )}
           <div
             className="mt-3 p-1.5 px-3 rounded-lg inline-block"
-            style={{ backgroundColor: 'rgba(6, 182, 212, 0.12)', border: '1px solid rgba(6, 182, 212, 0.3)' }}
+            style={{ backgroundColor: `${tc.accentPrimary}20`, border: `1px solid ${tc.accentPrimary}50` }}
           >
-            <span className="font-mono" style={{ fontSize: '12px', color: '#06B6D4', fontWeight: 500 }}>
+            <span className="font-mono" style={{ fontSize: '12px', color: tc.accentPrimary, fontWeight: 500 }}>
               Simulation Mode: Token auto-filled as 123456
             </span>
           </div>
@@ -171,7 +171,7 @@ export default function TwoFactorPage() {
                   width: '52px',
                   height: '54px',
                   backgroundColor: tc.bgTertiary,
-                  border: `1px solid ${error ? '#EF4444' : digit ? '#06B6D4' : tc.borderPrimary}`,
+                  border: `1px solid ${error ? tc.alertRed : digit ? tc.accentPrimary : tc.borderPrimary}`,
                   borderRadius: '8px',
                   color: tc.textPrimary,
                   fontSize: '22px',
@@ -185,7 +185,7 @@ export default function TwoFactorPage() {
           </div>
 
           {error && (
-            <p style={{ textAlign: 'center', color: '#EF4444', fontSize: '13px' }}>{error}</p>
+            <p style={{ textAlign: 'center', color: tc.alertRed, fontSize: '13px' }}>{error}</p>
           )}
 
           <div className="flex items-center justify-center gap-2">
@@ -194,7 +194,7 @@ export default function TwoFactorPage() {
               id="trust"
               checked={trustDevice}
               onChange={e => setTrustDevice(e.target.checked)}
-              style={{ accentColor: '#06B6D4', width: '16px', height: '16px', cursor: 'pointer' }}
+              style={{ accentColor: tc.accentPrimary, width: '16px', height: '16px', cursor: 'pointer' }}
             />
             <label htmlFor="trust" style={{ fontSize: '13px', color: tc.textSecondary, cursor: 'pointer' }}>
               Authorize this ground station terminal for 30 days
@@ -206,8 +206,8 @@ export default function TwoFactorPage() {
             disabled={isLoading || digits.some(d => !d)}
             className="w-full h-12 rounded-lg font-mono font-bold text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
             style={{
-              backgroundColor: '#06B6D4',
-              color: '#06080D',
+              backgroundColor: tc.accentPrimary,
+              color: tc.bgPrimary,
               border: 'none',
               cursor: (isLoading || digits.some(d => !d)) ? 'not-allowed' : 'pointer',
               opacity: digits.some(d => !d) ? 0.6 : 1

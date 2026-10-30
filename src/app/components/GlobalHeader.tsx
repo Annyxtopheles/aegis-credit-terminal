@@ -19,15 +19,15 @@ const RECENT_CONSTELLATIONS = [
   { ticker: 'AEX-VLEO', name: 'Aether VLEO Recon (380km)' },
 ];
 
-const notifTypeColor: Record<string, string> = {
-  alert: '#EF4444', price: '#F59E0B', holder: '#06B6D4', system: '#10B981'
-};
-
 export function GlobalHeader() {
   const { theme, toggleTheme } = useTheme();
   const { user, logout, isAuthenticated } = useAuth();
   const tc = colors[theme];
   const navigate = useNavigate();
+
+  const notifTypeColor: Record<string, string> = {
+    alert: tc.alertRed, price: tc.alertAmber, holder: tc.accentPrimary, system: tc.alertGreen
+  };
 
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -70,14 +70,14 @@ export function GlobalHeader() {
 
   const getRoleBadgeColor = (role?: string) => {
     const map: Record<string, string> = {
-      super_admin: '#06B6D4',
-      company_admin: '#0891B2',
-      normal_user: '#38BDF8'
+      super_admin: tc.accentPrimary,
+      company_admin: tc.alertAmber,
+      normal_user: tc.alertGreen
     };
     return role ? map[role] || '#8B96A5' : '#8B96A5';
   };
 
-  const headerBg = theme === 'dark' ? '#06080D' : '#FFFFFF';
+  const headerBg = tc.bgSecondary;
   const headerBorder = `1px solid ${tc.borderPrimary}`;
 
   return (
@@ -91,7 +91,7 @@ export function GlobalHeader() {
           <div
             className="w-7 h-7 flex items-center justify-center rounded"
             style={{
-              backgroundColor: theme === 'dark' ? 'rgba(6, 182, 212, 0.15)' : '#E0F2FE',
+              backgroundColor: `${tc.accentPrimary}25`,
               border: `1px solid ${tc.accentPrimary}`
             }}
           >

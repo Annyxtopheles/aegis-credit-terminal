@@ -79,7 +79,7 @@ export function SectorNews() {
                       textDecoration: 'none'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.color = theme === 'dark' ? '#06B6D4' : '#0E7490';
+                      e.currentTarget.style.color = themeColors.accentPrimary;
                       e.currentTarget.style.textDecoration = 'underline';
                     }}
                     onMouseLeave={(e) => {
