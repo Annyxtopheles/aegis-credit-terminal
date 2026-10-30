@@ -1,5 +1,5 @@
 import { ReactNode, useState, useEffect } from 'react';
-import { LayoutGrid, Search, Plus, Share2, X, ArrowRight } from 'lucide-react';
+import { Orbit, Search, Radio, Upload, Activity, X, ArrowRight } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useSidebar } from '../context/SidebarContext';
 import { colors } from '../theme/colors';
@@ -11,13 +11,13 @@ interface DashboardLayoutProps {
   children: ReactNode;
 }
 
-const QUICK_COMMANDS = [
-  { id: 'overview', label: 'Dashboard Overview', desc: 'Orbital altitude flow, tracked object breakdown & active space vehicles', path: '/dashboard' },
-  { id: 'ephemeris', label: 'Ephemeris & Thruster Ledger', desc: 'NORAD / COSPAR telemetry, propellant reserves & burn windows', path: '/dashboard/capital-structure' },
-  { id: 'safety', label: 'Orbital Safety & SLA Matrix', desc: 'FCC 5-year de-orbit reserve & conjunction screening compliance', path: '/dashboard/covenant-compliance' },
-  { id: 'maneuvers', label: 'Maneuver Burn Queue', desc: 'Scheduled Hall-effect thruster burns & ground station AOS passes', path: '/dashboard/priorities-events' },
-  { id: 'weather', label: 'Space Weather Advisories', desc: 'NOAA SWPC geomagnetic storming & solar flux bulletins', path: '/dashboard/sector-news' },
-  { id: 'crew', label: 'Crew Access & Permissions', desc: 'Manage flight dynamics operators and shell clearance', path: '/dashboard/user-management' },
+const TELEMETRY_COMMANDS = [
+  { id: 'overview', label: 'B-Plane Radar & Telemetry Overview', cmd: 'GOTO // RADAR-OVERVIEW', path: '/dashboard' },
+  { id: 'ephemeris', label: 'Constellation Ephemeris & Thruster ΔV Ledger', cmd: 'GOTO // EPHEMERIS', path: '/dashboard/capital-structure' },
+  { id: 'safety', label: 'FCC / ESA De-Orbit & Orbital Safety SLA', cmd: 'GOTO // SAFETY-SLA', path: '/dashboard/covenant-compliance' },
+  { id: 'maneuvers', label: 'Maneuver Burn Queue & Ground Station Passes', cmd: 'GOTO // CAM-QUEUE', path: '/dashboard/priorities-events' },
+  { id: 'weather', label: 'NOAA SWPC Space Weather & Solar Flux Bulletins', cmd: 'GOTO // SPACE-WX', path: '/dashboard/sector-news' },
+  { id: 'crew', label: 'Flight Dynamics Crew & Console Clearance', cmd: 'GOTO // CREW-ROSTER', path: '/dashboard/user-management' },
 ];
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
@@ -27,8 +27,16 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [utcTime, setUtcTime] = useState(() => new Date().toISOString().slice(11, 19) + ' UTC');
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setUtcTime(new Date().toISOString().slice(11, 19) + ' UTC');
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -43,23 +51,23 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const sidebarWidth = isCollapsed ? '72px' : '248px';
+  const sidebarWidth = isCollapsed ? '72px' : '256px';
 
   const getPageTitle = () => {
-    if (location.pathname.startsWith('/admin')) return 'FDO Command';
-    if (location.pathname.includes('/capital-structure')) return 'Ephemeris Ledger';
-    if (location.pathname.includes('/covenant-compliance')) return 'Orbital Safety';
-    if (location.pathname.includes('/priorities-events')) return 'Maneuver Queue';
-    if (location.pathname.includes('/sector-news')) return 'Space Weather';
-    if (location.pathname.includes('/user-management')) return 'Crew Access';
-    if (location.pathname === '/settings') return 'Settings';
-    return 'Dashboard';
+    if (location.pathname.startsWith('/admin')) return 'FDO Command Console';
+    if (location.pathname.includes('/capital-structure')) return 'Constellation Ephemeris & Thruster ΔV';
+    if (location.pathname.includes('/covenant-compliance')) return 'Orbital Safety & FCC De-Orbit SLA';
+    if (location.pathname.includes('/priorities-events')) return 'Maneuver Burn Queue & AOS Passes';
+    if (location.pathname.includes('/sector-news')) return 'Space Weather & Solar Flux Advisories';
+    if (location.pathname.includes('/user-management')) return 'Flight Crew Access';
+    if (location.pathname === '/settings') return 'Console Settings';
+    return 'Orbital Surveillance & B-Plane Telemetry';
   };
 
-  const filteredCommands = QUICK_COMMANDS.filter(
+  const filteredCommands = TELEMETRY_COMMANDS.filter(
     c =>
       c.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      c.desc.toLowerCase().includes(searchQuery.toLowerCase())
+      c.cmd.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -75,30 +83,43 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         className="transition-all duration-300 flex flex-col min-h-screen"
         style={{ marginLeft: sidebarWidth }}
       >
-        {/* Clean Top Header Bar (Tempo Style) */}
-        <header className="px-6 lg:px-8 pt-5 pb-3 flex items-center justify-between gap-4">
+        {/* Clean Top Header Bar */}
+        <header className="px-6 lg:px-8 pt-5 pb-3 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
-            <LayoutGrid className="w-[18px] h-[18px]" style={{ color: tc.textSecondary }} />
+            <Orbit className="w-[18px] h-[18px]" style={{ color: tc.accentPrimary }} />
             <h1 className="text-[16px] font-semibold tracking-tight" style={{ color: tc.textPrimary }}>
               {getPageTitle()}
             </h1>
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Search Anything Pill */}
+            {/* Live UTC Mission Clock Pill */}
+            <div
+              className="hidden md:flex items-center gap-2 h-9 px-3.5 rounded-xl text-xs font-mono"
+              style={{
+                backgroundColor: tc.bgSecondary,
+                border: `1px solid ${tc.borderPrimary}`,
+                color: tc.textPrimary
+              }}
+            >
+              <Radio className="w-3.5 h-3.5 animate-pulse" style={{ color: tc.alertGreen }} />
+              <span>{utcTime}</span>
+            </div>
+
+            {/* Search Telemetry / NORAD ID Pill */}
             <button
               onClick={() => setShowSearchModal(true)}
-              className="hidden sm:flex items-center justify-between gap-8 h-9 px-3.5 rounded-xl text-xs transition-colors cursor-pointer"
+              className="hidden sm:flex items-center justify-between gap-6 h-9 px-3.5 rounded-xl text-xs transition-colors cursor-pointer"
               style={{
                 backgroundColor: tc.bgSecondary,
                 border: `1px solid ${tc.borderPrimary}`,
                 color: tc.textSecondary,
-                minWidth: '230px'
+                minWidth: '240px'
               }}
             >
               <span className="flex items-center gap-2">
                 <Search className="w-3.5 h-3.5" style={{ color: tc.textTertiary }} />
-                <span>Search Anything...</span>
+                <span>Search NORAD ID or telemetry...</span>
               </span>
               <kbd
                 className="px-1.5 py-0.5 rounded text-[10px] font-mono"
@@ -116,7 +137,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               style={{ backgroundColor: tc.borderPrimary }}
             />
 
-            {/* Add + Button */}
+            {/* CAM Burn Queue Button */}
             <button
               onClick={() => navigate('/dashboard/priorities-events')}
               className="h-9 px-3.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
@@ -126,13 +147,13 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 color: tc.textPrimary
               }}
             >
-              <span>Add</span>
-              <Plus className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
+              <Activity className="w-3.5 h-3.5" style={{ color: tc.accentPrimary }} />
+              <span>CAM Queue</span>
             </button>
 
-            {/* Invite Button */}
+            {/* Ingest TLE / CDM Button */}
             <button
-              onClick={() => navigate('/dashboard/user-management')}
+              onClick={() => navigate('/admin?tab=data-upload')}
               className="h-9 px-3.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
               style={{
                 backgroundColor: tc.bgSecondary,
@@ -140,8 +161,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 color: tc.textPrimary
               }}
             >
-              <Share2 className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
-              <span>Invite</span>
+              <Upload className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
+              <span>TLE Ingest</span>
             </button>
           </div>
         </header>
@@ -151,7 +172,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </main>
       </div>
 
-      {/* Cmd+K Search Modal */}
+      {/* Cmd+K Telemetry Command Modal */}
       {showSearchModal && (
         <div
           className="fixed inset-0 z-50 flex items-start justify-center pt-24 px-4"
@@ -176,7 +197,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 autoFocus
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Search orbital modules, NORAD IDs, or views..."
+                placeholder="Search NORAD ID (e.g. 58214), COSPAR, or telemetry module..."
                 className="flex-1 bg-transparent text-sm outline-none"
                 style={{ color: tc.textPrimary }}
               />
@@ -204,8 +225,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                     <div className="text-xs font-semibold" style={{ color: tc.textPrimary }}>
                       {cmd.label}
                     </div>
-                    <div className="text-[11px]" style={{ color: tc.textSecondary }}>
-                      {cmd.desc}
+                    <div className="text-[11px] font-mono" style={{ color: tc.accentPrimary }}>
+                      {cmd.cmd}
                     </div>
                   </div>
                   <ArrowRight className="w-3.5 h-3.5" style={{ color: tc.textTertiary }} />

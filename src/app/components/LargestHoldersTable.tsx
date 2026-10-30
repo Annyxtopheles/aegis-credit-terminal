@@ -77,34 +77,28 @@ export function LargestHoldersTable() {
 
   return (
     <div
-      className="transition-colors duration-300"
+      className="transition-colors duration-300 rounded-2xl overflow-hidden"
       style={{
         backgroundColor: themeColors.tableBg,
         border: `1px solid ${themeColors.borderPrimary}`
       }}
     >
-      <div className="px-4 md:px-6 py-4 md:py-5 flex items-center justify-between" style={{ borderBottom: `1px solid ${themeColors.borderPrimary}` }}>
+      <div className="px-5 md:px-6 py-4 md:py-5 flex items-center justify-between" style={{ borderBottom: `1px solid ${themeColors.borderPrimary}` }}>
         <div>
-          <h3 style={{ fontSize: '14px', fontWeight: 600, color: themeColors.textPrimary }} className="md:text-base font-mono tracking-wide">
-            TRACKED DEBRIS CLOUD & HIGH-INTEREST OBJECT REGISTRY
+          <h3 style={{ fontSize: '15px', fontWeight: 700, color: themeColors.textPrimary }}>
+            Tracked Debris Cloud & High-Interest Object Registry
           </h3>
           <p className="text-xs mt-0.5 font-mono" style={{ color: themeColors.textSecondary }}>
-            18TH SDS CATALOG // LEO SHELL-1SCREENING VOLUME (50 KM RADIAL)
+            18TH SDS CATALOG // LEO SHELL-1 SCREENING VOLUME (50 KM RADIAL)
           </p>
         </div>
         <button
           onClick={handleExportCSV}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded transition-colors text-xs font-semibold cursor-pointer font-mono"
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition-colors text-xs font-semibold cursor-pointer"
           style={{
-            backgroundColor: `${themeColors.accentPrimary}20`,
-            color: themeColors.accentPrimary,
-            border: `1px solid ${themeColors.accentPrimary}50`
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.backgroundColor = `${themeColors.accentPrimary}35`;
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.backgroundColor = `${themeColors.accentPrimary}20`;
+            backgroundColor: themeColors.bgTertiary,
+            color: themeColors.textPrimary,
+            border: `1px solid ${themeColors.borderPrimary}`
           }}
           title="Export debris registry to CSV"
         >

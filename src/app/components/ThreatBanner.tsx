@@ -4,14 +4,13 @@ import { colors } from '../theme/colors';
 export function ThreatBanner() {
   const { theme } = useTheme();
   const tc = colors[theme];
-  const isDark = theme === 'dark';
 
   return (
     <div
-      className="h-9 flex items-center justify-between px-3 md:px-4 border rounded-sm transition-colors duration-200 overflow-hidden"
+      className="h-11 flex items-center justify-between px-4 border rounded-2xl transition-colors duration-200 overflow-hidden"
       style={{
-        backgroundColor: `${tc.alertRed}18`,
-        borderColor: `${tc.alertRed}55`
+        backgroundColor: `${tc.alertRed}14`,
+        borderColor: `${tc.alertRed}40`
       }}
     >
       <div className="flex items-center gap-2.5 min-w-0">
@@ -20,7 +19,7 @@ export function ThreatBanner() {
           style={{ backgroundColor: tc.alertRed }}
         />
         <span
-          className="uppercase tracking-[0.06em] font-mono text-[10px] md:text-[11px] font-bold truncate"
+          className="tracking-wide font-mono text-[11px] font-bold truncate"
           style={{ color: tc.alertRed }}
         >
           CONJUNCTION ALERT:{' '}
@@ -40,20 +39,20 @@ export function ThreatBanner() {
       </div>
       <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
         <span
-          className="px-2 py-0.5 rounded font-mono text-[9px] uppercase tracking-wider font-bold"
+          className="px-2.5 py-1 rounded-lg font-mono text-[10px] uppercase tracking-wider font-bold"
           style={{
-            backgroundColor: `${tc.alertAmber}25`,
+            backgroundColor: `${tc.alertAmber}20`,
             color: tc.alertAmber,
-            border: `1px solid ${tc.alertAmber}60`
+            border: `1px solid ${tc.alertAmber}45`
           }}
         >
-          CAM BURN ARMED
+          CAM BURN ARMED (+0.85 m/s)
         </span>
         <span
-          className="font-mono text-[10px] uppercase tracking-wider font-semibold"
+          className="font-mono text-[11px] font-medium"
           style={{ color: tc.textSecondary }}
         >
-          SHELL: 540 KM SUN-SYNC
+          550 KM LEO SHELL-1
         </span>
       </div>
     </div>

@@ -18,11 +18,12 @@ import {
   Moon,
   ChevronDown,
   ChevronRight,
-  Zap,
+  Radar,
   Terminal,
   ChevronsUpDown,
   PanelLeftClose,
-  PanelLeft
+  PanelLeft,
+  Satellite
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useSidebar } from '../context/SidebarContext';
@@ -31,9 +32,9 @@ import { colors } from '../theme/colors';
 import { useNavigate, useLocation } from 'react-router';
 
 const ORBITAL_SHELLS = [
-  { ticker: 'VGD-S1', name: 'Vanguard LEO Shell-1', details: '48/48 SVs Nominal • 550 km', load: 96 },
-  { ticker: 'VGD-S2', name: 'Vanguard SSO Shell-2', details: '24/24 SVs Nominal • 720 km', load: 88 },
-  { ticker: 'VGD-VLEO', name: 'Vanguard VLEO Recon', details: '12/12 SVs Nominal • 380 km', load: 92 },
+  { ticker: 'VGD-S1', name: 'Vanguard LEO Shell-1', details: '550 km // 53.0° Shell • 48/48 SV', propellant: 84 },
+  { ticker: 'VGD-S2', name: 'Vanguard SSO Shell-2', details: '720 km // 98.2° SSO • 24/24 SV', propellant: 91 },
+  { ticker: 'VGD-VLEO', name: 'Vanguard VLEO Recon', details: '380 km // 45.0° Shell • 12/12 SV', propellant: 76 },
 ];
 
 interface NavItem {
@@ -47,26 +48,26 @@ function getNavItems(role?: string, viewMode?: 'admin' | 'preview'): NavItem[] {
   if (role === 'super_admin' && viewMode === 'admin') {
     return [
       { id: 'onboarding', label: 'Shell Provision', icon: Orbit, path: '/admin?tab=onboarding' },
-      { id: 'users', label: 'Crew Roster', icon: Users, path: '/admin?tab=users' },
+      { id: 'users', label: 'Flight Crew Roster', icon: Users, path: '/admin?tab=users' },
       { id: 'commentary', label: 'Telemetry Log', icon: MessageSquare, path: '/admin?tab=commentary' },
       { id: 'data-upload', label: 'TLE / CDM Ingest', icon: Upload, path: '/admin?tab=data-upload' },
       { id: 'images', label: 'B-Plane Plots', icon: Image, path: '/admin?tab=images' },
-      { id: 'priorities', label: 'Burn Directives', icon: ListTodo, path: '/admin?tab=priorities' },
-      { id: 'sector-news', label: 'Weather Feeds', icon: Newspaper, path: '/admin?tab=sector-news' },
+      { id: 'priorities', label: 'Flight Directives', icon: ListTodo, path: '/admin?tab=priorities' },
+      { id: 'sector-news', label: 'SWPC Weather Feeds', icon: Newspaper, path: '/admin?tab=sector-news' },
       { id: 'market-trends', label: 'CAM Protocols', icon: TrendingUp, path: '/admin?tab=market-trends' },
     ];
   }
 
   const baseItems: NavItem[] = [
-    { id: 'overview', label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
-    { id: 'capital-structure', label: 'Ephemeris Ledger', icon: BarChart3, path: '/dashboard/capital-structure' },
-    { id: 'covenant-compliance', label: 'Orbital Safety', icon: Shield, path: '/dashboard/covenant-compliance' },
-    { id: 'performance-analysis', label: 'Maneuver Queue', icon: Activity, path: '/dashboard/priorities-events' },
-    { id: 'sector-news', label: 'Space Weather', icon: Newspaper, path: '/dashboard/sector-news' },
+    { id: 'overview', label: 'B-Plane Radar & Overview', icon: LayoutDashboard, path: '/dashboard' },
+    { id: 'capital-structure', label: 'Constellation Ephemeris', icon: BarChart3, path: '/dashboard/capital-structure' },
+    { id: 'covenant-compliance', label: 'Orbital Safety & SLA', icon: Shield, path: '/dashboard/covenant-compliance' },
+    { id: 'performance-analysis', label: 'Maneuver Burn Queue', icon: Activity, path: '/dashboard/priorities-events' },
+    { id: 'sector-news', label: 'Space Weather Bulletins', icon: Newspaper, path: '/dashboard/sector-news' },
   ];
 
   if (role === 'super_admin' || role === 'company_admin') {
-    baseItems.push({ id: 'user-management', label: 'Crew Access', icon: Users, path: '/dashboard/user-management' });
+    baseItems.push({ id: 'user-management', label: 'Flight Crew Access', icon: Users, path: '/dashboard/user-management' });
   }
 
   return baseItems;
@@ -130,34 +131,50 @@ export function NewSidebar() {
     <aside
       className="fixed left-0 top-0 bottom-0 z-40 transition-all duration-300 flex flex-col justify-between select-none"
       style={{
-        width: isCollapsed ? '72px' : '248px',
+        width: isCollapsed ? '72px' : '256px',
         backgroundColor: sidebarBg,
         borderRight: `1px solid ${sidebarBorder}`,
         color: tc.textPrimary
       }}
     >
-      {/* Top Section: Brand + Navigation */}
+      {/* Top Section: KESSLER Brand + Navigation */}
       <div className="flex flex-col flex-1 min-h-0 overflow-y-auto px-4 pt-5 pb-3">
-        {/* Brand Header */}
+        {/* KESSLER Brand Header */}
         <div className="flex items-center justify-between mb-6 px-1">
           {!isCollapsed ? (
             <div
               onClick={() => navigate('/dashboard')}
               className="flex items-center gap-2.5 cursor-pointer"
             >
-              <Zap className="w-5 h-5 fill-current" style={{ color: tc.textPrimary }} />
-              <span className="text-[19px] font-bold tracking-tight" style={{ color: tc.textPrimary }}>
-                Kessler
-              </span>
+              <div
+                className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                style={{
+                  backgroundColor: 'rgba(129, 140, 248, 0.14)',
+                  border: '1px solid rgba(129, 140, 248, 0.32)'
+                }}
+              >
+                <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
+              </div>
+              <div className="leading-tight">
+                <div className="text-[16px] font-bold tracking-wider" style={{ color: tc.textPrimary }}>
+                  KESSLER
+                </div>
+                <div className="text-[10px] font-medium tracking-wide" style={{ color: tc.textSecondary }}>
+                  Orbital SSA Terminal
+                </div>
+              </div>
             </div>
           ) : (
             <div
               onClick={() => navigate('/dashboard')}
               className="w-9 h-9 mx-auto flex items-center justify-center rounded-xl cursor-pointer"
-              style={{ backgroundColor: tc.bgSecondary }}
-              title="Kessler"
+              style={{
+                backgroundColor: 'rgba(129, 140, 248, 0.14)',
+                border: '1px solid rgba(129, 140, 248, 0.32)'
+              }}
+              title="KESSLER Orbital SSA"
             >
-              <Zap className="w-4 h-4 fill-current" style={{ color: tc.textPrimary }} />
+              <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
             </div>
           )}
 
@@ -183,7 +200,7 @@ export function NewSidebar() {
           </button>
         )}
 
-        {/* Main Menu Group */}
+        {/* Telemetry Modules Group */}
         <div className="mb-6">
           {!isCollapsed && (
             <button
@@ -191,7 +208,7 @@ export function NewSidebar() {
               className="flex items-center gap-1.5 px-2 mb-2 text-xs font-medium cursor-pointer"
               style={{ color: tc.textTertiary }}
             >
-              <span>{viewMode === 'admin' ? 'FDO Command' : 'Main Menu'}</span>
+              <span>{viewMode === 'admin' ? 'FDO Command Console' : 'Flight Deck'}</span>
               <ChevronDown
                 className="w-3.5 h-3.5 transition-transform"
                 style={{ transform: mainMenuOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }}
@@ -215,22 +232,21 @@ export function NewSidebar() {
                     style={{
                       backgroundColor: active
                         ? theme === 'dark'
-                          ? 'rgba(255, 255, 255, 0.04)'
+                          ? 'rgba(255, 255, 255, 0.05)'
                           : 'rgba(99, 102, 241, 0.08)'
                         : 'transparent',
                       color: active ? tc.textPrimary : tc.textSecondary
                     }}
                   >
-                    {/* Crisp Left Active Indicator Bar (Tempo style) */}
                     {active && (
                       <span
                         className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-4 rounded-r-full"
-                        style={{ backgroundColor: tc.textPrimary }}
+                        style={{ backgroundColor: tc.accentPrimary }}
                       />
                     )}
                     <Icon
                       className="w-[18px] h-[18px] flex-shrink-0 transition-colors"
-                      style={{ color: active ? tc.textPrimary : tc.textSecondary }}
+                      style={{ color: active ? tc.accentPrimary : tc.textSecondary }}
                     />
                     {!isCollapsed && (
                       <span
@@ -247,7 +263,7 @@ export function NewSidebar() {
           )}
         </div>
 
-        {/* General Menu Group */}
+        {/* Console Controls Group */}
         <div>
           {!isCollapsed && (
             <button
@@ -255,7 +271,7 @@ export function NewSidebar() {
               className="flex items-center gap-1.5 px-2 mb-2 text-xs font-medium cursor-pointer"
               style={{ color: tc.textTertiary }}
             >
-              <span>General</span>
+              <span>Console</span>
               <ChevronDown
                 className="w-3.5 h-3.5 transition-transform"
                 style={{ transform: generalMenuOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }}
@@ -283,7 +299,7 @@ export function NewSidebar() {
                   <Terminal className="w-[18px] h-[18px] flex-shrink-0" />
                   {!isCollapsed && (
                     <span className="ml-3 text-[13.5px] font-medium truncate">
-                      {viewMode === 'admin' ? 'Flight Deck View' : 'FDO Command'}
+                      {viewMode === 'admin' ? 'Return to Flight Deck' : 'FDO Command Console'}
                     </span>
                   )}
                 </button>
@@ -302,7 +318,7 @@ export function NewSidebar() {
                 {location.pathname === '/settings' && (
                   <span
                     className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-4 rounded-r-full"
-                    style={{ backgroundColor: tc.textPrimary }}
+                    style={{ backgroundColor: tc.accentPrimary }}
                   />
                 )}
                 <Settings className="w-[18px] h-[18px] flex-shrink-0" />
@@ -335,7 +351,7 @@ export function NewSidebar() {
         </div>
       </div>
 
-      {/* Bottom Section: Shell Status Card + User Pill (Exact Tempo Style) */}
+      {/* Bottom Section: Active Orbital Shell Card + User Profile Pill */}
       <div className="px-4 pb-4 space-y-3">
         {!isCollapsed && (
           <div className="relative" ref={shellRef}>
@@ -346,31 +362,38 @@ export function NewSidebar() {
                 border: `1px solid ${tc.borderPrimary}`
               }}
             >
-              <div className="mb-2.5">
-                <Zap className="w-4 h-4 fill-current mb-2" style={{ color: tc.textPrimary }} />
-                <div className="text-[13px] font-bold" style={{ color: tc.textPrimary }}>
-                  {selectedShell.name}
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <Satellite className="w-4 h-4" style={{ color: tc.accentPrimary }} />
+                  <span className="text-[11px] font-mono font-bold" style={{ color: tc.accentPrimary }}>
+                    {selectedShell.ticker}
+                  </span>
                 </div>
+                <span className="text-[10px] font-mono" style={{ color: tc.alertGreen }}>
+                  {selectedShell.propellant}% Xe
+                </span>
               </div>
 
-              {/* Clean Progress Bar */}
+              <div className="text-[13px] font-bold mb-2" style={{ color: tc.textPrimary }}>
+                {selectedShell.name}
+              </div>
+
+              {/* Xenon Propellant Reserve Bar */}
               <div
-                className="w-full h-1.5 rounded-full overflow-hidden mb-2.5"
+                className="w-full h-1.5 rounded-full overflow-hidden mb-2"
                 style={{ backgroundColor: theme === 'dark' ? '#2A2C32' : '#E5E7EB' }}
               >
                 <div
                   className="h-full rounded-full transition-all duration-500"
                   style={{
-                    width: `${selectedShell.load}%`,
-                    backgroundColor: tc.textSecondary
+                    width: `${selectedShell.propellant}%`,
+                    backgroundColor: tc.accentPrimary
                   }}
                 />
               </div>
 
-              <p className="text-[11.5px] leading-relaxed mb-3" style={{ color: tc.textSecondary }}>
+              <p className="text-[11px] font-mono leading-relaxed mb-2.5" style={{ color: tc.textSecondary }}>
                 {selectedShell.details}
-                <br />
-                S-Band & Optical ISL locked
               </p>
 
               <button
@@ -378,7 +401,7 @@ export function NewSidebar() {
                 className="inline-flex items-center gap-1 text-xs font-semibold cursor-pointer transition-opacity hover:opacity-80"
                 style={{ color: tc.textPrimary }}
               >
-                <span>Select shell</span>
+                <span>Switch orbital shell</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -408,7 +431,7 @@ export function NewSidebar() {
                       <div className="text-xs font-semibold truncate" style={{ color: tc.textPrimary }}>
                         {shell.name}
                       </div>
-                      <div className="text-[10px]" style={{ color: tc.textSecondary }}>
+                      <div className="text-[10px] font-mono" style={{ color: tc.textSecondary }}>
                         {shell.details}
                       </div>
                     </div>

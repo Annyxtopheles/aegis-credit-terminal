@@ -35,7 +35,7 @@ export function DebtPricingChart() {
 
   return (
     <div
-      className="p-4 md:p-6 transition-colors duration-300 rounded-sm"
+      className="p-5 md:p-6 transition-colors duration-300 rounded-2xl"
       style={{
         backgroundColor: tc.bgSecondary,
         border: `1px solid ${tc.borderPrimary}`
@@ -43,22 +43,22 @@ export function DebtPricingChart() {
     >
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 md:mb-6">
         <div>
-          <h3 style={{ fontSize: '15px', fontWeight: 700, color: tc.textPrimary, letterSpacing: '0.04em' }} className="uppercase">
-            ORBITAL ALTITUDE DECAY & THERMOSPHERIC DRAG ({range === '30D' ? '30 DAY' : range === '14D' ? '14 DAY' : '7 DAY'})
+          <h3 style={{ fontSize: '15px', fontWeight: 700, color: tc.textPrimary }}>
+            Orbital Altitude Decay & Thermospheric Drag ({range === '30D' ? '30 Days' : range === '14D' ? '14 Days' : '7 Days'})
           </h3>
           <p className="font-mono text-[11px] mt-0.5" style={{ color: tc.textSecondary }}>
             MEAN SEMI-MAJOR AXIS ALTITUDE (KM) vs. F10.7 SOLAR RADIO FLUX (SFU) // VANGUARD-04 [NORAD 58214]
           </p>
         </div>
-        <div className="flex items-center gap-1 p-1 rounded-md self-start sm:self-auto" style={{ backgroundColor: tc.bgTertiary, border: `1px solid ${tc.borderPrimary}` }}>
+        <div className="flex items-center gap-1 p-1 rounded-xl self-start sm:self-auto" style={{ backgroundColor: tc.bgTertiary, border: `1px solid ${tc.borderPrimary}` }}>
           {(['7D', '14D', '30D'] as const).map(r => (
             <button
               key={r}
               onClick={() => setRange(r)}
-              className="px-2.5 py-1 rounded text-xs font-mono font-semibold transition-all cursor-pointer"
+              className="px-3 py-1 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer"
               style={{
                 backgroundColor: range === r ? tc.bgSecondary : 'transparent',
-                color: range === r ? tc.accentPrimary : tc.textSecondary
+                color: range === r ? tc.textPrimary : tc.textSecondary
               }}
             >
               {r}
