@@ -44,7 +44,7 @@ export function FinancialPerformanceGrid() {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
       {/* Chart 1: Peak Collision Probability Trend */}
       <div
-        className="p-4 md:p-6 transition-colors duration-300 rounded-sm"
+        className="p-5 md:p-6 transition-colors duration-300 rounded-2xl"
         style={{
           backgroundColor: tc.bgSecondary,
           border: `1px solid ${tc.borderPrimary}`,
@@ -95,7 +95,7 @@ export function FinancialPerformanceGrid() {
 
       {/* Chart 2: Xenon Propellant Depletion & Burn Delta-V */}
       <div
-        className="p-4 md:p-6 transition-colors duration-300 rounded-sm"
+        className="p-5 md:p-6 transition-colors duration-300 rounded-2xl"
         style={{
           backgroundColor: tc.bgSecondary,
           border: `1px solid ${tc.borderPrimary}`,
@@ -146,7 +146,7 @@ export function FinancialPerformanceGrid() {
 
       {/* Chart 3: Active SVs by Orbital Plane */}
       <div
-        className="p-4 md:p-6 transition-colors duration-300 rounded-sm"
+        className="p-5 md:p-6 transition-colors duration-300 rounded-2xl"
         style={{
           backgroundColor: tc.bgSecondary,
           border: `1px solid ${tc.borderPrimary}`,
@@ -179,7 +179,7 @@ export function FinancialPerformanceGrid() {
 
       {/* Chart 4: Transponder & Optical Link Margin */}
       <div
-        className="p-4 md:p-6 transition-colors duration-300 rounded-sm"
+        className="p-5 md:p-6 transition-colors duration-300 rounded-2xl"
         style={{
           backgroundColor: tc.bgSecondary,
           border: `1px solid ${tc.borderPrimary}`,

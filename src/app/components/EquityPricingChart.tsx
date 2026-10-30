@@ -35,7 +35,7 @@ export function EquityPricingChart() {
 
   return (
     <div
-      className="p-4 md:p-6 transition-colors duration-300 rounded-sm"
+      className="p-5 md:p-6 transition-colors duration-300 rounded-2xl"
       style={{
         backgroundColor: tc.bgSecondary,
         border: `1px solid ${tc.borderPrimary}`

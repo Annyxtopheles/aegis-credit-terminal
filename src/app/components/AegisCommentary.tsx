@@ -25,7 +25,7 @@ export function AegisCommentary({ content = DEFAULT_CONTENT }: AegisCommentaryPr
 
   return (
     <div
-      className="transition-colors duration-300 rounded-sm overflow-hidden flex flex-col"
+      className="transition-colors duration-300 rounded-2xl overflow-hidden flex flex-col"
       style={{
         backgroundColor: tc.bgSecondary,
         border: `1px solid ${tc.borderPrimary}`

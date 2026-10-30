@@ -47,7 +47,7 @@ export function CovenantCompliance() {
 
   return (
     <div
-      className="p-4 md:p-5 transition-colors duration-300"
+      className="p-5 rounded-2xl transition-colors duration-300"
       style={{
         backgroundColor: tc.bgSecondary,
         border: `1px solid ${tc.borderPrimary}`

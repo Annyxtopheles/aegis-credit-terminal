@@ -120,7 +120,7 @@ export function CapitalStructureTable() {
 
   return (
     <div
-      className="transition-colors duration-300 rounded-sm"
+      className="transition-colors duration-300 rounded-2xl overflow-hidden"
       style={{
         backgroundColor: themeColors.tableBg,
         border: `1px solid ${themeColors.borderPrimary}`

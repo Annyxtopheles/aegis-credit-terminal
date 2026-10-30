@@ -13,7 +13,7 @@ export function KeyEvents() {
 
   return (
     <div
-      className="p-4 md:p-6 transition-colors duration-300"
+      className="p-5 md:p-6 rounded-2xl transition-colors duration-300"
       style={{
         backgroundColor: themeColors.bgSecondary,
         border: `1px solid ${themeColors.borderPrimary}`

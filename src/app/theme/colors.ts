@@ -1,77 +1,61 @@
 export const colors = {
   dark: {
-    bgPrimary: '#0A0B0E',       // Matte Aerospace Stealth Carbon
-    bgSecondary: '#111318',     // Radar Console Chassis
-    bgTertiary: '#191C24',      // Elevated Telemetry Instrument Bay
-    bgZebra: '#0E1015',         // Alternating SGP4 Ephemeris Row
-    textPrimary: '#F8FAFC',     // High-Visibility Signal White
-    textSecondary: '#9CA3AF',   // Tactical Neutral Slate
-    textTertiary: '#6B7280',    // Muted Coordinate Marker
-    borderPrimary: '#262936',   // Machined Stealth Bezel
-    borderSubtle: '#1C1F2B',    // Micro-Grid Radar Divider
-    accentPrimary: '#F59E0B',   // Tactical Phosphor Amber / Solar Gold
-    alertRed: '#EF4444',        // Optical Conjunction Crimson (Pc > 1e-4)
-    alertAmber: '#F97316',      // Solar Flare Orange Warning
-    alertGreen: '#10B981',      // Nominal Vector Emerald
-    chartCyan: '#F59E0B',       // Primary Apogee Orbital Trace (Phosphor Amber)
-    chartAmber: '#FB923C',      // Geomagnetic Solar Flux Drag Envelope
-    chartGreen: '#10B981',      // Nominal Station-Keeping Orbit
-    gridLine: '#262936',        // Radar Scope Polar Grid
-    hoverBg: '#1E212B',         // Telemetry Console Hover
-    tableBg: '#0E1015',         // Ephemeris Ledger Base
-    tableHeaderBg: '#161821'    // Ephemeris Header Base
+    bgPrimary: '#16171A',       // Clean Matte Dark Canvas (Tempo reference)
+    bgSecondary: '#1F2024',     // Smooth Charcoal Card Surface
+    bgTertiary: '#282A2F',      // Elevated Pill / Control Surface
+    bgZebra: '#1B1C20',         // Subtle Table Row Surface
+    tableBg: '#1F2024',         // Table Surface
+    tableHeaderBg: '#25272C',   // Table Header Surface
+    hoverBg: '#282A2F',         // Row Hover Surface
+    textPrimary: '#F4F4F5',     // Crisp White
+    textSecondary: '#9CA3AF',   // Soft Muted Slate
+    textTertiary: '#6B7280',    // Subtle Label Grey
+    borderPrimary: '#2A2C32',   // Clean Card Border
+    borderSubtle: '#23252A',    // Subtle Divider
+    gridLine: '#2A2C32',        // Chart Grid Hairline
+    accentPrimary: '#818CF8',   // Modern Indigo / Violet Accent
+    alertRed: '#F87171',        // Soft Coral Red
+    alertAmber: '#FBBF24',      // Soft Amber
+    alertGreen: '#4ADE80',      // Soft Emerald Green
+    chartCyan: '#818CF8',       // Primary Indigo Chart Trace
+    chartAmber: '#3B82F6',      // Secondary Blue Chart Trace
   },
   light: {
-    bgPrimary: '#F4F4F6',       // Warm Tactical Daylight Gray
-    bgSecondary: '#FFFFFF',     // Crisp Instrument Card Surface
-    bgTertiary: '#EAECEF',      // Elevated Telemetry Container
-    bgZebra: '#F9FAFB',         // Alternating Ledger Stripe
-    textPrimary: '#111318',     // Deep Carbon Black (High Contrast)
-    textSecondary: '#4B5563',   // Tactical Slate
-    textTertiary: '#6B7280',    // Muted Flight Metadata
-    borderPrimary: '#D1D5DB',   // Defined Technical Bezel
-    borderSubtle: '#E5E7EB',    // Micro-Divider
-    accentPrimary: '#D97706',   // Deep Tactical Amber (High Contrast on White)
-    alertRed: '#DC2626',        // High-Contrast Collision Hazard Crimson
-    alertAmber: '#EA580C',      // High-Contrast Solar Drag Orange
-    alertGreen: '#059669',      // Deep Nominal Orbital Status Emerald
-    chartCyan: '#D97706',       // High-Contrast Flight Telemetry Trace
-    chartAmber: '#EA580C',      // High-Contrast Drag Envelope
-    chartGreen: '#059669',      // High-Contrast Nominal Trace
-    gridLine: '#D1D5DB',        // Daytime Grid Line
-    hoverBg: '#E5E7EB',         // Daytime Hover
-    tableBg: '#FFFFFF',         // Daytime Ledger Surface
-    tableHeaderBg: '#F4F4F6'    // Daytime Header Surface
+    bgPrimary: '#F4F5F7',
+    bgSecondary: '#FFFFFF',
+    bgTertiary: '#ECEEF2',
+    bgZebra: '#F9FAFB',
+    tableBg: '#FFFFFF',
+    tableHeaderBg: '#F4F5F7',
+    hoverBg: '#F3F4F6',
+    textPrimary: '#111827',
+    textSecondary: '#6B7280',
+    textTertiary: '#9CA3AF',
+    borderPrimary: '#E5E7EB',
+    borderSubtle: '#F3F4F6',
+    gridLine: '#E5E7EB',
+    accentPrimary: '#6366F1',
+    alertRed: '#EF4444',
+    alertAmber: '#F59E0B',
+    alertGreen: '#10B981',
+    chartCyan: '#6366F1',
+    chartAmber: '#3B82F6',
   }
 } as const;
 
 export const orbitalStatusBadges = {
   dark: {
-    nominal: { bg: 'rgba(16, 185, 129, 0.14)', text: '#10B981', border: 'rgba(16, 185, 129, 0.35)' },
-    warning: { bg: 'rgba(249, 115, 22, 0.14)', text: '#F97316', border: 'rgba(249, 115, 22, 0.35)' },
-    critical: { bg: 'rgba(239, 68, 68, 0.16)', text: '#EF4444', border: 'rgba(239, 68, 68, 0.4)' },
-    maneuver: { bg: 'rgba(245, 158, 11, 0.14)', text: '#F59E0B', border: 'rgba(245, 158, 11, 0.35)' }
+    nominal: { bg: 'rgba(34, 197, 94, 0.16)', text: '#4ADE80', border: 'rgba(34, 197, 94, 0.25)' },
+    maneuver: { bg: 'rgba(99, 102, 241, 0.18)', text: '#818CF8', border: 'rgba(99, 102, 241, 0.28)' },
+    warning: { bg: 'rgba(245, 158, 11, 0.16)', text: '#FBBF24', border: 'rgba(245, 158, 11, 0.25)' },
+    critical: { bg: 'rgba(239, 68, 68, 0.16)', text: '#F87171', border: 'rgba(239, 68, 68, 0.25)' },
   },
   light: {
-    nominal: { bg: '#ECFDF5', text: '#047857', border: '#A7F3D0' },
-    warning: { bg: '#FFF7ED', text: '#C2410C', border: '#FED7AA' },
-    critical: { bg: '#FEF2F2', text: '#B91C1C', border: '#FECACA' },
-    maneuver: { bg: '#FFFBEB', text: '#B45309', border: '#FDE68A' }
+    nominal: { bg: '#DCFCE7', text: '#15803D', border: '#BBF7D0' },
+    maneuver: { bg: '#E0E7FF', text: '#4338CA', border: '#C7D2FE' },
+    warning: { bg: '#FEF3C7', text: '#B45309', border: '#FDE68A' },
+    critical: { bg: '#FEE2E2', text: '#B91C1C', border: '#FECACA' },
   }
 } as const;
 
-// Backward-compatible alias for existing components
-export const ratingBadges = {
-  dark: {
-    investmentGrade: orbitalStatusBadges.dark.nominal,
-    highYield: orbitalStatusBadges.dark.warning,
-    distressed: orbitalStatusBadges.dark.critical,
-    notRated: orbitalStatusBadges.dark.maneuver
-  },
-  light: {
-    investmentGrade: orbitalStatusBadges.light.nominal,
-    highYield: orbitalStatusBadges.light.warning,
-    distressed: orbitalStatusBadges.light.critical,
-    notRated: orbitalStatusBadges.light.maneuver
-  }
-} as const;
+export const ratingBadges = orbitalStatusBadges;

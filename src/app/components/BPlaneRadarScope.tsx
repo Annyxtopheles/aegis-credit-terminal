@@ -40,7 +40,7 @@ export function BPlaneRadarScope() {
 
   return (
     <div
-      className="p-4 flex flex-col justify-between transition-colors duration-300 h-full"
+      className="p-5 rounded-2xl flex flex-col justify-between transition-colors duration-300 h-full"
       style={{
         backgroundColor: tc.bgSecondary,
         border: `1px solid ${burnArmed ? tc.borderPrimary : tc.alertRed}`
@@ -71,9 +71,9 @@ export function BPlaneRadarScope() {
         <div
           className="relative w-full aspect-square max-w-[310px] mx-auto my-2 rounded-full flex items-center justify-center overflow-hidden"
           style={{
-            backgroundColor: theme === 'dark' ? '#07080A' : '#111318',
+            backgroundColor: theme === 'dark' ? '#141518' : '#111318',
             border: `1px solid ${tc.borderPrimary}`,
-            boxShadow: `inset 0 0 36px ${theme === 'dark' ? 'rgba(245, 158, 11, 0.1)' : 'rgba(217, 119, 6, 0.1)'}`
+            boxShadow: `inset 0 0 36px ${theme === 'dark' ? 'rgba(129, 140, 248, 0.12)' : 'rgba(99, 102, 241, 0.12)'}`
           }}
         >
           <svg viewBox="0 0 320 320" className="w-full h-full">
