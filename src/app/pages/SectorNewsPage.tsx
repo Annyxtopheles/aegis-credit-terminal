@@ -12,21 +12,23 @@ export default function SectorNewsPage() {
 
   return (
     <div>
-      {/* Sticky Header Section */}
+      {/* Sticky Telemetry Strip */}
       <div
-        className="sticky top-0 z-30 p-2 space-y-2"
-        style={{ backgroundColor: tc.bgPrimary }}
+        className="sticky top-14 z-30 px-3 md:px-5 py-2 space-y-2 border-b"
+        style={{ backgroundColor: tc.bgPrimary, borderColor: tc.borderPrimary }}
       >
         <ThreatBanner />
         <MetricsCommandBar />
       </div>
 
       {/* Scrollable Content */}
-      <div className="p-3 md:p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-          <SectorNews />
+      <div className="px-3 md:px-5 py-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          <div className="lg:col-span-6">
+            <SectorNews />
+          </div>
 
-          <div className="space-y-4 md:space-y-6">
+          <div className="lg:col-span-6 space-y-4">
             <EquityPricingChart />
             <MarketTrendsPanel />
           </div>

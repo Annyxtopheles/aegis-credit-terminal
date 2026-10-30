@@ -1,136 +1,163 @@
-import { XCircle, CheckCircle, AlertTriangle } from 'lucide-react';
+import { ShieldAlert } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
 
 export function CovenantCompliance() {
   const { theme } = useTheme();
-  const themeColors = colors[theme];
+  const tc = colors[theme];
 
-  const complianceMetrics = [
+  const gauges = [
     {
-      label: '5-Yr De-Orbit Reserve Fuel (VGD-04)',
-      actual: 4.12,
-      threshold: 4.5,
-      unit: ' kg',
-      status: 'VIOLATED' as const,
-      violated: true,
-      percentage: (4.12 / 4.5) * 100
+      id: 'deorbit',
+      title: '5-YR DE-ORBIT XENON RESERVE',
+      spacecraft: 'VANGUARD-04 [58214]',
+      actual: '4.12 kg',
+      threshold: '4.50 kg SLA',
+      pct: 68,
+      status: 'SLA BREACH',
+      color: '#EF4444'
     },
     {
-      label: 'CAM Execution Readiness SLA (Pc > 1e-4)',
-      actual: 102,
-      threshold: 180,
-      unit: ' min',
-      status: 'WARNING' as const,
-      violated: true,
-      percentage: (102 / 180) * 100
+      id: 'cam',
+      title: 'CAM THRUSTER READINESS',
+      spacecraft: 'HALL-EFFECT BUS-A',
+      actual: 'T-102 min',
+      threshold: 'T-180 min SLA',
+      pct: 82,
+      status: 'ARMED // WARN',
+      color: '#F59E0B'
     },
     {
-      label: 'Ka-Band / Optical ISL Link Margin',
-      actual: 9.8,
-      threshold: 6.0,
-      unit: ' dB',
-      status: 'NOMINAL' as const,
-      violated: false,
-      percentage: 100
+      id: 'isl',
+      title: 'OPTICAL / Ka-BAND LINK MARGIN',
+      spacecraft: 'SHELL-1 MESH',
+      actual: '+9.8 dB',
+      threshold: '+6.0 dB MIN',
+      pct: 94,
+      status: 'NOMINAL LOCK',
+      color: '#06B6D4'
     }
   ];
 
-  const hasViolations = complianceMetrics.some(c => c.violated);
+  const burnVectors = [
+    { axis: 'ΔV RADIAL (Vr)', val: '+0.04 m/s', tol: '±0.01 m/s', status: 'NOMINAL' },
+    { axis: 'ΔV IN-TRACK (Vt)', val: '+0.85 m/s', tol: '±0.02 m/s', status: 'PRIMARY BURN' },
+    { axis: 'ΔV CROSS-TRACK (Vn)', val: '-0.02 m/s', tol: '±0.01 m/s', status: 'NOMINAL' },
+  ];
 
   return (
     <div
-      className="p-4 md:p-6 transition-colors duration-300"
+      className="p-4 md:p-5 transition-colors duration-300"
       style={{
-        backgroundColor: themeColors.bgSecondary,
-        border: hasViolations ? `1px solid ${themeColors.alertRed}` : `1px solid ${themeColors.borderPrimary}`
+        backgroundColor: tc.bgSecondary,
+        border: `1px solid ${tc.borderPrimary}`
       }}
     >
-      <div className="flex items-center justify-between mb-4 md:mb-6">
-        <h3 style={{ fontSize: '14px', fontWeight: 600, color: themeColors.textPrimary }} className="md:text-base font-mono tracking-wide">
-          ORBITAL SAFETY & FCC/ESA DE-ORBIT COMPLIANCE MATRIX
-        </h3>
+      {/* Header */}
+      <div className="flex items-center justify-between pb-3 mb-4 border-b" style={{ borderColor: tc.borderPrimary }}>
+        <div className="flex items-center gap-2">
+          <ShieldAlert className="w-4 h-4" style={{ color: '#EF4444' }} />
+          <h3 className="font-mono text-xs md:text-sm font-bold tracking-wider uppercase" style={{ color: tc.textPrimary }}>
+            FCC / ESA DE-ORBIT & CAM TELEMETRY GAUGES
+          </h3>
+        </div>
         <span
-          className="px-2 py-0.5 rounded text-[11px] font-mono font-bold uppercase"
+          className="px-2 py-0.5 rounded-sm font-mono text-[10px] font-bold uppercase"
           style={{
-            backgroundColor: 'rgba(239, 68, 68, 0.14)',
-            color: themeColors.alertRed,
-            border: `1px solid rgba(239, 68, 68, 0.35)`
+            backgroundColor: 'rgba(239, 68, 68, 0.15)',
+            color: '#EF4444',
+            border: '1px solid rgba(239, 68, 68, 0.4)'
           }}
         >
-          2 SLA BREACHES
+          1 RESERVE DEFICIT
         </span>
       </div>
 
-      <div className="space-y-5">
-        {complianceMetrics.map((metric, index) => {
-          const barColor =
-            metric.status === 'VIOLATED'
-              ? themeColors.alertRed
-              : metric.status === 'WARNING'
-                ? themeColors.alertAmber
-                : themeColors.accentPrimary;
+      {/* 3 Circular Radial SVG Gauges */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+        {gauges.map(g => {
+          const radius = 34;
+          const circumference = 2 * Math.PI * radius;
+          const dashOffset = circumference - (g.pct / 100) * circumference;
 
           return (
-            <div key={index} className="space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  {metric.status === 'VIOLATED' ? (
-                    <XCircle className="w-5 h-5" style={{ color: themeColors.alertRed }} />
-                  ) : metric.status === 'WARNING' ? (
-                    <AlertTriangle className="w-5 h-5" style={{ color: themeColors.alertAmber }} />
-                  ) : (
-                    <CheckCircle className="w-5 h-5" style={{ color: themeColors.accentPrimary }} />
-                  )}
-                  <span style={{ fontSize: '14px', fontWeight: 500, color: themeColors.textPrimary }}>
-                    {metric.label}
-                  </span>
+            <div
+              key={g.id}
+              className="p-3 rounded-sm flex flex-col items-center text-center font-mono"
+              style={{
+                backgroundColor: tc.bgTertiary,
+                border: `1px solid ${tc.borderPrimary}`
+              }}
+            >
+              <div className="relative w-20 h-20 flex items-center justify-center mb-2">
+                <svg className="w-full h-full -rotate-90" viewBox="0 0 84 84">
+                  <circle
+                    cx="42"
+                    cy="42"
+                    r={radius}
+                    fill="none"
+                    stroke={theme === 'dark' ? '#1A2636' : '#E2E8F0'}
+                    strokeWidth="6"
+                  />
+                  <circle
+                    cx="42"
+                    cy="42"
+                    r={radius}
+                    fill="none"
+                    stroke={g.color}
+                    strokeWidth="6"
+                    strokeDasharray={circumference}
+                    strokeDashoffset={dashOffset}
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-xs font-bold" style={{ color: g.color }}>{g.actual}</span>
+                  <span className="text-[8px]" style={{ color: tc.textTertiary }}>{g.pct}%</span>
                 </div>
-                <span
-                  style={{
-                    fontSize: '15px',
-                    fontWeight: 700,
-                    fontFamily: 'JetBrains Mono, monospace',
-                    color:
-                      metric.status === 'VIOLATED'
-                        ? themeColors.alertRed
-                        : metric.status === 'WARNING'
-                          ? themeColors.alertAmber
-                          : themeColors.accentPrimary
-                  }}
-                >
-                  {metric.actual} / {metric.threshold}
-                  {metric.unit}
-                </span>
               </div>
 
-              <div className="w-full h-7 md:h-8 rounded-sm relative overflow-hidden" style={{ backgroundColor: themeColors.borderPrimary }}>
-                <div
-                  className="h-7 md:h-8 rounded-sm transition-all relative"
-                  style={{
-                    width: `${Math.min(metric.percentage, 100)}%`,
-                    backgroundColor: barColor,
-                    opacity: theme === 'light' ? 0.9 : 0.85
-                  }}
-                >
-                  <span
-                    className="absolute left-2.5 md:left-3 top-1/2 -translate-y-1/2 whitespace-nowrap"
-                    style={{
-                      fontSize: '11px',
-                      fontWeight: 700,
-                      fontFamily: 'JetBrains Mono, monospace',
-                      color: '#FFFFFF',
-                      textShadow: '0 1px 2px rgba(0,0,0,0.45)'
-                    }}
-                  >
-                    {metric.status} // {metric.actual} / {metric.threshold}
-                    {metric.unit}
-                  </span>
-                </div>
+              <div className="text-[10px] font-bold tracking-wider uppercase" style={{ color: tc.textPrimary }}>
+                {g.title}
               </div>
+              <div className="text-[9px] mt-0.5" style={{ color: tc.textSecondary }}>
+                REQ: {g.threshold}
+              </div>
+              <span
+                className="mt-1.5 px-1.5 py-0.5 rounded-sm text-[9px] font-bold"
+                style={{
+                  backgroundColor: `${g.color}20`,
+                  color: g.color
+                }}
+              >
+                {g.status}
+              </span>
             </div>
           );
         })}
+      </div>
+
+      {/* 3-Axis Thruster Burn Vector Matrix */}
+      <div className="pt-3 border-t font-mono" style={{ borderColor: tc.borderPrimary }}>
+        <div className="text-[10px] uppercase tracking-wider font-bold mb-2" style={{ color: tc.textSecondary }}>
+          UPLOADED 3-AXIS HALL-EFFECT CAM VECTOR (VANGUARD-04 // EPOCH 16:40 UTC)
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          {burnVectors.map(v => (
+            <div
+              key={v.axis}
+              className="p-2 rounded-sm"
+              style={{
+                backgroundColor: theme === 'dark' ? '#06080D' : '#F8FAFC',
+                border: `1px solid ${tc.borderPrimary}`
+              }}
+            >
+              <div className="text-[9px]" style={{ color: tc.textSecondary }}>{v.axis}</div>
+              <div className="text-xs font-bold mt-0.5" style={{ color: '#06B6D4' }}>{v.val}</div>
+              <div className="text-[8px] mt-0.5" style={{ color: tc.textTertiary }}>TOL: {v.tol}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
