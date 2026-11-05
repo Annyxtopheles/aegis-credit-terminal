@@ -1,4 +1,4 @@
-import { Terminal, Radio } from 'lucide-react';
+import { Terminal, Radio, Activity } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
 
@@ -17,82 +17,93 @@ export function AegisCommentary({ content = DEFAULT_CONTENT }: AegisCommentaryPr
   const tc = colors[theme];
 
   const logMeta = [
-    { ts: '14:28:04.19Z', tag: 'CRIT // CDM-34427', color: tc.alertRed, sub: 'SGP4-BPLANE' },
-    { ts: '14:24:51.82Z', tag: 'WARN // SWPC-G2', color: tc.alertAmber, sub: 'THERMO-DRAG' },
-    { ts: '14:19:12.05Z', tag: 'INFO // XENON-SLA', color: tc.accentPrimary, sub: 'PROP-LEDGER' },
-    { ts: '14:11:39.44Z', tag: 'SYNC // SVAL-02', color: tc.alertGreen, sub: 'OISL-RELAY' },
+    {
+      ts: '14:28:04 UTC',
+      tag: 'Critical Conjunction',
+      badgeClass: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
+      sub: 'B-Plane Ephemeris'
+    },
+    {
+      ts: '14:24:51 UTC',
+      tag: 'Solar Storm Watch',
+      badgeClass: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
+      sub: 'Atmospheric Drag'
+    },
+    {
+      ts: '14:19:12 UTC',
+      tag: 'Propellant Ledger',
+      badgeClass: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20',
+      sub: 'Xenon Reserve'
+    },
+    {
+      ts: '14:11:39 UTC',
+      tag: 'Ground Pass Sync',
+      badgeClass: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+      sub: 'Svalbard AOS'
+    },
   ];
 
   return (
     <div
-      className="transition-colors duration-300 rounded-2xl overflow-hidden flex flex-col"
+      className="p-6 rounded-2xl transition-colors duration-300 flex flex-col justify-between"
       style={{
         backgroundColor: tc.bgSecondary,
         border: `1px solid ${tc.borderPrimary}`
       }}
     >
-      {/* Terminal Window Title Bar */}
-      <div
-        className="px-4 py-2.5 flex items-center justify-between border-b"
-        style={{
-          backgroundColor: tc.bgTertiary,
-          borderColor: tc.borderPrimary
-        }}
-      >
-        <div className="flex items-center gap-2">
-          <Terminal className="w-3.5 h-3.5" style={{ color: tc.accentPrimary }} />
-          <h4 className="font-mono text-xs font-bold tracking-wider uppercase" style={{ color: tc.textPrimary }}>
-            FDO AUTONOMOUS TELEMETRY EVENT STREAM // /dev/ttyS0-KESSLER
-          </h4>
+      {/* Title Bar */}
+      <div className="flex items-center justify-between pb-4 mb-4 border-b" style={{ borderColor: tc.borderPrimary }}>
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-[#282A2F] flex items-center justify-center text-indigo-400 border border-zinc-700/50">
+            <Terminal className="w-4 h-4" />
+          </div>
+          <div>
+            <h4 className="text-sm font-semibold tracking-tight text-zinc-100">
+              Autonomous Telemetry Event Stream
+            </h4>
+            <p className="text-[11px] text-zinc-400">
+              Live orbital events dispatched from flight computer
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-2">
-          <Radio className="w-3 h-3 animate-pulse" style={{ color: tc.alertGreen }} />
-          <span className="font-mono text-[10px] font-bold" style={{ color: tc.alertGreen }}>
-            STREAMING
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span className="text-[11px] font-medium text-emerald-400">
+            Live Stream
           </span>
         </div>
       </div>
 
-      {/* Monospace Timestamped Console Rows */}
-      <div className="p-3 md:p-4 space-y-2.5 font-mono">
+      {/* Console Rows */}
+      <div className="space-y-3">
         {content.map((item, index) => {
           const meta = logMeta[index % logMeta.length];
           return (
             <div
               key={index}
-              className="p-2.5 rounded-sm transition-colors"
+              className="p-4 rounded-xl transition-all duration-200"
               style={{
-                backgroundColor: tc.bgPrimary,
-                border: `1px solid ${tc.borderPrimary}`,
-                borderLeft: `3px solid ${meta.color}`
+                backgroundColor: tc.bgTertiary,
+                border: `1px solid ${tc.borderPrimary}`
               }}
             >
-              <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
+              <div className="flex items-center justify-between gap-2 mb-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px]" style={{ color: tc.textTertiary }}>
-                    [{meta.ts}]
-                  </span>
-                  <span
-                    className="px-1.5 py-0.2 rounded-sm text-[9px] font-bold"
-                    style={{
-                      backgroundColor: `${meta.color}20`,
-                      color: meta.color
-                    }}
-                  >
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium border ${meta.badgeClass}`}>
                     {meta.tag}
                   </span>
+                  <span className="text-[11px] text-zinc-400 font-mono">
+                    {meta.ts}
+                  </span>
                 </div>
-                <span className="text-[9px] uppercase tracking-wider" style={{ color: tc.textTertiary }}>
-                  SUBSYS: {meta.sub}
+                <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-mono">
+                  {meta.sub}
                 </span>
               </div>
-              <p
-                style={{
-                  fontSize: '12px',
-                  lineHeight: '1.55',
-                  color: tc.textPrimary
-                }}
-              >
+              <p className="text-xs text-zinc-300 leading-relaxed">
                 {item}
               </p>
             </div>

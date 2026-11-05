@@ -1,99 +1,145 @@
+import { Radio, ExternalLink, Sun, Shield, AlertTriangle, FileText } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
 
 export function SectorNews() {
   const { theme } = useTheme();
-  const themeColors = colors[theme];
+  const tc = colors[theme];
 
   const newsCategories = [
     {
-      category: 'NOAA SWPC // SOLAR & GEOMAGNETIC ADVISORIES',
+      category: 'NOAA SWPC // Solar & Geomagnetic Advisories',
+      icon: Sun,
       items: [
-        { source: 'NOAA SWPC Alert', headline: 'G2 Moderate Geomagnetic Storm Watch issued following Earth-directed M4.8 Halo CME arrival' },
-        { source: 'SIDC Royal Observatory', headline: '10.7cm Solar Radio Flux surges to 184 SFU; LEO thermospheric scale height expanding across 500–600 km shells' }
+        {
+          source: 'NOAA SWPC Alert',
+          time: '14m ago',
+          headline: 'G2 Moderate Geomagnetic Storm Watch issued following Earth-directed M4.8 Halo CME arrival',
+          tag: 'Solar Storm'
+        },
+        {
+          source: 'SIDC Royal Observatory',
+          time: '42m ago',
+          headline: '10.7cm Solar Radio Flux surges to 184 SFU; LEO thermospheric scale height expanding across 500–600 km shells',
+          tag: 'Atmospheric Drag'
+        }
       ]
     },
     {
-      category: '18TH SPACE DEFENSE SQUADRON // CATALOG BULLETINS',
+      category: '18th Space Defense Squadron // Catalog Bulletins',
+      icon: Shield,
       items: [
-        { source: '18th SDS Spacetrack', headline: 'High-Interest Conjunction Bulletin: COSMOS-2251 fragment cluster crossing 53.0° inclination shell at 02:14 UTC' },
-        { source: 'LeoLabs Radar Net', headline: 'Kwajalein & Kiwi S-Band radars confirm 14 newly cataloged sub-10cm debris fragments from SL-16 R/B breakup' },
-        { source: 'EUSST Operations', headline: 'Automated CDM Covariance refinement reduces radial uncertainty on NORAD 34427 by 38%' }
+        {
+          source: '18th SDS Spacetrack',
+          time: '1h ago',
+          headline: 'High-Interest Conjunction Bulletin: COSMOS-2251 fragment cluster crossing 53.0° inclination shell at 02:14 UTC',
+          tag: 'Critical Conjunction'
+        },
+        {
+          source: 'LeoLabs Radar Net',
+          time: '2h ago',
+          headline: 'Kwajalein & Kiwi S-Band radars confirm 14 newly cataloged sub-10cm debris fragments from SL-16 R/B breakup',
+          tag: 'Debris Tracking'
+        },
+        {
+          source: 'EUSST Operations',
+          time: '3h ago',
+          headline: 'Automated CDM Covariance refinement reduces radial uncertainty on NORAD 34427 by 38%',
+          tag: 'Covariance Refinement'
+        }
       ]
     },
     {
-      category: 'SPACECRAFT PAYLOAD & BUS ANOMALIES',
+      category: 'FCC & ESA Orbital Sustainability Directives',
+      icon: FileText,
       items: [
-        { source: 'FDO Telemetry Note', headline: 'Star-tracker B blinding transient mitigated on VANGUARD-19 during South Atlantic Anomaly (SAA) transit' }
-      ]
-    },
-    {
-      category: 'FCC & ESA ORBITAL SUSTAINABILITY POLICY',
-      items: [
-        { source: 'FCC Space Bureau', headline: 'Enforcement of 5-year post-mission de-orbit disposal rule tightened for non-geostationary LEO constellations' },
-        { source: 'ESA Zero Debris Charter', headline: 'Mandatory collision avoidance maneuver threshold standardized at Pc > 1.0e-4 across European ground networks' },
-        { source: 'ITU Radiocommunication', headline: 'Ka-band inter-satellite optical/RF coordination protocols updated for high-density 550 km orbital shells' }
+        {
+          source: 'FCC Space Bureau',
+          time: '5h ago',
+          headline: 'Enforcement of 5-year post-mission de-orbit disposal rule tightened for non-geostationary LEO constellations',
+          tag: 'Regulation'
+        },
+        {
+          source: 'ESA Zero Debris Charter',
+          time: '1d ago',
+          headline: 'Mandatory collision avoidance maneuver threshold standardized at Pc > 1.0e-4 across European ground networks',
+          tag: 'SLA Policy'
+        }
       ]
     }
   ];
 
   return (
     <div
-      className="p-5 md:p-6 rounded-2xl transition-colors duration-300"
+      className="p-6 rounded-2xl transition-colors duration-300"
       style={{
-        backgroundColor: themeColors.bgSecondary,
-        border: `1px solid ${themeColors.borderPrimary}`
+        backgroundColor: tc.bgSecondary,
+        border: `1px solid ${tc.borderPrimary}`
       }}
     >
-      <h3 style={{ fontSize: '14px', fontWeight: 600, color: themeColors.textPrimary, marginBottom: '16px' }} className="md:text-base md:mb-6 font-mono tracking-wide">
-        SPACE WEATHER ADVISORIES & ORBITAL BULLETINS
-      </h3>
+      <div className="flex items-center justify-between pb-4 mb-5 border-b" style={{ borderColor: tc.borderPrimary }}>
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400">
+            <Radio className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="text-[16px] font-semibold tracking-tight text-zinc-100">
+              Space Weather Advisories & Orbital Bulletins
+            </h3>
+            <p className="text-xs text-zinc-400 mt-0.5">
+              Live intelligence feeds from NOAA SWPC, 18th SDS Space-Track, and ESA networks
+            </p>
+          </div>
+        </div>
+        <span className="px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+          7 New Bulletins
+        </span>
+      </div>
 
-      <div className="space-y-4 md:space-y-6">
-        {newsCategories.map((category, catIndex) => (
-          <div key={catIndex}>
-            <h4
-              className="uppercase mb-2 md:mb-3 font-mono"
-              style={{
-                fontSize: '11px',
-                fontWeight: 700,
-                color: themeColors.accentPrimary,
-                letterSpacing: '0.06em'
-              }}
-            >
-              {category.category}
-            </h4>
-            <div className="space-y-1.5 md:space-y-2">
-              {category.items.map((item, itemIndex) => (
-                <div key={itemIndex} style={{ lineHeight: '1.5' }} className="md:leading-relaxed">
-                  <span style={{ fontSize: '12px', fontWeight: 600, color: themeColors.textSecondary }} className="md:text-sm font-mono">
-                    [{item.source}]
-                  </span>{' '}
-                  <a
-                    href="#telemetry-bulletin"
-                    onClick={(e) => e.preventDefault()}
-                    className="transition-colors"
+      <div className="space-y-6">
+        {newsCategories.map((category, catIndex) => {
+          const CategoryIcon = category.icon;
+          return (
+            <div key={catIndex} className="space-y-3">
+              <div className="flex items-center gap-2 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                <CategoryIcon className="w-3.5 h-3.5 text-zinc-400" />
+                <span>{category.category}</span>
+              </div>
+              <div className="space-y-2.5">
+                {category.items.map((item, itemIndex) => (
+                  <div
+                    key={itemIndex}
+                    className="p-4 rounded-xl flex flex-col justify-between transition-all duration-200 hover:border-zinc-700/60"
                     style={{
-                      fontSize: '13px',
-                      color: themeColors.accentPrimary,
-                      textDecoration: 'none'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = themeColors.accentPrimary;
-                      e.currentTarget.style.textDecoration = 'underline';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = themeColors.accentPrimary;
-                      e.currentTarget.style.textDecoration = 'none';
+                      backgroundColor: tc.bgTertiary,
+                      border: `1px solid ${tc.borderPrimary}`
                     }}
                   >
-                    {item.headline}
-                  </a>
-                </div>
-              ))}
+                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-semibold text-indigo-400">
+                          {item.source}
+                        </span>
+                        <span className="text-[11px] text-zinc-500">• {item.time}</span>
+                      </div>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full font-medium bg-zinc-800 text-zinc-300 border border-zinc-700/50">
+                        {item.tag}
+                      </span>
+                    </div>
+                    <a
+                      href="#telemetry-bulletin"
+                      onClick={(e) => e.preventDefault()}
+                      className="text-xs font-medium text-zinc-200 hover:text-indigo-300 leading-relaxed transition-colors flex items-center justify-between group"
+                    >
+                      <span>{item.headline}</span>
+                      <ExternalLink className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity ml-2 shrink-0 text-indigo-400" />
+                    </a>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
