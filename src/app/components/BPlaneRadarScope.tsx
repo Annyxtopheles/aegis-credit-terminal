@@ -109,8 +109,8 @@ export function BPlaneRadarScope() {
             <line x1="10" y1="160" x2="310" y2="160" stroke={theme === 'dark' ? '#2A2C32' : '#E5E7EB'} strokeWidth="1" />
 
             {/* Axis Labels */}
-            <text x="165" y="24" fill={tc.textTertiary} fontSize="8" fontFamily="Raleway, sans-serif">+RADIAL</text>
-            <text x="238" y="155" fill={tc.textTertiary} fontSize="8" fontFamily="Raleway, sans-serif">+CROSS</text>
+            <text x="165" y="24" fill={tc.textTertiary} fontSize="8" fontFamily="Inter, sans-serif">+RADIAL</text>
+            <text x="238" y="155" fill={tc.textTertiary} fontSize="8" fontFamily="Inter, sans-serif">+CROSS</text>
 
             {/* Rotating Radar Sweep Line */}
             <g transform={`rotate(${sweepAngle} 160 160)`}>
@@ -150,7 +150,7 @@ export function BPlaneRadarScope() {
 
             {/* Vanguard Satellite Position */}
             <circle cx="160" cy="160" r="5" fill="#4ADE80" stroke="#FFFFFF" strokeWidth="1.5" />
-            <text x="170" y="164" fill="#4ADE80" fontSize="9" fontWeight="bold" fontFamily="Raleway, sans-serif">
+            <text x="170" y="164" fill="#4ADE80" fontSize="9" fontWeight="bold" fontFamily="Inter, sans-serif">
               VGD-04
             </text>
 
@@ -162,7 +162,7 @@ export function BPlaneRadarScope() {
               fill={statusColor}
               fontSize="8"
               fontWeight="bold"
-              fontFamily="Raleway, sans-serif"
+              fontFamily="Inter, sans-serif"
             >
               COSMOS-2251
             </text>
