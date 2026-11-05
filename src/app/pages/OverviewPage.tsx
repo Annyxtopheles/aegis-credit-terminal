@@ -80,10 +80,10 @@ const HIGHLIGHTS = [
 ];
 
 const BREAKDOWN_ITEMS = [
-  { label: 'Active Payloads', count: '1,240', color: '#6366F1' },
-  { label: 'Debris Fragments', count: '553', color: '#8B5CF6' },
-  { label: 'Rocket Bodies', count: '354', color: '#3B82F6' },
-  { label: 'Mission Hardware', count: '204', color: '#A855F7' },
+  { label: 'Active Payloads', count: '1,240', color: '#55657E' },
+  { label: 'Debris Fragments', count: '553', color: '#6D5B7B' },
+  { label: 'Rocket Bodies', count: '354', color: '#4A6D7C' },
+  { label: 'Mission Hardware', count: '204', color: '#7E6B65' },
 ];
 
 interface SpaceVehicleRow {
@@ -104,7 +104,7 @@ const SPACE_VEHICLES: SpaceVehicleRow[] = [
     status: 'Nominal',
     epochDate: '2026-01-15',
     plane: 'Plane A (53°)',
-    avatarBg: '#3B82F6'
+    avatarBg: '#3E5266'
   },
   {
     id: 'VGD-002',
@@ -113,7 +113,7 @@ const SPACE_VEHICLES: SpaceVehicleRow[] = [
     status: 'Nominal',
     epochDate: '2026-02-19',
     plane: 'Plane B (53°)',
-    avatarBg: '#EC4899'
+    avatarBg: '#6E4D5E'
   },
   {
     id: 'VGD-004',
@@ -122,7 +122,7 @@ const SPACE_VEHICLES: SpaceVehicleRow[] = [
     status: 'Conjunction Watch',
     epochDate: '2026-03-12',
     plane: 'SSO Core (98°)',
-    avatarBg: '#F59E0B'
+    avatarBg: '#73563E'
   },
   {
     id: 'VGD-008',
@@ -131,7 +131,7 @@ const SPACE_VEHICLES: SpaceVehicleRow[] = [
     status: 'Station-Keeping',
     epochDate: '2026-04-02',
     plane: 'Plane B (53°)',
-    avatarBg: '#10B981'
+    avatarBg: '#3D5C4E'
   },
   {
     id: 'VGD-012',
@@ -140,7 +140,7 @@ const SPACE_VEHICLES: SpaceVehicleRow[] = [
     status: 'Nominal',
     epochDate: '2026-05-18',
     plane: 'Plane A (53°)',
-    avatarBg: '#6366F1'
+    avatarBg: '#4F5374'
   },
   {
     id: 'VGD-018',
@@ -149,7 +149,7 @@ const SPACE_VEHICLES: SpaceVehicleRow[] = [
     status: 'Nominal',
     epochDate: '2026-06-22',
     plane: 'SSO Core (98°)',
-    avatarBg: '#8B5CF6'
+    avatarBg: '#5E4D6E'
   },
 ];
 
@@ -243,23 +243,33 @@ export default function OverviewPage() {
   };
 
   const getStatusStyle = (status: SpaceVehicleRow['status']) => {
+    if (theme === 'light') {
+      if (status === 'Nominal') return { bg: '#F0FDF4', text: '#166534', border: '#DCFCE7' };
+      if (status === 'Conjunction Watch') return { bg: '#FEF2F2', text: '#991B1B', border: '#FEE2E2' };
+      return { bg: '#F5F3FF', text: '#5B21B6', border: '#EDE9FE' };
+    }
     if (status === 'Nominal') {
-      return { bg: 'rgba(34, 197, 94, 0.16)', text: '#4ADE80' };
+      return { bg: 'rgba(74, 222, 128, 0.08)', text: '#86EFAC', border: 'rgba(74, 222, 128, 0.2)' };
     }
     if (status === 'Conjunction Watch') {
-      return { bg: 'rgba(239, 68, 68, 0.16)', text: '#F87171' };
+      return { bg: 'rgba(248, 113, 113, 0.08)', text: '#FCA5A5', border: 'rgba(248, 113, 113, 0.2)' };
     }
-    return { bg: 'rgba(129, 140, 248, 0.16)', text: '#818CF8' };
+    return { bg: 'rgba(129, 140, 248, 0.08)', text: '#A5B4FC', border: 'rgba(129, 140, 248, 0.2)' };
   };
 
   const getPlaneStyle = (plane: SpaceVehicleRow['plane']) => {
+    if (theme === 'light') {
+      if (plane === 'Plane A (53°)') return { bg: '#F1F5F9', text: '#334155', border: '#E2E8F0' };
+      if (plane === 'Plane B (53°)') return { bg: '#F8FAFC', text: '#475569', border: '#E2E8F0' };
+      return { bg: '#FAF5FF', text: '#6B21A8', border: '#F3E8FF' };
+    }
     if (plane === 'Plane A (53°)') {
-      return { bg: 'rgba(59, 130, 246, 0.18)', text: '#60A5FA' };
+      return { bg: 'rgba(148, 163, 184, 0.1)', text: '#94A3B8', border: 'rgba(148, 163, 184, 0.2)' };
     }
     if (plane === 'Plane B (53°)') {
-      return { bg: 'rgba(14, 165, 233, 0.18)', text: '#38BDF8' };
+      return { bg: 'rgba(203, 213, 225, 0.08)', text: '#CBD5E1', border: 'rgba(203, 213, 225, 0.18)' };
     }
-    return { bg: 'rgba(168, 85, 247, 0.18)', text: '#C084FC' };
+    return { bg: 'rgba(196, 181, 253, 0.08)', text: '#DDD6FE', border: 'rgba(196, 181, 253, 0.18)' };
   };
 
   return (
@@ -589,7 +599,7 @@ export default function OverviewPage() {
                   cy="60"
                   r="48"
                   fill="none"
-                  stroke="#6366F1"
+                  stroke="#55657E"
                   strokeWidth="8"
                   strokeDasharray="150 301.6"
                   strokeDashoffset="0"
@@ -601,7 +611,7 @@ export default function OverviewPage() {
                   cy="60"
                   r="48"
                   fill="none"
-                  stroke="#3B82F6"
+                  stroke="#6D5B7B"
                   strokeWidth="8"
                   strokeDasharray="68 301.6"
                   strokeDashoffset="-158"
@@ -613,7 +623,7 @@ export default function OverviewPage() {
                   cy="60"
                   r="48"
                   fill="none"
-                  stroke="#8B5CF6"
+                  stroke="#4A6D7C"
                   strokeWidth="8"
                   strokeDasharray="40 301.6"
                   strokeDashoffset="-234"
@@ -625,7 +635,7 @@ export default function OverviewPage() {
                   cy="60"
                   r="48"
                   fill="none"
-                  stroke="#A855F7"
+                  stroke="#7E6B65"
                   strokeWidth="8"
                   strokeDasharray="20 301.6"
                   strokeDashoffset="-280"
@@ -899,7 +909,8 @@ export default function OverviewPage() {
                         className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-medium"
                         style={{
                           backgroundColor: statusBadge.bg,
-                          color: statusBadge.text
+                          color: statusBadge.text,
+                          border: `1px solid ${statusBadge.border}`
                         }}
                       >
                         {sv.status}
@@ -913,7 +924,8 @@ export default function OverviewPage() {
                         className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-medium"
                         style={{
                           backgroundColor: planeBadge.bg,
-                          color: planeBadge.text
+                          color: planeBadge.text,
+                          border: `1px solid ${planeBadge.border}`
                         }}
                       >
                         {sv.plane}
