@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Radar, ArrowLeft, Loader2, CheckCircle2 } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
-import { colors } from '../theme/colors';
 
 export default function ForgotPasswordPage() {
-  const { theme } = useTheme();
-  const tc = colors[theme];
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -29,165 +25,67 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center p-4 sm:p-8"
-      style={{ backgroundColor: tc.bgPrimary }}
-    >
-      <div
-        className="w-full max-w-[440px] p-6 sm:p-8 rounded-xl shadow-2xl transition-all mx-auto"
-        style={{
-          backgroundColor: tc.bgSecondary,
-          border: `1px solid ${tc.borderPrimary}`
-        }}
-      >
-        <div className="flex items-center gap-2.5 mb-8">
-          <div
-            className="w-8 h-8 flex items-center justify-center rounded border"
-            style={{
-              backgroundColor: `${tc.accentPrimary}25`,
-              borderColor: `${tc.accentPrimary}60`
-            }}
-          >
-            <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
-          </div>
-          <span
-            className="font-mono"
-            style={{
-              fontSize: '14px',
-              fontWeight: 700,
-              color: tc.textPrimary,
-              letterSpacing: '0.08em'
-            }}
-          >
-            KESSLER // ORBITAL SSA TERMINAL
-          </span>
-        </div>
-
-        <div className="flex justify-center mb-6">
-          <div
-            className="w-16 h-16 rounded-full flex items-center justify-center border"
-            style={{
-              backgroundColor: `${tc.accentPrimary}20`,
-              borderColor: `${tc.accentPrimary}50`
-            }}
-          >
-            <Radar className="w-8 h-8" style={{ color: tc.accentPrimary }} />
-          </div>
-        </div>
-
-        {!success ? (
-          <>
-            <div className="mb-7 text-center">
-              <h1
-                className="font-mono"
-                style={{
-                  fontSize: '26px',
-                  fontWeight: 700,
-                  color: tc.textPrimary,
-                  marginBottom: '8px',
-                  letterSpacing: '-0.02em'
-                }}
-              >
-                Reset Security Key
-              </h1>
-              <p style={{ fontSize: '14px', color: tc.textSecondary }}>
-                Enter your Flight Dynamics operator email to receive a cryptographic key reset link
-              </p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label
-                  className="font-mono"
-                  style={{
-                    display: 'block',
-                    fontSize: '11px',
-                    fontWeight: 600,
-                    color: tc.textPrimary,
-                    marginBottom: '6px',
-                    letterSpacing: '0.04em',
-                    textTransform: 'uppercase'
-                  }}
-                >
-                  Operator Email
-                </label>
-                <input
-                  type="text"
-                  value={email}
-                  onChange={e => { setEmail(e.target.value); if (emailError) setEmailError(''); }}
-                  onBlur={validate}
-                  placeholder="analyst@firm.com"
-                  className="w-full h-11 px-3.5 text-[13px] rounded-lg outline-none transition-colors font-mono"
-                  style={{
-                    backgroundColor: tc.bgTertiary,
-                    border: `1px solid ${emailError ? tc.alertRed : tc.borderPrimary}`,
-                    color: tc.textPrimary
-                  }}
-                  disabled={isLoading}
-                  aria-describedby={emailError ? 'email-err' : undefined}
-                />
-                {emailError && <p id="email-err" style={{ color: tc.alertRed, fontSize: '11px', marginTop: '4px' }}>{emailError}</p>}
-              </div>
-
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full h-12 rounded-lg font-mono font-bold text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
-                style={{
-                  backgroundColor: tc.accentPrimary,
-                  color: tc.bgPrimary,
-                  border: 'none',
-                  cursor: isLoading ? 'not-allowed' : 'pointer'
-                }}
-              >
-                {isLoading ? <><Loader2 className="w-4 h-4 animate-spin" />Transmitting Reset Token...</> : 'Send Key Recovery Token'}
-              </button>
-            </form>
-          </>
-        ) : (
-          <div className="text-center">
-            <div className="flex justify-center mb-6">
-              <div
-                className="w-16 h-16 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: `${tc.alertGreen}20`, border: `1px solid ${tc.alertGreen}50` }}
-              >
-                <CheckCircle2 className="w-8 h-8" style={{ color: tc.alertGreen }} />
-              </div>
-            </div>
-            <h2 className="font-mono" style={{ fontSize: '22px', fontWeight: 700, color: tc.textPrimary, marginBottom: '8px' }}>
-              Recovery Token Dispatched
-            </h2>
-            <p style={{ fontSize: '14px', color: tc.textSecondary, marginBottom: '6px' }}>
-              Cryptographic key recovery instructions transmitted to:
-            </p>
-            <p className="font-mono" style={{ fontSize: '14px', fontWeight: 600, color: tc.accentPrimary, marginBottom: '24px' }}>
-              {email}
-            </p>
-            <p style={{ fontSize: '13px', color: tc.textTertiary }}>
-              Didn't receive it? Check secure relay or{' '}
-              <span style={{ color: tc.textPrimary, cursor: 'pointer', textDecoration: 'underline' }} onClick={() => setSuccess(false)}>
-                try another callsign
-              </span>
-            </p>
-          </div>
-        )}
-
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#16171A]">
+      <div className="w-full max-w-md p-8 rounded-2xl bg-[#1F2024] border border-[#2A2C32] shadow-2xl space-y-6">
         <button
           onClick={() => navigate('/login')}
-          className="flex items-center justify-center gap-2 mt-7 transition-colors hover:underline font-mono"
-          style={{
-            background: 'none',
-            border: 'none',
-            color: tc.textSecondary,
-            cursor: 'pointer',
-            fontSize: '13px',
-            padding: 0,
-            width: '100%'
-          }}
+          className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Return to Flight Control Sign In
+          <span>Back to Sign In</span>
         </button>
+
+        <div>
+          <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mb-4">
+            <Radar className="w-5 h-5" />
+          </div>
+          <h1 className="text-xl font-bold text-zinc-100 tracking-tight">
+            Reset Cryptographic Key
+          </h1>
+          <p className="text-xs text-zinc-400 mt-1">
+            Enter your mission callsign to receive a secure recovery token
+          </p>
+        </div>
+
+        {success ? (
+          <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-center space-y-2">
+            <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto" />
+            <p className="text-xs font-semibold text-zinc-100">Recovery Token Dispatched</p>
+            <p className="text-[11px] text-zinc-400">
+              Check your secure uplink email for token verification instructions.
+            </p>
+            <button
+              onClick={() => navigate('/login')}
+              className="mt-3 w-full h-9 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors"
+            >
+              Return to Login
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-xs font-medium text-zinc-300 mb-1.5">
+                Operator Callsign / Email
+              </label>
+              <input
+                type="email"
+                placeholder="analyst@firm.com"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500 transition-colors"
+              />
+              {emailError && <p className="text-xs text-rose-400 mt-1">{emailError}</p>}
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full h-10 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors flex items-center justify-center gap-2"
+            >
+              {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Dispatch Recovery Token'}
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

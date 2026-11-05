@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { ArrowLeft, Loader2, Radar } from 'lucide-react';
+import { ArrowLeft, Loader2, ShieldCheck, KeyRound } from 'lucide-react';
 import { useAuth, getDashboardPath } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
@@ -60,6 +60,7 @@ export default function TwoFactorPage() {
       inputRefs.current[0]?.focus();
       return;
     }
+
     const stored = sessionStorage.getItem('kessler-user') || sessionStorage.getItem('aegis-user');
     if (stored) {
       const u = JSON.parse(stored);
@@ -69,169 +70,67 @@ export default function TwoFactorPage() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const code = digits.join('');
-    if (code.length < 6) { setError('Please enter all 6 digits'); return; }
-    handleVerify(code);
-  };
-
   return (
-    <div
-      className="min-h-screen flex items-center justify-center p-4 sm:p-8"
-      style={{ backgroundColor: tc.bgPrimary }}
-    >
-      <div
-        className="w-full max-w-[440px] p-6 sm:p-8 rounded-xl shadow-2xl transition-all mx-auto"
-        style={{
-          backgroundColor: tc.bgSecondary,
-          border: `1px solid ${tc.borderPrimary}`
-        }}
-      >
-        <div className="flex items-center gap-2.5 mb-8">
-          <div
-            className="w-8 h-8 flex items-center justify-center rounded border"
-            style={{
-              backgroundColor: `${tc.accentPrimary}25`,
-              borderColor: `${tc.accentPrimary}60`
-            }}
-          >
-            <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
-          </div>
-          <span
-            className="font-mono"
-            style={{
-              fontSize: '14px',
-              fontWeight: 700,
-              color: tc.textPrimary,
-              letterSpacing: '0.08em'
-            }}
-          >
-            KESSLER // ORBITAL SSA TERMINAL
-          </span>
-        </div>
-
-        <div className="flex justify-center mb-6">
-          <div
-            className="w-16 h-16 rounded-full flex items-center justify-center border"
-            style={{
-              backgroundColor: `${tc.accentPrimary}20`,
-              borderColor: `${tc.accentPrimary}50`
-            }}
-          >
-            <Radar className="w-8 h-8" style={{ color: tc.accentPrimary }} />
-          </div>
-        </div>
-
-        <div className="mb-7 text-center">
-          <h1
-            className="font-mono"
-            style={{
-              fontSize: '26px',
-              fontWeight: 700,
-              color: tc.textPrimary,
-              marginBottom: '8px',
-              letterSpacing: '-0.02em'
-            }}
-          >
-            Flight Director 2FA Token
-          </h1>
-          <p style={{ fontSize: '14px', color: tc.textSecondary }}>
-            Enter your 6-digit hardware YubiKey / TOTP mission token
-          </p>
-          {pendingEmail && (
-            <p className="font-mono" style={{ fontSize: '12px', color: tc.textTertiary, marginTop: '6px' }}>
-              Operator: <span style={{ color: tc.accentPrimary, fontWeight: 600 }}>{pendingEmail}</span>
-            </p>
-          )}
-          <div
-            className="mt-3 p-1.5 px-3 rounded-lg inline-block"
-            style={{ backgroundColor: `${tc.accentPrimary}20`, border: `1px solid ${tc.accentPrimary}50` }}
-          >
-            <span className="font-mono" style={{ fontSize: '12px', color: tc.accentPrimary, fontWeight: 500 }}>
-              Simulation Mode: Token auto-filled as 123456
-            </span>
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="flex justify-center gap-2.5" onPaste={handlePaste}>
-            {digits.map((digit, i) => (
-              <input
-                key={i}
-                ref={el => { inputRefs.current[i] = el; }}
-                type="text"
-                inputMode="numeric"
-                maxLength={1}
-                value={digit}
-                onChange={e => handleDigitChange(i, e.target.value)}
-                onKeyDown={e => handleKeyDown(i, e)}
-                className="text-center transition-all"
-                style={{
-                  width: '52px',
-                  height: '54px',
-                  backgroundColor: tc.bgTertiary,
-                  border: `1px solid ${error ? tc.alertRed : digit ? tc.accentPrimary : tc.borderPrimary}`,
-                  borderRadius: '8px',
-                  color: tc.textPrimary,
-                  fontSize: '22px',
-                  fontWeight: 700,
-                  fontFamily: 'JetBrains Mono, monospace',
-                  outline: 'none',
-                }}
-                aria-label={`Digit ${i + 1}`}
-              />
-            ))}
-          </div>
-
-          {error && (
-            <p style={{ textAlign: 'center', color: tc.alertRed, fontSize: '13px' }}>{error}</p>
-          )}
-
-          <div className="flex items-center justify-center gap-2">
-            <input
-              type="checkbox"
-              id="trust"
-              checked={trustDevice}
-              onChange={e => setTrustDevice(e.target.checked)}
-              style={{ accentColor: tc.accentPrimary, width: '16px', height: '16px', cursor: 'pointer' }}
-            />
-            <label htmlFor="trust" style={{ fontSize: '13px', color: tc.textSecondary, cursor: 'pointer' }}>
-              Authorize this ground station terminal for 30 days
-            </label>
-          </div>
-
-          <button
-            type="submit"
-            disabled={isLoading || digits.some(d => !d)}
-            className="w-full h-12 rounded-lg font-mono font-bold text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
-            style={{
-              backgroundColor: tc.accentPrimary,
-              color: tc.bgPrimary,
-              border: 'none',
-              cursor: (isLoading || digits.some(d => !d)) ? 'not-allowed' : 'pointer',
-              opacity: digits.some(d => !d) ? 0.6 : 1
-            }}
-          >
-            {isLoading ? <><Loader2 className="w-4 h-4 animate-spin" />Verifying Token...</> : 'Verify & Open Command Console'}
-          </button>
-        </form>
-
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#16171A]">
+      <div className="w-full max-w-md rounded-2xl bg-[#1F2024] border border-[#2A2C32] p-8 shadow-2xl space-y-6">
         <button
           onClick={() => navigate('/login')}
-          className="flex items-center justify-center gap-2 mt-6 transition-colors hover:underline font-mono"
-          style={{
-            background: 'none',
-            border: 'none',
-            color: tc.textSecondary,
-            cursor: 'pointer',
-            fontSize: '13px',
-            padding: 0,
-            width: '100%'
-          }}
+          className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Return to Flight Control Sign In
+          <span>Back to Sign In</span>
+        </button>
+
+        <div className="text-center space-y-2">
+          <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto">
+            <KeyRound className="w-6 h-6" />
+          </div>
+          <h1 className="text-xl font-bold text-zinc-100 tracking-tight">Two-Factor Authentication</h1>
+          <p className="text-xs text-zinc-400">
+            Enter the 6-digit authentication token dispatched to your security device
+          </p>
+        </div>
+
+        {error && (
+          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-400 text-center">
+            {error}
+          </div>
+        )}
+
+        <div className="flex justify-center gap-2.5" onPaste={handlePaste}>
+          {digits.map((digit, i) => (
+            <input
+              key={i}
+              ref={el => (inputRefs.current[i] = el)}
+              type="text"
+              inputMode="numeric"
+              maxLength={1}
+              value={digit}
+              onChange={e => handleDigitChange(i, e.target.value)}
+              onKeyDown={e => handleKeyDown(i, e)}
+              className="w-11 h-13 text-center text-lg font-bold font-mono rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 focus:outline-none focus:border-indigo-500 transition-colors"
+            />
+          ))}
+        </div>
+
+        <div className="flex items-center justify-between text-xs text-zinc-400 pt-1">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={trustDevice}
+              onChange={e => setTrustDevice(e.target.checked)}
+              className="rounded bg-[#16171A] border-[#2A2C32] text-indigo-600 focus:ring-0"
+            />
+            <span>Trust this console for 30 days</span>
+          </label>
+        </div>
+
+        <button
+          onClick={() => handleVerify(digits.join(''))}
+          disabled={isLoading || digits.some(d => !d)}
+          className="w-full h-10 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+        >
+          {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Verify Token'}
         </button>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Clock, X } from 'lucide-react';
+import { Clock, X, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
@@ -62,80 +62,48 @@ export function SessionTimeoutModal() {
     return () => clearInterval(interval);
   }, [showWarning]);
 
-  const handleStayLoggedIn = () => {
-    resetTimers();
-  };
+  if (!showWarning) return null;
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
-
-  const formatTime = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
-
-  if (!showWarning || !isAuthenticated) return null;
+  const minutes = Math.floor(countdown / 60);
+  const seconds = countdown % 60;
+  const timeStr = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center" style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}>
-      <div className="relative w-full max-w-md mx-4 rounded-xl p-8 shadow-2xl" style={{
-        backgroundColor: tc.bgSecondary,
-        border: `1px solid ${tc.borderPrimary}`
-      }}>
-        <button
-          onClick={handleStayLoggedIn}
-          className="absolute top-4 right-4"
-          style={{ background: 'none', border: 'none', color: tc.textSecondary, cursor: 'pointer' }}
-        >
-          <X className="w-5 h-5" />
-        </button>
-
-        {/* Icon */}
-        <div className="flex justify-center mb-6">
-          <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F59E0B20' }}>
-            <Clock className="w-8 h-8" style={{ color: '#F59E0B' }} />
-          </div>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="w-full max-w-sm rounded-2xl bg-[#1F2024] border border-[#2A2C32] p-6 shadow-2xl space-y-5 text-center animate-in fade-in zoom-in duration-200">
+        <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mx-auto">
+          <Clock className="w-6 h-6" />
         </div>
 
-        <h2 style={{ textAlign: 'center', fontSize: '22px', fontWeight: 700, color: tc.textPrimary, marginBottom: '8px' }}>
-          Session Expiring Soon
-        </h2>
-        <p style={{ textAlign: 'center', fontSize: '14px', color: tc.textSecondary, marginBottom: '24px', lineHeight: 1.6 }}>
-          For your security, you'll be logged out after 30 minutes of inactivity.
-        </p>
-
-        {/* Countdown */}
-        <div className="flex justify-center mb-6">
-          <div className="px-6 py-3 rounded-lg" style={{ backgroundColor: '#F59E0B20', border: '1px solid #F59E0B40' }}>
-            <span style={{ fontSize: '32px', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace', color: '#F59E0B' }}>
-              {formatTime(countdown)}
-            </span>
-          </div>
+        <div>
+          <h3 className="text-base font-semibold text-zinc-100 tracking-tight">
+            Console Session Inactivity
+          </h3>
+          <p className="text-xs text-zinc-400 mt-1">
+            Telemetry link will disconnect automatically to protect encryption tokens
+          </p>
         </div>
 
-        <div className="flex gap-3">
+        <div className="p-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32]">
+          <div className="text-xs text-zinc-400 mb-0.5">Disconnecting in</div>
+          <div className="text-2xl font-bold font-mono text-amber-400">{timeStr}</div>
+        </div>
+
+        <div className="flex gap-3 pt-1">
           <button
-            onClick={handleStayLoggedIn}
-            className="flex-1 transition-all"
-            style={{
-              height: '48px', backgroundColor: tc.accentPrimary, color: tc.bgPrimary,
-              border: 'none', borderRadius: '8px', fontSize: '15px', fontWeight: 700, cursor: 'pointer'
+            onClick={() => {
+              logout();
+              navigate('/login');
             }}
-            onMouseEnter={e => e.currentTarget.style.backgroundColor = '#D97706'}
-            onMouseLeave={e => e.currentTarget.style.backgroundColor = tc.accentPrimary}
+            className="flex-1 h-10 rounded-xl bg-[#282A2F] hover:bg-zinc-700 text-zinc-300 font-medium text-xs border border-zinc-700/50 transition-colors"
           >
-            Stay Logged In
+            Log Out Now
           </button>
           <button
-            onClick={handleLogout}
-            className="flex-1 transition-all"
-            style={{
-              height: '48px', backgroundColor: 'transparent', color: tc.textSecondary,
-              border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px', fontSize: '15px', fontWeight: 500, cursor: 'pointer'
-            }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = theme === 'dark' ? tc.bgTertiary : '#F9FAFB'; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
+            onClick={resetTimers}
+            className="flex-1 h-10 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors"
           >
-            Log Out
+            Extend Session
           </button>
         </div>
       </div>

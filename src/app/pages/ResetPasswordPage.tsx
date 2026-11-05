@@ -30,10 +30,10 @@ export default function ResetPasswordPage() {
 
   const getStrength = (p: string) => {
     const passed = passwordRules.filter(r => r.test(p)).length;
-    if (passed <= 1) return { level: 'weak', label: 'Weak', color: tc.alertRed, width: '25%' };
-    if (passed <= 2) return { level: 'medium', label: 'Medium', color: tc.alertAmber, width: '50%' };
-    if (passed <= 3) return { level: 'medium', label: 'Good', color: tc.alertAmber, width: '75%' };
-    return { level: 'strong', label: 'Strong', color: tc.alertGreen, width: '100%' };
+    if (passed <= 1) return { level: 'weak', label: 'Weak', color: '#F43F5E', width: '25%' };
+    if (passed <= 2) return { level: 'medium', label: 'Medium', color: '#F59E0B', width: '50%' };
+    if (passed <= 3) return { level: 'medium', label: 'Good', color: '#F59E0B', width: '75%' };
+    return { level: 'strong', label: 'Strong', color: '#10B981', width: '100%' };
   };
 
   const strength = getStrength(password);
@@ -49,212 +49,96 @@ export default function ResetPasswordPage() {
     navigate('/login?reset=success');
   };
 
-  const inputStyle = (err?: string) => ({
-    backgroundColor: tc.bgTertiary,
-    border: `1px solid ${err ? tc.alertRed : tc.borderPrimary}`,
-    color: tc.textPrimary,
-    borderRadius: '8px',
-    height: '44px',
-    padding: '0 44px 0 14px',
-    fontSize: '13px',
-    outline: 'none',
-    width: '100%',
-  });
-
   return (
-    <div
-      className="min-h-screen flex items-center justify-center p-4 sm:p-8"
-      style={{ backgroundColor: tc.bgPrimary }}
-    >
-      <div
-        className="w-full max-w-[440px] p-6 sm:p-8 rounded-xl shadow-2xl transition-all mx-auto"
-        style={{
-          backgroundColor: tc.bgSecondary,
-          border: `1px solid ${tc.borderPrimary}`
-        }}
-      >
-        <div className="flex items-center gap-2.5 mb-8">
-          <div
-            className="w-8 h-8 flex items-center justify-center rounded border"
-            style={{
-              backgroundColor: `${tc.accentPrimary}25`,
-              borderColor: `${tc.accentPrimary}60`
-            }}
-          >
-            <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
-          </div>
-          <span
-            className="font-mono"
-            style={{
-              fontSize: '14px',
-              fontWeight: 700,
-              color: tc.textPrimary,
-              letterSpacing: '0.08em'
-            }}
-          >
-            KESSLER // ORBITAL SSA TERMINAL
-          </span>
-        </div>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#16171A]">
+      <div className="w-full max-w-md p-8 rounded-2xl bg-[#1F2024] border border-[#2A2C32] shadow-2xl space-y-6">
+        <button
+          onClick={() => navigate('/login')}
+          className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Back to Sign In</span>
+        </button>
 
-        <div className="flex justify-center mb-6">
-          <div
-            className="w-16 h-16 rounded-full flex items-center justify-center border"
-            style={{
-              backgroundColor: `${tc.accentPrimary}20`,
-              borderColor: `${tc.accentPrimary}50`
-            }}
-          >
-            <Radar className="w-8 h-8" style={{ color: tc.accentPrimary }} />
+        <div>
+          <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mb-4">
+            <Radar className="w-5 h-5" />
           </div>
-        </div>
-
-        <div className="mb-7 text-center">
-          <h1
-            className="font-mono"
-            style={{
-              fontSize: '26px',
-              fontWeight: 700,
-              color: tc.textPrimary,
-              marginBottom: '8px',
-              letterSpacing: '-0.02em'
-            }}
-          >
-            Provision New Security Key
+          <h1 className="text-xl font-bold text-zinc-100 tracking-tight">
+            Create New Security Key
           </h1>
-          <p style={{ fontSize: '14px', color: tc.textSecondary }}>
-            Set a new cryptographic credential for Flight Control access
+          <p className="text-xs text-zinc-400 mt-1">
+            Establish new cryptographic credentials for mission control
           </p>
         </div>
 
+        {error && (
+          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-400">
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label
-              className="font-mono"
-              style={{
-                display: 'block',
-                fontSize: '11px',
-                fontWeight: 600,
-                color: tc.textPrimary,
-                marginBottom: '6px',
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase'
-              }}
-            >
-              New Security Key
-            </label>
+            <label className="block text-xs font-medium text-zinc-300 mb-1.5">New Security Key</label>
             <div className="relative">
               <input
                 type={showP ? 'text' : 'password'}
                 value={password}
-                onChange={e => { setPassword(e.target.value); setError(''); }}
-                style={inputStyle()}
-                disabled={isLoading}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="Min 12 characters"
+                className="w-full h-10 pl-3.5 pr-10 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
               />
               <button
                 type="button"
                 onClick={() => setShowP(!showP)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-200"
-                style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-200"
               >
                 {showP ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
-
             {password && (
-              <div className="mt-2">
-                <div className="flex items-center justify-between mb-1">
-                  <span style={{ fontSize: '11px', color: tc.textSecondary }}>Entropy</span>
-                  <span style={{ fontSize: '11px', fontWeight: 600, color: strength.color }}>{strength.label}</span>
+              <div className="mt-2 space-y-1.5">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-zinc-400">Entropy Strength</span>
+                  <span style={{ color: strength.color }} className="font-semibold">{strength.label}</span>
                 </div>
-                <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: tc.borderSubtle }}>
-                  <div className="h-full rounded-full transition-all duration-300" style={{ width: strength.width, backgroundColor: strength.color }} />
+                <div className="h-1 rounded-full bg-[#16171A] overflow-hidden">
+                  <div className="h-full rounded-full transition-all" style={{ width: strength.width, backgroundColor: strength.color }} />
                 </div>
               </div>
             )}
-
-            <div className="mt-3 space-y-1.5">
-              {passwordRules.map(rule => {
-                const met = rule.test(password);
-                return (
-                  <div key={rule.id} className="flex items-center gap-2">
-                    {met ? <Check className="w-3.5 h-3.5" style={{ color: tc.alertGreen }} /> : <X className="w-3.5 h-3.5" style={{ color: tc.textTertiary }} />}
-                    <span style={{ fontSize: '11px', color: met ? tc.alertGreen : tc.textTertiary }}>{rule.label}</span>
-                  </div>
-                );
-              })}
-            </div>
           </div>
 
           <div>
-            <label
-              className="font-mono"
-              style={{
-                display: 'block',
-                fontSize: '11px',
-                fontWeight: 600,
-                color: tc.textPrimary,
-                marginBottom: '6px',
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase'
-              }}
-            >
-              Confirm Security Key
-            </label>
+            <label className="block text-xs font-medium text-zinc-300 mb-1.5">Confirm Key</label>
             <div className="relative">
               <input
                 type={showC ? 'text' : 'password'}
                 value={confirm}
                 onChange={e => setConfirm(e.target.value)}
-                style={inputStyle(confirmError)}
-                disabled={isLoading}
+                placeholder="Re-enter security key"
+                className="w-full h-10 pl-3.5 pr-10 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
               />
               <button
                 type="button"
                 onClick={() => setShowC(!showC)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-200"
-                style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-200"
               >
                 {showC ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
-            {confirmError && <p style={{ color: tc.alertRed, fontSize: '11px', marginTop: '4px' }}>{confirmError}</p>}
+            {confirmError && <p className="text-xs text-rose-400 mt-1">{confirmError}</p>}
           </div>
-
-          {error && (
-            <p style={{ color: tc.alertRed, fontSize: '12px' }}>{error}</p>
-          )}
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full h-12 rounded-lg font-mono font-bold text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm"
-            style={{
-              backgroundColor: tc.accentPrimary,
-              color: tc.bgPrimary,
-              border: 'none',
-              cursor: isLoading ? 'not-allowed' : 'pointer'
-            }}
+            className="w-full h-10 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors flex items-center justify-center gap-2 mt-4"
           >
-            {isLoading ? <><Loader2 className="w-4 h-4 animate-spin" />Updating Key...</> : 'Commit Security Key'}
+            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Set New Security Key'}
           </button>
         </form>
-
-        <button
-          onClick={() => navigate('/login')}
-          className="flex items-center justify-center gap-2 mt-6 transition-colors hover:underline font-mono"
-          style={{
-            background: 'none',
-            border: 'none',
-            color: tc.textSecondary,
-            cursor: 'pointer',
-            fontSize: '13px',
-            padding: 0,
-            width: '100%'
-          }}
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Return to Flight Control Sign In
-        </button>
       </div>
     </div>
   );

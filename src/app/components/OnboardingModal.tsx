@@ -12,10 +12,6 @@ const SUGGESTED_SHELLS = [
   { ticker: 'SENT-6B', name: 'Copernicus Sentinel Corridor', sector: '66.0° Altimetry // External', threat: 'Moderate', added: false },
 ];
 
-const threatColors: Record<string, string> = {
-  Critical: '#EF4444', Elevated: '#F97316', Moderate: '#F59E0B', Low: '#10B981'
-};
-
 const ALERT_OPTIONS = [
   { id: 'conjunction_pc', label: 'Red Conjunction Threshold', desc: 'Collision probability Pc > 1.0e-4 within 72h TCA' },
   { id: 'deorbit_fuel', label: 'FCC De-Orbit Fuel Reserve SLA', desc: 'Xenon reserve drops below 4.50 kg per SV' },
@@ -52,114 +48,111 @@ export function OnboardingModal() {
 
   const stepContent = [
     // Step 0: Welcome
-    <div key="0" className="text-center">
-      <div className="flex justify-center mb-6">
-        <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(245, 158, 11, 0.14)', border: '1px solid rgba(245, 158, 11, 0.35)' }}>
-          <Radar className="w-10 h-10" style={{ color: '#F59E0B' }} />
+    <div key="0" className="text-center space-y-4">
+      <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto">
+        <Radar className="w-8 h-8" />
+      </div>
+      <div>
+        <h2 className="text-xl font-bold text-zinc-100 tracking-tight">
+          Welcome to KESSLER Orbital SSA
+        </h2>
+        <p className="text-xs text-zinc-400 mt-1 max-w-sm mx-auto leading-relaxed">
+          Real-time Space Situational Awareness, 18th SDS Conjunction Data Message (CDM) screening, and autonomous Hall-Effect collision avoidance.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-3 gap-3 pt-2">
+        <div className="p-3 rounded-xl bg-[#16171A] border border-[#2A2C32]">
+          <div className="text-base font-bold font-mono text-zinc-100">48 / 48</div>
+          <div className="text-[10px] text-zinc-400 mt-0.5">Active SV Nodes</div>
+        </div>
+        <div className="p-3 rounded-xl bg-[#16171A] border border-[#2A2C32]">
+          <div className="text-base font-bold font-mono text-emerald-400">27,400+</div>
+          <div className="text-[10px] text-zinc-400 mt-0.5">Tracked Objects</div>
+        </div>
+        <div className="p-3 rounded-xl bg-[#16171A] border border-[#2A2C32]">
+          <div className="text-base font-bold font-mono text-indigo-400">&lt;180ms</div>
+          <div className="text-[10px] text-zinc-400 mt-0.5">OISL Mesh Sync</div>
         </div>
       </div>
-      <h2 style={{ fontSize: '24px', fontWeight: 700, color: tc.textPrimary, marginBottom: '12px' }} className="font-mono">
-        Welcome to KESSLER Orbital SSA
-      </h2>
-      <p style={{ fontSize: '14px', color: tc.textSecondary, lineHeight: 1.7, marginBottom: '24px' }}>
-        Real-time Space Situational Awareness, 18th SDS Conjunction Data Message (CDM) screening, and autonomous Hall-Effect collision avoidance command for LEO constellations.
-      </p>
-      <div className="grid grid-cols-3 gap-3 mb-6">
-        {[
-          { label: '48/48', sub: 'Active SV Nodes', color: '#F59E0B' },
-          { label: '27,400+', sub: 'Tracked Objects', color: '#10B981' },
-          { label: '<180ms', sub: 'OISL Relay Latency', color: '#FB923C' },
-        ].map(s => (
-          <div key={s.label} className="rounded-lg p-3" style={{ backgroundColor: `${s.color}15`, border: `1px solid ${s.color}30` }}>
-            <div style={{ fontSize: '18px', fontWeight: 700, color: s.color, fontFamily: 'JetBrains Mono, monospace' }}>{s.label}</div>
-            <div style={{ fontSize: '11px', color: tc.textSecondary }} className="font-mono">{s.sub}</div>
-          </div>
-        ))}
-      </div>
-      <p style={{ fontSize: '13px', color: tc.textSecondary }} className="font-mono">Configure your Flight Director console in 2 steps</p>
     </div>,
 
     // Step 1: Watchlist
-    <div key="1">
-      <h2 style={{ fontSize: '20px', fontWeight: 700, color: tc.textPrimary, marginBottom: '4px' }} className="font-mono">
-        Assign Orbital Shells to Console
-      </h2>
-      <p style={{ fontSize: '13px', color: tc.textSecondary, marginBottom: '16px' }}>
-        Select LEO orbital planes for continuous covariance screening
-      </p>
-      <div className="relative mb-4">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: tc.textSecondary }} />
+    <div key="1" className="space-y-4">
+      <div>
+        <h2 className="text-base font-semibold text-zinc-100 tracking-tight">
+          Assign Orbital Shells to Console
+        </h2>
+        <p className="text-xs text-zinc-400 mt-0.5">
+          Select LEO orbital planes for continuous covariance screening
+        </p>
+      </div>
+
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
         <input
           type="text"
-          placeholder="Search orbital shells or NORAD designators..."
+          placeholder="Search orbital shells..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          style={{
-            width: '100%', height: '42px', paddingLeft: '36px', paddingRight: '12px',
-            backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-            border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-            color: tc.textPrimary, fontSize: '13px', outline: 'none'
-          }}
+          className="w-full h-10 pl-9 pr-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
         />
       </div>
+
       <div className="space-y-2 max-h-56 overflow-y-auto">
         {filtered.map(co => (
           <div
             key={co.ticker}
-            className="flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer"
-            style={{ backgroundColor: co.added ? 'rgba(245, 158, 11, 0.10)' : (theme === 'dark' ? tc.bgPrimary : '#F9FAFB'), border: `1px solid ${co.added ? 'rgba(245, 158, 11, 0.4)' : tc.borderPrimary}` }}
+            className={`flex items-center justify-between p-3 rounded-xl transition-all cursor-pointer ${
+              co.added
+                ? 'bg-[#282A2F] border border-indigo-500/40'
+                : 'bg-[#16171A] border border-[#2A2C32] hover:border-zinc-700/60'
+            }`}
             onClick={() => toggleShell(co.ticker)}
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-8 rounded flex items-center justify-center" style={{ backgroundColor: 'rgba(245, 158, 11, 0.16)' }}>
-                <span style={{ fontSize: '10px', fontWeight: 700, color: tc.accentPrimary, fontFamily: 'JetBrains Mono, monospace' }}>{co.ticker}</span>
-              </div>
+              <span className="w-8 h-8 rounded-lg bg-[#1F2024] flex items-center justify-center font-mono text-[10px] font-bold text-indigo-400 border border-zinc-700/50">
+                {co.ticker}
+              </span>
               <div>
-                <div style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary }}>{co.name}</div>
-                <div style={{ fontSize: '11px', color: tc.textSecondary }} className="font-mono">{co.sector}</div>
+                <div className="text-xs font-semibold text-zinc-100">{co.name}</div>
+                <div className="text-[11px] text-zinc-400">{co.sector}</div>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded text-xs font-mono" style={{ backgroundColor: `${threatColors[co.threat]}20`, color: threatColors[co.threat], fontSize: '11px' }}>
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium border ${
+                co.threat === 'Critical' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' :
+                co.threat === 'Elevated' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
+                'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+              }`}>
                 {co.threat}
               </span>
-              {co.added
-                ? <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: tc.accentPrimary }}><Check className="w-3.5 h-3.5 text-white" /></div>
-                : <div className="w-6 h-6 rounded-full border flex items-center justify-center" style={{ borderColor: tc.borderPrimary }}><Star className="w-3 h-3" style={{ color: tc.textTertiary }} /></div>
-              }
+              <div className={`w-5 h-5 rounded-lg flex items-center justify-center ${co.added ? 'bg-indigo-500 text-white' : 'border border-zinc-700'}`}>
+                {co.added && <Check className="w-3 h-3" />}
+              </div>
             </div>
           </div>
         ))}
       </div>
-      {addedShells.length > 0 && (
-        <p style={{ fontSize: '12px', color: tc.accentPrimary, marginTop: '10px' }} className="font-mono">
-          {addedShells.length} orbital {addedShells.length === 1 ? 'shell' : 'shells'} locked to telemetry feed
-        </p>
-      )}
     </div>,
 
     // Step 2: Alerts
-    <div key="2">
-      <h2 style={{ fontSize: '20px', fontWeight: 700, color: tc.textPrimary, marginBottom: '4px' }} className="font-mono">
-        Configure Automated CDM Triggers
-      </h2>
-      <p style={{ fontSize: '13px', color: tc.textSecondary, marginBottom: '16px' }}>
-        Arm real-time conjunction and thermospheric drag alarms
-      </p>
+    <div key="2" className="space-y-4">
+      <div>
+        <h2 className="text-base font-semibold text-zinc-100 tracking-tight">
+          Configure Automated CDM Triggers
+        </h2>
+        <p className="text-xs text-zinc-400 mt-0.5">
+          Arm real-time conjunction and thermospheric drag alarms
+        </p>
+      </div>
 
-      <div className="mb-4">
-        <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: tc.textPrimary, marginBottom: '6px' }} className="font-mono uppercase">
-          Primary Constellation Shell
-        </label>
+      <div>
+        <label className="block text-xs font-medium text-zinc-300 mb-1.5">Primary Constellation Shell</label>
         <select
           value={selectedShell}
           onChange={e => setSelectedShell(e.target.value)}
-          style={{
-            width: '100%', height: '42px', padding: '0 12px',
-            backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-            border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-            color: tc.textPrimary, fontSize: '13px', outline: 'none', cursor: 'pointer'
-          }}
+          className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500 cursor-pointer"
         >
           {SUGGESTED_SHELLS.map(c => (
             <option key={c.ticker} value={c.ticker}>{c.name} [{c.ticker}]</option>
@@ -168,130 +161,108 @@ export function OnboardingModal() {
       </div>
 
       <div className="space-y-2">
-        {ALERT_OPTIONS.map(alert => (
-          <div
-            key={alert.id}
-            className="flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors"
-            style={{
-              backgroundColor: selectedAlerts.includes(alert.id) ? 'rgba(245, 158, 11, 0.12)' : (theme === 'dark' ? tc.bgPrimary : '#F9FAFB'),
-              border: `1px solid ${selectedAlerts.includes(alert.id) ? 'rgba(245, 158, 11, 0.4)' : tc.borderPrimary}`
-            }}
-            onClick={() => toggleAlert(alert.id)}
-          >
-            <div className="flex items-center gap-3">
-              <Bell className="w-4 h-4" style={{ color: selectedAlerts.includes(alert.id) ? tc.accentPrimary : tc.textSecondary }} />
-              <div>
-                <div style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary }}>{alert.label}</div>
-                <div style={{ fontSize: '12px', color: tc.textSecondary }} className="font-mono">{alert.desc}</div>
+        {ALERT_OPTIONS.map(alert => {
+          const isSelected = selectedAlerts.includes(alert.id);
+          return (
+            <div
+              key={alert.id}
+              className={`flex items-center justify-between p-3.5 rounded-xl cursor-pointer transition-all ${
+                isSelected
+                  ? 'bg-[#282A2F] border border-indigo-500/40'
+                  : 'bg-[#16171A] border border-[#2A2C32] hover:border-zinc-700/60'
+              }`}
+              onClick={() => toggleAlert(alert.id)}
+            >
+              <div className="flex items-center gap-3">
+                <Bell className={`w-4 h-4 ${isSelected ? 'text-indigo-400' : 'text-zinc-500'}`} />
+                <div>
+                  <div className="text-xs font-semibold text-zinc-100">{alert.label}</div>
+                  <div className="text-[11px] text-zinc-400">{alert.desc}</div>
+                </div>
+              </div>
+              <div className={`w-5 h-5 rounded-lg flex items-center justify-center ${isSelected ? 'bg-indigo-500 text-white' : 'border border-zinc-700'}`}>
+                {isSelected && <Check className="w-3 h-3" />}
               </div>
             </div>
-            <div className="w-5 h-5 rounded flex items-center justify-center" style={{
-              backgroundColor: selectedAlerts.includes(alert.id) ? tc.accentPrimary : 'transparent',
-              border: `1.5px solid ${selectedAlerts.includes(alert.id) ? tc.accentPrimary : tc.borderPrimary}`
-            }}>
-              {selectedAlerts.includes(alert.id) && <Check className="w-3 h-3 text-white" />}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>,
 
     // Step 3: Ready
-    <div key="3" className="text-center">
-      <div className="flex justify-center mb-6">
-        <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ backgroundColor: '#10B98120' }}>
-          <Check className="w-10 h-10" style={{ color: '#10B981' }} />
+    <div key="3" className="text-center space-y-4">
+      <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+        <Check className="w-8 h-8" />
+      </div>
+      <div>
+        <h2 className="text-xl font-bold text-zinc-100 tracking-tight">
+          Telemetry Lock Established
+        </h2>
+        <p className="text-xs text-zinc-400 mt-1">
+          Your orbital flight deck is configured and ready for live operations
+        </p>
+      </div>
+
+      <div className="p-4 rounded-xl bg-[#16171A] border border-[#2A2C32] text-left space-y-2 text-xs">
+        <div className="flex items-center justify-between">
+          <span className="text-zinc-400">Synced Shells:</span>
+          <span className="font-semibold text-zinc-200">{addedShells.length} Orbital Shells</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-zinc-400">Armed Alarms:</span>
+          <span className="font-semibold text-zinc-200">{selectedAlerts.length} Threshold Triggers</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-zinc-400">Primary Focus:</span>
+          <span className="font-mono text-indigo-400 font-semibold">{selectedShell}</span>
         </div>
       </div>
-      <h2 style={{ fontSize: '24px', fontWeight: 700, color: tc.textPrimary, marginBottom: '12px' }} className="font-mono">
-        Telemetry Lock Established
-      </h2>
-      <div className="space-y-2 mb-6">
-        <div className="flex items-center justify-center gap-2">
-          <Star className="w-4 h-4" style={{ color: '#F59E0B' }} />
-          <span style={{ fontSize: '14px', color: tc.textSecondary }}>
-            <strong style={{ color: tc.textPrimary }}>{addedShells.length}</strong> orbital shells synced to radar feed
-          </span>
-        </div>
-        <div className="flex items-center justify-center gap-2">
-          <Bell className="w-4 h-4" style={{ color: tc.accentPrimary }} />
-          <span style={{ fontSize: '14px', color: tc.textSecondary }}>
-            <strong style={{ color: tc.textPrimary }}>{selectedAlerts.length}</strong> automated CDM triggers armed
-          </span>
-        </div>
-      </div>
-      <p style={{ fontSize: '13px', color: tc.textSecondary, lineHeight: 1.6 }} className="font-mono">
-        Your KESSLER Flight Dynamics command console is live and streaming ephemeris telemetry.
-      </p>
-    </div>,
+    </div>
   ];
 
   return (
-    <div className="fixed inset-0 z-[150] flex items-center justify-center" style={{ backgroundColor: 'rgba(0,0,0,0.75)' }}>
-      <div className="relative w-full max-w-lg mx-4 rounded-xl shadow-2xl overflow-hidden" style={{
-        backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}`
-      }}>
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 pt-6 pb-0">
-          <div className="flex items-center gap-2">
-            <div className="px-2 py-0.5 flex items-center justify-center rounded bg-amber-500/20 border border-amber-500/40">
-              <span className="font-mono" style={{ color: tc.accentPrimary, fontSize: '10px', fontWeight: 700 }}>KESSLER</span>
-            </div>
-            <span className="font-mono" style={{ fontSize: '11px', color: tc.textSecondary, letterSpacing: '0.06em' }}>FDO CONSOLE INITIALIZATION</span>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="w-full max-w-lg rounded-2xl bg-[#1F2024] border border-[#2A2C32] p-6 shadow-2xl space-y-6">
+        {/* Stepper Dots */}
+        <div className="flex items-center justify-between border-b border-[#2A2C32] pb-4">
+          <div className="flex items-center gap-1.5">
+            {steps.map((s, i) => (
+              <div
+                key={i}
+                className={`h-1.5 rounded-full transition-all ${
+                  i === step ? 'w-6 bg-indigo-500' : i < step ? 'w-2 bg-indigo-500/50' : 'w-2 bg-zinc-700'
+                }`}
+              />
+            ))}
           </div>
-          <button
-            onClick={() => { if (step > 0) setStep(3); else dismissOnboarding(); }}
-            style={{ background: 'none', border: 'none', color: tc.textSecondary, cursor: 'pointer', fontSize: '12px' }}
-            className="font-mono"
-          >
-            Skip Briefing
-          </button>
-        </div>
-
-        {/* Progress Dots */}
-        <div className="flex justify-center gap-2 pt-4">
-          {steps.map((_, i) => (
-            <div
-              key={i}
-              className="transition-all rounded-full"
-              style={{
-                width: i === step ? '20px' : '8px',
-                height: '8px',
-                backgroundColor: i === step ? tc.accentPrimary : i < step ? `${tc.accentPrimary}60` : tc.borderPrimary
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Step Label */}
-        <div className="px-6 pt-2 pb-0">
-          <span className="font-mono" style={{ fontSize: '11px', color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-            Phase {step + 1} of {steps.length} — {steps[step]}
+          <span className="text-xs text-zinc-400 font-medium">
+            Step {step + 1} of {steps.length}
           </span>
         </div>
 
         {/* Content */}
-        <div className="p-6">{stepContent[step]}</div>
+        {stepContent[step]}
 
-        {/* Footer Actions */}
-        <div className="flex items-center justify-between px-6 pb-6">
+        {/* Actions */}
+        <div className="flex items-center justify-between pt-2 border-t border-[#2A2C32]">
+          {step > 0 ? (
+            <button
+              onClick={() => setStep(s => s - 1)}
+              className="px-4 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 transition-colors"
+            >
+              Back
+            </button>
+          ) : <div />}
+
           <button
-            onClick={() => step > 0 ? setStep(s => s - 1) : dismissOnboarding()}
-            style={{ background: 'none', border: 'none', color: tc.textSecondary, cursor: 'pointer', fontSize: '13px' }}
-            className="font-mono"
-          >
-            {step > 0 ? '← Previous' : 'Defer initialization'}
-          </button>
-          <button
-            onClick={() => step < 3 ? setStep(s => s + 1) : dismissOnboarding()}
-            className="flex items-center gap-2 transition-all font-mono"
-            style={{
-              height: '40px', padding: '0 20px', backgroundColor: tc.accentPrimary, color: tc.bgPrimary,
-              border: 'none', borderRadius: '6px', fontSize: '13px', fontWeight: 700, cursor: 'pointer'
+            onClick={() => {
+              if (step < steps.length - 1) setStep(s => s + 1);
+              else dismissOnboarding();
             }}
+            className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors"
           >
-            {step === 3 ? 'Launch Console' : step === 2 && selectedAlerts.length === 0 ? 'Skip Triggers' : 'Proceed'}
-            {step < 3 && <ChevronRight className="w-4 h-4" />}
+            <span>{step === steps.length - 1 ? 'Launch Flight Console' : 'Continue'}</span>
+            <ChevronRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>

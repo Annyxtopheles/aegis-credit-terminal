@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { Eye, EyeOff, Loader2, AlertCircle, Radar, Terminal, Radio, ShieldCheck, Activity } from 'lucide-react';
+import { Eye, EyeOff, Loader2, AlertCircle, Radar, ShieldCheck, Activity, Terminal, Radio } from 'lucide-react';
 import { useAuth, getDashboardPath } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
@@ -73,232 +73,146 @@ export default function LoginPage() {
         color: tc.textPrimary
       }}
     >
-      {/* Left 7 Columns: Live Astrodynamics & Orbital Ground-Track Visualizer */}
+      {/* Left 7 Columns: Live Astrodynamics Visualizer */}
       <div
-        className="hidden lg:flex lg:col-span-7 flex-col justify-between p-8 xl:p-12 relative overflow-hidden border-r"
+        className="hidden lg:flex lg:col-span-7 flex-col justify-between p-10 xl:p-14 relative overflow-hidden border-r"
         style={{
-          backgroundColor: '#0A0B0E',
+          backgroundColor: '#16171A',
           borderColor: tc.borderPrimary,
-          backgroundImage: 'radial-gradient(rgba(245, 158, 11, 0.12) 1px, transparent 1px)',
-          backgroundSize: '28px 28px'
         }}
       >
-        {/* Top Telemetry Bar */}
+        {/* Top Bar */}
         <div className="flex items-center justify-between z-10">
           <div className="flex items-center gap-3">
-            <div
-              className="w-9 h-9 flex items-center justify-center rounded-sm"
-              style={{
-                backgroundColor: 'rgba(245, 158, 11, 0.14)',
-                border: '1px solid rgba(245, 158, 11, 0.45)'
-              }}
-            >
-              <Radar className="w-5 h-5" style={{ color: '#F59E0B' }} />
+            <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+              <Radar className="w-5 h-5" />
             </div>
             <div>
-              <div className="font-mono text-sm font-bold tracking-[0.14em] text-white">
-                KESSLER // VANGUARD ORBITAL SSA
+              <div className="text-sm font-bold tracking-wider text-zinc-100 uppercase">
+                KESSLER // ORBITAL SSA
               </div>
-              <div className="font-mono text-[10px] tracking-[0.18em]" style={{ color: '#F59E0B' }}>
-                18TH SDS SPACESURV & CONJUNCTION COMMAND TERMINAL
+              <div className="text-[11px] text-zinc-400">
+                18th SDS Autonomous Conjunction Screening
               </div>
             </div>
           </div>
-
-          <div
-            className="px-3 py-1 rounded-sm font-mono text-xs flex items-center gap-2"
-            style={{
-              backgroundColor: 'rgba(17, 19, 24, 0.9)',
-              border: '1px solid #262936',
-              color: '#F59E0B'
-            }}
-          >
-            <Radio className="w-3.5 h-3.5 animate-pulse" />
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#1F2024] border border-[#2A2C32] text-xs font-mono text-zinc-300">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span>{utcClock}</span>
           </div>
         </div>
 
-        {/* Center SVG Orbital Ground-Track & B-Plane Schematic */}
-        <div className="my-auto py-8 z-10">
-          <div
-            className="rounded-sm p-5 relative overflow-hidden"
-            style={{
-              backgroundColor: 'rgba(17, 19, 24, 0.9)',
-              border: '1px solid #262936'
-            }}
-          >
-            <div className="flex items-center justify-between mb-3 font-mono text-[10px] text-[#9CA3AF]">
-              <span>GROUND-TRACK MERCATOR PROJECTION // SHELL-1 (53.0° INCLINATION)</span>
-              <span className="font-bold" style={{ color: '#EF4444' }}>ACTIVE CONJUNCTION: VGD-04 vs COSMOS-2251 DEB</span>
+        {/* Center Astrodynamics Radar Scope Preview */}
+        <div className="my-auto py-8 z-10 space-y-6">
+          <div className="relative w-80 h-80 mx-auto rounded-full border border-indigo-500/20 bg-[#1F2024]/40 flex items-center justify-center">
+            {/* Range Rings */}
+            <div className="absolute inset-8 rounded-full border border-indigo-500/15" />
+            <div className="absolute inset-20 rounded-full border border-indigo-500/20" />
+            <div className="absolute inset-32 rounded-full border border-indigo-500/25" />
+            <div className="absolute inset-x-0 top-1/2 h-[1px] bg-indigo-500/20" />
+            <div className="absolute inset-y-0 left-1/2 w-[1px] bg-indigo-500/20" />
+
+            {/* Sweep Arm */}
+            <div
+              className="absolute inset-0 rounded-full animate-spin"
+              style={{
+                background: 'conic-gradient(from 0deg, rgba(99, 102, 241, 0.25) 0deg, transparent 60deg, transparent 360deg)',
+                animationDuration: '6s',
+                animationTimingFunction: 'linear'
+              }}
+            />
+
+            {/* Target Blip */}
+            <div className="absolute top-24 right-28 flex flex-col items-center">
+              <span className="w-3 h-3 rounded-full bg-rose-500 animate-ping absolute" />
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-400 relative" />
+              <span className="text-[9px] font-mono text-rose-300 mt-1">COSMOS-2251</span>
             </div>
 
-            <svg viewBox="0 0 680 280" className="w-full h-auto rounded-sm" style={{ backgroundColor: '#07080A', border: '1px solid #262936' }}>
-              {/* Graticule Grid Lines */}
-              {[70, 140, 210].map(y => (
-                <line key={y} x1="0" y1={y} x2="680" y2={y} stroke="#191C24" strokeWidth="1" strokeDasharray="3 3" />
-              ))}
-              {[113, 226, 340, 453, 566].map(x => (
-                <line key={x} x1={x} y1="0" x2={x} y2="280" stroke="#191C24" strokeWidth="1" strokeDasharray="3 3" />
-              ))}
-              {/* Equator */}
-              <line x1="0" y1="140" x2="680" y2="140" stroke="#262936" strokeWidth="1.2" />
-
-              {/* Orbital Sine Wave 1: Vanguard Plane A (53 deg) */}
-              <path
-                d="M 0 140 C 85 20, 170 20, 255 140 C 340 260, 425 260, 510 140 C 595 20, 650 40, 680 90"
-                fill="none"
-                stroke="#F59E0B"
-                strokeWidth="2"
-              />
-
-              {/* Orbital Sine Wave 2: Vanguard Plane B */}
-              <path
-                d="M 0 210 C 85 90, 170 20, 255 95 C 340 215, 425 260, 510 185 C 595 75, 650 30, 680 55"
-                fill="none"
-                stroke="rgba(245, 158, 11, 0.35)"
-                strokeWidth="1.2"
-                strokeDasharray="5 4"
-              />
-
-              {/* Retrograde/High-Inclination Debris Orbit: COSMOS-2251 DEB */}
-              <path
-                d="M 0 40 C 110 110, 210 250, 340 165 C 470 80, 560 15, 680 120"
-                fill="none"
-                stroke="#EF4444"
-                strokeWidth="1.5"
-                strokeDasharray="4 3"
-              />
-
-              {/* Ground Station Footprints */}
-              <circle cx="365" cy="48" r="18" fill="rgba(16, 185, 129, 0.08)" stroke="#10B981" strokeWidth="0.8" strokeDasharray="2 2" />
-              <circle cx="365" cy="48" r="3" fill="#10B981" />
-              <text x="374" y="51" fill="#10B981" fontSize="8" fontFamily="JetBrains Mono">SVALBARD AOS</text>
-
-              <circle cx="545" cy="155" r="20" fill="rgba(245, 158, 11, 0.08)" stroke="#F59E0B" strokeWidth="0.8" strokeDasharray="2 2" />
-              <circle cx="545" cy="155" r="3" fill="#F59E0B" />
-              <text x="554" y="158" fill="#F59E0B" fontSize="8" fontFamily="JetBrains Mono">KWAJALEIN FENCE</text>
-
-              {/* Conjunction Intercept Node */}
-              <circle cx="272" cy="161" r="14" fill="rgba(239, 68, 68, 0.18)" stroke="#EF4444" strokeWidth="1.5" />
-              <circle cx="272" cy="161" r="4" fill="#EF4444" />
-              <text x="292" y="158" fill="#EF4444" fontSize="9" fontWeight="bold" fontFamily="JetBrains Mono">
-                TCA INTERCEPT // Pc: 4.8e-4
-              </text>
-              <text x="292" y="170" fill="#E2E8F0" fontSize="8" fontFamily="JetBrains Mono">
-                VGD-04 [58214] // MISS: 142m
-              </text>
-
-              {/* Nominal Spacecraft Nodes */}
-              <circle cx="128" cy="52" r="3.5" fill="#F59E0B" />
-              <text x="136" y="55" fill="#F59E0B" fontSize="8" fontFamily="JetBrains Mono">VGD-01</text>
-
-              <circle cx="485" cy="168" r="3.5" fill="#F59E0B" />
-              <text x="493" y="171" fill="#F59E0B" fontSize="8" fontFamily="JetBrains Mono">VGD-08</text>
-            </svg>
-
-            {/* Bottom Telemetry Readout Strip inside Left Pane */}
-            <div className="grid grid-cols-4 gap-3 mt-4 font-mono">
-              {[
-                { label: 'ACTIVE SV NODES', val: '48 / 48 LOCKED', color: '#10B981' },
-                { label: 'PEAK CONJUNCTION Pc', val: '4.82e-4 (RED)', color: '#EF4444' },
-                { label: 'SOLAR FLUX F10.7', val: '184.2 SFU', color: '#F97316' },
-                { label: 'OISL MESH LATENCY', val: '142 ms', color: '#F59E0B' },
-              ].map(s => (
-                <div key={s.label} className="p-2.5 rounded-sm" style={{ backgroundColor: '#0A0B0E', border: '1px solid #262936' }}>
-                  <div className="text-[9px] text-[#6B7280]">{s.label}</div>
-                  <div className="text-xs font-bold mt-0.5" style={{ color: s.color }}>{s.val}</div>
-                </div>
-              ))}
+            {/* Protected SV Blip */}
+            <div className="absolute center flex flex-col items-center">
+              <span className="w-3 h-3 rounded-full bg-emerald-400 ring-4 ring-emerald-500/20" />
+              <span className="text-[9px] font-mono text-emerald-300 mt-1 font-bold">VGD-04</span>
             </div>
+          </div>
+
+          <div className="text-center max-w-md mx-auto space-y-2">
+            <h2 className="text-xl font-bold text-zinc-100 tracking-tight">
+              Autonomous Fleet Collision Avoidance
+            </h2>
+            <p className="text-xs text-zinc-400 leading-relaxed">
+              Continuous 72-hour covariance propagation against 27,400+ orbital debris objects, automated Hall-effect thruster sequencing, and regulatory de-orbit compliance.
+            </p>
           </div>
         </div>
 
-        {/* Footer Technical Spec */}
-        <div className="flex items-center justify-between font-mono text-[11px] text-[#6B7280] z-10">
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-[#F59E0B]" />
-            <span>CCSDS 508.0-B-1 CDM COMPLIANT // SGP4 EPHEMERIS ENGINE</span>
+        {/* Bottom Telemetry Cards */}
+        <div className="grid grid-cols-3 gap-3 z-10">
+          <div className="p-3.5 rounded-xl bg-[#1F2024] border border-[#2A2C32]">
+            <div className="text-[10px] text-zinc-400 uppercase font-medium">Active Constellation</div>
+            <div className="text-base font-bold font-mono text-zinc-100 mt-1">48 / 48 SV</div>
+            <div className="text-[10px] text-emerald-400 mt-0.5">100% Station-Locked</div>
           </div>
-          <span>VANGUARD FLIGHT DYNAMICS DIVISION</span>
+          <div className="p-3.5 rounded-xl bg-[#1F2024] border border-[#2A2C32]">
+            <div className="text-[10px] text-zinc-400 uppercase font-medium">Debris Screening</div>
+            <div className="text-base font-bold font-mono text-zinc-100 mt-1">27,412 Obj</div>
+            <div className="text-[10px] text-zinc-400 mt-0.5">18th SDS Spacetrack</div>
+          </div>
+          <div className="p-3.5 rounded-xl bg-[#1F2024] border border-[#2A2C32]">
+            <div className="text-[10px] text-zinc-400 uppercase font-medium">CAM Reaction SLA</div>
+            <div className="text-base font-bold font-mono text-zinc-100 mt-1">T-102 min</div>
+            <div className="text-[10px] text-indigo-400 mt-0.5">Autopilot Armed</div>
+          </div>
         </div>
       </div>
 
-      {/* Right 5 Columns: Operator Authentication Console */}
-      <div
-        className="lg:col-span-5 flex flex-col justify-center p-6 sm:p-10 xl:p-14"
-        style={{ backgroundColor: tc.bgSecondary }}
-      >
-        <div className="w-full max-w-[420px] mx-auto">
-          {/* Mobile Brand Header */}
-          <div className="flex lg:hidden items-center gap-2.5 mb-6">
-            <div
-              className="w-8 h-8 flex items-center justify-center rounded-sm"
-              style={{
-                backgroundColor: `${tc.accentPrimary}25`,
-                border: `1px solid ${tc.accentPrimary}60`
-              }}
-            >
-              <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
+      {/* Right 5 Columns: Clean Tempo Sign-In Console */}
+      <div className="lg:col-span-5 flex flex-col justify-center p-8 sm:p-12 xl:p-16">
+        <div className="max-w-md w-full mx-auto space-y-6">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-3">
+              <Terminal className="w-3.5 h-3.5" />
+              <span>FDO Operator Authentication</span>
             </div>
-            <span className="font-mono text-xs font-bold tracking-widest" style={{ color: tc.textPrimary }}>
-              KESSLER // ORBITAL SSA TERMINAL
-            </span>
-          </div>
-
-          <div className="mb-6">
-            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-sm font-mono text-[10px] font-bold uppercase mb-2"
-              style={{
-                backgroundColor: `${tc.accentPrimary}20`,
-                color: tc.accentPrimary,
-                border: `1px solid ${tc.accentPrimary}55`
-              }}>
-              <Terminal className="w-3 h-3" />
-              <span>FDO GROUND LINK AUTHENTICATION</span>
-            </div>
-            <h1 className="font-mono text-2xl font-bold tracking-tight" style={{ color: tc.textPrimary }}>
-              Initialize Flight Deck Session
+            <h1 className="text-2xl font-bold tracking-tight text-zinc-100">
+              Flight Deck Sign In
             </h1>
-            <p className="text-xs font-mono mt-1" style={{ color: tc.textSecondary }}>
-              Select a mission crew preset or enter operator credentials
+            <p className="text-xs text-zinc-400 mt-1">
+              Select a crew role preset or authenticate with your callsign
             </p>
           </div>
 
-          {/* 3-Row Tactical Crew Preset Selector */}
-          <div className="mb-6">
-            <div className="font-mono text-[10px] uppercase tracking-wider font-bold mb-2" style={{ color: tc.textSecondary }}>
-              1-CLICK MISSION CREW CLEARANCE PRESETS (KEY: Password123!)
+          {/* 1-Click Crew Preset Selector */}
+          <div className="space-y-2">
+            <div className="text-xs font-medium text-zinc-400">
+              1-Click Demo Crew Presets
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               {DEMO_CREDENTIALS.map(d => {
-                const selected = email === d.email;
+                const isSelected = email === d.email;
                 return (
                   <button
                     key={d.email}
                     type="button"
                     onClick={() => fillDemo(d.email)}
-                    className="w-full p-2.5 rounded-sm flex items-center justify-between text-left font-mono transition-all cursor-pointer"
-                    style={{
-                      backgroundColor: selected ? `${tc.accentPrimary}20` : tc.bgTertiary,
-                      border: `1px solid ${selected ? tc.accentPrimary : tc.borderPrimary}`,
-                      color: tc.textPrimary
-                    }}
+                    className={`w-full p-3 rounded-xl flex items-center justify-between text-left transition-all ${
+                      isSelected
+                        ? 'bg-[#282A2F] border border-indigo-500/40 text-zinc-100'
+                        : 'bg-[#1F2024] border border-[#2A2C32] hover:border-zinc-700/60 text-zinc-300'
+                    }`}
                   >
-                    <div className="flex items-center gap-2.5">
-                      <span
-                        className="px-1.5 py-0.5 rounded-sm text-[10px] font-bold"
-                        style={{
-                          backgroundColor: selected ? tc.accentPrimary : tc.bgSecondary,
-                          color: selected ? tc.bgPrimary : tc.accentPrimary
-                        }}
-                      >
+                    <div className="flex items-center gap-3">
+                      <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-mono text-xs font-semibold ${
+                        isSelected ? 'bg-indigo-500/20 text-indigo-400' : 'bg-[#16171A] text-zinc-400'
+                      }`}>
                         {d.code}
                       </span>
                       <div>
-                        <div className="text-xs font-bold">{d.label}</div>
-                        <div className="text-[10px]" style={{ color: tc.textSecondary }}>{d.email}</div>
+                        <div className="text-xs font-semibold text-zinc-100">{d.label}</div>
+                        <div className="text-[11px] text-zinc-400">{d.email}</div>
                       </div>
                     </div>
-                    <span className="text-[10px]" style={{ color: selected ? tc.accentPrimary : tc.textTertiary }}>
+                    <span className="text-[11px] text-zinc-400">
                       {d.sub}
                     </span>
                   </button>
@@ -307,24 +221,16 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {loginAttempts >= 5 && (
-            <div
-              className="mb-4 p-3 rounded-sm flex items-center gap-2"
-              style={{ backgroundColor: 'rgba(255, 42, 95, 0.1)', border: '1px solid rgba(255, 42, 95, 0.3)' }}
-            >
-              <AlertCircle className="w-4 h-4 flex-shrink-0" style={{ color: tc.alertRed }} />
-              <span className="font-mono text-xs" style={{ color: tc.alertRed }}>
-                Lockout active: 5 failed attempts. Wait 15 minutes.
-              </span>
+          {error && (
+            <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center gap-2.5 text-xs text-rose-400">
+              <AlertCircle className="w-4 h-4 shrink-0" />
+              <span>{error}</span>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label
-                className="font-mono block text-[10px] font-bold uppercase tracking-wider mb-1.5"
-                style={{ color: tc.textPrimary }}
-              >
+              <label className="block text-xs font-medium text-zinc-300 mb-1.5">
                 Operator Callsign / Email
               </label>
               <input
@@ -333,55 +239,40 @@ export default function LoginPage() {
                 onChange={e => { setEmail(e.target.value); if (emailError) validateEmail(e.target.value); }}
                 onBlur={e => validateEmail(e.target.value)}
                 placeholder="analyst@firm.com"
-                className="w-full h-10 px-3 text-xs rounded-sm outline-none transition-colors font-mono"
-                style={{
-                  backgroundColor: tc.bgPrimary,
-                  border: `1px solid ${emailError ? tc.alertRed : tc.borderPrimary}`,
-                  color: tc.textPrimary
-                }}
+                className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500 transition-colors"
                 disabled={isLoading}
               />
               {emailError && (
-                <p className="font-mono text-[11px] mt-1" style={{ color: tc.alertRed }}>{emailError}</p>
+                <p className="text-xs text-rose-400 mt-1">{emailError}</p>
               )}
             </div>
 
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label
-                  className="font-mono text-[10px] font-bold uppercase tracking-wider"
-                  style={{ color: tc.textPrimary }}
-                >
-                  Cryptographic Security Key
+                <label className="text-xs font-medium text-zinc-300">
+                  Security Key
                 </label>
-                <button
-                  type="button"
-                  onClick={() => navigate('/forgot-password')}
-                  className="hover:underline font-mono text-[11px] cursor-pointer"
-                  style={{ color: tc.accentPrimary, background: 'none', border: 'none' }}
+                <a
+                  href="/forgot-password"
+                  onClick={(e) => { e.preventDefault(); navigate('/forgot-password'); }}
+                  className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
                 >
-                  Reset key?
-                </button>
+                  Forgot Key?
+                </a>
               </div>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  placeholder="••••••••••••"
-                  className="w-full h-10 px-3 pr-10 text-xs rounded-sm outline-none transition-colors font-mono"
-                  style={{
-                    backgroundColor: tc.bgPrimary,
-                    border: `1px solid ${error ? tc.alertRed : tc.borderPrimary}`,
-                    color: tc.textPrimary
-                  }}
+                  placeholder="Enter security key"
+                  className="w-full h-10 pl-3.5 pr-10 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500 transition-colors"
                   disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-200 cursor-pointer"
-                  style={{ background: 'none', border: 'none' }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-200"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -389,63 +280,25 @@ export default function LoginPage() {
             </div>
 
             <div className="flex items-center justify-between pt-1">
-              <label className="flex items-center gap-2 cursor-pointer select-none font-mono text-xs" style={{ color: tc.textSecondary }}>
+              <label className="flex items-center gap-2 cursor-pointer text-xs text-zinc-400">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={e => setRememberMe(e.target.checked)}
-                  className="w-3.5 h-3.5 rounded-sm"
-                  style={{ accentColor: tc.accentPrimary }}
+                  className="rounded bg-[#16171A] border-[#2A2C32] text-indigo-600 focus:ring-0"
                 />
-                Persist ground-station telemetry lock
+                <span>Keep session active</span>
               </label>
             </div>
 
-            {error && (
-              <div
-                className="p-2.5 rounded-sm flex items-center gap-2"
-                style={{ backgroundColor: 'rgba(255, 42, 95, 0.1)', border: '1px solid rgba(255, 42, 95, 0.3)' }}
-              >
-                <AlertCircle className="w-4 h-4 flex-shrink-0" style={{ color: tc.alertRed }} />
-                <span className="font-mono text-xs" style={{ color: tc.alertRed }}>{error}</span>
-              </div>
-            )}
-
             <button
               type="submit"
-              disabled={isLoading || loginAttempts >= 5}
-              className="w-full h-11 rounded-sm font-mono font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer"
-              style={{
-                backgroundColor: tc.accentPrimary,
-                color: tc.bgPrimary,
-                border: 'none',
-                opacity: loginAttempts >= 5 ? 0.5 : 1
-              }}
+              disabled={isLoading}
+              className="w-full h-10 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors flex items-center justify-center gap-2"
             >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>SYNCHRONIZING EPHEMERIS...</span>
-                </>
-              ) : (
-                <>
-                  <Activity className="w-4 h-4" />
-                  <span>LAUNCH TELEMETRY FLIGHT DECK</span>
-                </>
-              )}
+              {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Enter Flight Console'}
             </button>
           </form>
-
-          <div className="mt-6 pt-5 border-t flex items-center justify-between font-mono text-xs" style={{ borderColor: tc.borderPrimary }}>
-            <span style={{ color: tc.textSecondary }}>New Flight Dynamics operator?</span>
-            <span
-              style={{ color: tc.accentPrimary, fontWeight: 700, cursor: 'pointer' }}
-              onClick={() => navigate('/signup')}
-              className="hover:underline"
-            >
-              Request Clearance →
-            </span>
-          </div>
         </div>
       </div>
     </div>
