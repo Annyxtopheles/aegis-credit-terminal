@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { Eye, EyeOff, Loader2, AlertCircle, Radar, ShieldCheck, Activity, Terminal, Radio } from 'lucide-react';
+import { Eye, EyeOff, Loader2, AlertCircle, Radar } from 'lucide-react';
 import { useAuth, getDashboardPath } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
@@ -29,12 +29,12 @@ export default function LoginPage() {
     const t = setInterval(() => {
       setUtcClock(new Date().toISOString().slice(11, 19) + ' UTC');
     }, 1000);
-    return () => clearInterval(t);
+    return () => clearInterval(timer);
   }, []);
 
   const validateEmail = (val: string) => {
-    if (!val) { setEmailError('Operator callsign/email is required'); return false; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) { setEmailError('Please enter a valid mission control email'); return false; }
+    if (!val) { setEmailError('Operator callsign is required'); return false; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) { setEmailError('Please enter a valid mission control callsign'); return false; }
     setEmailError('');
     return true;
   };
@@ -96,7 +96,7 @@ export default function LoginPage() {
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#1F2024] border border-[#2A2C32] text-xs font-mono text-zinc-300">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#1F2024] border border-[#2A2C32] text-xs text-zinc-300">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span>{utcClock}</span>
           </div>
@@ -126,13 +126,13 @@ export default function LoginPage() {
             <div className="absolute top-24 right-28 flex flex-col items-center">
               <span className="w-3 h-3 rounded-full bg-rose-500 animate-ping absolute" />
               <span className="w-2.5 h-2.5 rounded-full bg-rose-400 relative" />
-              <span className="text-[9px] font-mono text-rose-300 mt-1">COSMOS-2251</span>
+              <span className="text-[9px] text-rose-300 mt-1">COSMOS-2251</span>
             </div>
 
             {/* Protected SV Blip */}
             <div className="absolute center flex flex-col items-center">
               <span className="w-3 h-3 rounded-full bg-emerald-400 ring-4 ring-emerald-500/20" />
-              <span className="text-[9px] font-mono text-emerald-300 mt-1 font-bold">VGD-04</span>
+              <span className="text-[9px] text-emerald-300 mt-1 font-semibold">VGD-04</span>
             </div>
           </div>
 
@@ -150,17 +150,17 @@ export default function LoginPage() {
         <div className="grid grid-cols-3 gap-3 z-10">
           <div className="p-3.5 rounded-xl bg-[#1F2024] border border-[#2A2C32]">
             <div className="text-[10px] text-zinc-400 uppercase font-medium">Active Constellation</div>
-            <div className="text-base font-bold font-mono text-zinc-100 mt-1">48 / 48 SV</div>
+            <div className="text-base font-bold text-zinc-100 mt-1">48 / 48 SV</div>
             <div className="text-[10px] text-emerald-400 mt-0.5">100% Station-Locked</div>
           </div>
           <div className="p-3.5 rounded-xl bg-[#1F2024] border border-[#2A2C32]">
             <div className="text-[10px] text-zinc-400 uppercase font-medium">Debris Screening</div>
-            <div className="text-base font-bold font-mono text-zinc-100 mt-1">27,412 Obj</div>
+            <div className="text-base font-bold text-zinc-100 mt-1">27,412 Obj</div>
             <div className="text-[10px] text-zinc-400 mt-0.5">18th SDS Spacetrack</div>
           </div>
           <div className="p-3.5 rounded-xl bg-[#1F2024] border border-[#2A2C32]">
             <div className="text-[10px] text-zinc-400 uppercase font-medium">CAM Reaction SLA</div>
-            <div className="text-base font-bold font-mono text-zinc-100 mt-1">T-102 min</div>
+            <div className="text-base font-bold text-zinc-100 mt-1">T-102 min</div>
             <div className="text-[10px] text-indigo-400 mt-0.5">Autopilot Armed</div>
           </div>
         </div>
@@ -170,10 +170,6 @@ export default function LoginPage() {
       <div className="lg:col-span-5 flex flex-col justify-center p-8 sm:p-12 xl:p-16">
         <div className="max-w-md w-full mx-auto space-y-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-3">
-              <Terminal className="w-3.5 h-3.5" />
-              <span>FDO Operator Authentication</span>
-            </div>
             <h1 className="text-2xl font-bold tracking-tight text-zinc-100">
               Flight Deck Sign In
             </h1>
@@ -182,43 +178,38 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* 1-Click Crew Preset Selector */}
+          {/* Crew Preset Selector */}
           <div className="space-y-2">
-            <div className="text-xs font-medium text-zinc-400">
-              1-Click Demo Crew Presets
-            </div>
-            <div className="space-y-2">
-              {DEMO_CREDENTIALS.map(d => {
-                const isSelected = email === d.email;
-                return (
-                  <button
-                    key={d.email}
-                    type="button"
-                    onClick={() => fillDemo(d.email)}
-                    className={`w-full p-3 rounded-xl flex items-center justify-between text-left transition-all ${
-                      isSelected
-                        ? 'bg-[#282A2F] border border-indigo-500/40 text-zinc-100'
-                        : 'bg-[#1F2024] border border-[#2A2C32] hover:border-zinc-700/60 text-zinc-300'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-mono text-xs font-semibold ${
-                        isSelected ? 'bg-indigo-500/20 text-indigo-400' : 'bg-[#16171A] text-zinc-400'
-                      }`}>
-                        {d.code}
-                      </span>
-                      <div>
-                        <div className="text-xs font-semibold text-zinc-100">{d.label}</div>
-                        <div className="text-[11px] text-zinc-400">{d.email}</div>
-                      </div>
-                    </div>
-                    <span className="text-[11px] text-zinc-400">
-                      {d.sub}
+            {DEMO_CREDENTIALS.map(d => {
+              const isSelected = email === d.email;
+              return (
+                <button
+                  key={d.email}
+                  type="button"
+                  onClick={() => fillDemo(d.email)}
+                  className={`w-full p-3 rounded-xl flex items-center justify-between text-left transition-all ${
+                    isSelected
+                      ? 'bg-[#282A2F] border border-indigo-500/40 text-zinc-100'
+                      : 'bg-[#1F2024] border border-[#2A2C32] hover:border-zinc-700/60 text-zinc-300'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-semibold ${
+                      isSelected ? 'bg-indigo-500/20 text-indigo-400' : 'bg-[#16171A] text-zinc-400'
+                    }`}>
+                      {d.code}
                     </span>
-                  </button>
-                );
-              })}
-            </div>
+                    <div>
+                      <div className="text-xs font-semibold text-zinc-100">{d.label}</div>
+                      <div className="text-[11px] text-zinc-400">{d.email}</div>
+                    </div>
+                  </div>
+                  <span className="text-[11px] text-zinc-400">
+                    {d.sub}
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
           {error && (
@@ -231,7 +222,7 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-medium text-zinc-300 mb-1.5">
-                Operator Callsign / Email
+                Operator Callsign
               </label>
               <input
                 type="text"
