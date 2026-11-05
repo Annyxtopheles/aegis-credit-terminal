@@ -1,4 +1,4 @@
-import { ShieldAlert } from 'lucide-react';
+import { ShieldAlert, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
 
@@ -9,102 +9,111 @@ export function CovenantCompliance() {
   const gauges = [
     {
       id: 'deorbit',
-      title: '5-YR DE-ORBIT XENON RESERVE',
+      title: '5-Yr De-Orbit Xenon Reserve',
       spacecraft: 'VANGUARD-04 [58214]',
       actual: '4.12 kg',
-      threshold: '4.50 kg SLA',
+      threshold: '4.50 kg SLA Floor',
       pct: 68,
-      status: 'SLA BREACH',
-      color: tc.alertRed
+      status: 'SLA Breach',
+      type: 'danger'
     },
     {
       id: 'cam',
-      title: 'CAM THRUSTER READINESS',
-      spacecraft: 'HALL-EFFECT BUS-A',
+      title: 'CAM Thruster Readiness',
+      spacecraft: 'Hall-Effect Bus-A',
       actual: 'T-102 min',
       threshold: 'T-180 min SLA',
       pct: 82,
-      status: 'ARMED // WARN',
-      color: tc.alertAmber
+      status: 'Armed // Active',
+      type: 'warning'
     },
     {
       id: 'isl',
-      title: 'OPTICAL / Ka-BAND LINK MARGIN',
-      spacecraft: 'SHELL-1 MESH',
+      title: 'Optical / Ka-Band Link Margin',
+      spacecraft: 'Shell-1 Mesh Ring',
       actual: '+9.8 dB',
-      threshold: '+6.0 dB MIN',
+      threshold: '+6.0 dB Minimum',
       pct: 94,
-      status: 'NOMINAL LOCK',
-      color: tc.accentPrimary
+      status: 'Nominal Lock',
+      type: 'success'
     }
   ];
 
   const burnVectors = [
-    { axis: 'ΔV RADIAL (Vr)', val: '+0.04 m/s', tol: '±0.01 m/s', status: 'NOMINAL' },
-    { axis: 'ΔV IN-TRACK (Vt)', val: '+0.85 m/s', tol: '±0.02 m/s', status: 'PRIMARY BURN' },
-    { axis: 'ΔV CROSS-TRACK (Vn)', val: '-0.02 m/s', tol: '±0.01 m/s', status: 'NOMINAL' },
+    { axis: 'ΔV Radial (Vr)', val: '+0.04 m/s', tol: '±0.01 m/s', status: 'Nominal', badge: 'bg-emerald-500/10 text-emerald-400' },
+    { axis: 'ΔV In-Track (Vt)', val: '+0.85 m/s', tol: '±0.02 m/s', status: 'Primary CAM', badge: 'bg-indigo-500/10 text-indigo-400' },
+    { axis: 'ΔV Cross-Track (Vn)', val: '-0.02 m/s', tol: '±0.01 m/s', status: 'Nominal', badge: 'bg-emerald-500/10 text-emerald-400' },
   ];
 
   return (
     <div
-      className="p-5 rounded-2xl transition-colors duration-300"
+      className="p-6 rounded-2xl transition-colors duration-300"
       style={{
         backgroundColor: tc.bgSecondary,
         border: `1px solid ${tc.borderPrimary}`
       }}
     >
       {/* Header */}
-      <div className="flex items-center justify-between pb-3 mb-4 border-b" style={{ borderColor: tc.borderPrimary }}>
-        <div className="flex items-center gap-2">
-          <ShieldAlert className="w-4 h-4" style={{ color: tc.alertRed }} />
-          <h3 className="font-mono text-xs md:text-sm font-bold tracking-wider uppercase" style={{ color: tc.textPrimary }}>
-            FCC / ESA DE-ORBIT & CAM TELEMETRY GAUGES
-          </h3>
+      <div className="flex items-center justify-between pb-4 mb-5 border-b" style={{ borderColor: tc.borderPrimary }}>
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-400">
+            <ShieldAlert className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="text-[16px] font-semibold tracking-tight text-zinc-100">
+              FCC & ESA De-Orbit & CAM Telemetry SLA
+            </h3>
+            <p className="text-xs text-zinc-400 mt-0.5">
+              Automated compliance monitoring against 18th SDS orbital safety envelopes
+            </p>
+          </div>
         </div>
-        <span
-          className="px-2 py-0.5 rounded-sm font-mono text-[10px] font-bold uppercase"
-          style={{
-            backgroundColor: `${tc.alertRed}20`,
-            color: tc.alertRed,
-            border: `1px solid ${tc.alertRed}50`
-          }}
-        >
-          1 RESERVE DEFICIT
+        <span className="px-3 py-1 rounded-full text-xs font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20">
+          1 Reserve Deficit Detected
         </span>
       </div>
 
       {/* 3 Circular Radial SVG Gauges */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         {gauges.map(g => {
-          const radius = 34;
+          const radius = 38;
           const circumference = 2 * Math.PI * radius;
           const dashOffset = circumference - (g.pct / 100) * circumference;
+
+          const strokeColor =
+            g.type === 'danger' ? '#F43F5E' : g.type === 'warning' ? '#F59E0B' : '#10B981';
+          const badgeClass =
+            g.type === 'danger'
+              ? 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+              : g.type === 'warning'
+              ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+              : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
 
           return (
             <div
               key={g.id}
-              className="p-3 rounded-sm flex flex-col items-center text-center font-mono"
+              className="p-4 rounded-xl flex flex-col items-center text-center transition-all duration-200"
               style={{
                 backgroundColor: tc.bgTertiary,
                 border: `1px solid ${tc.borderPrimary}`
               }}
             >
-              <div className="relative w-20 h-20 flex items-center justify-center mb-2">
-                <svg className="w-full h-full -rotate-90" viewBox="0 0 84 84">
+              <div className="relative w-24 h-24 flex items-center justify-center mb-3">
+                <svg className="w-full h-full -rotate-90" viewBox="0 0 92 92">
                   <circle
-                    cx="42"
-                    cy="42"
+                    cx="46"
+                    cy="46"
                     r={radius}
                     fill="none"
-                    stroke={theme === 'dark' ? '#1A2636' : '#E2E8F0'}
+                    stroke={theme === 'dark' ? '#2A2C32' : '#E2E8F0'}
                     strokeWidth="6"
                   />
                   <circle
-                    cx="42"
-                    cy="42"
+                    cx="46"
+                    cy="46"
                     r={radius}
                     fill="none"
-                    stroke={g.color}
+                    stroke={strokeColor}
                     strokeWidth="6"
                     strokeDasharray={circumference}
                     strokeDashoffset={dashOffset}
@@ -112,23 +121,22 @@ export function CovenantCompliance() {
                   />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-xs font-bold" style={{ color: g.color }}>{g.actual}</span>
-                  <span className="text-[8px]" style={{ color: tc.textTertiary }}>{g.pct}%</span>
+                  <span className="text-sm font-bold font-mono text-zinc-100">{g.actual}</span>
+                  <span className="text-[10px] text-zinc-400 font-mono mt-0.5">{g.pct}%</span>
                 </div>
               </div>
 
-              <div className="text-[10px] font-bold tracking-wider uppercase" style={{ color: tc.textPrimary }}>
+              <div className="text-xs font-semibold text-zinc-100 tracking-tight">
                 {g.title}
               </div>
-              <div className="text-[9px] mt-0.5" style={{ color: tc.textSecondary }}>
-                REQ: {g.threshold}
+              <div className="text-[11px] text-zinc-400 mt-0.5">
+                {g.spacecraft}
+              </div>
+              <div className="text-[10px] text-zinc-500 mt-1 font-mono">
+                Req: {g.threshold}
               </div>
               <span
-                className="mt-1.5 px-1.5 py-0.5 rounded-sm text-[9px] font-bold"
-                style={{
-                  backgroundColor: `${g.color}20`,
-                  color: g.color
-                }}
+                className={`mt-2.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium border ${badgeClass}`}
               >
                 {g.status}
               </span>
@@ -138,23 +146,31 @@ export function CovenantCompliance() {
       </div>
 
       {/* 3-Axis Thruster Burn Vector Matrix */}
-      <div className="pt-3 border-t font-mono" style={{ borderColor: tc.borderPrimary }}>
-        <div className="text-[10px] uppercase tracking-wider font-bold mb-2" style={{ color: tc.textSecondary }}>
-          UPLOADED 3-AXIS HALL-EFFECT CAM VECTOR (VANGUARD-04 // EPOCH 16:40 UTC)
+      <div className="pt-4 border-t" style={{ borderColor: tc.borderPrimary }}>
+        <div className="flex items-center justify-between mb-3">
+          <div className="text-xs font-medium text-zinc-400 uppercase tracking-wider">
+            Uploaded 3-Axis Hall-Effect CAM Vector (VANGUARD-04 // Epoch 16:40 UTC)
+          </div>
+          <span className="text-[11px] font-mono text-indigo-400">Ready for Execution</span>
         </div>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {burnVectors.map(v => (
             <div
               key={v.axis}
-              className="p-2 rounded-sm"
+              className="p-3.5 rounded-xl transition-colors duration-200"
               style={{
                 backgroundColor: tc.bgPrimary,
                 border: `1px solid ${tc.borderPrimary}`
               }}
             >
-              <div className="text-[9px]" style={{ color: tc.textSecondary }}>{v.axis}</div>
-              <div className="text-xs font-bold mt-0.5" style={{ color: tc.accentPrimary }}>{v.val}</div>
-              <div className="text-[8px] mt-0.5" style={{ color: tc.textTertiary }}>TOL: {v.tol}</div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-zinc-400 font-medium">{v.axis}</span>
+                <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${v.badge}`}>
+                  {v.status}
+                </span>
+              </div>
+              <div className="text-base font-bold font-mono text-zinc-100 mt-2">{v.val}</div>
+              <div className="text-[11px] text-zinc-500 font-mono mt-1">Tolerance: {v.tol}</div>
             </div>
           ))}
         </div>

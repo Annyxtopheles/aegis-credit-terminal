@@ -1,16 +1,16 @@
-import { BarChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ComposedChart, Cell, LabelList } from 'recharts';
+import { BarChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ComposedChart, Cell } from 'recharts';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
 
 const conjunctionFluxData = [
-  { id: 1, label: 'ORBIT 4102', value: 1.2 },
-  { id: 2, label: 'ORBIT 4104', value: 1.8 },
-  { id: 3, label: 'ORBIT 4106', value: 2.4 },
-  { id: 4, label: 'ORBIT 4108', value: 3.1 },
-  { id: 5, label: 'ORBIT 4110', value: 3.9 },
-  { id: 6, label: 'ORBIT 4112', value: 4.4 },
-  { id: 7, label: 'ORBIT 4114', value: 4.6 },
-  { id: 8, label: 'ORBIT 4116', value: 4.82 },
+  { id: 1, label: 'Pass 4102', value: 1.2 },
+  { id: 2, label: 'Pass 4104', value: 1.8 },
+  { id: 3, label: 'Pass 4106', value: 2.4 },
+  { id: 4, label: 'Pass 4108', value: 3.1 },
+  { id: 5, label: 'Pass 4110', value: 3.9 },
+  { id: 6, label: 'Pass 4112', value: 4.4 },
+  { id: 7, label: 'Pass 4114', value: 4.6 },
+  { id: 8, label: 'Pass 4116', value: 4.82 },
 ];
 
 const propellantBurnData = [
@@ -21,7 +21,7 @@ const propellantBurnData = [
   { id: 5, epoch: 'W-03', xenonKg: 4.41, deltaV: 2.9 },
   { id: 6, epoch: 'W-02', xenonKg: 4.29, deltaV: 3.1 },
   { id: 7, epoch: 'W-01', xenonKg: 4.19, deltaV: 2.2 },
-  { id: 8, epoch: 'CURR', xenonKg: 4.12, deltaV: 4.2 },
+  { id: 8, epoch: 'Current', xenonKg: 4.12, deltaV: 4.2 },
 ];
 
 const shellDistributionData = [
@@ -41,174 +41,228 @@ export function FinancialPerformanceGrid() {
   const tc = colors[theme];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-      {/* Chart 1: Peak Collision Probability Trend */}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      {/* Chart 1: Collision Probability Trend */}
       <div
-        className="p-5 md:p-6 transition-colors duration-300 rounded-2xl"
+        className="p-6 transition-colors duration-300 rounded-2xl flex flex-col justify-between"
         style={{
           backgroundColor: tc.bgSecondary,
           border: `1px solid ${tc.borderPrimary}`,
-          minHeight: '240px'
+          minHeight: '290px'
         }}
       >
-        <h4 style={{ fontSize: '13px', fontWeight: 700, color: tc.textPrimary, marginBottom: '4px', letterSpacing: '0.05em' }} className="uppercase">
-          COLLISION PROBABILITY (Pc × 10⁻⁴) // ORBIT PASSES
-        </h4>
-        <p className="font-mono text-[11px] mb-4" style={{ color: tc.textSecondary }}>
-          RED THRESHOLD: 4.0 × 10⁻⁴ // COSMOS-2251 FRAGMENT CLOUD
-        </p>
-        <ResponsiveContainer width="100%" height={200}>
-          <BarChart data={conjunctionFluxData}>
-            <CartesianGrid strokeDasharray="2 2" stroke={tc.gridLine} opacity={0.5} vertical={false} />
-            <XAxis
-              dataKey="label"
-              stroke={tc.textSecondary}
-              style={{ fontSize: '10px', fontWeight: 600, fontFamily: 'JetBrains Mono, monospace' }}
-              angle={-15}
-              textAnchor="end"
-              height={45}
-            />
-            <YAxis
-              stroke={tc.textSecondary}
-              style={{ fontSize: '11px', fontWeight: 600, fontFamily: 'JetBrains Mono, monospace' }}
-              domain={[0, 6]}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: tc.bgSecondary,
-                border: `1px solid ${tc.accentPrimary}`,
-                color: tc.textPrimary,
-                fontFamily: 'JetBrains Mono, monospace',
-                fontSize: '12px'
-              }}
-              formatter={(v: any) => [`${v}e-4`, 'Peak Pc']}
-            />
-            <Bar dataKey="value" name="Peak Pc (×10⁻⁴)" radius={[3, 3, 0, 0]}>
-              {conjunctionFluxData.map((entry) => (
-                <Cell key={`pc-${entry.id}`} fill={entry.value >= 4.0 ? tc.alertRed : tc.chartCyan} />
-              ))}
-              <LabelList dataKey="value" position="top" style={{ fill: tc.textPrimary, fontSize: '10px', fontFamily: 'JetBrains Mono, monospace' }} />
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h4 className="text-[15px] font-semibold text-zinc-100 tracking-tight">
+              Collision Probability Trend (Pc × 10⁻⁴)
+            </h4>
+            <p className="text-xs text-zinc-400 mt-0.5">
+              Target threshold 4.0e-4 // COSMOS-2251 debris fragment passes
+            </p>
+          </div>
+          <span className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20">
+            Critical Pass 4116
+          </span>
+        </div>
+        <div className="h-56 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={conjunctionFluxData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#2A2C32" vertical={false} />
+              <XAxis
+                dataKey="label"
+                stroke="#71717A"
+                style={{ fontSize: '11px', fontFamily: 'inherit' }}
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis
+                stroke="#71717A"
+                style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }}
+                domain={[0, 6]}
+                tickLine={false}
+                axisLine={false}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#1F2024',
+                  borderColor: '#2A2C32',
+                  borderRadius: '12px',
+                  color: '#F4F4F5',
+                  fontSize: '12px',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+                }}
+                formatter={(v: any) => [`${v} × 10⁻⁴`, 'Peak Pc']}
+              />
+              <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                {conjunctionFluxData.map((entry) => (
+                  <Cell
+                    key={`pc-${entry.id}`}
+                    fill={entry.value >= 4.0 ? '#F43F5E' : '#818CF8'}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       {/* Chart 2: Xenon Propellant Depletion & Burn Delta-V */}
       <div
-        className="p-5 md:p-6 transition-colors duration-300 rounded-2xl"
+        className="p-6 transition-colors duration-300 rounded-2xl flex flex-col justify-between"
         style={{
           backgroundColor: tc.bgSecondary,
           border: `1px solid ${tc.borderPrimary}`,
-          minHeight: '240px'
+          minHeight: '290px'
         }}
       >
-        <h4 style={{ fontSize: '13px', fontWeight: 700, color: tc.textPrimary, marginBottom: '4px', letterSpacing: '0.05em' }} className="uppercase">
-          XENON PROPELLANT RESERVE (KG) & CAM DELTA-V (M/S)
-        </h4>
-        <p className="font-mono text-[11px] mb-4" style={{ color: tc.textSecondary }}>
-          VANGUARD-04 HALL THRUSTER TELEMETRY // FCC 4.50 KG FLOOR
-        </p>
-        <ResponsiveContainer width="100%" height={200}>
-          <ComposedChart data={propellantBurnData}>
-            <CartesianGrid strokeDasharray="2 2" stroke={tc.gridLine} opacity={0.5} vertical={false} />
-            <XAxis
-              dataKey="epoch"
-              stroke={tc.textSecondary}
-              style={{ fontSize: '10px', fontWeight: 600, fontFamily: 'JetBrains Mono, monospace' }}
-            />
-            <YAxis
-              yAxisId="left"
-              stroke={tc.textSecondary}
-              style={{ fontSize: '11px', fontWeight: 600, fontFamily: 'JetBrains Mono, monospace' }}
-              domain={[3.5, 5.2]}
-            />
-            <YAxis
-              yAxisId="right"
-              orientation="right"
-              stroke={tc.textSecondary}
-              style={{ fontSize: '11px', fontWeight: 600, fontFamily: 'JetBrains Mono, monospace' }}
-              domain={[0, 6]}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: tc.bgSecondary,
-                border: `1px solid ${tc.accentPrimary}`,
-                color: tc.textPrimary,
-                fontFamily: 'JetBrains Mono, monospace',
-                fontSize: '12px'
-              }}
-            />
-            <Bar yAxisId="left" dataKey="xenonKg" name="Xenon Mass (kg)" fill={tc.chartCyan} radius={[3, 3, 0, 0]} />
-            <Line yAxisId="right" type="monotone" dataKey="deltaV" name="Weekly ΔV (m/s)" stroke={tc.alertAmber} strokeWidth={2} />
-          </ComposedChart>
-        </ResponsiveContainer>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h4 className="text-[15px] font-semibold text-zinc-100 tracking-tight">
+              Xenon Propellant & CAM ΔV Expenditure
+            </h4>
+            <p className="text-xs text-zinc-400 mt-0.5">
+              Weekly mass burn rate vs. cumulative avoidance delta-v
+            </p>
+          </div>
+          <div className="flex items-center gap-3 text-xs">
+            <span className="flex items-center gap-1.5 text-zinc-400">
+              <span className="w-2.5 h-2.5 rounded-sm bg-indigo-500" /> Mass (kg)
+            </span>
+            <span className="flex items-center gap-1.5 text-zinc-400">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400" /> ΔV (m/s)
+            </span>
+          </div>
+        </div>
+        <div className="h-56 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <ComposedChart data={propellantBurnData} margin={{ top: 10, right: -10, left: -20, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#2A2C32" vertical={false} />
+              <XAxis
+                dataKey="epoch"
+                stroke="#71717A"
+                style={{ fontSize: '11px', fontFamily: 'inherit' }}
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis
+                yAxisId="left"
+                stroke="#71717A"
+                style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }}
+                domain={[3.5, 5.2]}
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis
+                yAxisId="right"
+                orientation="right"
+                stroke="#71717A"
+                style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }}
+                domain={[0, 6]}
+                tickLine={false}
+                axisLine={false}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#1F2024',
+                  borderColor: '#2A2C32',
+                  borderRadius: '12px',
+                  color: '#F4F4F5',
+                  fontSize: '12px',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+                }}
+              />
+              <Bar yAxisId="left" dataKey="xenonKg" name="Xenon Mass (kg)" fill="#818CF8" radius={[6, 6, 0, 0]} />
+              <Line yAxisId="right" type="monotone" dataKey="deltaV" name="Weekly ΔV (m/s)" stroke="#F59E0B" strokeWidth={2.5} dot={{ r: 3, fill: '#F59E0B' }} />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       {/* Chart 3: Active SVs by Orbital Plane */}
       <div
-        className="p-5 md:p-6 transition-colors duration-300 rounded-2xl"
+        className="p-6 transition-colors duration-300 rounded-2xl flex flex-col justify-between"
         style={{
           backgroundColor: tc.bgSecondary,
           border: `1px solid ${tc.borderPrimary}`,
-          minHeight: '220px'
+          minHeight: '260px'
         }}
       >
-        <h4 style={{ fontSize: '13px', fontWeight: 700, color: tc.textPrimary, marginBottom: '12px', letterSpacing: '0.05em' }} className="uppercase">
-          SPACECRAFT DISTRIBUTION BY ORBITAL PLANE
-        </h4>
-        <ResponsiveContainer width="100%" height={180}>
-          <BarChart data={shellDistributionData} layout="vertical" margin={{ left: 20, right: 30 }}>
-            <CartesianGrid strokeDasharray="2 2" stroke={tc.gridLine} opacity={0.5} horizontal={false} />
-            <XAxis type="number" stroke={tc.textSecondary} style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }} domain={[0, 20]} />
-            <YAxis type="category" dataKey="segment" stroke={tc.textSecondary} style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }} width={140} />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: tc.bgSecondary,
-                border: `1px solid ${tc.accentPrimary}`,
-                color: tc.textPrimary,
-                fontFamily: 'JetBrains Mono, monospace',
-                fontSize: '12px'
-              }}
-            />
-            <Bar dataKey="value" name="Active SVs" fill={tc.accentPrimary} radius={[0, 4, 4, 0]}>
-              <LabelList dataKey="value" position="right" style={{ fill: tc.textPrimary, fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }} />
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h4 className="text-[15px] font-semibold text-zinc-100 tracking-tight">
+              Constellation Distribution by Orbital Plane
+            </h4>
+            <p className="text-xs text-zinc-400 mt-0.5">
+              Target nominal density: 16 vehicles per sun-synchronous ring
+            </p>
+          </div>
+          <span className="text-xs font-medium text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+            48 / 48 Active
+          </span>
+        </div>
+        <div className="h-44 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={shellDistributionData} layout="vertical" margin={{ left: 10, right: 20, top: 5, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#2A2C32" horizontal={false} />
+              <XAxis type="number" stroke="#71717A" style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }} domain={[0, 20]} tickLine={false} axisLine={false} />
+              <YAxis type="category" dataKey="segment" stroke="#A1A1AA" style={{ fontSize: '12px' }} width={160} tickLine={false} axisLine={false} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#1F2024',
+                  borderColor: '#2A2C32',
+                  borderRadius: '12px',
+                  color: '#F4F4F5',
+                  fontSize: '12px'
+                }}
+              />
+              <Bar dataKey="value" name="Active SVs" fill="#6366F1" radius={[0, 6, 6, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       {/* Chart 4: Transponder & Optical Link Margin */}
       <div
-        className="p-5 md:p-6 transition-colors duration-300 rounded-2xl"
+        className="p-6 transition-colors duration-300 rounded-2xl flex flex-col justify-between"
         style={{
           backgroundColor: tc.bgSecondary,
           border: `1px solid ${tc.borderPrimary}`,
-          minHeight: '220px'
+          minHeight: '260px'
         }}
       >
-        <h4 style={{ fontSize: '13px', fontWeight: 700, color: tc.textPrimary, marginBottom: '12px', letterSpacing: '0.05em' }} className="uppercase">
-          TELEMETRY & OPTICAL ISL LINK MARGIN (dB)
-        </h4>
-        <ResponsiveContainer width="100%" height={180}>
-          <BarChart data={linkMarginByPlaneData} layout="vertical" margin={{ left: 20, right: 30 }}>
-            <CartesianGrid strokeDasharray="2 2" stroke={tc.gridLine} opacity={0.5} horizontal={false} />
-            <XAxis type="number" stroke={tc.textSecondary} style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }} domain={[0, 26]} />
-            <YAxis type="category" dataKey="segment" stroke={tc.textSecondary} style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }} width={155} />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: tc.bgSecondary,
-                border: `1px solid ${tc.accentPrimary}`,
-                color: tc.textPrimary,
-                fontFamily: 'JetBrains Mono, monospace',
-                fontSize: '12px'
-              }}
-              formatter={(v: any) => [`${v} dB`, 'Link Margin']}
-            />
-            <Bar dataKey="margin" name="Link Margin (dB)" fill={tc.alertGreen} radius={[0, 4, 4, 0]}>
-              <LabelList dataKey="margin" position="right" formatter={(v: any) => `${v} dB`} style={{ fill: tc.textPrimary, fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }} />
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h4 className="text-[15px] font-semibold text-zinc-100 tracking-tight">
+              Ground & Optical Cross-Link Margin (dB)
+            </h4>
+            <p className="text-xs text-zinc-400 mt-0.5">
+              Minimum operating threshold +6.0 dB above thermal noise floor
+            </p>
+          </div>
+          <span className="text-xs font-medium text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/20">
+            S-Band & Optical Locked
+          </span>
+        </div>
+        <div className="h-44 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={linkMarginByPlaneData} layout="vertical" margin={{ left: 10, right: 20, top: 5, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#2A2C32" horizontal={false} />
+              <XAxis type="number" stroke="#71717A" style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }} domain={[0, 26]} tickLine={false} axisLine={false} />
+              <YAxis type="category" dataKey="segment" stroke="#A1A1AA" style={{ fontSize: '12px' }} width={160} tickLine={false} axisLine={false} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#1F2024',
+                  borderColor: '#2A2C32',
+                  borderRadius: '12px',
+                  color: '#F4F4F5',
+                  fontSize: '12px'
+                }}
+                formatter={(v: any) => [`${v} dB`, 'Link Margin']}
+              />
+              <Bar dataKey="margin" name="Link Margin (dB)" fill="#10B981" radius={[0, 6, 6, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );
