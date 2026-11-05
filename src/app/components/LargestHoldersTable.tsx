@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Download, Check, Radar } from 'lucide-react';
+import { Download, Check, Radar, Search } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
 
@@ -7,6 +7,7 @@ export function LargestHoldersTable() {
   const { theme } = useTheme();
   const themeColors = colors[theme];
   const [downloaded, setDownloaded] = useState(false);
+  const [search, setSearch] = useState('');
 
   const trackedObjects = [
     {
@@ -51,6 +52,12 @@ export function LargestHoldersTable() {
     }
   ];
 
+  const filtered = trackedObjects.filter(o =>
+    o.designator.toLowerCase().includes(search.toLowerCase()) ||
+    o.origin.toLowerCase().includes(search.toLowerCase()) ||
+    o.station.toLowerCase().includes(search.toLowerCase())
+  );
+
   const handleExportCSV = () => {
     const headers = ['Object Designator', 'Origin Event', 'RCS (m2)', 'Rel Velocity (km/s)', 'Miss Distance (km)', 'Collision Prob (Pc)', 'Tracking Station'];
     const rows = trackedObjects.map(o => [
@@ -75,111 +82,137 @@ export function LargestHoldersTable() {
     setTimeout(() => setDownloaded(false), 2000);
   };
 
+  const getSeverityBadge = (severity: string) => {
+    if (severity === 'critical') return { bg: 'rgba(239, 68, 68, 0.16)', text: '#F87171' };
+    if (severity === 'warning') return { bg: 'rgba(245, 158, 11, 0.16)', text: '#FBBF24' };
+    return { bg: 'rgba(74, 222, 128, 0.16)', text: '#4ADE80' };
+  };
+
   return (
     <div
-      className="transition-colors duration-300 rounded-2xl overflow-hidden"
+      className="transition-colors duration-300 rounded-2xl p-6"
       style={{
-        backgroundColor: themeColors.tableBg,
+        backgroundColor: themeColors.bgSecondary,
         border: `1px solid ${themeColors.borderPrimary}`
       }}
     >
-      <div className="px-5 md:px-6 py-4 md:py-5 flex items-center justify-between" style={{ borderBottom: `1px solid ${themeColors.borderPrimary}` }}>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
         <div>
-          <h3 style={{ fontSize: '15px', fontWeight: 700, color: themeColors.textPrimary }}>
+          <h3 className="text-[17px] font-semibold tracking-tight" style={{ color: themeColors.textPrimary }}>
             Tracked Debris Cloud & High-Interest Object Registry
           </h3>
-          <p className="text-xs mt-0.5 font-mono" style={{ color: themeColors.textSecondary }}>
-            18TH SDS CATALOG // LEO SHELL-1 SCREENING VOLUME (50 KM RADIAL)
+          <p className="text-xs mt-1" style={{ color: themeColors.textSecondary }}>
+            18th SDS Spacetrack catalog screening volume (50 km radial corridor)
           </p>
         </div>
-        <button
-          onClick={handleExportCSV}
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition-colors text-xs font-semibold cursor-pointer"
-          style={{
-            backgroundColor: themeColors.bgTertiary,
-            color: themeColors.textPrimary,
-            border: `1px solid ${themeColors.borderPrimary}`
-          }}
-          title="Export debris registry to CSV"
-        >
-          {downloaded ? <><Check className="w-3.5 h-3.5" /> Exported CDM</> : <><Download className="w-3.5 h-3.5" /> Export CDM CSV</>}
-        </button>
+
+        <div className="flex items-center gap-2.5">
+          <div
+            className="h-9 px-3 rounded-xl flex items-center gap-2"
+            style={{
+              backgroundColor: themeColors.bgTertiary,
+              border: `1px solid ${themeColors.borderPrimary}`,
+              minWidth: '220px'
+            }}
+          >
+            <Search className="w-3.5 h-3.5" style={{ color: themeColors.textTertiary }} />
+            <input
+              type="text"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search debris object..."
+              className="bg-transparent text-xs outline-none flex-1"
+              style={{ color: themeColors.textPrimary }}
+            />
+          </div>
+
+          <button
+            onClick={handleExportCSV}
+            className="flex items-center gap-1.5 h-9 px-3.5 rounded-xl transition-colors text-xs font-medium cursor-pointer"
+            style={{
+              backgroundColor: themeColors.bgTertiary,
+              color: themeColors.textPrimary,
+              border: `1px solid ${themeColors.borderPrimary}`
+            }}
+          >
+            {downloaded ? <><Check className="w-3.5 h-3.5 text-emerald-400" /> Exported</> : <><Download className="w-3.5 h-3.5" style={{ color: themeColors.textSecondary }} /> Export CDM</>}
+          </button>
+        </div>
       </div>
 
-      <div className="overflow-x-auto -mx-4 md:mx-0">
-        <table className="w-full min-w-[720px]">
-          <thead style={{ backgroundColor: themeColors.tableHeaderBg }}>
-            <tr>
-              <th className="px-3.5 py-3 text-left uppercase font-mono" style={{ fontSize: '11px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.08em' }}>Object Designator</th>
-              <th className="px-3.5 py-3 text-left uppercase font-mono" style={{ fontSize: '11px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.08em' }}>Origin Event</th>
-              <th className="px-3.5 py-3 text-right uppercase font-mono" style={{ fontSize: '11px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.08em' }}>RCS (m²)</th>
-              <th className="px-3.5 py-3 text-right uppercase font-mono" style={{ fontSize: '11px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.08em' }}>Rel. Vel (km/s)</th>
-              <th className="px-3.5 py-3 text-right uppercase font-mono" style={{ fontSize: '11px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.08em' }}>Collision Pc</th>
-              <th className="px-3.5 py-3 text-left uppercase font-mono" style={{ fontSize: '11px', fontWeight: 700, color: themeColors.textSecondary, letterSpacing: '0.08em' }}>Tracking Sensor</th>
+      <div className="overflow-x-auto -mx-6 px-6">
+        <table className="w-full text-left border-collapse min-w-[760px]">
+          <thead>
+            <tr
+              className="border-b text-xs"
+              style={{
+                borderColor: themeColors.borderPrimary,
+                color: themeColors.textSecondary
+              }}
+            >
+              <th className="py-3 px-3 font-medium">Object Designator</th>
+              <th className="py-3 px-3 font-medium">Origin Event</th>
+              <th className="py-3 px-3 font-medium text-right">RCS (m²)</th>
+              <th className="py-3 px-3 font-medium text-right">Rel. Velocity</th>
+              <th className="py-3 px-3 font-medium text-right">Miss Distance</th>
+              <th className="py-3 px-3 font-medium text-center">Collision Risk (Pc)</th>
+              <th className="py-3 px-3 font-medium">Tracking Sensor</th>
             </tr>
           </thead>
           <tbody>
-            {trackedObjects.map((obj, index) => (
-              <tr
-                key={index}
-                className="transition-colors duration-200 cursor-pointer"
-                style={{
-                  backgroundColor: index % 2 === 0 ? themeColors.tableBg : themeColors.bgZebra,
-                  borderBottom: `1px solid ${themeColors.borderSubtle}`
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = themeColors.hoverBg;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = index % 2 === 0 ? themeColors.tableBg : themeColors.bgZebra;
-                }}
-              >
-                <td className="px-3.5 py-3">
-                  <div className="flex items-center gap-2">
-                    <Radar
-                      className="w-4 h-4 flex-shrink-0"
-                      style={{
-                        color:
-                          obj.severity === 'critical'
-                            ? themeColors.alertRed
-                            : obj.severity === 'warning'
-                              ? themeColors.alertAmber
-                              : themeColors.accentPrimary
-                      }}
-                    />
-                    <span className="font-mono font-semibold" style={{ fontSize: '13px', color: themeColors.textPrimary }}>
-                      {obj.designator}
-                    </span>
-                  </div>
-                </td>
-                <td className="px-3.5 py-3" style={{ fontSize: '13px', color: themeColors.textSecondary }}>
-                  {obj.origin}
-                </td>
-                <td className="px-3.5 py-3 text-right font-mono" style={{ fontSize: '13px', color: themeColors.textPrimary }}>
-                  {obj.rcs.toFixed(2)} m²
-                </td>
-                <td className="px-3.5 py-3 text-right font-mono" style={{ fontSize: '13px', color: themeColors.textPrimary }}>
-                  {obj.relVel.toFixed(2)} km/s
-                </td>
-                <td
-                  className="px-3.5 py-3 text-right font-mono font-bold"
+            {filtered.map((obj, index) => {
+              const badge = getSeverityBadge(obj.severity);
+              return (
+                <tr
+                  key={index}
+                  className="transition-colors text-xs"
                   style={{
-                    fontSize: '13px',
-                    color:
-                      obj.severity === 'critical'
-                        ? themeColors.alertRed
-                        : obj.severity === 'warning'
-                          ? themeColors.alertAmber
-                          : themeColors.accentPrimary
+                    borderBottom: `1px solid ${themeColors.borderSubtle}`
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.backgroundColor = themeColors.hoverBg;
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
                   }}
                 >
-                  {obj.pc}
-                </td>
-                <td className="px-3.5 py-3 font-mono" style={{ fontSize: '12px', color: themeColors.textSecondary }}>
-                  {obj.station}
-                </td>
-              </tr>
-            ))}
+                  <td className="py-3.5 px-3">
+                    <div className="flex items-center gap-2.5">
+                      <Radar className="w-4 h-4 flex-shrink-0" style={{ color: badge.text }} />
+                      <span className="font-mono font-semibold" style={{ color: themeColors.textPrimary }}>
+                        {obj.designator}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="py-3.5 px-3" style={{ color: themeColors.textSecondary }}>
+                    {obj.origin}
+                  </td>
+                  <td className="py-3.5 px-3 text-right font-mono" style={{ color: themeColors.textPrimary }}>
+                    {obj.rcs.toFixed(2)}
+                  </td>
+                  <td className="py-3.5 px-3 text-right font-mono" style={{ color: themeColors.textPrimary }}>
+                    {obj.relVel.toFixed(2)} km/s
+                  </td>
+                  <td className="py-3.5 px-3 text-right font-mono font-semibold" style={{ color: badge.text }}>
+                    {obj.missDistKm.toFixed(3)} km
+                  </td>
+                  <td className="py-3.5 px-3 text-center">
+                    <span
+                      className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-mono font-semibold"
+                      style={{
+                        backgroundColor: badge.bg,
+                        color: badge.text
+                      }}
+                    >
+                      {obj.pc}
+                    </span>
+                  </td>
+                  <td className="py-3.5 px-3" style={{ color: themeColors.textSecondary }}>
+                    {obj.station}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
