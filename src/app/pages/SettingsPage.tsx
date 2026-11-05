@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { User, Shield, Eye, EyeOff, Check, Loader2 } from 'lucide-react';
+import { User, Shield, Eye, EyeOff, Check, Loader2, KeyRound, Bell } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
@@ -24,7 +24,9 @@ export default function SettingsPage() {
   const [pwSuccess, setPwSuccess] = useState(false);
 
   const [profile, setProfile] = useState({
-    name: user?.name || '', jobTitle: user?.jobTitle || '', phone: '',
+    name: user?.name || '',
+    jobTitle: user?.jobTitle || '',
+    phone: '',
     company: user?.firm || ''
   });
 
@@ -69,173 +71,202 @@ export default function SettingsPage() {
     setTimeout(() => setPwSuccess(false), 3000);
   };
 
-  const inputStyle = {
-    width: '100%', height: '44px', padding: '0 12px',
-    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-    border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-    color: tc.textPrimary, fontSize: '14px', outline: 'none'
-  };
-
-  const labelStyle = { display: 'block', fontSize: '12px', fontWeight: 600, color: tc.textPrimary, marginBottom: '5px', fontFamily: 'JetBrains Mono, monospace' };
-
   return (
-    <div className="px-3 md:px-6 py-6 max-w-4xl mx-auto">
-      <div className="mb-6">
-        <h1 className="font-mono" style={{ fontSize: '20px', fontWeight: 700, color: tc.textPrimary }}>Console Preferences & Operator Profile</h1>
-        <p style={{ fontSize: '13px', color: tc.textSecondary }}>Configure your Flight Dynamics callsign, orbital shell assignment, and cryptographic credentials</p>
+    <div className="space-y-6 max-w-5xl mx-auto">
+      <div>
+        <h1 className="text-xl font-bold text-zinc-100 tracking-tight">Console Preferences & Operator Profile</h1>
+        <p className="text-xs text-zinc-400 mt-1">Configure your Flight Dynamics callsign, orbital shell assignment, and cryptographic credentials</p>
       </div>
 
-      <div className="flex gap-6 flex-col md:flex-row">
-        {/* Sidebar Tabs */}
-        <div className="w-full md:w-52 flex-shrink-0">
-          <div className="rounded-lg overflow-hidden" style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}>
-            {TABS.map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left transition-colors border-b font-mono"
-                style={{
-                  borderColor: tc.borderPrimary,
-                  backgroundColor: activeTab === tab.id ? `${tc.accentPrimary}20` : 'transparent',
-                  color: activeTab === tab.id ? tc.accentPrimary : tc.textSecondary,
-                  borderLeft: activeTab === tab.id ? `2px solid ${tc.accentPrimary}` : '2px solid transparent'
-                }}
-              >
-                <tab.icon className="w-4 h-4" />
-                <span style={{ fontSize: '12px', fontWeight: activeTab === tab.id ? 600 : 400 }}>{tab.label}</span>
-              </button>
-            ))}
+      <div className="flex gap-6 flex-col md:flex-row items-start">
+        {/* Navigation Sidebar */}
+        <div className="w-full md:w-60 shrink-0">
+          <div className="p-2 rounded-2xl bg-[#1F2024] border border-[#2A2C32] space-y-1">
+            {TABS.map(tab => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                    isActive
+                      ? 'bg-[#282A2F] text-indigo-400 font-semibold'
+                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+                  }`}
+                >
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-400' : 'text-zinc-500'}`} />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 rounded-lg" style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}>
+        {/* Content Box */}
+        <div className="flex-1 w-full rounded-2xl bg-[#1F2024] border border-[#2A2C32] p-6">
           {activeTab === 'profile' && (
-            <div className="p-6">
-              <h2 className="font-mono" style={{ fontSize: '16px', fontWeight: 700, color: tc.textPrimary, marginBottom: '20px' }}>Flight Dynamics Operator Record</h2>
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-base font-semibold text-zinc-100">Flight Dynamics Operator Record</h2>
+                <p className="text-xs text-zinc-400 mt-0.5">CCSDS verified flight operator telemetry credentials</p>
+              </div>
 
-              <div className="flex items-center gap-4 mb-6 pb-6 border-b" style={{ borderColor: tc.borderPrimary }}>
-                <div className="w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold font-mono"
-                  style={{ backgroundColor: tc.accentPrimary, color: tc.bgPrimary }}>
-                  {user?.initials}
+              {/* Avatar Bar */}
+              <div className="flex items-center gap-4 pb-6 border-b border-[#2A2C32]">
+                <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-lg font-bold text-indigo-400">
+                  {user?.initials || 'AT'}
                 </div>
                 <div>
-                  <button className="px-3 py-1.5 rounded text-xs font-mono font-semibold transition-colors"
-                    style={{ backgroundColor: `${tc.accentPrimary}20`, color: tc.accentPrimary, border: `1px solid ${tc.accentPrimary}50`, cursor: 'pointer' }}>
+                  <button className="px-3.5 py-1.5 rounded-xl bg-[#282A2F] hover:bg-zinc-700 text-xs font-semibold text-zinc-200 border border-zinc-700/50 transition-colors">
                     Update Operator Badge
                   </button>
-                  <p style={{ fontSize: '12px', color: tc.textSecondary, marginTop: '4px' }}>CCSDS Operator ID Verified</p>
+                  <p className="text-[11px] text-zinc-500 mt-1">Operator ID: KESSLER-FDO-8821</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[
-                  { label: 'OPERATOR FULL NAME', key: 'name' },
-                  { label: 'FLIGHT DYNAMICS ROLE', key: 'jobTitle' },
-                  { label: 'SECURE DUTY COMMS', key: 'phone' },
-                  { label: 'CONSTELLATION AUTHORITY', key: 'company' },
-                ].map(f => (
-                  <div key={f.key}>
-                    <label style={labelStyle}>{f.label}</label>
-                    <input
-                      type="text"
-                      value={(profile as any)[f.key]}
-                      onChange={e => setProfile(p => ({ ...p, [f.key]: e.target.value }))}
-                      style={inputStyle}
-                    />
-                  </div>
-                ))}
                 <div>
-                  <label style={labelStyle}>CALLSIGN / EMAIL</label>
-                  <input type="email" value={user?.email || ''} disabled style={{ ...inputStyle, opacity: 0.6, cursor: 'not-allowed' }} />
+                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Operator Full Name</label>
+                  <input
+                    type="text"
+                    value={profile.name}
+                    onChange={e => setProfile(p => ({ ...p, name: e.target.value }))}
+                    className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                  />
                 </div>
+
                 <div>
-                  <label style={labelStyle}>CLEARANCE TIER</label>
+                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Flight Dynamics Role</label>
+                  <input
+                    type="text"
+                    value={profile.jobTitle}
+                    onChange={e => setProfile(p => ({ ...p, jobTitle: e.target.value }))}
+                    className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Secure Duty Comms</label>
+                  <input
+                    type="text"
+                    placeholder="+1 (555) 019-2834"
+                    value={profile.phone}
+                    onChange={e => setProfile(p => ({ ...p, phone: e.target.value }))}
+                    className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Constellation Authority</label>
+                  <input
+                    type="text"
+                    value={profile.company}
+                    onChange={e => setProfile(p => ({ ...p, company: e.target.value }))}
+                    className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Callsign / Email</label>
+                  <input
+                    type="email"
+                    value={user?.email || ''}
+                    disabled
+                    className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-400 text-xs cursor-not-allowed opacity-60"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Clearance Tier</label>
                   <input
                     type="text"
                     value={user?.role === 'super_admin' ? 'Kessler Flight Director' : user?.role === 'company_admin' ? 'Constellation Lead' : 'Orbital Analyst'}
                     disabled
-                    style={{ ...inputStyle, opacity: 0.6, cursor: 'not-allowed' }}
+                    className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-400 text-xs cursor-not-allowed opacity-60"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 mt-6">
+              <div className="pt-2">
                 <button
                   onClick={handleSave}
                   disabled={isSaving}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-lg transition-colors font-mono text-xs font-bold"
-                  style={{ backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none', cursor: 'pointer' }}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 text-xs font-semibold tracking-tight transition-colors"
                 >
-                  {isSaving ? <><Loader2 className="w-4 h-4 animate-spin" />Syncing...</>
-                    : saved ? <><Check className="w-4 h-4" />Telemetry Profile Synced</> : 'Commit Profile Changes'}
+                  {isSaving ? <><Loader2 className="w-4 h-4 animate-spin" /> Syncing Telemetry...</>
+                    : saved ? <><Check className="w-4 h-4 text-emerald-600" /> Changes Saved</>
+                    : 'Save Changes'}
                 </button>
               </div>
             </div>
           )}
 
           {activeTab === 'security' && (
-            <div className="p-6 space-y-6">
-              <h2 className="font-mono" style={{ fontSize: '16px', fontWeight: 700, color: tc.textPrimary }}>Cryptographic Key Rotation</h2>
-
+            <div className="space-y-6">
               <div>
-                <h3 style={{ fontSize: '14px', fontWeight: 600, color: tc.textPrimary, marginBottom: '12px' }}>Rotate Operator Security Key</h3>
-                <form onSubmit={handlePasswordUpdate} className="space-y-3 max-w-sm">
-                  <div>
-                    <label style={labelStyle}>CURRENT SECURITY KEY</label>
-                    <div className="relative">
-                      <input
-                        type={showCurrentPw ? 'text' : 'password'}
-                        value={currentPw}
-                        onChange={e => setCurrentPw(e.target.value)}
-                        placeholder="Enter current key"
-                        style={{ ...inputStyle, paddingRight: '40px' }}
-                      />
-                      <button type="button" onClick={() => setShowCurrentPw(!showCurrentPw)} className="absolute right-3 top-1/2 -translate-y-1/2"
-                        style={{ background: 'none', border: 'none', color: tc.textSecondary, cursor: 'pointer' }}>
-                        {showCurrentPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label style={labelStyle}>NEW SECURITY KEY</label>
-                    <div className="relative">
-                      <input
-                        type={showNewPw ? 'text' : 'password'}
-                        value={newPw}
-                        onChange={e => setNewPw(e.target.value)}
-                        placeholder="At least 8 characters"
-                        style={{ ...inputStyle, paddingRight: '40px' }}
-                      />
-                      <button type="button" onClick={() => setShowNewPw(!showNewPw)} className="absolute right-3 top-1/2 -translate-y-1/2"
-                        style={{ background: 'none', border: 'none', color: tc.textSecondary, cursor: 'pointer' }}>
-                        {showNewPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                      </button>
-                    </div>
-                  </div>
-
-                  {pwError && (
-                    <div style={{ fontSize: '12px', color: tc.alertRed, marginTop: '4px' }}>
-                      {pwError}
-                    </div>
-                  )}
-
-                  {pwSuccess && (
-                    <div className="flex items-center gap-1.5 font-mono" style={{ fontSize: '12px', color: tc.alertGreen, marginTop: '4px' }}>
-                      <Check className="w-3.5 h-3.5" /> Security key rotated!
-                    </div>
-                  )}
-
-                  <button
-                    type="submit"
-                    className="px-4 py-2.5 rounded-lg transition-colors text-xs font-mono font-bold cursor-pointer"
-                    style={{ backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none' }}
-                  >
-                    Rotate Security Key
-                  </button>
-                </form>
+                <h2 className="text-base font-semibold text-zinc-100">Cryptographic Key Rotation</h2>
+                <p className="text-xs text-zinc-400 mt-0.5">Rotate uplink authentication keys and mission console password</p>
               </div>
+
+              <form onSubmit={handlePasswordUpdate} className="space-y-4 max-w-md">
+                <div>
+                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Current Security Key</label>
+                  <div className="relative">
+                    <input
+                      type={showCurrentPw ? 'text' : 'password'}
+                      value={currentPw}
+                      onChange={e => setCurrentPw(e.target.value)}
+                      placeholder="Enter current key"
+                      className="w-full h-10 pl-3.5 pr-10 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowCurrentPw(!showCurrentPw)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-200"
+                    >
+                      {showCurrentPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">New Security Key</label>
+                  <div className="relative">
+                    <input
+                      type={showNewPw ? 'text' : 'password'}
+                      value={newPw}
+                      onChange={e => setNewPw(e.target.value)}
+                      placeholder="At least 8 characters"
+                      className="w-full h-10 pl-3.5 pr-10 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowNewPw(!showNewPw)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-200"
+                    >
+                      {showNewPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                {pwError && (
+                  <p className="text-xs text-rose-400">{pwError}</p>
+                )}
+
+                {pwSuccess && (
+                  <div className="flex items-center gap-1.5 text-xs text-emerald-400">
+                    <Check className="w-4 h-4" /> Security key rotated successfully!
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  className="px-5 py-2.5 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 text-xs font-semibold tracking-tight transition-colors"
+                >
+                  Rotate Security Key
+                </button>
+              </form>
             </div>
           )}
         </div>

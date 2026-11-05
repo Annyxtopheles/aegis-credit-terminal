@@ -1,35 +1,90 @@
 import { useState } from 'react';
-import { Upload, Image, Edit2, Trash2, X, Copy, Check, ChevronDown } from 'lucide-react';
+import {
+  Upload,
+  Image as ImageIcon,
+  Edit2,
+  Trash2,
+  X,
+  Copy,
+  Check,
+  ChevronDown,
+  Orbit,
+  Users,
+  Terminal,
+  FileUp,
+  Flame,
+  Radio,
+  Sliders,
+  Plus
+} from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import { colors } from '../theme/colors';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
+
+const ADMIN_TABS = [
+  { id: 'onboarding', label: 'Shell Provision', icon: Orbit },
+  { id: 'users', label: 'Crew Roster', icon: Users },
+  { id: 'data-upload', label: 'TLE Ingest', icon: FileUp },
+  { id: 'commentary', label: 'Telemetry Log', icon: Terminal },
+  { id: 'images', label: 'Plot Uploads', icon: ImageIcon },
+  { id: 'priorities', label: 'Directives', icon: Flame },
+  { id: 'sector-news', label: 'Weather Feeds', icon: Radio },
+  { id: 'market-trends', label: 'Protocols', icon: Sliders },
+];
 
 export default function AdminDashboardPage() {
   const { theme } = useTheme();
   const { user } = useAuth();
   const tc = colors[theme];
   const location = useLocation();
+  const navigate = useNavigate();
 
   const params = new URLSearchParams(location.search);
   const tabParam = params.get('tab') || 'onboarding';
   const validTabs = ['onboarding', 'users', 'data-upload', 'commentary', 'images', 'priorities', 'sector-news', 'market-trends'];
   const activeTab = validTabs.includes(tabParam) ? tabParam : 'onboarding';
 
-  return (
-    <div className="p-3 md:p-6">
-      {user?.role === 'super_admin' && (
-        <div className="mb-6">
-          <h1 className="font-mono" style={{ fontSize: '26px', fontWeight: 700, color: tc.textPrimary, marginBottom: '4px' }}>
-            KESSLER FDO Command Console
-          </h1>
-          <p className="font-mono" style={{ fontSize: '13px', color: tc.textSecondary }}>
-            Orbital Shell Provisioning, TLE/CDM Ephemeris Ingest & Crew Clearance Management
-          </p>
-        </div>
-      )}
+  const handleTabChange = (tabId: string) => {
+    navigate(`/admin?tab=${tabId}`);
+  };
 
-      <div className="transition-colors duration-300">
+  return (
+    <div className="space-y-6">
+      {/* Page Header */}
+      <div>
+        <h1 className="text-xl font-bold text-zinc-100 tracking-tight">
+          KESSLER FDO Command Console
+        </h1>
+        <p className="text-xs text-zinc-400 mt-1">
+          Orbital Shell Provisioning, TLE/CDM Ephemeris Ingest & Crew Clearance Management
+        </p>
+      </div>
+
+      {/* Modern Horizontal Tab Navigation */}
+      <div className="p-1.5 rounded-2xl bg-[#1F2024] border border-[#2A2C32] flex items-center gap-1 overflow-x-auto no-scrollbar">
+        {ADMIN_TABS.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => handleTabChange(tab.id)}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
+                isActive
+                  ? 'bg-white text-zinc-950 font-semibold shadow-sm'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Active Tab View */}
+      <div className="transition-all duration-200">
         {activeTab === 'onboarding' && <ShellProvisioningTab />}
         {activeTab === 'users' && <UserManagementTab />}
         {activeTab === 'commentary' && <CommentaryEditorTab />}
@@ -44,8 +99,6 @@ export default function AdminDashboardPage() {
 }
 
 function ShellProvisioningTab() {
-  const { theme } = useTheme();
-  const tc = colors[theme];
   const [form, setForm] = useState({ name: '', description: '', email: '' });
   const [saved, setSaved] = useState(false);
 
@@ -57,70 +110,60 @@ function ShellProvisioningTab() {
   };
 
   return (
-    <div className="max-w-2xl">
-      <div className="p-6 rounded-lg" style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}>
-        <h2 className="font-mono" style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary, marginBottom: '16px' }}>
+    <div className="max-w-3xl rounded-2xl bg-[#1F2024] border border-[#2A2C32] p-6 space-y-5">
+      <div>
+        <h2 className="text-base font-semibold text-zinc-100 tracking-tight">
           Provision New Orbital Shell
         </h2>
-        <div className="space-y-4">
-          <div>
-            <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-              Constellation Shell Designator *
-            </label>
-            <input
-              type="text"
-              placeholder="e.g., Vanguard Polar Shell-3 (810 km // 86.4°)"
-              value={form.name}
-              onChange={e => setForm({ ...form, name: e.target.value })}
-              style={{
-                width: '100%', height: '44px', padding: '0 12px',
-                backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-                border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-                color: tc.textPrimary, fontSize: '14px', outline: 'none'
-              }}
-            />
-          </div>
-          <div>
-            <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-              Orbital Regime & Ephemeris Parameters
-            </label>
-            <textarea
-              placeholder="Target apogee/perigee km, inclination °, RAAN spacing, Hall-effect Xenon reserve SLA..."
-              value={form.description}
-              onChange={e => setForm({ ...form, description: e.target.value })}
-              rows={4}
-              style={{
-                width: '100%', padding: '12px',
-                backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-                border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-                color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
-              }}
-            />
-          </div>
-          <div>
-            <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-              Lead Flight Director Callsign / Email *
-            </label>
-            <input
-              type="email"
-              placeholder="fdo-lead@vanguard.space"
-              value={form.email}
-              onChange={e => setForm({ ...form, email: e.target.value })}
-              style={{
-                width: '100%', height: '44px', padding: '0 12px',
-                backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-                border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-                color: tc.textPrimary, fontSize: '14px', outline: 'none'
-              }}
-            />
-          </div>
+        <p className="text-xs text-zinc-400 mt-0.5">
+          Configure a constellation regime, altitude parameters, and target inclination
+        </p>
+      </div>
+
+      <div className="space-y-4">
+        <div>
+          <label className="block text-xs font-medium text-zinc-300 mb-1.5">
+            Constellation Shell Designator *
+          </label>
+          <input
+            type="text"
+            placeholder="e.g. Vanguard Polar Shell-3 (810 km // 86.4°)"
+            value={form.name}
+            onChange={e => setForm({ ...form, name: e.target.value })}
+            className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-medium text-zinc-300 mb-1.5">
+            Orbital Regime & Ephemeris Parameters
+          </label>
+          <textarea
+            placeholder="Target apogee/perigee km, inclination °, RAAN spacing, Hall-effect Xenon reserve SLA..."
+            value={form.description}
+            onChange={e => setForm({ ...form, description: e.target.value })}
+            rows={4}
+            className="w-full p-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs placeholder-zinc-500 focus:outline-none focus:border-indigo-500 resize-none"
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-medium text-zinc-300 mb-1.5">
+            Lead Flight Director Callsign / Email *
+          </label>
+          <input
+            type="email"
+            placeholder="fdo-lead@vanguard.space"
+            value={form.email}
+            onChange={e => setForm({ ...form, email: e.target.value })}
+            className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
+          />
+        </div>
+
+        <div className="pt-2">
           <button
             onClick={handleCreate}
-            className="px-6 py-2.5 rounded-lg transition-all font-mono"
-            style={{
-              backgroundColor: saved ? '#10B981' : tc.accentPrimary, color: tc.bgPrimary, border: 'none',
-              fontSize: '13px', fontWeight: 700, cursor: 'pointer'
-            }}
+            className="px-5 py-2.5 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors"
           >
             {saved ? 'Orbital Shell Provisioned ✓' : 'Initialize Orbital Shell'}
           </button>
@@ -131,8 +174,6 @@ function ShellProvisioningTab() {
 }
 
 function UserManagementTab() {
-  const { theme } = useTheme();
-  const tc = colors[theme];
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [editingUser, setEditingUser] = useState<any | null>(null);
   const [inviteForm, setInviteForm] = useState({ name: '', email: '', role: 'normal_user' as 'company_admin' | 'normal_user', company: 'vgd-s1' });
@@ -145,14 +186,6 @@ function UserManagementTab() {
     { id: '4', name: 'Elena Rostova', email: 'e.rostova@vanguard.space', role: 'normal_user', company: 'Vanguard LEO Shell-1', status: 'pending', lastActive: undefined },
     { id: '5', name: 'Capt. David Park', email: 'd.park@vanguard.space', role: 'normal_user', company: 'Vanguard VLEO Recon', status: 'active', lastActive: '1h ago' },
   ]);
-
-  const getRoleLabel = (role: string) => {
-    return role === 'company_admin' ? 'Constellation Lead' : 'Orbital Analyst';
-  };
-
-  const getRoleBadgeColor = (role: string) => {
-    return role === 'company_admin' ? '#D97706' : '#F59E0B';
-  };
 
   const handleInvite = () => {
     if (!inviteForm.name.trim() || !inviteForm.email.trim()) return;
@@ -173,7 +206,6 @@ function UserManagementTab() {
     setUsers(prev => [...prev, newUser]);
     setShowInviteModal(false);
     setInviteForm({ name: '', email: '', role: 'normal_user', company: 'vgd-s1' });
-    setCopied(false);
   };
 
   const handleDeleteUser = (id: string) => {
@@ -188,132 +220,85 @@ function UserManagementTab() {
 
   const handleCopyInviteLink = () => {
     const inviteLink = `https://kessler-ssa.space/invite?token=${Math.random().toString(36).substring(2, 15)}`;
-    const textarea = document.createElement('textarea');
-    textarea.value = inviteLink;
-    textarea.style.position = 'fixed';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    textarea.select();
-
-    try {
-      document.execCommand('copy');
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy:', err);
-    } finally {
-      document.body.removeChild(textarea);
-    }
+    navigator.clipboard?.writeText(inviteLink);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="font-mono" style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary }}>
-          Flight Dynamics Crew & Clearance Roster
-        </h2>
+    <div className="rounded-2xl bg-[#1F2024] border border-[#2A2C32] overflow-hidden space-y-4">
+      <div className="p-5 border-b border-[#2A2C32] flex items-center justify-between">
+        <div>
+          <h2 className="text-base font-semibold text-zinc-100 tracking-tight">
+            Flight Dynamics Crew & Clearance Roster
+          </h2>
+          <p className="text-xs text-zinc-400 mt-0.5">
+            Manage operators across all active constellation shells
+          </p>
+        </div>
         <button
           onClick={() => setShowInviteModal(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-mono"
-          style={{
-            backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
-            fontSize: '13px', fontWeight: 700, cursor: 'pointer'
-          }}
+          className="flex items-center gap-2 h-9 px-4 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 text-xs font-semibold tracking-tight transition-colors"
         >
+          <Plus className="w-3.5 h-3.5" />
           Authorize Crew Member
         </button>
       </div>
 
-      <div className="rounded-lg overflow-hidden" style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-xs">
           <thead>
-            <tr style={{ borderBottom: `1px solid ${tc.borderPrimary}` }}>
-              <th className="font-mono" style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Operator
-              </th>
-              <th className="font-mono" style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Assigned Shell
-              </th>
-              <th className="font-mono" style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Clearance Level
-              </th>
-              <th className="font-mono" style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Link Status
-              </th>
-              <th className="font-mono" style={{ padding: '12px 16px', textAlign: 'left', fontSize: '11px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Last Telemetry Sync
-              </th>
-              <th className="font-mono" style={{ padding: '12px 16px', textAlign: 'right', fontSize: '11px', fontWeight: 600, color: tc.textSecondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Actions
-              </th>
+            <tr className="border-b border-[#2A2C32] text-zinc-400 font-medium">
+              <th className="py-3 px-5">Operator</th>
+              <th className="py-3 px-5">Assigned Shell</th>
+              <th className="py-3 px-5">Clearance Tier</th>
+              <th className="py-3 px-5">Status</th>
+              <th className="py-3 px-5">Last Telemetry Sync</th>
+              <th className="py-3 px-5 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody>
-            {users.map((user, index) => (
-              <tr
-                key={user.id}
-                className="transition-colors"
-                style={{
-                  borderBottom: index < users.length - 1 ? `1px solid ${tc.borderPrimary}` : 'none'
-                }}
-              >
-                <td style={{ padding: '16px' }}>
-                  <div>
-                    <div style={{ fontSize: '14px', fontWeight: 600, color: tc.textPrimary }}>{user.name}</div>
-                    <div className="font-mono" style={{ fontSize: '12px', color: tc.textSecondary }}>{user.email}</div>
-                  </div>
+          <tbody className="divide-y divide-[#2A2C32]">
+            {users.map((u) => (
+              <tr key={u.id} className="hover:bg-zinc-800/20 transition-colors">
+                <td className="py-3.5 px-5">
+                  <div className="font-semibold text-zinc-100">{u.name}</div>
+                  <div className="text-[11px] text-zinc-400 font-mono">{u.email}</div>
                 </td>
-                <td className="font-mono" style={{ padding: '16px', fontSize: '13px', color: tc.textPrimary }}>
-                  {user.company}
+                <td className="py-3.5 px-5 text-zinc-300 font-medium">
+                  {u.company}
                 </td>
-                <td style={{ padding: '16px' }}>
-                  <span
-                    className="inline-flex px-2.5 py-1 rounded-full font-mono"
-                    style={{
-                      fontSize: '11px',
-                      fontWeight: 600,
-                      backgroundColor: `${getRoleBadgeColor(user.role)}20`,
-                      color: getRoleBadgeColor(user.role),
-                      border: `1px solid ${getRoleBadgeColor(user.role)}40`
-                    }}
-                  >
-                    {getRoleLabel(user.role)}
+                <td className="py-3.5 px-5">
+                  <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                    {u.role === 'company_admin' ? 'Constellation Lead' : 'Orbital Analyst'}
                   </span>
                 </td>
-                <td style={{ padding: '16px' }}>
+                <td className="py-3.5 px-5">
                   <span
-                    className="inline-flex px-2.5 py-1 rounded-full font-mono"
-                    style={{
-                      fontSize: '11px',
-                      fontWeight: 600,
-                      backgroundColor: user.status === 'active' ? '#10B98120' : '#F59E0B20',
-                      color: user.status === 'active' ? '#10B981' : '#F59E0B',
-                      border: `1px solid ${user.status === 'active' ? '#10B98140' : '#F59E0B40'}`
-                    }}
+                    className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-medium border ${
+                      u.status === 'active'
+                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                        : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                    }`}
                   >
-                    {user.status === 'active' ? 'NOMINAL' : 'PENDING'}
+                    {u.status === 'active' ? 'Nominal' : 'Pending'}
                   </span>
                 </td>
-                <td className="font-mono" style={{ padding: '16px', fontSize: '12px', color: tc.textSecondary }}>
-                  {user.lastActive || '—'}
+                <td className="py-3.5 px-5 font-mono text-zinc-400 text-[11px]">
+                  {u.lastActive || '—'}
                 </td>
-                <td style={{ padding: '16px' }}>
+                <td className="py-3.5 px-5 text-right">
                   <div className="flex items-center justify-end gap-2">
                     <button
-                      onClick={() => setEditingUser({ ...user })}
-                      className="p-2 rounded transition-colors"
-                      style={{ color: tc.textSecondary }}
-                      title="Edit operator"
+                      onClick={() => setEditingUser({ ...u })}
+                      className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/40 transition-colors"
                     >
-                      <Edit2 className="w-4 h-4" />
+                      <Edit2 className="w-3.5 h-3.5" />
                     </button>
                     <button
-                      onClick={() => handleDeleteUser(user.id)}
-                      className="p-2 rounded transition-colors"
-                      style={{ color: tc.textSecondary }}
-                      title="Revoke clearance"
+                      onClick={() => handleDeleteUser(u.id)}
+                      className="p-1.5 rounded-lg text-zinc-400 hover:text-rose-400 hover:bg-zinc-800/40 transition-colors"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </td>
@@ -323,270 +308,72 @@ function UserManagementTab() {
         </table>
       </div>
 
-      {/* Invite Modal */}
       {showInviteModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.65)' }}
-          onClick={() => setShowInviteModal(false)}
-        >
-          <div
-            className="rounded-lg shadow-xl max-w-md w-full mx-4"
-            style={{
-              backgroundColor: tc.bgSecondary,
-              border: `1px solid ${tc.borderPrimary}`
-            }}
-            onClick={e => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between p-6 border-b" style={{ borderColor: tc.borderPrimary }}>
-              <div>
-                <h2 className="font-mono" style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary }}>Authorize Flight Crew</h2>
-                <p style={{ fontSize: '13px', color: tc.textSecondary }}>Issue console clearance for an orbital shell</p>
-              </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl bg-[#1F2024] border border-[#2A2C32] p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[#2A2C32]">
+              <h3 className="text-base font-semibold text-zinc-100">Authorize Flight Crew</h3>
+              <button onClick={() => setShowInviteModal(false)} className="text-zinc-400 hover:text-zinc-100">
+                <X className="w-4 h-4" />
+              </button>
             </div>
-
-            <div className="p-6 space-y-4">
-              <div
-                className="p-4 rounded-lg"
-                style={{
-                  backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FEF3C7',
-                  border: `1px solid ${tc.accentPrimary}40`
-                }}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <p className="font-mono" style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary, marginBottom: '4px' }}>
-                      Encrypted Clearance Token Link
-                    </p>
-                    <p style={{ fontSize: '12px', color: tc.textSecondary }}>
-                      Transmit via secure FDO channel
-                    </p>
-                  </div>
-                  <button
-                    onClick={handleCopyInviteLink}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-mono"
-                    style={{
-                      backgroundColor: copied ? '#10B981' : tc.accentPrimary,
-                      color: tc.bgPrimary,
-                      border: 'none',
-                      fontSize: '12px',
-                      fontWeight: 700,
-                      cursor: 'pointer'
-                    }}
-                  >
-                    {copied ? <><Check className="w-4 h-4" /> Copied</> : <><Copy className="w-4 h-4" /> Copy Link</>}
-                  </button>
-                </div>
-              </div>
-
+            <div className="space-y-3">
               <div>
-                <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-                  Operator Name *
-                </label>
+                <label className="block text-xs font-medium text-zinc-300 mb-1">Operator Name</label>
                 <input
                   type="text"
-                  placeholder="e.g., Lt. John Smith"
+                  placeholder="e.g. Lt. John Smith"
                   value={inviteForm.name}
                   onChange={e => setInviteForm({ ...inviteForm, name: e.target.value })}
-                  style={{
-                    width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-                    border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-                    color: tc.textPrimary, fontSize: '14px', outline: 'none'
-                  }}
+                  className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
                 />
               </div>
-
               <div>
-                <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-                  Callsign / Email *
-                </label>
+                <label className="block text-xs font-medium text-zinc-300 mb-1">Callsign / Email</label>
                 <input
                   type="email"
                   placeholder="j.smith@vanguard.space"
                   value={inviteForm.email}
                   onChange={e => setInviteForm({ ...inviteForm, email: e.target.value })}
-                  style={{
-                    width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-                    border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-                    color: tc.textPrimary, fontSize: '14px', outline: 'none'
-                  }}
+                  className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
                 />
               </div>
-
               <div>
-                <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-                  Orbital Shell *
-                </label>
+                <label className="block text-xs font-medium text-zinc-300 mb-1">Orbital Shell</label>
                 <select
                   value={inviteForm.company}
                   onChange={e => setInviteForm({ ...inviteForm, company: e.target.value })}
-                  style={{
-                    width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-                    border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-                    color: tc.textPrimary, fontSize: '14px', outline: 'none', cursor: 'pointer'
-                  }}
+                  className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
                 >
                   <option value="vgd-s1">Vanguard LEO Shell-1</option>
                   <option value="vgd-s2">Vanguard SSO Shell-2</option>
                   <option value="vgd-vleo">Vanguard VLEO Recon</option>
                 </select>
               </div>
-
               <div>
-                <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-                  Clearance Level *
-                </label>
+                <label className="block text-xs font-medium text-zinc-300 mb-1">Clearance Tier</label>
                 <select
                   value={inviteForm.role}
-                  onChange={e => setInviteForm({ ...inviteForm, role: e.target.value as 'company_admin' | 'normal_user' })}
-                  style={{
-                    width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-                    border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-                    color: tc.textPrimary, fontSize: '14px', outline: 'none', cursor: 'pointer'
-                  }}
+                  onChange={e => setInviteForm({ ...inviteForm, role: e.target.value as any })}
+                  className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
                 >
                   <option value="normal_user">Orbital Analyst</option>
                   <option value="company_admin">Constellation Lead</option>
                 </select>
               </div>
             </div>
-
-            <div className="flex items-center justify-end gap-3 p-6 border-t" style={{ borderColor: tc.borderPrimary }}>
+            <div className="flex justify-end gap-3 pt-3 border-t border-[#2A2C32]">
               <button
                 onClick={() => setShowInviteModal(false)}
-                className="px-4 py-2.5 rounded-lg transition-all font-mono"
-                style={{
-                  backgroundColor: 'transparent', color: tc.textSecondary,
-                  border: `1px solid ${tc.borderPrimary}`,
-                  fontSize: '13px', fontWeight: 600, cursor: 'pointer'
-                }}
+                className="px-4 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200"
               >
                 Cancel
               </button>
               <button
                 onClick={handleInvite}
-                className="px-4 py-2.5 rounded-lg transition-all font-mono"
-                style={{
-                  backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
-                  fontSize: '13px', fontWeight: 700, cursor: 'pointer'
-                }}
+                className="px-4 py-2 rounded-xl text-xs font-semibold bg-white text-zinc-950 hover:bg-zinc-200"
               >
                 Issue Clearance
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Edit User Modal */}
-      {editingUser && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.65)' }}
-          onClick={() => setEditingUser(null)}
-        >
-          <div
-            className="rounded-lg shadow-xl max-w-md w-full mx-4"
-            style={{
-              backgroundColor: tc.bgSecondary,
-              border: `1px solid ${tc.borderPrimary}`
-            }}
-            onClick={e => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between p-6 border-b" style={{ borderColor: tc.borderPrimary }}>
-              <div>
-                <h2 className="font-mono" style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary }}>Modify Operator Clearance</h2>
-                <p style={{ fontSize: '13px', color: tc.textSecondary }}>Update callsign and shell permissions</p>
-              </div>
-              <button
-                onClick={() => setEditingUser(null)}
-                className="p-1 rounded transition-colors"
-                style={{ color: tc.textSecondary }}
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="p-6 space-y-4">
-              <div>
-                <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-                  Operator Name *
-                </label>
-                <input
-                  type="text"
-                  value={editingUser.name}
-                  onChange={e => setEditingUser({ ...editingUser, name: e.target.value })}
-                  style={{
-                    width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-                    border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-                    color: tc.textPrimary, fontSize: '14px', outline: 'none'
-                  }}
-                />
-              </div>
-
-              <div>
-                <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-                  Callsign / Email *
-                </label>
-                <input
-                  type="email"
-                  value={editingUser.email}
-                  onChange={e => setEditingUser({ ...editingUser, email: e.target.value })}
-                  style={{
-                    width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-                    border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-                    color: tc.textPrimary, fontSize: '14px', outline: 'none'
-                  }}
-                />
-              </div>
-
-              <div>
-                <label className="font-mono" style={{ display: 'block', fontSize: '13px', fontWeight: 500, color: tc.textPrimary, marginBottom: '6px' }}>
-                  Clearance Role *
-                </label>
-                <select
-                  value={editingUser.role}
-                  onChange={e => setEditingUser({ ...editingUser, role: e.target.value as 'company_admin' | 'normal_user' })}
-                  style={{
-                    width: '100%', height: '44px', padding: '0 12px',
-                    backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-                    border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-                    color: tc.textPrimary, fontSize: '14px', outline: 'none', cursor: 'pointer'
-                  }}
-                >
-                  <option value="normal_user">Orbital Analyst</option>
-                  <option value="company_admin">Constellation Lead</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-end gap-3 p-6 border-t" style={{ borderColor: tc.borderPrimary }}>
-              <button
-                onClick={() => setEditingUser(null)}
-                className="px-4 py-2.5 rounded-lg transition-all font-mono"
-                style={{
-                  backgroundColor: 'transparent', color: tc.textSecondary,
-                  border: `1px solid ${tc.borderPrimary}`,
-                  fontSize: '13px', fontWeight: 600, cursor: 'pointer'
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleUpdateUser}
-                className="px-4 py-2.5 rounded-lg transition-all font-mono"
-                style={{
-                  backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
-                  fontSize: '13px', fontWeight: 700, cursor: 'pointer'
-                }}
-              >
-                Commit Changes
               </button>
             </div>
           </div>
@@ -597,196 +384,106 @@ function UserManagementTab() {
 }
 
 function DataUploadTab() {
-  const { theme } = useTheme();
-  const tc = colors[theme];
-
   return (
-    <div className="max-w-2xl">
-      <div className="p-8 rounded-lg text-center" style={{ backgroundColor: tc.bgSecondary, border: `2px dashed ${tc.borderPrimary}` }}>
-        <Upload className="w-12 h-12 mx-auto mb-4" style={{ color: tc.accentPrimary }} />
-        <h2 className="font-mono" style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary, marginBottom: '8px' }}>
+    <div className="max-w-2xl rounded-2xl bg-[#1F2024] border border-[#2A2C32] p-8 text-center space-y-4">
+      <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto">
+        <Upload className="w-6 h-6" />
+      </div>
+      <div>
+        <h2 className="text-base font-semibold text-zinc-100 tracking-tight">
           Ingest Two-Line Element (TLE) & CCSDS CDM Batch
         </h2>
-        <p style={{ fontSize: '14px', color: tc.textSecondary, marginBottom: '16px' }}>
-          Upload 18th SDS Spacetrack `.tle`, `.omm`, or `.cdm` covariance files. SGP4 propagation and conjunction screening execute automatically on ingest.
+        <p className="text-xs text-zinc-400 mt-1 max-w-md mx-auto">
+          Upload 18th SDS Spacetrack <code className="text-indigo-400">.tle</code>, <code className="text-indigo-400">.omm</code>, or <code className="text-indigo-400">.cdm</code> covariance files. SGP4 propagation runs automatically.
         </p>
-        <button
-          className="px-6 py-2.5 rounded-lg transition-all font-mono"
-          style={{
-            backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
-            fontSize: '13px', fontWeight: 700, cursor: 'pointer'
-          }}
-        >
-          Select TLE / CDM File
-        </button>
       </div>
+      <button className="px-5 py-2.5 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors">
+        Select TLE / CDM File
+      </button>
     </div>
   );
 }
 
 function CommentaryEditorTab() {
-  const { theme } = useTheme();
-  const tc = colors[theme];
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
-  const [selectedSubSection, setSelectedSubSection] = useState<number>(1);
+  const [expandedSection, setExpandedSection] = useState<string | null>('altitude-decay');
   const [commentaries, setCommentaries] = useState<Record<string, string>>({});
 
   const sections = [
-    {
-      id: 'altitude-decay',
-      label: 'Orbital Altitude & Thermospheric Drag Log',
-      status: 'published',
-      updated: '18m ago',
-      editor: 'Dr. Alex Torres',
-      subsections: 1
-    },
-    {
-      id: 'constellation-ephemeris',
-      label: 'Constellation Ephemeris & Thruster ΔV Notes',
-      status: 'published',
-      updated: '1h ago',
-      editor: 'Dr. Alex Torres',
-      subsections: 1
-    },
-    {
-      id: 'deorbit-compliance',
-      label: 'FCC / ESA De-Orbit Reserve SLA Bulletins',
-      status: 'draft',
-      updated: '3h ago',
-      editor: 'Dr. Alex Torres',
-      subsections: 2
-    },
+    { id: 'altitude-decay', label: 'Orbital Altitude & Thermospheric Drag Log', status: 'published', updated: '18m ago' },
+    { id: 'constellation-ephemeris', label: 'Constellation Ephemeris & Thruster ΔV Notes', status: 'published', updated: '1h ago' },
+    { id: 'deorbit-compliance', label: 'FCC / ESA De-Orbit Reserve SLA Bulletins', status: 'draft', updated: '3h ago' },
   ];
 
-  const handleSectionClick = (sectionId: string) => {
-    setExpandedSection(expandedSection === sectionId ? null : sectionId);
-    setSelectedSubSection(1);
-  };
-
-  const getCommentaryKey = (sectionId: string, subIndex?: number) => {
-    return subIndex ? `${sectionId}-${subIndex}` : sectionId;
-  };
-
   return (
-    <div className="max-w-4xl">
-      <h3 className="font-mono" style={{ fontSize: '13px', fontWeight: 600, color: tc.textSecondary, marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-        Flight Dynamics Automated Telemetry Logs
-      </h3>
-      <div className="space-y-2">
-        {sections.map(section => {
-          const isExpanded = expandedSection === section.id;
-
-          return (
-            <div key={section.id}>
-              <button
-                onClick={() => handleSectionClick(section.id)}
-                className="w-full text-left p-4 rounded-lg transition-all"
-                style={{
-                  backgroundColor: isExpanded ? (theme === 'dark' ? tc.bgPrimary : '#FEF3C7') : tc.bgSecondary,
-                  border: isExpanded ? `1px solid ${tc.accentPrimary}` : `1px solid ${tc.borderPrimary}`,
-                  cursor: 'pointer'
-                }}
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="font-mono" style={{ fontSize: '14px', fontWeight: 600, color: tc.textPrimary }}>
-                        {section.label}
-                      </span>
-                      <span
-                        className="px-2 py-0.5 rounded text-xs font-mono"
-                        style={{
-                          backgroundColor: section.status === 'published' ? '#10B98120' : '#F59E0B20',
-                          color: section.status === 'published' ? '#10B981' : '#F59E0B',
-                          border: `1px solid ${section.status === 'published' ? '#10B98140' : '#F59E0B40'}`,
-                          fontSize: '11px',
-                          fontWeight: 600
-                        }}
-                      >
-                        {section.status === 'published' ? 'LIVE' : 'STAGED'}
-                      </span>
-                    </div>
-                    <div className="font-mono" style={{ fontSize: '12px', color: tc.textSecondary }}>
-                      Updated {section.updated} · {section.editor}
-                    </div>
-                  </div>
-                  <ChevronDown
-                    className="w-5 h-5 transition-transform"
-                    style={{
-                      color: tc.textSecondary,
-                      transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'
-                    }}
-                  />
+    <div className="max-w-4xl space-y-3">
+      {sections.map(section => {
+        const isExpanded = expandedSection === section.id;
+        return (
+          <div key={section.id} className="rounded-2xl bg-[#1F2024] border border-[#2A2C32] overflow-hidden">
+            <button
+              onClick={() => setExpandedSection(isExpanded ? null : section.id)}
+              className="w-full p-4 flex items-center justify-between text-left hover:bg-zinc-800/20 transition-colors"
+            >
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-semibold text-zinc-100">{section.label}</span>
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium border ${section.status === 'published' ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' : 'text-amber-400 bg-amber-500/10 border-amber-500/20'}`}>
+                    {section.status === 'published' ? 'Live' : 'Draft'}
+                  </span>
                 </div>
-              </button>
-
-              {isExpanded && (
-                <div className="mt-2 p-4 rounded-lg" style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}>
-                  <textarea
-                    placeholder="Enter Flight Dynamics telemetry log entry..."
-                    value={commentaries[getCommentaryKey(section.id, section.subsections > 1 ? selectedSubSection : undefined)] || ''}
-                    onChange={e => setCommentaries({
-                      ...commentaries,
-                      [getCommentaryKey(section.id, section.subsections > 1 ? selectedSubSection : undefined)]: e.target.value
-                    })}
-                    rows={8}
-                    style={{
-                      width: '100%', padding: '12px',
-                      backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-                      border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-                      color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
-                    }}
-                  />
-                  <div className="flex gap-3 mt-4">
-                    <button
-                      className="px-6 py-2.5 rounded-lg transition-all font-mono"
-                      style={{
-                        backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
-                        fontSize: '13px', fontWeight: 700, cursor: 'pointer'
-                      }}
-                    >
-                      Broadcast to Console
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+                <div className="text-[11px] text-zinc-400 mt-0.5">Updated {section.updated}</div>
+              </div>
+              <ChevronDown className={`w-4 h-4 text-zinc-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+            </button>
+            {isExpanded && (
+              <div className="p-4 border-t border-[#2A2C32] space-y-3 bg-[#16171A]">
+                <textarea
+                  rows={6}
+                  placeholder="Enter Flight Dynamics telemetry log entry..."
+                  value={commentaries[section.id] || ''}
+                  onChange={e => setCommentaries({ ...commentaries, [section.id]: e.target.value })}
+                  className="w-full p-3.5 rounded-xl bg-[#1F2024] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500 resize-none"
+                />
+                <button className="px-4 py-2 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors">
+                  Broadcast to Console
+                </button>
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
 
 function ImageUploadsTab() {
-  const { theme } = useTheme();
-  const tc = colors[theme];
+  const slots = [
+    { label: 'B-Plane Conjunction Ellipsoid Contour', desc: 'Conjunction covariance geometry plot' },
+    { label: 'Xenon Hall-Effect Propellant Depletion Curve', desc: 'Thruster propellant lifetime ledger' },
+    { label: 'S-Band / Optical ISL Link Margin Waterfall', desc: 'Cross-link attenuation curve' },
+    { label: 'Thermospheric Drag F10.7 Correlation Plot', desc: 'Solar flux vs altitude decay matrix' }
+  ];
 
   return (
-    <div>
-      <h2 className="font-mono" style={{ fontSize: '18px', fontWeight: 600, color: tc.textPrimary, marginBottom: '16px' }}>
-        Radar Covariance & B-Plane Plot Uploads (4 Slots)
-      </h2>
+    <div className="space-y-4">
+      <div>
+        <h2 className="text-base font-semibold text-zinc-100">
+          Radar Covariance & B-Plane Plot Uploads
+        </h2>
+        <p className="text-xs text-zinc-400 mt-0.5">Click any slot to upload radar plots (SVG or PNG)</p>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {[
-          'B-Plane Conjunction Ellipsoid Contour',
-          'Xenon Hall-Effect Propellant Depletion Curve',
-          'S-Band / Optical ISL Link Margin Waterfall',
-          'Thermospheric Drag F10.7 Correlation Plot'
-        ].map((label, i) => (
+        {slots.map((s, idx) => (
           <div
-            key={i}
-            className="aspect-video rounded-lg flex flex-col items-center justify-center p-6 cursor-pointer hover:opacity-80 transition-opacity"
-            style={{
-              backgroundColor: theme === 'dark' ? tc.bgPrimary : '#F9FAFB',
-              border: `2px dashed ${tc.borderPrimary}`
-            }}
+            key={idx}
+            className="rounded-2xl bg-[#1F2024] border border-dashed border-[#2A2C32] hover:border-indigo-500/50 p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200 group"
           >
-            <Image className="w-8 h-8 mb-3" style={{ color: tc.accentPrimary }} />
-            <p className="font-mono" style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary, marginBottom: '4px', textAlign: 'center' }}>
-              {label}
-            </p>
-            <p style={{ fontSize: '12px', color: tc.textSecondary }}>Click to upload radar plot SVG/PNG</p>
+            <div className="w-10 h-10 rounded-xl bg-[#282A2F] group-hover:bg-indigo-500/10 text-zinc-400 group-hover:text-indigo-400 flex items-center justify-center mb-3 transition-colors">
+              <ImageIcon className="w-5 h-5" />
+            </div>
+            <div className="text-xs font-semibold text-zinc-100">{s.label}</div>
+            <div className="text-[11px] text-zinc-400 mt-1">{s.desc}</div>
           </div>
         ))}
       </div>
@@ -795,207 +492,91 @@ function ImageUploadsTab() {
 }
 
 function PrioritiesEventsTab() {
-  const { theme } = useTheme();
-  const tc = colors[theme];
-
   return (
-    <div className="max-w-3xl">
-      <div className="p-6 rounded-lg" style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}>
-        <h3 className="font-mono" style={{ fontSize: '16px', fontWeight: 600, color: tc.textPrimary, marginBottom: '12px' }}>
-          Flight Director Directives
-        </h3>
+    <div className="max-w-3xl rounded-2xl bg-[#1F2024] border border-[#2A2C32] p-6 space-y-5">
+      <div>
+        <h3 className="text-sm font-semibold text-zinc-100 mb-1.5">Flight Director Directives</h3>
         <textarea
+          rows={5}
           placeholder="Enter active CAM directives and orbital trim orders (one per line)..."
-          rows={6}
-          style={{
-            width: '100%', padding: '12px', marginBottom: '24px',
-            backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-            border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-            color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
-          }}
+          className="w-full p-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500 resize-none"
         />
-        <h3 className="font-mono" style={{ fontSize: '16px', fontWeight: 600, color: tc.textPrimary, marginBottom: '12px' }}>
-          Upcoming Ground Station AOS & Thruster Burn Windows
-        </h3>
-        <textarea
-          placeholder="Enter scheduled AOS passes and maneuver epochs (one per line)..."
-          rows={6}
-          style={{
-            width: '100%', padding: '12px',
-            backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-            border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-            color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
-          }}
-        />
-        <button
-          className="mt-4 px-6 py-2.5 rounded-lg transition-all font-mono"
-          style={{
-            backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
-            fontSize: '13px', fontWeight: 700, cursor: 'pointer'
-          }}
-        >
-          Commit Flight Plan
-        </button>
       </div>
+
+      <div>
+        <h3 className="text-sm font-semibold text-zinc-100 mb-1.5">Upcoming Ground Station AOS & Thruster Burn Windows</h3>
+        <textarea
+          rows={5}
+          placeholder="Enter scheduled AOS passes and maneuver epochs (one per line)..."
+          className="w-full p-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500 resize-none"
+        />
+      </div>
+
+      <button className="px-5 py-2.5 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors">
+        Commit Flight Plan
+      </button>
     </div>
   );
 }
 
 function SectorNewsEditorTab() {
-  const { theme } = useTheme();
-  const tc = colors[theme];
-  const [expandedSubsection, setExpandedSubsection] = useState<string | null>(null);
-  const [newsContents, setNewsContents] = useState<Record<string, string>>({});
-
+  const [expanded, setExpanded] = useState<string | null>('solar-weather');
   const subsections = [
-    {
-      id: 'solar-weather',
-      label: 'NOAA SWPC Solar & Geomagnetic Advisories',
-      status: 'published',
-      updated: '12m ago',
-      editor: 'Dr. Alex Torres',
-    },
-    {
-      id: 'catalog-bulletins',
-      label: '18th SDS & LeoLabs Conjunction Bulletins',
-      status: 'published',
-      updated: '1h ago',
-      editor: 'Dr. Alex Torres',
-    },
-    {
-      id: 'fcc-esa-policy',
-      label: 'FCC / ESA Orbital Sustainability Directives',
-      status: 'published',
-      updated: '1d ago',
-      editor: 'Dr. Alex Torres',
-    },
+    { id: 'solar-weather', label: 'NOAA SWPC Solar & Geomagnetic Advisories' },
+    { id: 'catalog-bulletins', label: '18th SDS & LeoLabs Conjunction Bulletins' },
+    { id: 'fcc-esa-policy', label: 'FCC / ESA Orbital Sustainability Directives' }
   ];
 
-  const handleSubsectionClick = (subsectionId: string) => {
-    setExpandedSubsection(expandedSubsection === subsectionId ? null : subsectionId);
-  };
-
   return (
-    <div className="max-w-4xl">
-      <h3 className="font-mono" style={{ fontSize: '13px', fontWeight: 600, color: tc.textSecondary, marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-        Space Weather & Orbital Bulletin Feeds
-      </h3>
-      <div className="space-y-2">
-        {subsections.map(subsection => {
-          const isExpanded = expandedSubsection === subsection.id;
-
-          return (
-            <div key={subsection.id}>
-              <button
-                onClick={() => handleSubsectionClick(subsection.id)}
-                className="w-full text-left p-4 rounded-lg transition-all"
-                style={{
-                  backgroundColor: isExpanded ? (theme === 'dark' ? tc.bgPrimary : '#FEF3C7') : tc.bgSecondary,
-                  border: isExpanded ? `1px solid ${tc.accentPrimary}` : `1px solid ${tc.borderPrimary}`,
-                  cursor: 'pointer'
-                }}
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="font-mono" style={{ fontSize: '14px', fontWeight: 600, color: tc.textPrimary }}>
-                        {subsection.label}
-                      </span>
-                      <span
-                        className="px-2 py-0.5 rounded text-xs font-mono"
-                        style={{
-                          backgroundColor: '#10B98120',
-                          color: '#10B981',
-                          border: '1px solid #10B98140',
-                          fontSize: '11px',
-                          fontWeight: 600
-                        }}
-                      >
-                        ACTIVE FEED
-                      </span>
-                    </div>
-                    <div className="font-mono" style={{ fontSize: '12px', color: tc.textSecondary }}>
-                      Updated {subsection.updated} · {subsection.editor}
-                    </div>
-                  </div>
-                  <ChevronDown
-                    className="w-5 h-5 transition-transform"
-                    style={{
-                      color: tc.textSecondary,
-                      transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'
-                    }}
-                  />
-                </div>
+    <div className="max-w-4xl space-y-3">
+      {subsections.map(sub => (
+        <div key={sub.id} className="rounded-2xl bg-[#1F2024] border border-[#2A2C32] overflow-hidden">
+          <button
+            onClick={() => setExpanded(expanded === sub.id ? null : sub.id)}
+            className="w-full p-4 flex items-center justify-between text-left hover:bg-zinc-800/20"
+          >
+            <span className="text-sm font-semibold text-zinc-100">{sub.label}</span>
+            <ChevronDown className={`w-4 h-4 text-zinc-400 transition-transform ${expanded === sub.id ? 'rotate-180' : ''}`} />
+          </button>
+          {expanded === sub.id && (
+            <div className="p-4 border-t border-[#2A2C32] space-y-3 bg-[#16171A]">
+              <textarea
+                rows={5}
+                placeholder="Enter space weather bulletin..."
+                className="w-full p-3.5 rounded-xl bg-[#1F2024] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500 resize-none"
+              />
+              <button className="px-4 py-2 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors">
+                Publish Bulletin
               </button>
-
-              {isExpanded && (
-                <div className="mt-2 p-4 rounded-lg" style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}>
-                  <textarea
-                    placeholder="Enter space weather advisory or 18th SDS bulletin..."
-                    value={newsContents[subsection.id] || ''}
-                    onChange={e => setNewsContents({
-                      ...newsContents,
-                      [subsection.id]: e.target.value
-                    })}
-                    rows={8}
-                    style={{
-                      width: '100%', padding: '12px',
-                      backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-                      border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-                      color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
-                    }}
-                  />
-                  <div className="flex gap-3 mt-4">
-                    <button
-                      className="px-6 py-2.5 rounded-lg transition-all font-mono"
-                      style={{
-                        backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
-                        fontSize: '13px', fontWeight: 700, cursor: 'pointer'
-                      }}
-                    >
-                      Publish Bulletin
-                    </button>
-                  </div>
-                </div>
-              )}
             </div>
-          );
-        })}
-      </div>
+          )}
+        </div>
+      ))}
     </div>
   );
 }
 
 function MarketTrendsEditorTab() {
-  const { theme } = useTheme();
-  const tc = colors[theme];
-
   return (
-    <div className="max-w-3xl">
-      <div className="p-6 rounded-lg" style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.borderPrimary}` }}>
-        <h3 className="font-mono" style={{ fontSize: '16px', fontWeight: 600, color: tc.textPrimary, marginBottom: '12px' }}>
+    <div className="max-w-3xl rounded-2xl bg-[#1F2024] border border-[#2A2C32] p-6 space-y-4">
+      <div>
+        <h3 className="text-base font-semibold text-zinc-100">
           Autonomous CAM & Covariance Protocol Specification
         </h3>
-        <textarea
-          placeholder="Enter updated differential drag and Hall-effect collision avoidance maneuver thresholds..."
-          rows={10}
-          style={{
-            width: '100%', padding: '12px',
-            backgroundColor: theme === 'dark' ? tc.bgPrimary : '#FFFFFF',
-            border: `1px solid ${tc.borderPrimary}`, borderRadius: '8px',
-            color: tc.textPrimary, fontSize: '14px', outline: 'none', resize: 'vertical'
-          }}
-        />
-        <button
-          className="mt-4 px-6 py-2.5 rounded-lg transition-all font-mono"
-          style={{
-            backgroundColor: tc.accentPrimary, color: tc.bgPrimary, border: 'none',
-            fontSize: '13px', fontWeight: 700, cursor: 'pointer'
-          }}
-        >
-          Update CAM Protocol
-        </button>
+        <p className="text-xs text-zinc-400 mt-0.5">
+          Enter updated differential drag and Hall-effect collision avoidance maneuver thresholds
+        </p>
       </div>
+
+      <textarea
+        rows={8}
+        placeholder="Enter updated differential drag and Hall-effect collision avoidance maneuver thresholds..."
+        className="w-full p-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500 resize-none"
+      />
+
+      <button className="px-5 py-2.5 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors">
+        Update CAM Protocol
+      </button>
     </div>
   );
 }
