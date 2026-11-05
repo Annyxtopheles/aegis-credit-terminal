@@ -23,7 +23,8 @@ import {
   ChevronsUpDown,
   PanelLeftClose,
   PanelLeft,
-  Satellite
+  Satellite,
+  Check
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useSidebar } from '../context/SidebarContext';
@@ -59,11 +60,12 @@ function getNavItems(role?: string, viewMode?: 'admin' | 'preview'): NavItem[] {
   }
 
   const baseItems: NavItem[] = [
-    { id: 'overview', label: 'B-Plane Radar & Overview', icon: LayoutDashboard, path: '/dashboard' },
+    { id: 'overview', label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
+    { id: 'radar', label: 'B-Plane Radar Scope', icon: Radar, path: '/dashboard/radar' },
     { id: 'capital-structure', label: 'Constellation Ephemeris', icon: BarChart3, path: '/dashboard/capital-structure' },
     { id: 'covenant-compliance', label: 'Orbital Safety & SLA', icon: Shield, path: '/dashboard/covenant-compliance' },
     { id: 'performance-analysis', label: 'Maneuver Burn Queue', icon: Activity, path: '/dashboard/priorities-events' },
-    { id: 'sector-news', label: 'Space Weather Bulletins', icon: Newspaper, path: '/dashboard/sector-news' },
+    { id: 'sector-news', label: 'Space Weather', icon: Newspaper, path: '/dashboard/sector-news' },
   ];
 
   if (role === 'super_admin' || role === 'company_admin') {
@@ -107,6 +109,7 @@ export function NewSidebar() {
       const params = new URLSearchParams(location.search);
       return params.get('tab') || 'onboarding';
     }
+    if (location.pathname === '/dashboard/radar') return 'radar';
     if (location.pathname.includes('/capital-structure')) return 'capital-structure';
     if (location.pathname.includes('/covenant-compliance')) return 'covenant-compliance';
     if (location.pathname.includes('/priorities-events')) return 'performance-analysis';
@@ -156,8 +159,8 @@ export function NewSidebar() {
                 <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
               </div>
               <div className="leading-tight">
-                <div className="text-[16px] font-bold tracking-wider" style={{ color: tc.textPrimary }}>
-                  KESSLER
+                <div className="text-[17px] font-bold tracking-tight" style={{ color: tc.textPrimary }}>
+                  Kessler
                 </div>
                 <div className="text-[10px] font-medium tracking-wide" style={{ color: tc.textSecondary }}>
                   Orbital SSA Terminal
@@ -172,7 +175,7 @@ export function NewSidebar() {
                 backgroundColor: 'rgba(129, 140, 248, 0.14)',
                 border: '1px solid rgba(129, 140, 248, 0.32)'
               }}
-              title="KESSLER Orbital SSA"
+              title="Kessler"
             >
               <Radar className="w-4 h-4" style={{ color: tc.accentPrimary }} />
             </div>
@@ -208,7 +211,7 @@ export function NewSidebar() {
               className="flex items-center gap-1.5 px-2 mb-2 text-xs font-medium cursor-pointer"
               style={{ color: tc.textTertiary }}
             >
-              <span>{viewMode === 'admin' ? 'FDO Command Console' : 'Flight Deck'}</span>
+              <span>{viewMode === 'admin' ? 'FDO Command Console' : 'Main Menu'}</span>
               <ChevronDown
                 className="w-3.5 h-3.5 transition-transform"
                 style={{ transform: mainMenuOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }}
@@ -241,12 +244,12 @@ export function NewSidebar() {
                     {active && (
                       <span
                         className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-4 rounded-r-full"
-                        style={{ backgroundColor: tc.accentPrimary }}
+                        style={{ backgroundColor: tc.textPrimary }}
                       />
                     )}
                     <Icon
                       className="w-[18px] h-[18px] flex-shrink-0 transition-colors"
-                      style={{ color: active ? tc.accentPrimary : tc.textSecondary }}
+                      style={{ color: active ? tc.textPrimary : tc.textSecondary }}
                     />
                     {!isCollapsed && (
                       <span
@@ -271,7 +274,7 @@ export function NewSidebar() {
               className="flex items-center gap-1.5 px-2 mb-2 text-xs font-medium cursor-pointer"
               style={{ color: tc.textTertiary }}
             >
-              <span>Console</span>
+              <span>General</span>
               <ChevronDown
                 className="w-3.5 h-3.5 transition-transform"
                 style={{ transform: generalMenuOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }}
@@ -318,7 +321,7 @@ export function NewSidebar() {
                 {location.pathname === '/settings' && (
                   <span
                     className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-4 rounded-r-full"
-                    style={{ backgroundColor: tc.accentPrimary }}
+                    style={{ backgroundColor: tc.textPrimary }}
                   />
                 )}
                 <Settings className="w-[18px] h-[18px] flex-shrink-0" />
@@ -406,37 +409,45 @@ export function NewSidebar() {
               </button>
             </div>
 
+            {/* Clean Floating Popover on Click */}
             {showShellMenu && (
               <div
-                className="absolute bottom-full left-0 right-0 mb-2 rounded-2xl p-1.5 shadow-2xl z-50"
+                className="absolute bottom-full left-0 right-0 mb-2 rounded-2xl p-2 shadow-2xl z-50"
                 style={{
                   backgroundColor: tc.bgSecondary,
-                  border: `1px solid ${tc.borderPrimary}`
+                  border: `1px solid ${tc.borderPrimary}`,
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
                 }}
               >
-                {ORBITAL_SHELLS.map(shell => (
-                  <button
-                    key={shell.ticker}
-                    onClick={() => {
-                      setSelectedShell(shell);
-                      setShowShellMenu(false);
-                    }}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-left transition-colors cursor-pointer"
-                    style={{
-                      backgroundColor:
-                        selectedShell.ticker === shell.ticker ? tc.bgTertiary : 'transparent'
-                    }}
-                  >
-                    <div className="min-w-0">
-                      <div className="text-xs font-semibold truncate" style={{ color: tc.textPrimary }}>
-                        {shell.name}
+                <div className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-zinc-400 mb-1">
+                  Select Orbital Shell
+                </div>
+                {ORBITAL_SHELLS.map(shell => {
+                  const isSelected = selectedShell.ticker === shell.ticker;
+                  return (
+                    <button
+                      key={shell.ticker}
+                      onClick={() => {
+                        setSelectedShell(shell);
+                        setShowShellMenu(false);
+                      }}
+                      className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-left transition-colors cursor-pointer"
+                      style={{
+                        backgroundColor: isSelected ? tc.bgTertiary : 'transparent'
+                      }}
+                    >
+                      <div className="min-w-0">
+                        <div className="text-xs font-semibold truncate" style={{ color: tc.textPrimary }}>
+                          {shell.name}
+                        </div>
+                        <div className="text-[10px] font-mono text-zinc-400">
+                          {shell.details}
+                        </div>
                       </div>
-                      <div className="text-[10px] font-mono" style={{ color: tc.textSecondary }}>
-                        {shell.details}
-                      </div>
-                    </div>
-                  </button>
-                ))}
+                      {isSelected && <Check className="w-3.5 h-3.5 flex-shrink-0 text-indigo-400 ml-2" />}
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>

@@ -1,5 +1,5 @@
 import { ReactNode, useState, useEffect } from 'react';
-import { Orbit, Search, Radio, Upload, Activity, X, ArrowRight } from 'lucide-react';
+import { LayoutGrid, Search, Radio, Plus, Share2, X, ArrowRight } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useSidebar } from '../context/SidebarContext';
 import { colors } from '../theme/colors';
@@ -12,12 +12,13 @@ interface DashboardLayoutProps {
 }
 
 const TELEMETRY_COMMANDS = [
-  { id: 'overview', label: 'B-Plane Radar & Telemetry Overview', cmd: 'GOTO // RADAR-OVERVIEW', path: '/dashboard' },
+  { id: 'overview', label: 'Dashboard Overview', cmd: 'GOTO // DASHBOARD', path: '/dashboard' },
+  { id: 'radar', label: 'B-Plane Radar Scope', cmd: 'GOTO // B-PLANE-RADAR', path: '/dashboard/radar' },
   { id: 'ephemeris', label: 'Constellation Ephemeris & Thruster ΔV Ledger', cmd: 'GOTO // EPHEMERIS', path: '/dashboard/capital-structure' },
   { id: 'safety', label: 'FCC / ESA De-Orbit & Orbital Safety SLA', cmd: 'GOTO // SAFETY-SLA', path: '/dashboard/covenant-compliance' },
   { id: 'maneuvers', label: 'Maneuver Burn Queue & Ground Station Passes', cmd: 'GOTO // CAM-QUEUE', path: '/dashboard/priorities-events' },
-  { id: 'weather', label: 'NOAA SWPC Space Weather & Solar Flux Bulletins', cmd: 'GOTO // SPACE-WX', path: '/dashboard/sector-news' },
-  { id: 'crew', label: 'Flight Dynamics Crew & Console Clearance', cmd: 'GOTO // CREW-ROSTER', path: '/dashboard/user-management' },
+  { id: 'weather', label: 'Space Weather & Solar Flux Advisories', cmd: 'GOTO // SPACE-WX', path: '/dashboard/sector-news' },
+  { id: 'crew', label: 'Flight Dynamics Crew & Console Clearance', cmd: 'GOTO // CREW-ACCESS', path: '/dashboard/user-management' },
 ];
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
@@ -55,13 +56,14 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   const getPageTitle = () => {
     if (location.pathname.startsWith('/admin')) return 'FDO Command Console';
-    if (location.pathname.includes('/capital-structure')) return 'Constellation Ephemeris & Thruster ΔV';
-    if (location.pathname.includes('/covenant-compliance')) return 'Orbital Safety & FCC De-Orbit SLA';
-    if (location.pathname.includes('/priorities-events')) return 'Maneuver Burn Queue & AOS Passes';
-    if (location.pathname.includes('/sector-news')) return 'Space Weather & Solar Flux Advisories';
+    if (location.pathname === '/dashboard/radar') return 'B-Plane Radar Scope';
+    if (location.pathname.includes('/capital-structure')) return 'Constellation Ephemeris';
+    if (location.pathname.includes('/covenant-compliance')) return 'Orbital Safety & SLA';
+    if (location.pathname.includes('/priorities-events')) return 'Maneuver Burn Queue';
+    if (location.pathname.includes('/sector-news')) return 'Space Weather Bulletins';
     if (location.pathname.includes('/user-management')) return 'Flight Crew Access';
-    if (location.pathname === '/settings') return 'Console Settings';
-    return 'Orbital Surveillance & B-Plane Telemetry';
+    if (location.pathname === '/settings') return 'Settings';
+    return 'Dashboard';
   };
 
   const filteredCommands = TELEMETRY_COMMANDS.filter(
@@ -83,43 +85,43 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         className="transition-all duration-300 flex flex-col min-h-screen"
         style={{ marginLeft: sidebarWidth }}
       >
-        {/* Clean Top Header Bar */}
-        <header className="px-6 lg:px-8 pt-5 pb-3 flex flex-wrap items-center justify-between gap-4">
+        {/* Clean Top Header Bar (Exact Tempo Style) */}
+        <header className="px-6 lg:px-8 pt-5 pb-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
-            <Orbit className="w-[18px] h-[18px]" style={{ color: tc.accentPrimary }} />
-            <h1 className="text-[16px] font-semibold tracking-tight" style={{ color: tc.textPrimary }}>
+            <LayoutGrid className="w-[18px] h-[18px]" style={{ color: tc.textSecondary }} />
+            <h1 className="text-[17px] font-semibold tracking-tight" style={{ color: tc.textPrimary }}>
               {getPageTitle()}
             </h1>
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Live UTC Mission Clock Pill */}
+            {/* Live UTC Mission Clock */}
             <div
-              className="hidden md:flex items-center gap-2 h-9 px-3.5 rounded-xl text-xs font-mono"
+              className="hidden md:flex items-center gap-2 h-9 px-3 rounded-xl text-xs font-mono"
               style={{
                 backgroundColor: tc.bgSecondary,
                 border: `1px solid ${tc.borderPrimary}`,
-                color: tc.textPrimary
+                color: tc.textSecondary
               }}
             >
-              <Radio className="w-3.5 h-3.5 animate-pulse" style={{ color: tc.alertGreen }} />
-              <span>{utcTime}</span>
+              <Radio className="w-3 h-3 animate-pulse" style={{ color: tc.alertGreen }} />
+              <span className="font-semibold text-zinc-300">{utcTime}</span>
             </div>
 
-            {/* Search Telemetry / NORAD ID Pill */}
+            {/* Search Anything Pill */}
             <button
               onClick={() => setShowSearchModal(true)}
-              className="hidden sm:flex items-center justify-between gap-6 h-9 px-3.5 rounded-xl text-xs transition-colors cursor-pointer"
+              className="hidden sm:flex items-center justify-between gap-8 h-9 px-3.5 rounded-xl text-xs transition-colors cursor-pointer"
               style={{
                 backgroundColor: tc.bgSecondary,
                 border: `1px solid ${tc.borderPrimary}`,
                 color: tc.textSecondary,
-                minWidth: '240px'
+                minWidth: '220px'
               }}
             >
               <span className="flex items-center gap-2">
                 <Search className="w-3.5 h-3.5" style={{ color: tc.textTertiary }} />
-                <span>Search NORAD ID or telemetry...</span>
+                <span>Search Anything...</span>
               </span>
               <kbd
                 className="px-1.5 py-0.5 rounded text-[10px] font-mono"
@@ -137,7 +139,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               style={{ backgroundColor: tc.borderPrimary }}
             />
 
-            {/* CAM Burn Queue Button */}
+            {/* Add + Button */}
             <button
               onClick={() => navigate('/dashboard/priorities-events')}
               className="h-9 px-3.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
@@ -147,13 +149,13 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 color: tc.textPrimary
               }}
             >
-              <Activity className="w-3.5 h-3.5" style={{ color: tc.accentPrimary }} />
-              <span>CAM Queue</span>
+              <span>Add</span>
+              <Plus className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
             </button>
 
-            {/* Ingest TLE / CDM Button */}
+            {/* Invite Button */}
             <button
-              onClick={() => navigate('/admin?tab=data-upload')}
+              onClick={() => navigate('/dashboard/user-management')}
               className="h-9 px-3.5 rounded-xl text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
               style={{
                 backgroundColor: tc.bgSecondary,
@@ -161,8 +163,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 color: tc.textPrimary
               }}
             >
-              <Upload className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
-              <span>TLE Ingest</span>
+              <Share2 className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
+              <span>Invite</span>
             </button>
           </div>
         </header>
@@ -197,7 +199,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 autoFocus
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Search NORAD ID (e.g. 58214), COSPAR, or telemetry module..."
+                placeholder="Search orbital modules, NORAD IDs, or views..."
                 className="flex-1 bg-transparent text-sm outline-none"
                 style={{ color: tc.textPrimary }}
               />

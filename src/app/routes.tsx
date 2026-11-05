@@ -10,6 +10,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage';
 import TwoFactorPage from './pages/TwoFactorPage';
 import SignUpPage from './pages/SignUpPage';
 import OverviewPage from './pages/OverviewPage';
+import RadarScopePage from './pages/RadarScopePage';
 import CapitalStructurePage from './pages/CapitalStructurePage';
 import CovenantCompliancePage from './pages/CovenantCompliancePage';
 import PerformanceAnalysisPage from './pages/PerformanceAnalysisPage';
@@ -62,8 +63,6 @@ export const router = createHashRouter([
       </PublicRoute>
     ),
   },
-  // 2FA is part of the auth flow — allow access even if pendingEmail exists
-  // (TwoFactorPage already guards itself by checking pendingEmail → redirects to /login)
   {
     path: '/2fa',
     element: <TwoFactorPage />,
@@ -76,6 +75,16 @@ export const router = createHashRouter([
       <ProtectedRoute allowedRoles={['super_admin', 'company_admin', 'normal_user']}>
         <DashboardWrapper>
           <OverviewPage />
+        </DashboardWrapper>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/dashboard/radar',
+    element: (
+      <ProtectedRoute allowedRoles={['super_admin', 'company_admin', 'normal_user']}>
+        <DashboardWrapper>
+          <RadarScopePage />
         </DashboardWrapper>
       </ProtectedRoute>
     ),
