@@ -21,8 +21,8 @@ export function CovenantCompliance() {
       id: 'cam',
       title: 'CAM Thruster Readiness',
       spacecraft: 'Hall-Effect Bus-A',
-      actual: 'T-102 min',
-      threshold: 'T-180 min SLA',
+      actual: 'T-102 Minutes',
+      threshold: 'T-180 Minutes SLA',
       pct: 82,
       status: 'Armed // Active',
       type: 'warning'

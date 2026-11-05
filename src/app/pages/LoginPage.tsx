@@ -150,17 +150,17 @@ export default function LoginPage() {
         <div className="grid grid-cols-3 gap-3 z-10">
           <div className="p-3.5 rounded-xl bg-[#1F2024] border border-[#2A2C32]">
             <div className="text-[10px] text-zinc-400 uppercase font-medium">Active Constellation</div>
-            <div className="text-base font-bold text-zinc-100 mt-1 tabular-nums">48 / 48 SV</div>
+            <div className="text-base font-bold text-zinc-100 mt-1 tabular-nums">48 / 48 Satellites</div>
             <div className="text-[10px] text-emerald-400 mt-0.5">100% Station-Locked</div>
           </div>
           <div className="p-3.5 rounded-xl bg-[#1F2024] border border-[#2A2C32]">
             <div className="text-[10px] text-zinc-400 uppercase font-medium">Debris Screening</div>
-            <div className="text-base font-bold text-zinc-100 mt-1 tabular-nums">27,412 Obj</div>
+            <div className="text-base font-bold text-zinc-100 mt-1 tabular-nums">27,412 Objects</div>
             <div className="text-[10px] text-zinc-400 mt-0.5">18th SDS Spacetrack</div>
           </div>
           <div className="p-3.5 rounded-xl bg-[#1F2024] border border-[#2A2C32]">
             <div className="text-[10px] text-zinc-400 uppercase font-medium">CAM Reaction SLA</div>
-            <div className="text-base font-bold text-zinc-100 mt-1 tabular-nums">T-102 min</div>
+            <div className="text-base font-bold text-zinc-100 mt-1 tabular-nums">T-102 Minutes</div>
             <div className="text-[10px] text-indigo-400 mt-0.5">Autopilot Armed</div>
           </div>
         </div>

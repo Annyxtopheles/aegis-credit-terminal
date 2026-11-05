@@ -15,7 +15,7 @@ export default function CovenantCompliancePage() {
     },
     {
       label: 'CAM Thruster Readiness',
-      value: 'T-102 min',
+      value: 'T-102 Minutes',
       subtext: 'Hall-Effect bus armed',
       icon: Zap,
       variant: 'warning',

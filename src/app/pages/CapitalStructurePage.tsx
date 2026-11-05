@@ -10,7 +10,7 @@ export default function CapitalStructurePage() {
   const tc = colors[theme];
 
   const summaryStats = [
-    { label: 'Active Constellation', value: '48 / 48 SV', delta: '100% Locked Ephemeris', icon: Satellite, color: tc.alertGreen },
+    { label: 'Active Constellation', value: '48 / 48 Satellites', delta: '100% Locked Ephemeris', icon: Satellite, color: tc.alertGreen },
     { label: 'Mean Xenon Reserve', value: '84.2%', delta: '+14% Above FCC 5-Yr SLA', icon: Zap, color: tc.accentPrimary },
     { label: 'Fleet Mean Motion', value: '15.09 rev/d', delta: '550 km Circular Orbit', icon: Compass, color: tc.textPrimary },
     { label: 'Max Propellant Delta-V', value: '151.4 m/s', delta: 'VGD-12 Primary Reserve', icon: ShieldCheck, color: tc.alertGreen },

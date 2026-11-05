@@ -80,7 +80,7 @@ export function MetricsCommandBar() {
     },
     {
       label: 'Active Fleet',
-      value: '48 / 48 SV',
+      value: '48 / 48 Satellites',
       secondary: 'S-band & optical locked',
       badge: 'Nominal',
       badgeClass: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
