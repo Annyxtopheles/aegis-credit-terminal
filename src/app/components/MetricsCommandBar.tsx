@@ -6,12 +6,11 @@ import { useNavigate } from 'react-router';
 
 const TELEMETRY_COMMANDS = [
   { id: 'overview', label: 'Orbital Telemetry & Conjunction Overview', cmd: 'GOTO // OVERVIEW', path: '/dashboard' },
+  { id: 'radar', label: 'B-Plane Radar Scope & Covariance Ellipsoids', cmd: 'GOTO // RADAR', path: '/dashboard/radar' },
   { id: 'ephemeris', label: 'Constellation Ephemeris & Thruster Delta-V Ledger', cmd: 'GOTO // EPHEMERIS', path: '/dashboard/capital-structure' },
   { id: 'compliance', label: 'FCC/ESA De-Orbit & Safety Compliance Matrix', cmd: 'GOTO // SAFETY-SLA', path: '/dashboard/covenant-compliance' },
   { id: 'maneuvers', label: 'Flight Dynamics Directives & Burn Windows', cmd: 'GOTO // MANEUVERS', path: '/dashboard/priorities-events' },
   { id: 'weather', label: 'Space Weather & Solar Flux Advisories', cmd: 'GOTO // SPACE-WX', path: '/dashboard/sector-news' },
-  { id: 'tle', label: 'Fetch Latest NORAD Two-Line Element (TLE) Set', cmd: 'EXEC // SYNC-TLE --NORAD-58214', path: '/dashboard/capital-structure' },
-  { id: 'cam', label: 'Simulate Prograde Collision Avoidance Burn (+0.42 m/s)', cmd: 'SIM // CAM-VANGUARD-04', path: '/dashboard/priorities-events' },
 ];
 
 export function MetricsCommandBar() {
@@ -48,87 +47,72 @@ export function MetricsCommandBar() {
 
   const metrics = [
     {
-      label: 'MISSION CLOCK (UTC)',
+      label: 'Mission Clock (UTC)',
       value: utcTime,
-      secondary: 'EPOCH J2000.0 // SYNC NOMINAL',
-      color: tc.accentPrimary,
+      secondary: 'Epoch J2000.0 sync',
+      badge: 'Synchronized',
+      badgeClass: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20',
       icon: Radio
     },
     {
-      label: 'CONJUNCTION RISK (Pc)',
+      label: 'Conjunction Risk (Pc)',
       value: '4.82e-4',
-      secondary: 'RED THRESHOLD (> 1.0e-4)',
-      color: tc.alertRed,
+      secondary: 'Red threshold (> 1.0e-4)',
+      badge: 'Critical Alert',
+      badgeClass: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
       icon: AlertCircle
     },
     {
-      label: 'SOLAR FLUX (F10.7)',
+      label: 'Solar Radio Flux',
       value: '184.2 SFU',
-      secondary: 'THERMOSPHERIC DRAG: ELEVATED',
-      color: tc.alertAmber,
+      secondary: 'Elevated thermospheric drag',
+      badge: '+18.4% Drag',
+      badgeClass: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
       icon: Zap
     },
     {
-      label: 'GEOMAGNETIC Kp INDEX',
+      label: 'Geomagnetic Kp',
       value: 'Kp 5.3 (G1)',
-      secondary: 'MINOR STORM // HIGH-LATITUDE',
-      color: tc.alertAmber,
+      secondary: 'Minor storm watch',
+      badge: 'NOAA SWPC',
+      badgeClass: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
       icon: ShieldAlert
     },
     {
-      label: 'ACTIVE CONSTELLATION',
-      value: '48 / 48',
-      secondary: 'PLANE A-D // S-BAND LOCKED',
-      color: tc.alertGreen,
+      label: 'Active Fleet',
+      value: '48 / 48 SV',
+      secondary: 'S-band & optical locked',
+      badge: 'Nominal',
+      badgeClass: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
       icon: Satellite
     }
   ];
 
   return (
     <>
-      <div className="space-y-2">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
+      <div className="space-y-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {metrics.map((metric, index) => {
             const Icon = metric.icon;
             return (
               <div
                 key={index}
-                className="p-2.5 transition-colors duration-300 rounded-sm"
-                style={{
-                  backgroundColor: tc.bgSecondary,
-                  border: `1px solid ${tc.borderPrimary}`
-                }}
+                className="p-4 transition-all duration-200 rounded-2xl bg-[#1F2024] border border-[#2A2C32] hover:border-zinc-700/60 flex flex-col justify-between"
               >
-                <div
-                  className="uppercase tracking-wider mb-1 flex items-center justify-between"
-                  style={{
-                    fontSize: '10px',
-                    color: tc.textSecondary,
-                    fontWeight: 600,
-                    letterSpacing: '0.06em'
-                  }}
-                >
-                  <span>{metric.label}</span>
-                  <Icon className="w-3.5 h-3.5" style={{ color: metric.color }} />
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-medium text-zinc-400 truncate">{metric.label}</span>
+                  <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${metric.badgeClass}`}>
+                    {metric.badge}
+                  </span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <div
-                    className="font-mono"
-                    style={{
-                      fontSize: '18px',
-                      fontWeight: 700,
-                      color: metric.color,
-                      lineHeight: '1.2'
-                    }}
-                  >
+                <div>
+                  <div className="font-mono text-lg font-bold text-zinc-100">
                     {metric.value}
                   </div>
-                </div>
-                {metric.secondary && (
-                  <div className="font-mono truncate" style={{ fontSize: '9px', color: tc.textTertiary, marginTop: '3px' }}>
+                  <div className="text-[11px] text-zinc-400 mt-0.5 truncate">
                     {metric.secondary}
                   </div>
-                )}
+                </div>
               </div>
             );
           })}
@@ -137,65 +121,48 @@ export function MetricsCommandBar() {
         {/* Cmd+K Telemetry Command Bar */}
         <div
           onClick={() => setShowPalette(true)}
-          className="h-8 px-3 rounded-sm flex items-center justify-between cursor-pointer transition-colors"
-          style={{
-            backgroundColor: tc.bgSecondary,
-            border: `1px solid ${tc.borderPrimary}`
-          }}
+          className="h-10 px-4 rounded-xl flex items-center justify-between cursor-pointer transition-colors bg-[#1F2024] border border-[#2A2C32] hover:border-zinc-700/60"
         >
-          <div className="flex items-center gap-2 min-w-0">
-            <Terminal className="w-3.5 h-3.5 flex-shrink-0" style={{ color: tc.accentPrimary }} />
-            <span className="font-mono text-[11px] truncate" style={{ color: tc.textSecondary }}>
-              TELEMETRY COMMAND LINE // Search NORAD ID, COSPAR designator, or execute CAM simulation...
+          <div className="flex items-center gap-2.5 min-w-0">
+            <Terminal className="w-4 h-4 text-indigo-400 shrink-0" />
+            <span className="text-xs text-zinc-400 truncate">
+              Command line // Search NORAD ID, COSPAR designator, or execute CAM simulation...
             </span>
           </div>
-          <div className="flex items-center gap-1.5 flex-shrink-0">
-            <kbd
-              className="px-1.5 py-0.5 text-[10px] font-mono rounded"
-              style={{
-                backgroundColor: tc.bgTertiary,
-                color: tc.accentPrimary,
-                border: `1px solid ${tc.borderPrimary}`
-              }}
-            >
-              Ctrl+K
-            </kbd>
-          </div>
+          <kbd className="px-2 py-0.5 text-[10px] font-mono rounded-lg bg-[#16171A] text-zinc-400 border border-[#2A2C32]">
+            ⌘K
+          </kbd>
         </div>
       </div>
 
       {/* Command Palette Modal */}
       {showPalette && (
         <div
-          className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4"
-          style={{ backgroundColor: 'rgba(6, 8, 13, 0.78)', backdropFilter: 'blur(4px)' }}
+          className="fixed inset-0 z-50 flex items-start justify-center pt-24 px-4 bg-black/60 backdrop-blur-sm"
           onClick={() => setShowPalette(false)}
         >
           <div
-            className="w-full max-w-xl rounded-md shadow-2xl overflow-hidden"
-            style={{ backgroundColor: tc.bgSecondary, border: `1px solid ${tc.accentPrimary}` }}
+            className="w-full max-w-xl rounded-2xl bg-[#1F2024] border border-[#2A2C32] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-150"
             onClick={e => e.stopPropagation()}
           >
-            <div className="flex items-center px-3.5 py-2.5 border-b" style={{ borderColor: tc.borderPrimary }}>
-              <Search className="w-4 h-4 mr-2.5" style={{ color: tc.accentPrimary }} />
+            <div className="flex items-center px-4 py-3 border-b border-[#2A2C32]">
+              <Search className="w-4 h-4 mr-3 text-indigo-400" />
               <input
                 type="text"
                 autoFocus
                 value={query}
                 onChange={e => setQuery(e.target.value)}
-                placeholder="Enter telemetry command, NORAD ID (e.g., 58214), or subsystem..."
-                className="w-full bg-transparent font-mono text-xs outline-none"
-                style={{ color: tc.textPrimary }}
+                placeholder="Enter telemetry command or jump to page..."
+                className="w-full bg-transparent text-xs text-zinc-100 placeholder-zinc-500 outline-none"
               />
               <button
                 onClick={() => setShowPalette(false)}
-                className="p-1 rounded cursor-pointer"
-                style={{ color: tc.textSecondary }}
+                className="text-zinc-400 hover:text-zinc-200 p-1"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <div className="max-h-72 overflow-y-auto p-1.5 space-y-1">
+            <div className="max-h-72 overflow-y-auto p-2 space-y-1">
               {filteredCommands.map(item => (
                 <button
                   key={item.id}
@@ -203,13 +170,10 @@ export function MetricsCommandBar() {
                     navigate(item.path);
                     setShowPalette(false);
                   }}
-                  className="w-full flex items-center justify-between px-3 py-2 rounded text-left transition-colors cursor-pointer"
-                  style={{ color: tc.textPrimary }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = tc.hoverBg)}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
+                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left transition-colors hover:bg-zinc-800/40"
                 >
-                  <span className="text-xs font-medium">{item.label}</span>
-                  <span className="font-mono text-[10px]" style={{ color: tc.accentPrimary }}>
+                  <span className="text-xs font-medium text-zinc-200">{item.label}</span>
+                  <span className="font-mono text-[10px] text-indigo-400">
                     {item.cmd}
                   </span>
                 </button>
