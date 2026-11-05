@@ -26,7 +26,7 @@ export default function LoginPage() {
   const [utcClock, setUtcClock] = useState(() => new Date().toISOString().slice(11, 19) + ' UTC');
 
   useEffect(() => {
-    const t = setInterval(() => {
+    const timer = setInterval(() => {
       setUtcClock(new Date().toISOString().slice(11, 19) + ' UTC');
     }, 1000);
     return () => clearInterval(timer);
@@ -96,9 +96,9 @@ export default function LoginPage() {
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#1F2024] border border-[#2A2C32] text-xs text-zinc-300">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>{utcClock}</span>
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#1F2024] border border-[#2A2C32] text-xs text-zinc-300 tabular-nums">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+            <span className="tabular-nums tracking-wide">{utcClock}</span>
           </div>
         </div>
 
@@ -150,17 +150,17 @@ export default function LoginPage() {
         <div className="grid grid-cols-3 gap-3 z-10">
           <div className="p-3.5 rounded-xl bg-[#1F2024] border border-[#2A2C32]">
             <div className="text-[10px] text-zinc-400 uppercase font-medium">Active Constellation</div>
-            <div className="text-base font-bold text-zinc-100 mt-1">48 / 48 SV</div>
+            <div className="text-base font-bold text-zinc-100 mt-1 tabular-nums">48 / 48 SV</div>
             <div className="text-[10px] text-emerald-400 mt-0.5">100% Station-Locked</div>
           </div>
           <div className="p-3.5 rounded-xl bg-[#1F2024] border border-[#2A2C32]">
             <div className="text-[10px] text-zinc-400 uppercase font-medium">Debris Screening</div>
-            <div className="text-base font-bold text-zinc-100 mt-1">27,412 Obj</div>
+            <div className="text-base font-bold text-zinc-100 mt-1 tabular-nums">27,412 Obj</div>
             <div className="text-[10px] text-zinc-400 mt-0.5">18th SDS Spacetrack</div>
           </div>
           <div className="p-3.5 rounded-xl bg-[#1F2024] border border-[#2A2C32]">
             <div className="text-[10px] text-zinc-400 uppercase font-medium">CAM Reaction SLA</div>
-            <div className="text-base font-bold text-zinc-100 mt-1">T-102 min</div>
+            <div className="text-base font-bold text-zinc-100 mt-1 tabular-nums">T-102 min</div>
             <div className="text-[10px] text-indigo-400 mt-0.5">Autopilot Armed</div>
           </div>
         </div>
@@ -193,18 +193,18 @@ export default function LoginPage() {
                       : 'bg-[#1F2024] border border-[#2A2C32] hover:border-zinc-700/60 text-zinc-300'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-semibold ${
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className={`px-2.5 h-7 rounded-lg flex items-center justify-center text-xs font-semibold shrink-0 whitespace-nowrap tabular-nums ${
                       isSelected ? 'bg-indigo-500/20 text-indigo-400' : 'bg-[#16171A] text-zinc-400'
                     }`}>
                       {d.code}
                     </span>
-                    <div>
-                      <div className="text-xs font-semibold text-zinc-100">{d.label}</div>
-                      <div className="text-[11px] text-zinc-400">{d.email}</div>
+                    <div className="min-w-0">
+                      <div className="text-xs font-semibold text-zinc-100 truncate">{d.label}</div>
+                      <div className="text-[11px] text-zinc-400 truncate">{d.email}</div>
                     </div>
                   </div>
-                  <span className="text-[11px] text-zinc-400">
+                  <span className="text-[11px] text-zinc-400 shrink-0 ml-2">
                     {d.sub}
                   </span>
                 </button>

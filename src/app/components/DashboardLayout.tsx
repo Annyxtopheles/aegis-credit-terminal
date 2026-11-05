@@ -97,7 +97,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="flex items-center gap-3">
             {/* Live UTC Mission Clock */}
             <div
-              className="hidden md:flex items-center gap-2 h-9 px-3 rounded-xl text-xs "
+              className="hidden md:flex items-center gap-2 h-9 px-3 rounded-xl text-xs tabular-nums"
               style={{
                 backgroundColor: tc.bgSecondary,
                 border: `1px solid ${tc.borderPrimary}`,
