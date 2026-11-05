@@ -65,7 +65,7 @@ export default function ForgotPasswordPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-medium text-zinc-300 mb-1.5">
-                Operator Callsign / Email
+                Operator Callsign
               </label>
               <input
                 type="email"

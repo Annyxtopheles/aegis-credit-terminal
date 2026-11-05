@@ -86,7 +86,7 @@ export function SessionTimeoutModal() {
 
         <div className="p-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32]">
           <div className="text-xs text-zinc-400 mb-0.5">Disconnecting in</div>
-          <div className="text-2xl font-bold font-mono text-amber-400">{timeStr}</div>
+          <div className="text-2xl font-bold text-amber-400">{timeStr}</div>
         </div>
 
         <div className="flex gap-3 pt-1">

@@ -120,7 +120,7 @@ export function GlobalHeader() {
             >
               <Satellite className="w-3.5 h-3.5" style={{ color: tc.accentPrimary }} />
               <span style={{ fontSize: '13px', fontWeight: 600 }}>Vanguard LEO Shell-1</span>
-              <span style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: tc.accentPrimary }}>VGD-LEO</span>
+              <span style={{ fontSize: '11px', color: tc.accentPrimary }}>VGD-LEO</span>
               <ChevronDown className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
             </button>
 
@@ -162,7 +162,7 @@ export function GlobalHeader() {
                     >
                       <Clock className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
                       <span style={{ fontSize: '13px' }}>{co.name}</span>
-                      <span style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: tc.accentPrimary, marginLeft: 'auto' }}>{co.ticker}</span>
+                      <span style={{ fontSize: '11px', color: tc.accentPrimary, marginLeft: 'auto' }}>{co.ticker}</span>
                     </button>
                   ))}
                 </div>
@@ -180,7 +180,7 @@ export function GlobalHeader() {
           }}>
             <Satellite className="w-3.5 h-3.5" style={{ color: tc.accentPrimary }} />
             <span style={{ fontSize: '13px', fontWeight: 600 }}>Vanguard LEO Shell-1</span>
-            <span style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: tc.accentPrimary }}>VGD-LEO</span>
+            <span style={{ fontSize: '11px', color: tc.accentPrimary }}>VGD-LEO</span>
           </div>
         )}
       </div>
@@ -247,7 +247,7 @@ export function GlobalHeader() {
                         <span className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: notifTypeColor[n.type] }} />
                         <div className="flex-1 min-w-0">
                           <p style={{ fontSize: '12px', color: tc.textPrimary, lineHeight: 1.4 }}>{n.text}</p>
-                          <span className="font-mono" style={{ fontSize: '10px', color: tc.textSecondary }}>{n.time}</span>
+                          <span className="" style={{ fontSize: '10px', color: tc.textSecondary }}>{n.time}</span>
                         </div>
                       </div>
                     </div>
@@ -284,7 +284,7 @@ export function GlobalHeader() {
                 <div className="px-4 py-3 border-b" style={{ borderColor: tc.borderPrimary }}>
                   <div style={{ fontSize: '13px', fontWeight: 600, color: tc.textPrimary }}>{user.name}</div>
                   <div style={{ fontSize: '11px', color: tc.textSecondary }}>{user.email}</div>
-                  <div className="mt-1.5 inline-flex px-2 py-0.5 rounded text-[10px] font-mono uppercase" style={{
+                  <div className="mt-1.5 inline-flex px-2 py-0.5 rounded text-[10px] uppercase" style={{
                     backgroundColor: `${getRoleBadgeColor(user.role)}20`,
                     color: getRoleBadgeColor(user.role),
                     border: `1px solid ${getRoleBadgeColor(user.role)}40`

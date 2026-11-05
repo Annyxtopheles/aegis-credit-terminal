@@ -33,13 +33,13 @@ function CustomChartTooltip({ active, payload }: any) {
         border: '1px solid #383B44'
       }}
     >
-      <div className="text-[11px] text-zinc-400 mb-1 font-mono">{item.date}</div>
+      <div className="text-[11px] text-zinc-400 mb-1 ">{item.date}</div>
       <div className="space-y-1">
-        <div className="flex items-center justify-between gap-4 text-xs font-mono">
+        <div className="flex items-center justify-between gap-4 text-xs ">
           <span className="text-zinc-400">Radial Miss:</span>
           <span className="font-bold text-white">{item.missDist.toFixed(2)} km</span>
         </div>
-        <div className="flex items-center justify-between gap-4 text-xs font-mono">
+        <div className="flex items-center justify-between gap-4 text-xs ">
           <span className="text-indigo-300">3σ Covariance:</span>
           <span className="font-bold text-indigo-400">±{item.covariance} m</span>
         </div>

@@ -157,12 +157,12 @@ export default function CorporateDashboardPage() {
                 <div className="flex items-center gap-4">
                   <div>
                     <div className="text-[10px] text-zinc-500">Vanguard Shell-1</div>
-                    <div className={`text-base font-bold font-mono mt-0.5 ${m.better ? 'text-indigo-400' : 'text-rose-400'}`}>{m.your}</div>
+                    <div className={`text-base font-bold mt-0.5 ${m.better ? 'text-indigo-400' : 'text-rose-400'}`}>{m.your}</div>
                   </div>
                   <div className="text-zinc-600 text-xs">vs</div>
                   <div>
                     <div className="text-[10px] text-zinc-500">LEO Peer Avg</div>
-                    <div className="text-base font-bold font-mono text-zinc-400 mt-0.5">{m.avg}</div>
+                    <div className="text-base font-bold text-zinc-400 mt-0.5">{m.avg}</div>
                   </div>
                 </div>
               </div>

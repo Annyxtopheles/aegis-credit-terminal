@@ -108,7 +108,7 @@ export default function TwoFactorPage() {
               value={digit}
               onChange={e => handleDigitChange(i, e.target.value)}
               onKeyDown={e => handleKeyDown(i, e)}
-              className="w-11 h-13 text-center text-lg font-bold font-mono rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 focus:outline-none focus:border-indigo-500 transition-colors"
+              className="w-11 h-13 text-center text-lg font-bold rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 focus:outline-none focus:border-indigo-500 transition-colors"
             />
           ))}
         </div>

@@ -77,7 +77,7 @@ export function FinancialPerformanceGrid() {
               />
               <YAxis
                 stroke="#71717A"
-                style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }}
+                style={{ fontSize: '11px' }}
                 domain={[0, 6]}
                 tickLine={false}
                 axisLine={false}
@@ -147,7 +147,7 @@ export function FinancialPerformanceGrid() {
               <YAxis
                 yAxisId="left"
                 stroke="#71717A"
-                style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }}
+                style={{ fontSize: '11px' }}
                 domain={[3.5, 5.2]}
                 tickLine={false}
                 axisLine={false}
@@ -156,7 +156,7 @@ export function FinancialPerformanceGrid() {
                 yAxisId="right"
                 orientation="right"
                 stroke="#71717A"
-                style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }}
+                style={{ fontSize: '11px' }}
                 domain={[0, 6]}
                 tickLine={false}
                 axisLine={false}
@@ -204,7 +204,7 @@ export function FinancialPerformanceGrid() {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={shellDistributionData} layout="vertical" margin={{ left: 10, right: 20, top: 5, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#2A2C32" horizontal={false} />
-              <XAxis type="number" stroke="#71717A" style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }} domain={[0, 20]} tickLine={false} axisLine={false} />
+              <XAxis type="number" stroke="#71717A" style={{ fontSize: '11px' }} domain={[0, 20]} tickLine={false} axisLine={false} />
               <YAxis type="category" dataKey="segment" stroke="#A1A1AA" style={{ fontSize: '12px' }} width={160} tickLine={false} axisLine={false} />
               <Tooltip
                 contentStyle={{
@@ -247,7 +247,7 @@ export function FinancialPerformanceGrid() {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={linkMarginByPlaneData} layout="vertical" margin={{ left: 10, right: 20, top: 5, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#2A2C32" horizontal={false} />
-              <XAxis type="number" stroke="#71717A" style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }} domain={[0, 26]} tickLine={false} axisLine={false} />
+              <XAxis type="number" stroke="#71717A" style={{ fontSize: '11px' }} domain={[0, 26]} tickLine={false} axisLine={false} />
               <YAxis type="category" dataKey="segment" stroke="#A1A1AA" style={{ fontSize: '12px' }} width={160} tickLine={false} axisLine={false} />
               <Tooltip
                 contentStyle={{

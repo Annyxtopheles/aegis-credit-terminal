@@ -81,7 +81,7 @@ export function AuthRightPanel() {
             <div className="text-white text-[17px] font-bold tracking-[0.14em] font-heading">
               KESSLER SSA
             </div>
-            <div className="text-[10px] tracking-[0.2em] font-semibold font-mono" style={{ color: '#F59E0B' }}>
+            <div className="text-[10px] tracking-[0.2em] font-semibold " style={{ color: '#F59E0B' }}>
               VANGUARD ORBITAL FLIGHT COMMAND
             </div>
           </div>
@@ -108,7 +108,7 @@ export function AuthRightPanel() {
               }}
             >
               <Radio className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: '#F59E0B' }} />
-              <span className="text-[#D1D5DB] text-xs font-mono">{feat}</span>
+              <span className="text-[#D1D5DB] text-xs ">{feat}</span>
             </div>
           ))}
         </div>
@@ -130,9 +130,9 @@ export function AuthRightPanel() {
           >
             <div className="flex items-center gap-2 mb-2">
               <div style={{ color: stat.color }}>{stat.icon}</div>
-              <span className="text-[#9CA3AF] text-[11px] font-mono">{stat.label}</span>
+              <span className="text-[#9CA3AF] text-[11px] ">{stat.label}</span>
             </div>
-            <div className="text-xl font-bold font-mono" style={{ color: stat.color }}>
+            <div className="text-xl font-bold " style={{ color: stat.color }}>
               {stat.value === '1e-4' ? (
                 'Pc > 10⁻⁴'
               ) : (
@@ -144,7 +144,7 @@ export function AuthRightPanel() {
               )}
             </div>
             {stat.subtext && (
-              <div className="text-[#6B7280] text-[10px] font-mono mt-1">{stat.subtext}</div>
+              <div className="text-[#6B7280] text-[10px] mt-1">{stat.subtext}</div>
             )}
           </div>
         ))}
@@ -152,7 +152,7 @@ export function AuthRightPanel() {
 
       {/* Bottom Compliance & Ground Link Notice */}
       <div className="relative z-10 mt-6">
-        <div className="text-[#6B7280] text-[10px] font-mono border-t pt-4" style={{ borderColor: '#262936' }}>
+        <div className="text-[#6B7280] text-[10px] border-t pt-4" style={{ borderColor: '#262936' }}>
           © 2026 KESSLER Orbital SSA // Vanguard Constellation Dynamics. CCSDS & DoD 18th SDS Ingest.
         </div>
       </div>

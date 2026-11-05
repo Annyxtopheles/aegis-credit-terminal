@@ -77,7 +77,7 @@ export default function PortfolioManagerPage() {
                 </span>
               </div>
               <div className="mt-3">
-                <div className="text-2xl font-bold font-mono text-zinc-100 tracking-tight">
+                <div className="text-2xl font-bold text-zinc-100 tracking-tight">
                   {stat.value}
                 </div>
                 <div className="text-xs text-zinc-400 mt-1 flex items-center gap-1.5">
@@ -151,7 +151,7 @@ export default function PortfolioManagerPage() {
               <div className="flex items-start justify-between">
                 <div>
                   <h3 className="text-sm font-semibold text-zinc-100">{co.name}</h3>
-                  <div className="text-[11px] font-mono text-zinc-400 mt-0.5">{co.sector}</div>
+                  <div className="text-[11px] text-zinc-400 mt-0.5">{co.sector}</div>
                 </div>
                 <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-medium border ${badgeClass}`}>
                   {co.threat}
@@ -161,15 +161,15 @@ export default function PortfolioManagerPage() {
               <div className="grid grid-cols-3 gap-2">
                 <div className="p-2.5 rounded-xl bg-[#16171A] border border-[#2A2C32]">
                   <div className="text-[10px] text-zinc-400">Mean Alt</div>
-                  <div className="text-xs font-bold font-mono text-zinc-100 mt-0.5">{co.altitudeKm.toFixed(2)} km</div>
+                  <div className="text-xs font-bold text-zinc-100 mt-0.5">{co.altitudeKm.toFixed(2)} km</div>
                 </div>
                 <div className="p-2.5 rounded-xl bg-[#16171A] border border-[#2A2C32]">
                   <div className="text-[10px] text-zinc-400">Xenon</div>
-                  <div className={`text-xs font-bold font-mono mt-0.5 ${co.propellantPct < 75 ? 'text-rose-400' : 'text-emerald-400'}`}>{co.propellantPct}%</div>
+                  <div className={`text-xs font-bold mt-0.5 ${co.propellantPct < 75 ? 'text-rose-400' : 'text-emerald-400'}`}>{co.propellantPct}%</div>
                 </div>
                 <div className="p-2.5 rounded-xl bg-[#16171A] border border-[#2A2C32]">
                   <div className="text-[10px] text-zinc-400">Next AOS</div>
-                  <div className="text-xs font-bold font-mono text-zinc-300 mt-0.5">T-{co.nextPassMin}m</div>
+                  <div className="text-xs font-bold text-zinc-300 mt-0.5">T-{co.nextPassMin}m</div>
                 </div>
               </div>
 
@@ -181,14 +181,14 @@ export default function PortfolioManagerPage() {
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
-                <div className="flex items-center gap-1 text-xs font-mono font-semibold" style={{ color: isNeg ? '#F59E0B' : '#818CF8' }}>
+                <div className="flex items-center gap-1 text-xs font-semibold" style={{ color: isNeg ? '#F59E0B' : '#818CF8' }}>
                   {isNeg ? <TrendingDown className="w-3.5 h-3.5" /> : <TrendingUp className="w-3.5 h-3.5" />}
                   <span>{isNeg ? '' : '+'}{co.change} km</span>
                 </div>
               </div>
 
               <div className="flex items-center justify-between pt-3 border-t border-[#2A2C32] text-xs">
-                <span className="text-zinc-400 font-mono text-[11px]">Rem. ΔV: <span className="text-zinc-100 font-semibold">{co.deltaV}</span></span>
+                <span className="text-zinc-400 text-[11px]">Rem. ΔV: <span className="text-zinc-100 font-semibold">{co.deltaV}</span></span>
                 <div className="flex items-center gap-1">
                   <button
                     className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/40 transition-colors"

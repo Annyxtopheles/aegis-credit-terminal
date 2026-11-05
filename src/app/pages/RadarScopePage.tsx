@@ -37,7 +37,7 @@ export default function RadarScopePage() {
               <div className="text-xs font-medium mb-1" style={{ color: tc.textSecondary }}>
                 {stat.label}
               </div>
-              <div className="text-[22px] font-bold font-mono tracking-tight mb-2" style={{ color: tc.textPrimary }}>
+              <div className="text-[22px] font-bold tracking-tight mb-2" style={{ color: tc.textPrimary }}>
                 {stat.value}
               </div>
               <div className="text-[11.5px] font-medium" style={{ color: tc.textTertiary }}>

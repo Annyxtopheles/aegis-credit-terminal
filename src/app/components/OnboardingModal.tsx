@@ -63,15 +63,15 @@ export function OnboardingModal() {
 
       <div className="grid grid-cols-3 gap-3 pt-2">
         <div className="p-3 rounded-xl bg-[#16171A] border border-[#2A2C32]">
-          <div className="text-base font-bold font-mono text-zinc-100">48 / 48</div>
+          <div className="text-base font-bold text-zinc-100">48 / 48</div>
           <div className="text-[10px] text-zinc-400 mt-0.5">Active SV Nodes</div>
         </div>
         <div className="p-3 rounded-xl bg-[#16171A] border border-[#2A2C32]">
-          <div className="text-base font-bold font-mono text-emerald-400">27,400+</div>
+          <div className="text-base font-bold text-emerald-400">27,400+</div>
           <div className="text-[10px] text-zinc-400 mt-0.5">Tracked Objects</div>
         </div>
         <div className="p-3 rounded-xl bg-[#16171A] border border-[#2A2C32]">
-          <div className="text-base font-bold font-mono text-indigo-400">&lt;180ms</div>
+          <div className="text-base font-bold text-indigo-400">&lt;180ms</div>
           <div className="text-[10px] text-zinc-400 mt-0.5">OISL Mesh Sync</div>
         </div>
       </div>
@@ -111,7 +111,7 @@ export function OnboardingModal() {
             onClick={() => toggleShell(co.ticker)}
           >
             <div className="flex items-center gap-3">
-              <span className="w-8 h-8 rounded-lg bg-[#1F2024] flex items-center justify-center font-mono text-[10px] font-bold text-indigo-400 border border-zinc-700/50">
+              <span className="w-8 h-8 rounded-lg bg-[#1F2024] flex items-center justify-center text-[10px] font-bold text-indigo-400 border border-zinc-700/50">
                 {co.ticker}
               </span>
               <div>
@@ -214,7 +214,7 @@ export function OnboardingModal() {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-zinc-400">Primary Focus:</span>
-          <span className="font-mono text-indigo-400 font-semibold">{selectedShell}</span>
+          <span className="text-indigo-400 font-semibold">{selectedShell}</span>
         </div>
       </div>
     </div>

@@ -19,7 +19,7 @@ export function ThreatBanner() {
           style={{ backgroundColor: tc.alertRed }}
         />
         <span
-          className="tracking-wide font-mono text-[11px] font-bold truncate"
+          className="tracking-wide text-[11px] font-bold truncate"
           style={{ color: tc.alertRed }}
         >
           CONJUNCTION ALERT:{' '}
@@ -39,7 +39,7 @@ export function ThreatBanner() {
       </div>
       <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
         <span
-          className="px-2.5 py-1 rounded-lg font-mono text-[10px] uppercase tracking-wider font-bold"
+          className="px-2.5 py-1 rounded-lg text-[10px] uppercase tracking-wider font-bold"
           style={{
             backgroundColor: `${tc.alertAmber}20`,
             color: tc.alertAmber,
@@ -49,7 +49,7 @@ export function ThreatBanner() {
           CAM BURN ARMED (+0.85 m/s)
         </span>
         <span
-          className="font-mono text-[11px] font-medium"
+          className="text-[11px] font-medium"
           style={{ color: tc.textSecondary }}
         >
           550 KM LEO SHELL-1

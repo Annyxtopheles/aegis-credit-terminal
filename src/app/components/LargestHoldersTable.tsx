@@ -179,7 +179,7 @@ export function LargestHoldersTable() {
                   <td className="py-3.5 px-3">
                     <div className="flex items-center gap-2.5">
                       <Radar className="w-4 h-4 flex-shrink-0" style={{ color: badge.text }} />
-                      <span className="font-mono font-semibold" style={{ color: themeColors.textPrimary }}>
+                      <span className="font-semibold" style={{ color: themeColors.textPrimary }}>
                         {obj.designator}
                       </span>
                     </div>
@@ -187,18 +187,18 @@ export function LargestHoldersTable() {
                   <td className="py-3.5 px-3" style={{ color: themeColors.textSecondary }}>
                     {obj.origin}
                   </td>
-                  <td className="py-3.5 px-3 text-right font-mono" style={{ color: themeColors.textPrimary }}>
+                  <td className="py-3.5 px-3 text-right " style={{ color: themeColors.textPrimary }}>
                     {obj.rcs.toFixed(2)}
                   </td>
-                  <td className="py-3.5 px-3 text-right font-mono" style={{ color: themeColors.textPrimary }}>
+                  <td className="py-3.5 px-3 text-right " style={{ color: themeColors.textPrimary }}>
                     {obj.relVel.toFixed(2)} km/s
                   </td>
-                  <td className="py-3.5 px-3 text-right font-mono font-semibold" style={{ color: badge.text }}>
+                  <td className="py-3.5 px-3 text-right font-semibold" style={{ color: badge.text }}>
                     {obj.missDistKm.toFixed(3)} km
                   </td>
                   <td className="py-3.5 px-3 text-center">
                     <span
-                      className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-mono font-semibold"
+                      className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-semibold"
                       style={{
                         backgroundColor: badge.bg,
                         color: badge.text

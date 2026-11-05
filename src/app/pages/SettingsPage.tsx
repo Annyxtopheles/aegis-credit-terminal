@@ -168,7 +168,7 @@ export default function SettingsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Callsign / Email</label>
+                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Operator Callsign</label>
                   <input
                     type="email"
                     value={user?.email || ''}

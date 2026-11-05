@@ -83,7 +83,7 @@ export function DebtPricingChart() {
             <YAxis
               yAxisId="left"
               stroke="#71717A"
-              style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }}
+              style={{ fontSize: '11px' }}
               domain={[539.5, 542.5]}
               tickLine={false}
               axisLine={false}
@@ -93,7 +93,7 @@ export function DebtPricingChart() {
               yAxisId="right"
               orientation="right"
               stroke="#71717A"
-              style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace' }}
+              style={{ fontSize: '11px' }}
               domain={[100, 260]}
               tickLine={false}
               axisLine={false}

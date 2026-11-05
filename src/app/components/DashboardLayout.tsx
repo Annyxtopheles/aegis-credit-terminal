@@ -97,7 +97,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="flex items-center gap-3">
             {/* Live UTC Mission Clock */}
             <div
-              className="hidden md:flex items-center gap-2 h-9 px-3 rounded-xl text-xs font-mono"
+              className="hidden md:flex items-center gap-2 h-9 px-3 rounded-xl text-xs "
               style={{
                 backgroundColor: tc.bgSecondary,
                 border: `1px solid ${tc.borderPrimary}`,
@@ -124,7 +124,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 <span>Search Anything...</span>
               </span>
               <kbd
-                className="px-1.5 py-0.5 rounded text-[10px] font-mono"
+                className="px-1.5 py-0.5 rounded text-[10px] "
                 style={{
                   backgroundColor: tc.bgTertiary,
                   color: tc.textTertiary
@@ -227,7 +227,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                     <div className="text-xs font-semibold" style={{ color: tc.textPrimary }}>
                       {cmd.label}
                     </div>
-                    <div className="text-[11px] font-mono" style={{ color: tc.accentPrimary }}>
+                    <div className="text-[11px] " style={{ color: tc.accentPrimary }}>
                       {cmd.cmd}
                     </div>
                   </div>

@@ -149,7 +149,7 @@ function ShellProvisioningTab() {
 
         <div>
           <label className="block text-xs font-medium text-zinc-300 mb-1.5">
-            Lead Flight Director Callsign / Email *
+            Lead Flight Director Callsign *
           </label>
           <input
             type="email"
@@ -262,7 +262,7 @@ function UserManagementTab() {
               <tr key={u.id} className="hover:bg-zinc-800/20 transition-colors">
                 <td className="py-3.5 px-5">
                   <div className="font-semibold text-zinc-100">{u.name}</div>
-                  <div className="text-[11px] text-zinc-400 font-mono">{u.email}</div>
+                  <div className="text-[11px] text-zinc-400">{u.email}</div>
                 </td>
                 <td className="py-3.5 px-5 text-zinc-300 font-medium">
                   {u.company}
@@ -283,7 +283,7 @@ function UserManagementTab() {
                     {u.status === 'active' ? 'Nominal' : 'Pending'}
                   </span>
                 </td>
-                <td className="py-3.5 px-5 font-mono text-zinc-400 text-[11px]">
+                <td className="py-3.5 px-5 text-zinc-400 text-[11px]">
                   {u.lastActive || '—'}
                 </td>
                 <td className="py-3.5 px-5 text-right">
@@ -329,7 +329,7 @@ function UserManagementTab() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-zinc-300 mb-1">Callsign / Email</label>
+                <label className="block text-xs font-medium text-zinc-300 mb-1">Operator Callsign</label>
                 <input
                   type="email"
                   placeholder="j.smith@vanguard.space"

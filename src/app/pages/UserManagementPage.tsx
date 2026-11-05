@@ -120,7 +120,7 @@ export default function UserManagementPage() {
                 </span>
               </div>
               <div className="mt-3">
-                <div className="text-2xl font-bold font-mono text-zinc-100 tracking-tight">
+                <div className="text-2xl font-bold text-zinc-100 tracking-tight">
                   {kpi.value}
                 </div>
                 <div className="text-xs text-zinc-400 mt-1 flex items-center gap-1.5">
@@ -203,7 +203,7 @@ export default function UserManagementPage() {
                         </div>
                         <div>
                           <div className="text-sm font-semibold text-zinc-100">{user.name}</div>
-                          <div className="text-zinc-400 font-mono text-[11px] mt-0.5">{user.email}</div>
+                          <div className="text-zinc-400 text-[11px] mt-0.5">{user.email}</div>
                         </div>
                       </div>
                     </td>
@@ -223,7 +223,7 @@ export default function UserManagementPage() {
                         {user.status === 'active' ? 'Nominal' : 'Pending Signature'}
                       </span>
                     </td>
-                    <td className="py-4 px-5 font-mono text-zinc-400 text-[11px]">
+                    <td className="py-4 px-5 text-zinc-400 text-[11px]">
                       {user.lastActive || '—'}
                     </td>
                     <td className="py-4 px-5 text-right">
@@ -301,7 +301,7 @@ export default function UserManagementPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-300 mb-1.5">Callsign / Email</label>
+                <label className="block text-xs font-medium text-zinc-300 mb-1.5">Operator Callsign</label>
                 <input
                   type="email"
                   placeholder="j.smith@vanguard.space"
@@ -368,7 +368,7 @@ export default function UserManagementPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-300 mb-1.5">Email</label>
+                <label className="block text-xs font-medium text-zinc-300 mb-1.5">Operator Callsign</label>
                 <input
                   type="email"
                   value={editingUser.email}

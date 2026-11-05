@@ -74,7 +74,7 @@ export function TopPriorities() {
             }}
           >
             <div className="flex items-start gap-3.5">
-              <span className="w-7 h-7 rounded-lg bg-[#282A2F] text-zinc-300 font-mono text-xs font-semibold flex items-center justify-center shrink-0 border border-zinc-700/50">
+              <span className="w-7 h-7 rounded-lg bg-[#282A2F] text-zinc-300 text-xs font-semibold flex items-center justify-center shrink-0 border border-zinc-700/50">
                 {item.id}
               </span>
               <div>
@@ -92,7 +92,7 @@ export function TopPriorities() {
               </div>
             </div>
             <div className="shrink-0 text-right">
-              <span className="text-[11px] font-mono text-zinc-400 flex items-center gap-1 justify-end">
+              <span className="text-[11px] text-zinc-400 flex items-center gap-1 justify-end">
                 <Clock className="w-3 h-3 text-zinc-500" />
                 {item.time}
               </span>

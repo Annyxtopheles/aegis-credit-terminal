@@ -66,7 +66,7 @@ export default function PerformanceAnalysisPage() {
                 </span>
               </div>
               <div className="mt-3">
-                <div className="text-2xl font-bold font-mono text-zinc-100 tracking-tight">
+                <div className="text-2xl font-bold text-zinc-100 tracking-tight">
                   {kpi.value}
                 </div>
                 <div className="text-xs text-zinc-400 mt-1 flex items-center gap-1.5">

@@ -89,13 +89,13 @@ export function KeyEvents() {
                   <div className="text-xs font-medium text-zinc-300 mt-0.5">
                     {evt.target}
                   </div>
-                  <div className="text-[11px] text-zinc-400 mt-1 font-mono">
+                  <div className="text-[11px] text-zinc-400 mt-1 ">
                     {evt.detail}
                   </div>
                 </div>
               </div>
               <div className="shrink-0 text-right">
-                <span className="text-xs font-bold font-mono text-zinc-200 bg-[#282A2F] px-2.5 py-1 rounded-lg border border-zinc-700/50">
+                <span className="text-xs font-bold text-zinc-200 bg-[#282A2F] px-2.5 py-1 rounded-lg border border-zinc-700/50">
                   {evt.epoch}
                 </span>
               </div>

@@ -180,7 +180,7 @@ export function CapitalStructureTable() {
               className="bg-transparent text-xs outline-none flex-1"
               style={{ color: themeColors.textPrimary }}
             />
-            <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono text-zinc-500">⌘K</kbd>
+            <kbd className="px-1.5 py-0.5 rounded text-[10px] text-zinc-500">⌘K</kbd>
           </div>
 
           <button
@@ -249,20 +249,20 @@ export function CapitalStructureTable() {
                       <Satellite className="w-3.5 h-3.5 flex-shrink-0" style={{ color: themeColors.accentPrimary }} />
                       <div>
                         <div className="font-medium" style={{ color: themeColors.textPrimary }}>{row.name}</div>
-                        <div className="text-[11px] font-mono" style={{ color: themeColors.textSecondary }}>{row.svId}</div>
+                        <div className="text-[11px] " style={{ color: themeColors.textSecondary }}>{row.svId}</div>
                       </div>
                     </div>
                   </td>
-                  <td className="py-3.5 px-3 text-center font-mono" style={{ color: themeColors.textSecondary }}>
+                  <td className="py-3.5 px-3 text-center " style={{ color: themeColors.textSecondary }}>
                     {row.cosparId}
                   </td>
-                  <td className="py-3.5 px-3 text-right font-mono" style={{ color: themeColors.textPrimary }}>
+                  <td className="py-3.5 px-3 text-right " style={{ color: themeColors.textPrimary }}>
                     {row.inclination}
                   </td>
-                  <td className="py-3.5 px-3 text-right font-mono" style={{ color: themeColors.textPrimary }}>
+                  <td className="py-3.5 px-3 text-right " style={{ color: themeColors.textPrimary }}>
                     {row.eccentricity}
                   </td>
-                  <td className="py-3.5 px-3 text-right font-mono" style={{ color: themeColors.textPrimary }}>
+                  <td className="py-3.5 px-3 text-right " style={{ color: themeColors.textPrimary }}>
                     {row.meanMotion}
                   </td>
                   <td className="py-3.5 px-3 text-center">
@@ -290,15 +290,15 @@ export function CapitalStructureTable() {
                           }}
                         />
                       </div>
-                      <span className="font-mono font-semibold" style={{ color: row.propellantPct < 45 ? '#F87171' : themeColors.textPrimary }}>
+                      <span className="font-semibold" style={{ color: row.propellantPct < 45 ? '#F87171' : themeColors.textPrimary }}>
                         {row.propellantPct}%
                       </span>
                     </div>
                   </td>
-                  <td className="py-3.5 px-3 text-right font-mono" style={{ color: themeColors.textSecondary }}>
+                  <td className="py-3.5 px-3 text-right " style={{ color: themeColors.textSecondary }}>
                     {row.nextBurnWindow}
                   </td>
-                  <td className="py-3.5 px-3 text-right font-mono font-semibold" style={{ color: themeColors.accentPrimary }}>
+                  <td className="py-3.5 px-3 text-right font-semibold" style={{ color: themeColors.accentPrimary }}>
                     {row.deltaVBudget}
                   </td>
                 </tr>

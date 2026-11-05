@@ -121,8 +121,8 @@ export function CovenantCompliance() {
                   />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-sm font-bold font-mono text-zinc-100">{g.actual}</span>
-                  <span className="text-[10px] text-zinc-400 font-mono mt-0.5">{g.pct}%</span>
+                  <span className="text-sm font-bold text-zinc-100">{g.actual}</span>
+                  <span className="text-[10px] text-zinc-400 mt-0.5">{g.pct}%</span>
                 </div>
               </div>
 
@@ -132,7 +132,7 @@ export function CovenantCompliance() {
               <div className="text-[11px] text-zinc-400 mt-0.5">
                 {g.spacecraft}
               </div>
-              <div className="text-[10px] text-zinc-500 mt-1 font-mono">
+              <div className="text-[10px] text-zinc-500 mt-1 ">
                 Req: {g.threshold}
               </div>
               <span
@@ -151,7 +151,7 @@ export function CovenantCompliance() {
           <div className="text-xs font-medium text-zinc-400 uppercase tracking-wider">
             Uploaded 3-Axis Hall-Effect CAM Vector (VANGUARD-04 // Epoch 16:40 UTC)
           </div>
-          <span className="text-[11px] font-mono text-indigo-400">Ready for Execution</span>
+          <span className="text-[11px] text-indigo-400">Ready for Execution</span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {burnVectors.map(v => (
@@ -169,8 +169,8 @@ export function CovenantCompliance() {
                   {v.status}
                 </span>
               </div>
-              <div className="text-base font-bold font-mono text-zinc-100 mt-2">{v.val}</div>
-              <div className="text-[11px] text-zinc-500 font-mono mt-1">Tolerance: {v.tol}</div>
+              <div className="text-base font-bold text-zinc-100 mt-2">{v.val}</div>
+              <div className="text-[11px] text-zinc-500 mt-1">Tolerance: {v.tol}</div>
             </div>
           ))}
         </div>

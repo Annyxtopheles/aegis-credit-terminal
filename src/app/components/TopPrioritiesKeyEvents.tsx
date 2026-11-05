@@ -32,7 +32,7 @@ export function TopPrioritiesKeyEvents() {
           border: `1px solid ${themeColors.borderPrimary}`
         }}
       >
-        <h3 style={{ fontSize: '14px', fontWeight: 600, color: themeColors.textPrimary, marginBottom: '12px' }} className="md:text-base md:mb-4 font-mono tracking-wide">
+        <h3 style={{ fontSize: '14px', fontWeight: 600, color: themeColors.textPrimary, marginBottom: '12px' }} className="md:text-base md:mb-4 tracking-wide">
           FLIGHT DIRECTOR DIRECTIVES
         </h3>
         <ul className="space-y-2 md:space-y-3">
@@ -46,7 +46,7 @@ export function TopPrioritiesKeyEvents() {
                 color: themeColors.textPrimary
               }}
             >
-              <span style={{ color: themeColors.accentPrimary, flexShrink: 0, fontFamily: 'JetBrains Mono, monospace' }}>•</span>
+              <span style={{ color: themeColors.accentPrimary, flexShrink: 0 }}>•</span>
               <span className="md:text-sm md:leading-relaxed">{priority}</span>
             </li>
           ))}
@@ -60,7 +60,7 @@ export function TopPrioritiesKeyEvents() {
           border: `1px solid ${themeColors.borderPrimary}`
         }}
       >
-        <h3 style={{ fontSize: '14px', fontWeight: 600, color: themeColors.textPrimary, marginBottom: '12px' }} className="md:text-base md:mb-4 font-mono tracking-wide">
+        <h3 style={{ fontSize: '14px', fontWeight: 600, color: themeColors.textPrimary, marginBottom: '12px' }} className="md:text-base md:mb-4 tracking-wide">
           UPCOMING ORBITAL BURN & PASS WINDOWS
         </h3>
         <ul className="space-y-2 md:space-y-3">
@@ -74,8 +74,8 @@ export function TopPrioritiesKeyEvents() {
                 color: themeColors.textPrimary
               }}
             >
-              <span style={{ color: themeColors.accentPrimary, flexShrink: 0, fontFamily: 'JetBrains Mono, monospace' }}>•</span>
-              <span className="md:text-sm md:leading-relaxed font-mono">{event}</span>
+              <span style={{ color: themeColors.accentPrimary, flexShrink: 0 }}>•</span>
+              <span className="md:text-sm md:leading-relaxed">{event}</span>
             </li>
           ))}
         </ul>

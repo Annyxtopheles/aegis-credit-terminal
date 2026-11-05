@@ -95,11 +95,11 @@ export function AegisCommentary({ content = DEFAULT_CONTENT }: AegisCommentaryPr
                   <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium border ${meta.badgeClass}`}>
                     {meta.tag}
                   </span>
-                  <span className="text-[11px] text-zinc-400 font-mono">
+                  <span className="text-[11px] text-zinc-400 ">
                     {meta.ts}
                   </span>
                 </div>
-                <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-mono">
+                <span className="text-[10px] text-zinc-500 uppercase tracking-wider ">
                   {meta.sub}
                 </span>
               </div>

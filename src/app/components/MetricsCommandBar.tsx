@@ -106,7 +106,7 @@ export function MetricsCommandBar() {
                   </span>
                 </div>
                 <div>
-                  <div className="font-mono text-lg font-bold text-zinc-100">
+                  <div className="text-lg font-bold text-zinc-100">
                     {metric.value}
                   </div>
                   <div className="text-[11px] text-zinc-400 mt-0.5 truncate">
@@ -129,7 +129,7 @@ export function MetricsCommandBar() {
               Command line // Search NORAD ID, COSPAR designator, or execute CAM simulation...
             </span>
           </div>
-          <kbd className="px-2 py-0.5 text-[10px] font-mono rounded-lg bg-[#16171A] text-zinc-400 border border-[#2A2C32]">
+          <kbd className="px-2 py-0.5 text-[10px] rounded-lg bg-[#16171A] text-zinc-400 border border-[#2A2C32]">
             ⌘K
           </kbd>
         </div>
@@ -173,7 +173,7 @@ export function MetricsCommandBar() {
                   className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left transition-colors hover:bg-zinc-800/40"
                 >
                   <span className="text-xs font-medium text-zinc-200">{item.label}</span>
-                  <span className="font-mono text-[10px] text-indigo-400">
+                  <span className="text-[10px] text-indigo-400">
                     {item.cmd}
                   </span>
                 </button>

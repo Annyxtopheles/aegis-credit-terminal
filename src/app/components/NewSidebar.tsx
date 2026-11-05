@@ -368,11 +368,11 @@ export function NewSidebar() {
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <Satellite className="w-4 h-4" style={{ color: tc.accentPrimary }} />
-                  <span className="text-[11px] font-mono font-bold" style={{ color: tc.accentPrimary }}>
+                  <span className="text-[11px] font-bold" style={{ color: tc.accentPrimary }}>
                     {selectedShell.ticker}
                   </span>
                 </div>
-                <span className="text-[10px] font-mono" style={{ color: tc.alertGreen }}>
+                <span className="text-[10px] " style={{ color: tc.alertGreen }}>
                   {selectedShell.propellant}% Xe
                 </span>
               </div>
@@ -395,7 +395,7 @@ export function NewSidebar() {
                 />
               </div>
 
-              <p className="text-[11px] font-mono leading-relaxed mb-2.5" style={{ color: tc.textSecondary }}>
+              <p className="text-[11px] leading-relaxed mb-2.5" style={{ color: tc.textSecondary }}>
                 {selectedShell.details}
               </p>
 
@@ -440,7 +440,7 @@ export function NewSidebar() {
                         <div className="text-xs font-semibold truncate" style={{ color: tc.textPrimary }}>
                           {shell.name}
                         </div>
-                        <div className="text-[10px] font-mono text-zinc-400">
+                        <div className="text-[10px] text-zinc-400">
                           {shell.details}
                         </div>
                       </div>

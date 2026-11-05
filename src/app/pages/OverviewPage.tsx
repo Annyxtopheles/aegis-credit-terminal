@@ -166,7 +166,7 @@ function CustomAreaTooltip({ active, payload }: any) {
     >
       <div className="text-[11px] text-zinc-400 mb-1">{item.date}, 2026</div>
       <div className="flex items-center gap-2">
-        <span className="text-xs font-bold text-white font-mono">
+        <span className="text-xs font-bold text-white ">
           {item.altitude.toLocaleString()} m
         </span>
         <span className="text-[11px] font-semibold" style={{ color: '#4ADE80' }}>
@@ -633,7 +633,7 @@ export default function OverviewPage() {
                 />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                <span className="text-[21px] font-bold leading-none font-mono" style={{ color: tc.textPrimary }}>
+                <span className="text-[21px] font-bold leading-none " style={{ color: tc.textPrimary }}>
                   2351
                 </span>
                 <span className="text-[11px] mt-1" style={{ color: tc.textSecondary }}>
@@ -653,7 +653,7 @@ export default function OverviewPage() {
                     />
                     <span style={{ color: tc.textSecondary }}>{item.label}</span>
                   </div>
-                  <span className="font-semibold font-mono" style={{ color: tc.textPrimary }}>
+                  <span className="font-semibold " style={{ color: tc.textPrimary }}>
                     {item.count}
                   </span>
                 </div>
@@ -709,7 +709,7 @@ export default function OverviewPage() {
                 style={{ color: tc.textPrimary }}
               />
               <kbd
-                className="px-1.5 py-0.5 rounded text-[10px] font-mono"
+                className="px-1.5 py-0.5 rounded text-[10px] "
                 style={{ color: tc.textTertiary }}
               >
                 ⌘K
@@ -867,7 +867,7 @@ export default function OverviewPage() {
                       backgroundColor: checked ? 'rgba(99, 102, 241, 0.06)' : 'transparent'
                     }}
                   >
-                    <td className="py-3.5 px-3 font-mono" style={{ color: tc.textSecondary }}>
+                    <td className="py-3.5 px-3 " style={{ color: tc.textSecondary }}>
                       <label className="inline-flex items-center gap-2.5 cursor-pointer">
                         <input
                           type="checkbox"
@@ -905,7 +905,7 @@ export default function OverviewPage() {
                         {sv.status}
                       </span>
                     </td>
-                    <td className="py-3.5 px-3 font-mono" style={{ color: tc.textSecondary }}>
+                    <td className="py-3.5 px-3 " style={{ color: tc.textSecondary }}>
                       {sv.epochDate}
                     </td>
                     <td className="py-3.5 px-3">

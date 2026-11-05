@@ -107,7 +107,7 @@ export function Sidebar() {
               <div className="w-10 h-10 flex items-center justify-center rounded" style={{ backgroundColor: 'rgba(245, 158, 11, 0.16)', border: '1px solid rgba(245, 158, 11, 0.4)' }}>
                 <Radar className="w-5 h-5" style={{ color: tc.accentPrimary }} />
               </div>
-              <div className="font-mono" style={{ fontSize: '11px', lineHeight: '1.3', color: tc.textPrimary, fontWeight: 700 }}>
+              <div className="" style={{ fontSize: '11px', lineHeight: '1.3', color: tc.textPrimary, fontWeight: 700 }}>
                 KESSLER<br />ORBITAL SSA
               </div>
             </div>
@@ -146,7 +146,7 @@ export function Sidebar() {
           <div className="px-4 pb-3 pt-2">
             <div className="flex items-center gap-2">
               <Briefcase className="w-3 h-3" style={{ color: tc.textTertiary }} />
-              <span className="font-mono" style={{ fontSize: '11px', color: tc.textTertiary, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              <span className="" style={{ fontSize: '11px', color: tc.textTertiary, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                 {user.role === 'super_admin' ? 'Flight Dynamics Director' :
                   user.role === 'company_admin' ? 'Constellation Lead' : 'Orbital Analyst'}
               </span>
