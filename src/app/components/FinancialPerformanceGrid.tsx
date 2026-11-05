@@ -67,7 +67,7 @@ export function FinancialPerformanceGrid() {
         <div className="h-56 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={conjunctionFluxData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#2A2C32" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke={tc.borderPrimary} vertical={false} />
               <XAxis
                 dataKey="label"
                 stroke="#71717A"
@@ -84,12 +84,12 @@ export function FinancialPerformanceGrid() {
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#1F2024',
-                  borderColor: '#2A2C32',
+                  backgroundColor: tc.bgSecondary,
+                  borderColor: tc.borderPrimary,
                   borderRadius: '12px',
-                  color: '#F4F4F5',
+                  color: tc.textPrimary,
                   fontSize: '12px',
-                  boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+                  boxShadow: theme === 'dark' ? '0 8px 24px rgba(0,0,0,0.4)' : '0 8px 24px rgba(0,0,0,0.08)'
                 }}
                 formatter={(v: any) => [`${v} × 10⁻⁴`, 'Peak Pc']}
               />
@@ -136,7 +136,7 @@ export function FinancialPerformanceGrid() {
         <div className="h-56 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={propellantBurnData} margin={{ top: 10, right: -10, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#2A2C32" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke={tc.borderPrimary} vertical={false} />
               <XAxis
                 dataKey="epoch"
                 stroke="#71717A"
@@ -163,12 +163,12 @@ export function FinancialPerformanceGrid() {
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#1F2024',
-                  borderColor: '#2A2C32',
+                  backgroundColor: tc.bgSecondary,
+                  borderColor: tc.borderPrimary,
                   borderRadius: '12px',
-                  color: '#F4F4F5',
+                  color: tc.textPrimary,
                   fontSize: '12px',
-                  boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+                  boxShadow: theme === 'dark' ? '0 8px 24px rgba(0,0,0,0.4)' : '0 8px 24px rgba(0,0,0,0.08)'
                 }}
               />
               <Bar yAxisId="left" dataKey="xenonKg" name="Xenon Mass (kg)" fill="#818CF8" radius={[6, 6, 0, 0]} />
@@ -203,16 +203,17 @@ export function FinancialPerformanceGrid() {
         <div className="h-44 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={shellDistributionData} layout="vertical" margin={{ left: 10, right: 20, top: 5, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#2A2C32" horizontal={false} />
-              <XAxis type="number" stroke="#71717A" style={{ fontSize: '11px' }} domain={[0, 20]} tickLine={false} axisLine={false} />
-              <YAxis type="category" dataKey="segment" stroke="#A1A1AA" style={{ fontSize: '12px' }} width={160} tickLine={false} axisLine={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke={tc.borderPrimary} horizontal={false} />
+              <XAxis type="number" stroke={tc.textTertiary} style={{ fontSize: '11px' }} domain={[0, 20]} tickLine={false} axisLine={false} />
+              <YAxis type="category" dataKey="segment" stroke={tc.textSecondary} style={{ fontSize: '12px' }} width={160} tickLine={false} axisLine={false} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#1F2024',
-                  borderColor: '#2A2C32',
+                  backgroundColor: tc.bgSecondary,
+                  borderColor: tc.borderPrimary,
                   borderRadius: '12px',
-                  color: '#F4F4F5',
-                  fontSize: '12px'
+                  color: tc.textPrimary,
+                  fontSize: '12px',
+                  boxShadow: theme === 'dark' ? '0 8px 24px rgba(0,0,0,0.4)' : '0 8px 24px rgba(0,0,0,0.08)'
                 }}
               />
               <Bar dataKey="value" name="Active SVs" fill="#6366F1" radius={[0, 6, 6, 0]} />
@@ -232,10 +233,10 @@ export function FinancialPerformanceGrid() {
       >
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h4 className="text-[15px] font-semibold text-zinc-100 tracking-tight">
+            <h4 className="text-[15px] font-semibold tracking-tight" style={{ color: tc.textPrimary }}>
               Ground & Optical Cross-Link Margin (dB)
             </h4>
-            <p className="text-xs text-zinc-400 mt-0.5">
+            <p className="text-xs mt-0.5" style={{ color: tc.textSecondary }}>
               Minimum operating threshold +6.0 dB above thermal noise floor
             </p>
           </div>
@@ -246,16 +247,17 @@ export function FinancialPerformanceGrid() {
         <div className="h-44 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={linkMarginByPlaneData} layout="vertical" margin={{ left: 10, right: 20, top: 5, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#2A2C32" horizontal={false} />
-              <XAxis type="number" stroke="#71717A" style={{ fontSize: '11px' }} domain={[0, 26]} tickLine={false} axisLine={false} />
-              <YAxis type="category" dataKey="segment" stroke="#A1A1AA" style={{ fontSize: '12px' }} width={160} tickLine={false} axisLine={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke={tc.borderPrimary} horizontal={false} />
+              <XAxis type="number" stroke={tc.textTertiary} style={{ fontSize: '11px' }} domain={[0, 26]} tickLine={false} axisLine={false} />
+              <YAxis type="category" dataKey="segment" stroke={tc.textSecondary} style={{ fontSize: '12px' }} width={160} tickLine={false} axisLine={false} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#1F2024',
-                  borderColor: '#2A2C32',
+                  backgroundColor: tc.bgSecondary,
+                  borderColor: tc.borderPrimary,
                   borderRadius: '12px',
-                  color: '#F4F4F5',
-                  fontSize: '12px'
+                  color: tc.textPrimary,
+                  fontSize: '12px',
+                  boxShadow: theme === 'dark' ? '0 8px 24px rgba(0,0,0,0.4)' : '0 8px 24px rgba(0,0,0,0.08)'
                 }}
                 formatter={(v: any) => [`${v} dB`, 'Link Margin']}
               />

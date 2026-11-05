@@ -68,19 +68,23 @@ export default function PortfolioManagerPage() {
           return (
             <div
               key={i}
-              className="p-5 rounded-2xl bg-[#1F2024] border border-[#2A2C32] flex flex-col justify-between hover:border-zinc-700/60 transition-all duration-200"
+              className="p-5 rounded-2xl flex flex-col justify-between transition-all duration-200"
+              style={{
+                backgroundColor: tc.bgSecondary,
+                border: `1px solid ${tc.borderPrimary}`
+              }}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-zinc-400">{stat.label}</span>
+                <span className="text-xs font-medium" style={{ color: tc.textSecondary }}>{stat.label}</span>
                 <span className="text-[11px] font-medium px-2 py-0.5 rounded-full border border-indigo-500/20 text-indigo-400 bg-indigo-500/10">
                   {stat.badge}
                 </span>
               </div>
               <div className="mt-3">
-                <div className="text-2xl font-bold text-zinc-100 tracking-tight">
+                <div className="text-2xl font-bold tracking-tight tabular-nums" style={{ color: tc.textPrimary }}>
                   {stat.value}
                 </div>
-                <div className="text-xs text-zinc-400 mt-1 flex items-center gap-1.5">
+                <div className="text-xs mt-1 flex items-center gap-1.5" style={{ color: tc.textSecondary }}>
                   <Icon className="w-3.5 h-3.5" />
                   <span>{stat.sub}</span>
                 </div>
@@ -93,46 +97,60 @@ export default function PortfolioManagerPage() {
       {/* Filters Bar */}
       <div className="flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-48">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: tc.textTertiary }} />
           <input
             type="text"
             placeholder="Search spacecraft NORAD ID or callsign..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full h-9 pl-9 pr-3 rounded-xl text-xs bg-[#16171A] text-zinc-100 border border-[#2A2C32] placeholder-zinc-500 focus:outline-none focus:border-indigo-500 transition-colors"
+            className="w-full h-9 pl-9 pr-3 rounded-xl text-xs focus:outline-none transition-colors"
+            style={{
+              backgroundColor: tc.bgTertiary,
+              border: `1px solid ${tc.borderPrimary}`,
+              color: tc.textPrimary
+            }}
           />
         </div>
 
         <div className="flex items-center gap-1.5">
-          {['All', 'High', 'Elevated', 'Moderate', 'Low'].map(t => (
-            <button
-              key={t}
-              onClick={() => setFilterThreat(t)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-colors ${
-                filterThreat === t
-                  ? 'bg-white text-zinc-950 font-semibold'
-                  : 'bg-[#1F2024] text-zinc-400 border border-[#2A2C32] hover:text-zinc-200'
-              }`}
-            >
-              {t}
-            </button>
-          ))}
+          {['All', 'High', 'Elevated', 'Moderate', 'Low'].map(t => {
+            const isSelected = filterThreat === t;
+            return (
+              <button
+                key={t}
+                onClick={() => setFilterThreat(t)}
+                className="px-3 py-1.5 rounded-xl text-xs font-medium transition-colors cursor-pointer"
+                style={{
+                  backgroundColor: isSelected ? (theme === 'dark' ? '#FFFFFF' : '#18181B') : tc.bgSecondary,
+                  color: isSelected ? (theme === 'dark' ? '#18181B' : '#FFFFFF') : tc.textSecondary,
+                  border: isSelected ? 'none' : `1px solid ${tc.borderPrimary}`
+                }}
+              >
+                {t}
+              </button>
+            );
+          })}
         </div>
 
         <div className="relative">
           <select
             value={sortBy}
             onChange={e => setSortBy(e.target.value)}
-            className="h-9 pl-3 pr-8 rounded-xl bg-[#1F2024] border border-[#2A2C32] text-xs text-zinc-300 focus:outline-none focus:border-indigo-500 appearance-none cursor-pointer"
+            className="h-9 pl-3 pr-8 rounded-xl text-xs focus:outline-none appearance-none cursor-pointer transition-colors"
+            style={{
+              backgroundColor: tc.bgSecondary,
+              border: `1px solid ${tc.borderPrimary}`,
+              color: tc.textPrimary
+            }}
           >
             {['Conjunction Risk', 'Altitude Decay', 'Designator'].map(s => (
               <option key={s} value={s}>{s}</option>
             ))}
           </select>
-          <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-400 pointer-events-none" />
+          <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none" style={{ color: tc.textTertiary }} />
         </div>
 
-        <span className="text-xs text-zinc-400 ml-auto">
+        <span className="text-xs ml-auto" style={{ color: tc.textSecondary }}>
           {filtered.length} of {SPACECRAFT_NODES.length} telemetry nodes
         </span>
       </div>
@@ -146,12 +164,16 @@ export default function PortfolioManagerPage() {
           return (
             <div
               key={co.ticker}
-              className="rounded-2xl p-5 bg-[#1F2024] border border-[#2A2C32] hover:border-zinc-700/60 transition-all duration-200 flex flex-col justify-between space-y-4"
+              className="rounded-2xl p-5 transition-all duration-200 flex flex-col justify-between space-y-4"
+              style={{
+                backgroundColor: tc.bgSecondary,
+                border: `1px solid ${tc.borderPrimary}`
+              }}
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="text-sm font-semibold text-zinc-100">{co.name}</h3>
-                  <div className="text-[11px] text-zinc-400 mt-0.5">{co.sector}</div>
+                  <h3 className="text-sm font-semibold" style={{ color: tc.textPrimary }}>{co.name}</h3>
+                  <div className="text-[11px] mt-0.5" style={{ color: tc.textSecondary }}>{co.sector}</div>
                 </div>
                 <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-medium border ${badgeClass}`}>
                   {co.threat}
@@ -159,17 +181,35 @@ export default function PortfolioManagerPage() {
               </div>
 
               <div className="grid grid-cols-3 gap-2">
-                <div className="p-2.5 rounded-xl bg-[#16171A] border border-[#2A2C32]">
-                  <div className="text-[10px] text-zinc-400">Mean Alt</div>
-                  <div className="text-xs font-bold text-zinc-100 mt-0.5">{co.altitudeKm.toFixed(2)} km</div>
+                <div
+                  className="p-2.5 rounded-xl transition-colors"
+                  style={{
+                    backgroundColor: tc.bgTertiary,
+                    border: `1px solid ${tc.borderPrimary}`
+                  }}
+                >
+                  <div className="text-[10px]" style={{ color: tc.textSecondary }}>Mean Alt</div>
+                  <div className="text-xs font-bold mt-0.5 tabular-nums" style={{ color: tc.textPrimary }}>{co.altitudeKm.toFixed(2)} km</div>
                 </div>
-                <div className="p-2.5 rounded-xl bg-[#16171A] border border-[#2A2C32]">
-                  <div className="text-[10px] text-zinc-400">Xenon</div>
-                  <div className={`text-xs font-bold mt-0.5 ${co.propellantPct < 75 ? 'text-rose-400' : 'text-emerald-400'}`}>{co.propellantPct}%</div>
+                <div
+                  className="p-2.5 rounded-xl transition-colors"
+                  style={{
+                    backgroundColor: tc.bgTertiary,
+                    border: `1px solid ${tc.borderPrimary}`
+                  }}
+                >
+                  <div className="text-[10px]" style={{ color: tc.textSecondary }}>Xenon</div>
+                  <div className={`text-xs font-bold mt-0.5 tabular-nums ${co.propellantPct < 75 ? 'text-rose-500' : 'text-emerald-500'}`}>{co.propellantPct}%</div>
                 </div>
-                <div className="p-2.5 rounded-xl bg-[#16171A] border border-[#2A2C32]">
-                  <div className="text-[10px] text-zinc-400">Next AOS</div>
-                  <div className="text-xs font-bold text-zinc-300 mt-0.5">T-{co.nextPassMin}m</div>
+                <div
+                  className="p-2.5 rounded-xl transition-colors"
+                  style={{
+                    backgroundColor: tc.bgTertiary,
+                    border: `1px solid ${tc.borderPrimary}`
+                  }}
+                >
+                  <div className="text-[10px]" style={{ color: tc.textSecondary }}>Next AOS</div>
+                  <div className="text-xs font-bold mt-0.5 tabular-nums" style={{ color: tc.textSecondary }}>T-{co.nextPassMin}m</div>
                 </div>
               </div>
 
@@ -181,30 +221,36 @@ export default function PortfolioManagerPage() {
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
-                <div className="flex items-center gap-1 text-xs font-semibold" style={{ color: isNeg ? '#F59E0B' : '#818CF8' }}>
+                <div className="flex items-center gap-1 text-xs font-semibold tabular-nums" style={{ color: isNeg ? '#F59E0B' : '#818CF8' }}>
                   {isNeg ? <TrendingDown className="w-3.5 h-3.5" /> : <TrendingUp className="w-3.5 h-3.5" />}
                   <span>{isNeg ? '' : '+'}{co.change} km</span>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pt-3 border-t border-[#2A2C32] text-xs">
-                <span className="text-zinc-400 text-[11px]">Rem. ΔV: <span className="text-zinc-100 font-semibold">{co.deltaV}</span></span>
+              <div
+                className="flex items-center justify-between pt-3 border-t text-xs transition-colors"
+                style={{ borderColor: tc.borderPrimary }}
+              >
+                <span className="text-[11px]" style={{ color: tc.textSecondary }}>Rem. ΔV: <span className="font-semibold tabular-nums" style={{ color: tc.textPrimary }}>{co.deltaV}</span></span>
                 <div className="flex items-center gap-1">
                   <button
-                    className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/40 transition-colors"
+                    className="p-1.5 rounded-lg transition-colors cursor-pointer"
+                    style={{ color: tc.textSecondary }}
                     title="Open Telemetry Console"
                     onClick={() => navigate('/dashboard')}
                   >
                     <Eye className="w-4 h-4" />
                   </button>
                   <button
-                    className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/40 transition-colors"
+                    className="p-1.5 rounded-lg transition-colors cursor-pointer"
+                    style={{ color: tc.textSecondary }}
                     title="Pin Spacecraft"
                   >
                     <Star className="w-4 h-4" />
                   </button>
                   <button
-                    className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/40 transition-colors"
+                    className="p-1.5 rounded-lg transition-colors cursor-pointer"
+                    style={{ color: tc.textSecondary }}
                     title="Configure CDM Trigger"
                   >
                     <Bell className="w-4 h-4" />

@@ -53,26 +53,44 @@ export function OnboardingModal() {
         <Radar className="w-8 h-8" />
       </div>
       <div>
-        <h2 className="text-xl font-bold text-zinc-100 tracking-tight">
+        <h2 className="text-xl font-bold tracking-tight" style={{ color: tc.textPrimary }}>
           Welcome to KESSLER Orbital SSA
         </h2>
-        <p className="text-xs text-zinc-400 mt-1 max-w-sm mx-auto leading-relaxed">
+        <p className="text-xs mt-1 max-w-sm mx-auto leading-relaxed" style={{ color: tc.textSecondary }}>
           Real-time Space Situational Awareness, 18th SDS Conjunction Data Message (CDM) screening, and autonomous Hall-Effect collision avoidance.
         </p>
       </div>
 
       <div className="grid grid-cols-3 gap-3 pt-2">
-        <div className="p-3 rounded-xl bg-[#16171A] border border-[#2A2C32]">
-          <div className="text-base font-bold text-zinc-100">48 / 48</div>
-          <div className="text-[10px] text-zinc-400 mt-0.5">Active SV Nodes</div>
+        <div
+          className="p-3 rounded-xl transition-colors"
+          style={{
+            backgroundColor: tc.bgTertiary,
+            border: `1px solid ${tc.borderPrimary}`
+          }}
+        >
+          <div className="text-base font-bold tabular-nums" style={{ color: tc.textPrimary }}>48 / 48</div>
+          <div className="text-[10px] mt-0.5" style={{ color: tc.textSecondary }}>Active SV Nodes</div>
         </div>
-        <div className="p-3 rounded-xl bg-[#16171A] border border-[#2A2C32]">
-          <div className="text-base font-bold text-emerald-400">27,400+</div>
-          <div className="text-[10px] text-zinc-400 mt-0.5">Tracked Objects</div>
+        <div
+          className="p-3 rounded-xl transition-colors"
+          style={{
+            backgroundColor: tc.bgTertiary,
+            border: `1px solid ${tc.borderPrimary}`
+          }}
+        >
+          <div className="text-base font-bold text-emerald-500 tabular-nums">27,400+</div>
+          <div className="text-[10px] mt-0.5" style={{ color: tc.textSecondary }}>Tracked Objects</div>
         </div>
-        <div className="p-3 rounded-xl bg-[#16171A] border border-[#2A2C32]">
-          <div className="text-base font-bold text-indigo-400">&lt;180ms</div>
-          <div className="text-[10px] text-zinc-400 mt-0.5">OISL Mesh Sync</div>
+        <div
+          className="p-3 rounded-xl transition-colors"
+          style={{
+            backgroundColor: tc.bgTertiary,
+            border: `1px solid ${tc.borderPrimary}`
+          }}
+        >
+          <div className="text-base font-bold text-indigo-500 tabular-nums">&lt;180ms</div>
+          <div className="text-[10px] mt-0.5" style={{ color: tc.textSecondary }}>OISL Mesh Sync</div>
         </div>
       </div>
     </div>,
@@ -80,22 +98,27 @@ export function OnboardingModal() {
     // Step 1: Watchlist
     <div key="1" className="space-y-4">
       <div>
-        <h2 className="text-base font-semibold text-zinc-100 tracking-tight">
+        <h2 className="text-base font-semibold tracking-tight" style={{ color: tc.textPrimary }}>
           Assign Orbital Shells to Console
         </h2>
-        <p className="text-xs text-zinc-400 mt-0.5">
+        <p className="text-xs mt-0.5" style={{ color: tc.textSecondary }}>
           Select LEO orbital planes for continuous covariance screening
         </p>
       </div>
 
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: tc.textTertiary }} />
         <input
           type="text"
           placeholder="Search orbital shells..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="w-full h-10 pl-9 pr-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+          className="w-full h-10 pl-9 pr-3.5 rounded-xl text-xs focus:outline-none transition-colors"
+          style={{
+            backgroundColor: tc.bgTertiary,
+            border: `1px solid ${tc.borderPrimary}`,
+            color: tc.textPrimary
+          }}
         />
       </div>
 
@@ -103,31 +126,45 @@ export function OnboardingModal() {
         {filtered.map(co => (
           <div
             key={co.ticker}
-            className={`flex items-center justify-between p-3 rounded-xl transition-all cursor-pointer ${
-              co.added
-                ? 'bg-[#282A2F] border border-indigo-500/40'
-                : 'bg-[#16171A] border border-[#2A2C32] hover:border-zinc-700/60'
-            }`}
+            className="flex items-center justify-between p-3 rounded-xl transition-all cursor-pointer"
+            style={{
+              backgroundColor: co.added ? tc.bgTertiary : tc.bgSecondary,
+              border: `1px solid ${co.added ? tc.accentPrimary : tc.borderPrimary}`
+            }}
             onClick={() => toggleShell(co.ticker)}
           >
             <div className="flex items-center gap-3">
-              <span className="w-8 h-8 rounded-lg bg-[#1F2024] flex items-center justify-center text-[10px] font-bold text-indigo-400 border border-zinc-700/50">
+              <span
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-bold"
+                style={{
+                  backgroundColor: tc.bgTertiary,
+                  border: `1px solid ${tc.borderPrimary}`,
+                  color: tc.accentPrimary
+                }}
+              >
                 {co.ticker}
               </span>
               <div>
-                <div className="text-xs font-semibold text-zinc-100">{co.name}</div>
-                <div className="text-[11px] text-zinc-400">{co.sector}</div>
+                <div className="text-xs font-semibold" style={{ color: tc.textPrimary }}>{co.name}</div>
+                <div className="text-[11px]" style={{ color: tc.textSecondary }}>{co.sector}</div>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium border ${
-                co.threat === 'Critical' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' :
-                co.threat === 'Elevated' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
-                'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                co.threat === 'Critical' ? 'bg-rose-500/10 text-rose-500 border-rose-500/20' :
+                co.threat === 'Elevated' ? 'bg-amber-500/10 text-amber-500 border-amber-500/20' :
+                'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
               }`}>
                 {co.threat}
               </span>
-              <div className={`w-5 h-5 rounded-lg flex items-center justify-center ${co.added ? 'bg-indigo-500 text-white' : 'border border-zinc-700'}`}>
+              <div
+                className="w-5 h-5 rounded-lg flex items-center justify-center transition-colors"
+                style={{
+                  backgroundColor: co.added ? tc.accentPrimary : 'transparent',
+                  border: `1px solid ${co.added ? tc.accentPrimary : tc.borderPrimary}`,
+                  color: '#FFFFFF'
+                }}
+              >
                 {co.added && <Check className="w-3 h-3" />}
               </div>
             </div>
@@ -139,20 +176,27 @@ export function OnboardingModal() {
     // Step 2: Alerts
     <div key="2" className="space-y-4">
       <div>
-        <h2 className="text-base font-semibold text-zinc-100 tracking-tight">
+        <h2 className="text-base font-semibold tracking-tight" style={{ color: tc.textPrimary }}>
           Configure Automated CDM Triggers
         </h2>
-        <p className="text-xs text-zinc-400 mt-0.5">
+        <p className="text-xs mt-0.5" style={{ color: tc.textSecondary }}>
           Arm real-time conjunction and thermospheric drag alarms
         </p>
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-zinc-300 mb-1.5">Primary Constellation Shell</label>
+        <label className="block text-xs font-medium mb-1.5" style={{ color: tc.textSecondary }}>
+          Primary Constellation Shell
+        </label>
         <select
           value={selectedShell}
           onChange={e => setSelectedShell(e.target.value)}
-          className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500 cursor-pointer"
+          className="w-full h-10 px-3.5 rounded-xl text-xs focus:outline-none cursor-pointer transition-colors"
+          style={{
+            backgroundColor: tc.bgTertiary,
+            border: `1px solid ${tc.borderPrimary}`,
+            color: tc.textPrimary
+          }}
         >
           {SUGGESTED_SHELLS.map(c => (
             <option key={c.ticker} value={c.ticker}>{c.name} [{c.ticker}]</option>
@@ -166,21 +210,28 @@ export function OnboardingModal() {
           return (
             <div
               key={alert.id}
-              className={`flex items-center justify-between p-3.5 rounded-xl cursor-pointer transition-all ${
-                isSelected
-                  ? 'bg-[#282A2F] border border-indigo-500/40'
-                  : 'bg-[#16171A] border border-[#2A2C32] hover:border-zinc-700/60'
-              }`}
+              className="flex items-center justify-between p-3.5 rounded-xl cursor-pointer transition-all"
+              style={{
+                backgroundColor: isSelected ? tc.bgTertiary : tc.bgSecondary,
+                border: `1px solid ${isSelected ? tc.accentPrimary : tc.borderPrimary}`
+              }}
               onClick={() => toggleAlert(alert.id)}
             >
               <div className="flex items-center gap-3">
                 <Bell className={`w-4 h-4 ${isSelected ? 'text-indigo-400' : 'text-zinc-500'}`} />
                 <div>
-                  <div className="text-xs font-semibold text-zinc-100">{alert.label}</div>
-                  <div className="text-[11px] text-zinc-400">{alert.desc}</div>
+                  <div className="text-xs font-semibold" style={{ color: tc.textPrimary }}>{alert.label}</div>
+                  <div className="text-[11px]" style={{ color: tc.textSecondary }}>{alert.desc}</div>
                 </div>
               </div>
-              <div className={`w-5 h-5 rounded-lg flex items-center justify-center ${isSelected ? 'bg-indigo-500 text-white' : 'border border-zinc-700'}`}>
+              <div
+                className="w-5 h-5 rounded-lg flex items-center justify-center transition-colors"
+                style={{
+                  backgroundColor: isSelected ? tc.accentPrimary : 'transparent',
+                  border: `1px solid ${isSelected ? tc.accentPrimary : tc.borderPrimary}`,
+                  color: '#FFFFFF'
+                }}
+              >
                 {isSelected && <Check className="w-3 h-3" />}
               </div>
             </div>
@@ -191,30 +242,36 @@ export function OnboardingModal() {
 
     // Step 3: Ready
     <div key="3" className="text-center space-y-4">
-      <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+      <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 flex items-center justify-center mx-auto">
         <Check className="w-8 h-8" />
       </div>
       <div>
-        <h2 className="text-xl font-bold text-zinc-100 tracking-tight">
+        <h2 className="text-xl font-bold tracking-tight" style={{ color: tc.textPrimary }}>
           Telemetry Lock Established
         </h2>
-        <p className="text-xs text-zinc-400 mt-1">
+        <p className="text-xs mt-1" style={{ color: tc.textSecondary }}>
           Your orbital flight deck is configured and ready for live operations
         </p>
       </div>
 
-      <div className="p-4 rounded-xl bg-[#16171A] border border-[#2A2C32] text-left space-y-2 text-xs">
+      <div
+        className="p-4 rounded-xl text-left space-y-2 text-xs transition-colors"
+        style={{
+          backgroundColor: tc.bgTertiary,
+          border: `1px solid ${tc.borderPrimary}`
+        }}
+      >
         <div className="flex items-center justify-between">
-          <span className="text-zinc-400">Synced Shells:</span>
-          <span className="font-semibold text-zinc-200">{addedShells.length} Orbital Shells</span>
+          <span style={{ color: tc.textSecondary }}>Synced Shells:</span>
+          <span className="font-semibold" style={{ color: tc.textPrimary }}>{addedShells.length} Orbital Shells</span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-zinc-400">Armed Alarms:</span>
-          <span className="font-semibold text-zinc-200">{selectedAlerts.length} Threshold Triggers</span>
+          <span style={{ color: tc.textSecondary }}>Armed Alarms:</span>
+          <span className="font-semibold" style={{ color: tc.textPrimary }}>{selectedAlerts.length} Threshold Triggers</span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-zinc-400">Primary Focus:</span>
-          <span className="text-indigo-400 font-semibold">{selectedShell}</span>
+          <span style={{ color: tc.textSecondary }}>Primary Focus:</span>
+          <span className="text-indigo-500 font-semibold">{selectedShell}</span>
         </div>
       </div>
     </div>
@@ -222,20 +279,29 @@ export function OnboardingModal() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="w-full max-w-lg rounded-2xl bg-[#1F2024] border border-[#2A2C32] p-6 shadow-2xl space-y-6">
+      <div
+        className="w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-6 transition-colors"
+        style={{
+          backgroundColor: tc.bgSecondary,
+          border: `1px solid ${tc.borderPrimary}`
+        }}
+      >
         {/* Stepper Dots */}
-        <div className="flex items-center justify-between border-b border-[#2A2C32] pb-4">
+        <div className="flex items-center justify-between border-b pb-4 transition-colors" style={{ borderColor: tc.borderPrimary }}>
           <div className="flex items-center gap-1.5">
             {steps.map((s, i) => (
               <div
                 key={i}
                 className={`h-1.5 rounded-full transition-all ${
-                  i === step ? 'w-6 bg-indigo-500' : i < step ? 'w-2 bg-indigo-500/50' : 'w-2 bg-zinc-700'
+                  i === step ? 'w-6 bg-indigo-500' : i < step ? 'w-2 bg-indigo-500/50' : 'w-2'
                 }`}
+                style={{
+                  backgroundColor: i > step ? tc.borderPrimary : undefined
+                }}
               />
             ))}
           </div>
-          <span className="text-xs text-zinc-400 font-medium">
+          <span className="text-xs font-medium" style={{ color: tc.textSecondary }}>
             Step {step + 1} of {steps.length}
           </span>
         </div>
@@ -244,11 +310,12 @@ export function OnboardingModal() {
         {stepContent[step]}
 
         {/* Actions */}
-        <div className="flex items-center justify-between pt-2 border-t border-[#2A2C32]">
+        <div className="flex items-center justify-between pt-2 border-t transition-colors" style={{ borderColor: tc.borderPrimary }}>
           {step > 0 ? (
             <button
               onClick={() => setStep(s => s - 1)}
-              className="px-4 py-2 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 transition-colors"
+              className="px-4 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer"
+              style={{ color: tc.textSecondary }}
             >
               Back
             </button>
@@ -259,7 +326,11 @@ export function OnboardingModal() {
               if (step < steps.length - 1) setStep(s => s + 1);
               else dismissOnboarding();
             }}
-            className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors"
+            className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl font-semibold text-xs tracking-tight transition-colors cursor-pointer"
+            style={{
+              backgroundColor: theme === 'dark' ? '#FFFFFF' : '#18181B',
+              color: theme === 'dark' ? '#18181B' : '#FFFFFF'
+            }}
           >
             <span>{step === steps.length - 1 ? 'Launch Flight Console' : 'Continue'}</span>
             <ChevronRight className="w-3.5 h-3.5" />

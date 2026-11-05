@@ -43,46 +43,56 @@ export function DebtPricingChart() {
     >
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
         <div>
-          <h3 className="text-[15px] font-semibold text-zinc-100 tracking-tight">
+          <h3 className="text-[15px] font-semibold tracking-tight" style={{ color: tc.textPrimary }}>
             Orbital Altitude Decay & Thermospheric Drag
           </h3>
-          <p className="text-xs text-zinc-400 mt-0.5">
+          <p className="text-xs mt-0.5" style={{ color: tc.textSecondary }}>
             Mean semi-major axis altitude vs. F10.7 solar radio flux // VANGUARD-04
           </p>
         </div>
 
         {/* Clean Segmented Range Switcher */}
-        <div className="flex items-center gap-1 p-1 rounded-xl bg-[#16171A] border border-[#2A2C32] self-start sm:self-auto">
-          {(['7D', '14D', '30D'] as const).map(r => (
-            <button
-              key={r}
-              onClick={() => setRange(r)}
-              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
-                range === r
-                  ? 'bg-[#282A2F] text-zinc-100 shadow-sm font-semibold'
-                  : 'text-zinc-400 hover:text-zinc-200'
-              }`}
-            >
-              {r}
-            </button>
-          ))}
+        <div
+          className="flex items-center gap-1 p-1 rounded-xl self-start sm:self-auto transition-colors"
+          style={{
+            backgroundColor: tc.bgTertiary,
+            border: `1px solid ${tc.borderPrimary}`
+          }}
+        >
+          {(['7D', '14D', '30D'] as const).map(r => {
+            const isSelected = range === r;
+            return (
+              <button
+                key={r}
+                onClick={() => setRange(r)}
+                className="px-3 py-1 rounded-lg text-xs transition-all cursor-pointer font-medium"
+                style={{
+                  backgroundColor: isSelected ? tc.bgSecondary : 'transparent',
+                  color: isSelected ? tc.textPrimary : tc.textSecondary,
+                  boxShadow: isSelected ? '0 1px 2px rgba(0,0,0,0.06)' : 'none'
+                }}
+              >
+                {r}
+              </button>
+            );
+          })}
         </div>
       </div>
 
       <div className="h-64 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={filteredData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#2A2C32" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke={tc.borderPrimary} vertical={false} />
             <XAxis
               dataKey="date"
-              stroke="#71717A"
+              stroke={tc.textTertiary}
               style={{ fontSize: '11px', fontFamily: 'inherit' }}
               tickLine={false}
               axisLine={false}
             />
             <YAxis
               yAxisId="left"
-              stroke="#71717A"
+              stroke={tc.textTertiary}
               style={{ fontSize: '11px' }}
               domain={[539.5, 542.5]}
               tickLine={false}
@@ -92,7 +102,7 @@ export function DebtPricingChart() {
             <YAxis
               yAxisId="right"
               orientation="right"
-              stroke="#71717A"
+              stroke={tc.textTertiary}
               style={{ fontSize: '11px' }}
               domain={[100, 260]}
               tickLine={false}
@@ -101,12 +111,12 @@ export function DebtPricingChart() {
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#1F2024',
-                borderColor: '#2A2C32',
+                backgroundColor: tc.bgSecondary,
+                borderColor: tc.borderPrimary,
                 borderRadius: '12px',
-                color: '#F4F4F5',
+                color: tc.textPrimary,
                 fontSize: '12px',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+                boxShadow: theme === 'dark' ? '0 8px 24px rgba(0,0,0,0.4)' : '0 8px 24px rgba(0,0,0,0.1)'
               }}
               formatter={(value: any, name: any) => [
                 name === 'Solar Flux' ? `${value} SFU` : `${Number(value).toFixed(2)} km`,
@@ -135,11 +145,14 @@ export function DebtPricingChart() {
         </ResponsiveContainer>
       </div>
 
-      <div className="flex items-center justify-end gap-4 pt-3 border-t border-[#2A2C32] text-xs">
-        <span className="flex items-center gap-1.5 text-zinc-400">
+      <div
+        className="flex items-center justify-end gap-4 pt-3 border-t text-xs transition-colors"
+        style={{ borderColor: tc.borderPrimary }}
+      >
+        <span className="flex items-center gap-1.5" style={{ color: tc.textSecondary }}>
           <span className="w-2.5 h-2.5 rounded-full bg-indigo-400" /> Mean Altitude (km)
         </span>
-        <span className="flex items-center gap-1.5 text-zinc-400">
+        <span className="flex items-center gap-1.5" style={{ color: tc.textSecondary }}>
           <span className="w-2.5 h-2.5 rounded-sm bg-amber-400/50" /> F10.7 Solar Flux (SFU)
         </span>
       </div>

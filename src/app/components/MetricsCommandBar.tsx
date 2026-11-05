@@ -97,19 +97,23 @@ export function MetricsCommandBar() {
             return (
               <div
                 key={index}
-                className="p-4 transition-all duration-200 rounded-2xl bg-[#1F2024] border border-[#2A2C32] hover:border-zinc-700/60 flex flex-col justify-between"
+                className="p-4 transition-all duration-200 rounded-2xl flex flex-col justify-between"
+                style={{
+                  backgroundColor: tc.bgSecondary,
+                  border: `1px solid ${tc.borderPrimary}`
+                }}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-zinc-400 truncate">{metric.label}</span>
+                  <span className="text-xs font-medium truncate" style={{ color: tc.textSecondary }}>{metric.label}</span>
                   <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${metric.badgeClass}`}>
                     {metric.badge}
                   </span>
                 </div>
                 <div>
-                  <div className="text-lg font-bold text-zinc-100">
+                  <div className="text-lg font-bold tabular-nums" style={{ color: tc.textPrimary }}>
                     {metric.value}
                   </div>
-                  <div className="text-[11px] text-zinc-400 mt-0.5 truncate">
+                  <div className="text-[11px] mt-0.5 truncate" style={{ color: tc.textSecondary }}>
                     {metric.secondary}
                   </div>
                 </div>
@@ -121,15 +125,26 @@ export function MetricsCommandBar() {
         {/* Cmd+K Telemetry Command Bar */}
         <div
           onClick={() => setShowPalette(true)}
-          className="h-10 px-4 rounded-xl flex items-center justify-between cursor-pointer transition-colors bg-[#1F2024] border border-[#2A2C32] hover:border-zinc-700/60"
+          className="h-10 px-4 rounded-xl flex items-center justify-between cursor-pointer transition-colors"
+          style={{
+            backgroundColor: tc.bgSecondary,
+            border: `1px solid ${tc.borderPrimary}`
+          }}
         >
           <div className="flex items-center gap-2.5 min-w-0">
             <Terminal className="w-4 h-4 text-indigo-400 shrink-0" />
-            <span className="text-xs text-zinc-400 truncate">
+            <span className="text-xs truncate" style={{ color: tc.textSecondary }}>
               Command line // Search NORAD ID, COSPAR designator, or execute CAM simulation...
             </span>
           </div>
-          <kbd className="px-2 py-0.5 text-[10px] rounded-lg bg-[#16171A] text-zinc-400 border border-[#2A2C32]">
+          <kbd
+            className="px-2 py-0.5 text-[10px] rounded-lg transition-colors font-semibold"
+            style={{
+              backgroundColor: tc.bgTertiary,
+              border: `1px solid ${tc.borderPrimary}`,
+              color: tc.textSecondary
+            }}
+          >
             ⌘K
           </kbd>
         </div>
@@ -142,10 +157,14 @@ export function MetricsCommandBar() {
           onClick={() => setShowPalette(false)}
         >
           <div
-            className="w-full max-w-xl rounded-2xl bg-[#1F2024] border border-[#2A2C32] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-150"
+            className="w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-150 transition-colors"
+            style={{
+              backgroundColor: tc.bgSecondary,
+              border: `1px solid ${tc.borderPrimary}`
+            }}
             onClick={e => e.stopPropagation()}
           >
-            <div className="flex items-center px-4 py-3 border-b border-[#2A2C32]">
+            <div className="flex items-center px-4 py-3 border-b transition-colors" style={{ borderColor: tc.borderPrimary }}>
               <Search className="w-4 h-4 mr-3 text-indigo-400" />
               <input
                 type="text"
@@ -153,11 +172,13 @@ export function MetricsCommandBar() {
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 placeholder="Enter telemetry command or jump to page..."
-                className="w-full bg-transparent text-xs text-zinc-100 placeholder-zinc-500 outline-none"
+                className="w-full bg-transparent text-xs outline-none"
+                style={{ color: tc.textPrimary }}
               />
               <button
                 onClick={() => setShowPalette(false)}
-                className="text-zinc-400 hover:text-zinc-200 p-1"
+                className="transition-colors p-1 cursor-pointer"
+                style={{ color: tc.textSecondary }}
               >
                 <X className="w-4 h-4" />
               </button>
@@ -170,10 +191,15 @@ export function MetricsCommandBar() {
                     navigate(item.path);
                     setShowPalette(false);
                   }}
-                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left transition-colors hover:bg-zinc-800/40"
+                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left transition-colors cursor-pointer"
+                  style={{
+                    color: tc.textPrimary
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = tc.bgTertiary)}
+                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
                 >
-                  <span className="text-xs font-medium text-zinc-200">{item.label}</span>
-                  <span className="text-[10px] text-indigo-400">
+                  <span className="text-xs font-medium">{item.label}</span>
+                  <span className="text-[10px] text-indigo-400 font-mono">
                     {item.cmd}
                   </span>
                 </button>

@@ -44,11 +44,21 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 sm:p-8 bg-[#16171A]">
-      <div className="w-full max-w-lg rounded-2xl bg-[#1F2024] border border-[#2A2C32] p-8 shadow-2xl space-y-6">
+    <div
+      className="min-h-screen flex items-center justify-center p-4 sm:p-8 transition-colors duration-200"
+      style={{ backgroundColor: tc.bgPrimary }}
+    >
+      <div
+        className="w-full max-w-lg rounded-2xl p-8 shadow-2xl space-y-6 transition-colors duration-200"
+        style={{
+          backgroundColor: tc.bgSecondary,
+          border: `1px solid ${tc.borderPrimary}`
+        }}
+      >
         <button
           onClick={() => navigate('/login')}
-          className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
+          className="flex items-center gap-1.5 text-xs transition-colors cursor-pointer"
+          style={{ color: tc.textSecondary }}
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Sign In</span>
@@ -59,16 +69,16 @@ export default function SignUpPage() {
             <Radar className="w-3.5 h-3.5" />
             <span>Flight Deck Provisioning</span>
           </div>
-          <h1 className="text-xl font-bold text-zinc-100 tracking-tight">
+          <h1 className="text-xl font-bold tracking-tight" style={{ color: tc.textPrimary }}>
             Register Operator Account
           </h1>
-          <p className="text-xs text-zinc-400 mt-1">
+          <p className="text-xs mt-1" style={{ color: tc.textSecondary }}>
             Request telemetry clearance and console assignment
           </p>
         </div>
 
         {errors.global && (
-          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-400">
+          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-500">
             {errors.global}
           </div>
         )}
@@ -76,89 +86,120 @@ export default function SignUpPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-zinc-300 mb-1.5">Operator Name</label>
+              <label className="block text-xs font-medium mb-1.5" style={{ color: tc.textSecondary }}>Operator Name</label>
               <input
                 type="text"
                 value={form.name}
                 onChange={e => setForm({ ...form, name: e.target.value })}
                 placeholder="Lt. John Smith"
-                className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                className="w-full h-10 px-3.5 rounded-xl text-xs focus:outline-none transition-colors"
+                style={{
+                  backgroundColor: tc.bgTertiary,
+                  border: `1px solid ${tc.borderPrimary}`,
+                  color: tc.textPrimary
+                }}
               />
-              {errors.name && <p className="text-xs text-rose-400 mt-1">{errors.name}</p>}
+              {errors.name && <p className="text-xs text-rose-500 mt-1">{errors.name}</p>}
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-zinc-300 mb-1.5">Operator Callsign</label>
+              <label className="block text-xs font-medium mb-1.5" style={{ color: tc.textSecondary }}>Operator Callsign</label>
               <input
                 type="email"
                 value={form.email}
                 onChange={e => setForm({ ...form, email: e.target.value })}
-                className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                placeholder="analyst@firm.com"
+                className="w-full h-10 px-3.5 rounded-xl text-xs focus:outline-none transition-colors"
+                style={{
+                  backgroundColor: tc.bgTertiary,
+                  border: `1px solid ${tc.borderPrimary}`,
+                  color: tc.textPrimary
+                }}
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-zinc-300 mb-1.5">Security Key</label>
+              <label className="block text-xs font-medium mb-1.5" style={{ color: tc.textSecondary }}>Security Key</label>
               <div className="relative">
                 <input
                   type={showP ? 'text' : 'password'}
                   value={form.password}
                   onChange={e => setForm({ ...form, password: e.target.value })}
                   placeholder="Min 12 chars"
-                  className="w-full h-10 pl-3.5 pr-10 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                  className="w-full h-10 pl-3.5 pr-10 rounded-xl text-xs focus:outline-none transition-colors"
+                  style={{
+                    backgroundColor: tc.bgTertiary,
+                    border: `1px solid ${tc.borderPrimary}`,
+                    color: tc.textPrimary
+                  }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowP(!showP)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-200"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                  style={{ color: tc.textTertiary }}
                 >
                   {showP ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              {errors.password && <p className="text-xs text-rose-400 mt-1">{errors.password}</p>}
+              {errors.password && <p className="text-xs text-rose-500 mt-1">{errors.password}</p>}
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-zinc-300 mb-1.5">Confirm Key</label>
+              <label className="block text-xs font-medium mb-1.5" style={{ color: tc.textSecondary }}>Confirm Key</label>
               <div className="relative">
                 <input
                   type={showC ? 'text' : 'password'}
                   value={form.confirm}
                   onChange={e => setForm({ ...form, confirm: e.target.value })}
                   placeholder="Confirm key"
-                  className="w-full h-10 pl-3.5 pr-10 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                  className="w-full h-10 pl-3.5 pr-10 rounded-xl text-xs focus:outline-none transition-colors"
+                  style={{
+                    backgroundColor: tc.bgTertiary,
+                    border: `1px solid ${tc.borderPrimary}`,
+                    color: tc.textPrimary
+                  }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowC(!showC)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-200"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                  style={{ color: tc.textTertiary }}
                 >
                   {showC ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              {errors.confirm && <p className="text-xs text-rose-400 mt-1">{errors.confirm}</p>}
+              {errors.confirm && <p className="text-xs text-rose-500 mt-1">{errors.confirm}</p>}
             </div>
           </div>
 
           <div className="pt-1">
-            <label className="flex items-start gap-2.5 cursor-pointer text-xs text-zinc-400">
+            <label className="flex items-start gap-2.5 cursor-pointer text-xs" style={{ color: tc.textSecondary }}>
               <input
                 type="checkbox"
                 checked={agreed}
                 onChange={e => setAgreed(e.target.checked)}
-                className="mt-0.5 rounded bg-[#16171A] border-[#2A2C32] text-indigo-600 focus:ring-0"
+                className="mt-0.5 rounded text-indigo-600 focus:ring-0 cursor-pointer"
+                style={{
+                  backgroundColor: tc.bgTertiary,
+                  borderColor: tc.borderPrimary
+                }}
               />
               <span>I acknowledge the Orbital Telemetry Protocol and certify compliance with FCC/ESA de-orbit directives.</span>
             </label>
-            {errors.agreed && <p className="text-xs text-rose-400 mt-1">{errors.agreed}</p>}
+            {errors.agreed && <p className="text-xs text-rose-500 mt-1">{errors.agreed}</p>}
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full h-10 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors flex items-center justify-center gap-2 mt-4"
+            className="w-full h-10 rounded-xl font-semibold text-xs tracking-tight transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer"
+            style={{
+              backgroundColor: theme === 'dark' ? '#FFFFFF' : '#18181B',
+              color: theme === 'dark' ? '#18181B' : '#FFFFFF'
+            }}
           >
             {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Provision Operator Console'}
           </button>

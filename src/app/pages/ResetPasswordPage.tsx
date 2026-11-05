@@ -50,11 +50,21 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-[#16171A]">
-      <div className="w-full max-w-md p-8 rounded-2xl bg-[#1F2024] border border-[#2A2C32] shadow-2xl space-y-6">
+    <div
+      className="min-h-screen flex items-center justify-center p-4 transition-colors duration-200"
+      style={{ backgroundColor: tc.bgPrimary }}
+    >
+      <div
+        className="w-full max-w-md p-8 rounded-2xl shadow-2xl space-y-6 transition-colors duration-200"
+        style={{
+          backgroundColor: tc.bgSecondary,
+          border: `1px solid ${tc.borderPrimary}`
+        }}
+      >
         <button
           onClick={() => navigate('/login')}
-          className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
+          className="flex items-center gap-1.5 text-xs transition-colors cursor-pointer"
+          style={{ color: tc.textSecondary }}
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Sign In</span>
@@ -64,35 +74,43 @@ export default function ResetPasswordPage() {
           <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mb-4">
             <Radar className="w-5 h-5" />
           </div>
-          <h1 className="text-xl font-bold text-zinc-100 tracking-tight">
+          <h1 className="text-xl font-bold tracking-tight" style={{ color: tc.textPrimary }}>
             Create New Security Key
           </h1>
-          <p className="text-xs text-zinc-400 mt-1">
+          <p className="text-xs mt-1" style={{ color: tc.textSecondary }}>
             Establish new cryptographic credentials for mission control
           </p>
         </div>
 
         {error && (
-          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-400">
+          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-500">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-zinc-300 mb-1.5">New Security Key</label>
+            <label className="block text-xs font-medium mb-1.5" style={{ color: tc.textSecondary }}>
+              New Security Key
+            </label>
             <div className="relative">
               <input
                 type={showP ? 'text' : 'password'}
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="Min 12 characters"
-                className="w-full h-10 pl-3.5 pr-10 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                className="w-full h-10 pl-3.5 pr-10 rounded-xl text-xs focus:outline-none transition-colors"
+                style={{
+                  backgroundColor: tc.bgTertiary,
+                  border: `1px solid ${tc.borderPrimary}`,
+                  color: tc.textPrimary
+                }}
               />
               <button
                 type="button"
                 onClick={() => setShowP(!showP)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-200"
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                style={{ color: tc.textTertiary }}
               >
                 {showP ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -100,10 +118,13 @@ export default function ResetPasswordPage() {
             {password && (
               <div className="mt-2 space-y-1.5">
                 <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-zinc-400">Entropy Strength</span>
+                  <span style={{ color: tc.textSecondary }}>Entropy Strength</span>
                   <span style={{ color: strength.color }} className="font-semibold">{strength.label}</span>
                 </div>
-                <div className="h-1 rounded-full bg-[#16171A] overflow-hidden">
+                <div
+                  className="h-1 rounded-full overflow-hidden"
+                  style={{ backgroundColor: tc.bgTertiary }}
+                >
                   <div className="h-full rounded-full transition-all" style={{ width: strength.width, backgroundColor: strength.color }} />
                 </div>
               </div>
@@ -111,30 +132,42 @@ export default function ResetPasswordPage() {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-zinc-300 mb-1.5">Confirm Key</label>
+            <label className="block text-xs font-medium mb-1.5" style={{ color: tc.textSecondary }}>
+              Confirm Key
+            </label>
             <div className="relative">
               <input
                 type={showC ? 'text' : 'password'}
                 value={confirm}
                 onChange={e => setConfirm(e.target.value)}
                 placeholder="Re-enter security key"
-                className="w-full h-10 pl-3.5 pr-10 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                className="w-full h-10 pl-3.5 pr-10 rounded-xl text-xs focus:outline-none transition-colors"
+                style={{
+                  backgroundColor: tc.bgTertiary,
+                  border: `1px solid ${tc.borderPrimary}`,
+                  color: tc.textPrimary
+                }}
               />
               <button
                 type="button"
                 onClick={() => setShowC(!showC)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-200"
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                style={{ color: tc.textTertiary }}
               >
                 {showC ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
-            {confirmError && <p className="text-xs text-rose-400 mt-1">{confirmError}</p>}
+            {confirmError && <p className="text-xs text-rose-500 mt-1">{confirmError}</p>}
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full h-10 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors flex items-center justify-center gap-2 mt-4"
+            className="w-full h-10 rounded-xl font-semibold text-xs tracking-tight transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer"
+            style={{
+              backgroundColor: theme === 'dark' ? '#FFFFFF' : '#18181B',
+              color: theme === 'dark' ? '#18181B' : '#FFFFFF'
+            }}
           >
             {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Set New Security Key'}
           </button>

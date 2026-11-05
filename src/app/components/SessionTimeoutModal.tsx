@@ -70,23 +70,35 @@ export function SessionTimeoutModal() {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="w-full max-w-sm rounded-2xl bg-[#1F2024] border border-[#2A2C32] p-6 shadow-2xl space-y-5 text-center animate-in fade-in zoom-in duration-200">
-        <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mx-auto">
+      <div
+        className="w-full max-w-sm rounded-2xl p-6 shadow-2xl space-y-5 text-center animate-in fade-in zoom-in duration-200 transition-colors"
+        style={{
+          backgroundColor: tc.bgSecondary,
+          border: `1px solid ${tc.borderPrimary}`
+        }}
+      >
+        <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center mx-auto">
           <Clock className="w-6 h-6" />
         </div>
 
         <div>
-          <h3 className="text-base font-semibold text-zinc-100 tracking-tight">
+          <h3 className="text-base font-semibold tracking-tight" style={{ color: tc.textPrimary }}>
             Console Session Inactivity
           </h3>
-          <p className="text-xs text-zinc-400 mt-1">
+          <p className="text-xs mt-1" style={{ color: tc.textSecondary }}>
             Telemetry link will disconnect automatically to protect encryption tokens
           </p>
         </div>
 
-        <div className="p-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32]">
-          <div className="text-xs text-zinc-400 mb-0.5">Disconnecting in</div>
-          <div className="text-2xl font-bold text-amber-400">{timeStr}</div>
+        <div
+          className="p-3.5 rounded-xl transition-colors"
+          style={{
+            backgroundColor: tc.bgTertiary,
+            border: `1px solid ${tc.borderPrimary}`
+          }}
+        >
+          <div className="text-xs mb-0.5" style={{ color: tc.textSecondary }}>Disconnecting in</div>
+          <div className="text-2xl font-bold text-amber-500 tabular-nums">{timeStr}</div>
         </div>
 
         <div className="flex gap-3 pt-1">
@@ -95,13 +107,22 @@ export function SessionTimeoutModal() {
               logout();
               navigate('/login');
             }}
-            className="flex-1 h-10 rounded-xl bg-[#282A2F] hover:bg-zinc-700 text-zinc-300 font-medium text-xs border border-zinc-700/50 transition-colors"
+            className="flex-1 h-10 rounded-xl font-medium text-xs transition-colors cursor-pointer"
+            style={{
+              backgroundColor: tc.bgTertiary,
+              border: `1px solid ${tc.borderPrimary}`,
+              color: tc.textSecondary
+            }}
           >
             Log Out Now
           </button>
           <button
             onClick={resetTimers}
-            className="flex-1 h-10 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors"
+            className="flex-1 h-10 rounded-xl font-semibold text-xs tracking-tight transition-colors cursor-pointer"
+            style={{
+              backgroundColor: theme === 'dark' ? '#FFFFFF' : '#18181B',
+              color: theme === 'dark' ? '#18181B' : '#FFFFFF'
+            }}
           >
             Extend Session
           </button>

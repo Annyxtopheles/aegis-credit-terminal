@@ -71,11 +71,21 @@ export default function TwoFactorPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-[#16171A]">
-      <div className="w-full max-w-md rounded-2xl bg-[#1F2024] border border-[#2A2C32] p-8 shadow-2xl space-y-6">
+    <div
+      className="min-h-screen flex items-center justify-center p-4 transition-colors duration-200"
+      style={{ backgroundColor: tc.bgPrimary }}
+    >
+      <div
+        className="w-full max-w-md rounded-2xl p-8 shadow-2xl space-y-6 transition-colors duration-200"
+        style={{
+          backgroundColor: tc.bgSecondary,
+          border: `1px solid ${tc.borderPrimary}`
+        }}
+      >
         <button
           onClick={() => navigate('/login')}
-          className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 transition-colors"
+          className="flex items-center gap-1.5 text-xs transition-colors cursor-pointer"
+          style={{ color: tc.textSecondary }}
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Sign In</span>
@@ -85,14 +95,16 @@ export default function TwoFactorPage() {
           <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto">
             <KeyRound className="w-6 h-6" />
           </div>
-          <h1 className="text-xl font-bold text-zinc-100 tracking-tight">Two-Factor Authentication</h1>
-          <p className="text-xs text-zinc-400">
+          <h1 className="text-xl font-bold tracking-tight" style={{ color: tc.textPrimary }}>
+            Two-Factor Authentication
+          </h1>
+          <p className="text-xs" style={{ color: tc.textSecondary }}>
             Enter the 6-digit authentication token dispatched to your security device
           </p>
         </div>
 
         {error && (
-          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-400 text-center">
+          <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-500 text-center font-medium">
             {error}
           </div>
         )}
@@ -108,18 +120,27 @@ export default function TwoFactorPage() {
               value={digit}
               onChange={e => handleDigitChange(i, e.target.value)}
               onKeyDown={e => handleKeyDown(i, e)}
-              className="w-11 h-13 text-center text-lg font-bold rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 focus:outline-none focus:border-indigo-500 transition-colors"
+              className="w-11 h-13 text-center text-lg font-bold rounded-xl focus:outline-none transition-colors"
+              style={{
+                backgroundColor: tc.bgTertiary,
+                border: `1px solid ${tc.borderPrimary}`,
+                color: tc.textPrimary
+              }}
             />
           ))}
         </div>
 
-        <div className="flex items-center justify-between text-xs text-zinc-400 pt-1">
+        <div className="flex items-center justify-between text-xs pt-1" style={{ color: tc.textSecondary }}>
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
               checked={trustDevice}
               onChange={e => setTrustDevice(e.target.checked)}
-              className="rounded bg-[#16171A] border-[#2A2C32] text-indigo-600 focus:ring-0"
+              className="rounded text-indigo-600 focus:ring-0 cursor-pointer"
+              style={{
+                backgroundColor: tc.bgTertiary,
+                borderColor: tc.borderPrimary
+              }}
             />
             <span>Trust this console for 30 days</span>
           </label>
@@ -128,7 +149,11 @@ export default function TwoFactorPage() {
         <button
           onClick={() => handleVerify(digits.join(''))}
           disabled={isLoading || digits.some(d => !d)}
-          className="w-full h-10 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 font-semibold text-xs transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+          className="w-full h-10 rounded-xl font-semibold text-xs tracking-tight transition-colors flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+          style={{
+            backgroundColor: theme === 'dark' ? '#FFFFFF' : '#18181B',
+            color: theme === 'dark' ? '#18181B' : '#FFFFFF'
+          }}
         >
           {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Verify Token'}
         </button>

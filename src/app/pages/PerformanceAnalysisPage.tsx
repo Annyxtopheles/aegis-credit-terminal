@@ -1,9 +1,13 @@
 import { Flame, Compass, ShieldCheck, Activity } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
+import { colors } from '../theme/colors';
 import { TopPriorities } from '../components/TopPriorities';
 import { KeyEvents } from '../components/KeyEvents';
 import { MarketTrendsPanel } from '../components/MarketTrendsPanel';
 
 export default function PerformanceAnalysisPage() {
+  const { theme } = useTheme();
+  const tc = colors[theme];
   const kpis = [
     {
       label: 'Queued Maneuvers',
@@ -57,19 +61,23 @@ export default function PerformanceAnalysisPage() {
           return (
             <div
               key={idx}
-              className="p-5 rounded-2xl bg-[#1F2024] border border-[#2A2C32] flex flex-col justify-between hover:border-zinc-700/60 transition-all duration-200"
+              className="p-5 rounded-2xl flex flex-col justify-between transition-all duration-200"
+              style={{
+                backgroundColor: tc.bgSecondary,
+                border: `1px solid ${tc.borderPrimary}`
+              }}
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-zinc-400">{kpi.label}</span>
+                <span className="text-xs font-medium" style={{ color: tc.textSecondary }}>{kpi.label}</span>
                 <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full border ${badgeClass}`}>
                   {kpi.badge}
                 </span>
               </div>
               <div className="mt-3">
-                <div className="text-2xl font-bold text-zinc-100 tracking-tight">
+                <div className="text-2xl font-bold tracking-tight tabular-nums" style={{ color: tc.textPrimary }}>
                   {kpi.value}
                 </div>
-                <div className="text-xs text-zinc-400 mt-1 flex items-center gap-1.5">
+                <div className="text-xs mt-1 flex items-center gap-1.5" style={{ color: tc.textSecondary }}>
                   <Icon className="w-3.5 h-3.5" />
                   <span>{kpi.subtext}</span>
                 </div>
