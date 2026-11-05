@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ComposedChart, Bar, Legend } from 'recharts';
+import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ComposedChart, Bar, Line } from 'recharts';
 import { useTheme } from '../context/ThemeContext';
 import { colors } from '../theme/colors';
 
@@ -22,6 +22,32 @@ const rawData = [
   { id: 16, date: 'T+12h', missDist: 3.15, covariance: 350 }
 ];
 
+function CustomChartTooltip({ active, payload }: any) {
+  if (!active || !payload || !payload.length) return null;
+  const item = payload[0].payload;
+  return (
+    <div
+      className="rounded-xl px-3.5 py-2.5 shadow-2xl"
+      style={{
+        backgroundColor: '#282A2F',
+        border: '1px solid #383B44'
+      }}
+    >
+      <div className="text-[11px] text-zinc-400 mb-1 font-mono">{item.date}</div>
+      <div className="space-y-1">
+        <div className="flex items-center justify-between gap-4 text-xs font-mono">
+          <span className="text-zinc-400">Radial Miss:</span>
+          <span className="font-bold text-white">{item.missDist.toFixed(2)} km</span>
+        </div>
+        <div className="flex items-center justify-between gap-4 text-xs font-mono">
+          <span className="text-indigo-300">3σ Covariance:</span>
+          <span className="font-bold text-indigo-400">±{item.covariance} m</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function EquityPricingChart() {
   const { theme } = useTheme();
   const tc = colors[theme];
@@ -35,112 +61,98 @@ export function EquityPricingChart() {
 
   return (
     <div
-      className="p-5 md:p-6 transition-colors duration-300 rounded-2xl"
+      className="p-6 transition-colors duration-300 rounded-2xl flex flex-col justify-between"
       style={{
         backgroundColor: tc.bgSecondary,
         border: `1px solid ${tc.borderPrimary}`
       }}
     >
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 md:mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
         <div>
-          <h3 style={{ fontSize: '15px', fontWeight: 700, color: tc.textPrimary, letterSpacing: '0.04em' }} className="uppercase">
-            CONJUNCTION MISS-DISTANCE & COVARIANCE ENVELOPE
+          <h3 className="text-[16px] font-semibold tracking-tight" style={{ color: tc.textPrimary }}>
+            Conjunction Miss-Distance & Covariance Envelope
           </h3>
-          <p className="font-mono text-[11px] mt-0.5" style={{ color: tc.textSecondary }}>
-            RADIAL/IN-TRACK MISS DISTANCE (KM) vs. 3σ ELLIPSOID DISPERSION (M) // EVENT CDM-88412
+          <p className="text-xs mt-0.5" style={{ color: tc.textSecondary }}>
+            Radial/in-track miss distance (km) vs. 3σ dispersion ellipsoid (m) • Event CDM-88412
           </p>
         </div>
-        <div className="flex items-center gap-1 p-1 rounded-md self-start sm:self-auto" style={{ backgroundColor: tc.bgTertiary, border: `1px solid ${tc.borderPrimary}` }}>
-          {(['7D', '14D', '30D'] as const).map(r => (
+
+        <div
+          className="inline-flex items-center p-1 rounded-xl self-start sm:self-auto"
+          style={{ backgroundColor: tc.bgTertiary, border: `1px solid ${tc.borderPrimary}` }}
+        >
+          {[
+            { id: '7D', label: 'TCA ± 6h' },
+            { id: '14D', label: 'TCA ± 16h' },
+            { id: '30D', label: 'Full CDM' }
+          ].map(r => (
             <button
-              key={r}
-              onClick={() => setRange(r)}
-              className="px-2.5 py-1 rounded text-xs font-mono font-semibold transition-all cursor-pointer"
+              key={r.id}
+              onClick={() => setRange(r.id as any)}
+              className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer"
               style={{
-                backgroundColor: range === r ? tc.bgSecondary : 'transparent',
-                color: range === r ? tc.accentPrimary : tc.textSecondary
+                backgroundColor: range === r.id ? tc.bgSecondary : 'transparent',
+                color: range === r.id ? tc.textPrimary : tc.textSecondary
               }}
             >
-              {r === '7D' ? 'TCA±6H' : r === '14D' ? 'TCA±16H' : 'FULL CDM'}
+              {r.label}
             </button>
           ))}
         </div>
       </div>
-      <ResponsiveContainer width="100%" height={280}>
-        <ComposedChart data={filteredData} margin={{ top: 5, right: 70, left: 0, bottom: 5 }}>
-          <CartesianGrid
-            strokeDasharray="2 2"
-            stroke={tc.gridLine}
-            opacity={theme === 'dark' ? 0.6 : 0.5}
-            vertical={false}
-          />
-          <XAxis
-            dataKey="date"
-            stroke={tc.textSecondary}
-            style={{ fontSize: '11px', fontWeight: 600, fontFamily: 'JetBrains Mono, monospace' }}
-            angle={-45}
-            textAnchor="end"
-            height={60}
-          />
-          <YAxis
-            yAxisId="left"
-            stroke={tc.textSecondary}
-            style={{ fontSize: '11px', fontWeight: 600, fontFamily: 'JetBrains Mono, monospace' }}
-            domain={[0, 3.5]}
-            tickFormatter={(v) => `${v.toFixed(1)}km`}
-            label={{ value: 'Miss Dist (km)', angle: -90, position: 'insideLeft', style: { fill: tc.textSecondary, fontWeight: 600, fontSize: '11px' } }}
-          />
-          <YAxis
-            yAxisId="right"
-            orientation="right"
-            stroke={tc.textSecondary}
-            style={{ fontSize: '11px', fontWeight: 600, fontFamily: 'JetBrains Mono, monospace' }}
-            domain={[0, 500]}
-            tickFormatter={(v) => `${v}m`}
-            label={{ value: 'In-Track σ (m)', angle: 90, position: 'right', dx: 20, style: { fill: tc.textSecondary, fontWeight: 600, fontSize: '11px' } }}
-          />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: tc.bgSecondary,
-              border: `1px solid ${tc.accentPrimary}`,
-              borderRadius: '4px',
-              color: tc.textPrimary,
-              fontFamily: 'JetBrains Mono, monospace',
-              fontSize: '12px'
-            }}
-            formatter={(value: any, name: any) => [
-              name === '3σ Covariance (m)' ? `±${value} m` : `${Number(value).toFixed(2)} km`,
-              name
-            ]}
-          />
-          <Legend
-            verticalAlign="bottom"
-            align="right"
-            iconType="rect"
-            wrapperStyle={{ paddingTop: '10px', fontSize: '11px', fontWeight: 600, fontFamily: 'JetBrains Mono, monospace' }}
-          />
-          <Bar
-            yAxisId="right"
-            dataKey="covariance"
-            name="3σ Covariance (m)"
-            fill={theme === 'dark' ? 'rgba(245, 158, 11, 0.22)' : 'rgba(217, 119, 6, 0.22)'}
-            stroke={tc.accentPrimary}
-            strokeWidth={1}
-            isAnimationActive={false}
-          />
-          <Line
-            yAxisId="left"
-            type="monotone"
-            dataKey="missDist"
-            name="Miss Distance (km)"
-            stroke={tc.alertRed}
-            strokeWidth={2.5}
-            dot={{ r: 3, fill: tc.alertRed, stroke: tc.bgSecondary, strokeWidth: 1 }}
-            activeDot={{ r: 6, fill: tc.alertRed }}
-            isAnimationActive={false}
-          />
-        </ComposedChart>
-      </ResponsiveContainer>
+
+      <div className="h-[280px] w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <ComposedChart data={filteredData} margin={{ top: 10, right: 30, left: -10, bottom: 0 }}>
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke={theme === 'dark' ? '#2A2C32' : '#E5E7EB'}
+              vertical={false}
+            />
+            <XAxis
+              dataKey="date"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: tc.textTertiary, fontSize: 11 }}
+            />
+            <YAxis
+              yAxisId="left"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: tc.textTertiary, fontSize: 11 }}
+              domain={[0, 3.5]}
+              tickFormatter={v => `${v.toFixed(1)}k`}
+            />
+            <YAxis
+              yAxisId="right"
+              orientation="right"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: tc.textTertiary, fontSize: 11 }}
+              domain={[0, 500]}
+              tickFormatter={v => `${v}m`}
+            />
+            <Tooltip content={<CustomChartTooltip />} />
+            <Bar
+              yAxisId="right"
+              dataKey="covariance"
+              name="3σ Covariance"
+              fill={theme === 'dark' ? 'rgba(129, 140, 248, 0.16)' : 'rgba(99, 102, 241, 0.18)'}
+              radius={[4, 4, 0, 0]}
+            />
+            <Line
+              yAxisId="left"
+              type="monotone"
+              dataKey="missDist"
+              name="Miss Distance"
+              stroke="#818CF8"
+              strokeWidth={2}
+              dot={{ r: 3, fill: '#818CF8' }}
+              activeDot={{ r: 5, fill: '#818CF8', stroke: '#FFFFFF', strokeWidth: 2 }}
+            />
+          </ComposedChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }
