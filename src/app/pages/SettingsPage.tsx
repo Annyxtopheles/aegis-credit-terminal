@@ -74,14 +74,24 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       <div>
-        <h1 className="text-xl font-bold text-zinc-100 tracking-tight">Console Preferences & Operator Profile</h1>
-        <p className="text-xs text-zinc-400 mt-1">Configure your Flight Dynamics callsign, orbital shell assignment, and cryptographic credentials</p>
+        <h1 className="text-xl font-bold tracking-tight" style={{ color: tc.textPrimary }}>
+          Console Preferences & Operator Profile
+        </h1>
+        <p className="text-xs mt-1" style={{ color: tc.textSecondary }}>
+          Configure your Flight Dynamics callsign, orbital shell assignment, and cryptographic credentials
+        </p>
       </div>
 
       <div className="flex gap-6 flex-col md:flex-row items-start">
         {/* Navigation Sidebar */}
         <div className="w-full md:w-60 shrink-0">
-          <div className="p-2 rounded-2xl bg-[#1F2024] border border-[#2A2C32] space-y-1">
+          <div
+            className="p-2 rounded-2xl space-y-1"
+            style={{
+              backgroundColor: tc.bgSecondary,
+              border: `1px solid ${tc.borderPrimary}`
+            }}
+          >
             {TABS.map(tab => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -89,13 +99,14 @@ export default function SettingsPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
-                    isActive
-                      ? 'bg-[#282A2F] text-indigo-400 font-semibold'
-                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
-                  }`}
+                  className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all"
+                  style={{
+                    backgroundColor: isActive ? tc.bgTertiary : 'transparent',
+                    color: isActive ? tc.accentPrimary : tc.textSecondary,
+                    fontWeight: isActive ? 600 : 500
+                  }}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-400' : 'text-zinc-500'}`} />
+                  <Icon className="w-4 h-4 shrink-0" style={{ color: isActive ? tc.accentPrimary : tc.textTertiary }} />
                   <span>{tab.label}</span>
                 </button>
               );
@@ -104,86 +115,157 @@ export default function SettingsPage() {
         </div>
 
         {/* Content Box */}
-        <div className="flex-1 w-full rounded-2xl bg-[#1F2024] border border-[#2A2C32] p-6">
+        <div
+          className="flex-1 w-full rounded-2xl p-6"
+          style={{
+            backgroundColor: tc.bgSecondary,
+            border: `1px solid ${tc.borderPrimary}`
+          }}
+        >
           {activeTab === 'profile' && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-base font-semibold text-zinc-100">Flight Dynamics Operator Record</h2>
-                <p className="text-xs text-zinc-400 mt-0.5">CCSDS verified flight operator telemetry credentials</p>
+                <h2 className="text-base font-semibold" style={{ color: tc.textPrimary }}>
+                  Flight Dynamics Operator Record
+                </h2>
+                <p className="text-xs mt-0.5" style={{ color: tc.textSecondary }}>
+                  CCSDS verified flight operator telemetry credentials
+                </p>
               </div>
 
               {/* Avatar Bar */}
-              <div className="flex items-center gap-4 pb-6 border-b border-[#2A2C32]">
-                <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-lg font-bold text-indigo-400">
+              <div
+                className="flex items-center gap-4 pb-6 border-b"
+                style={{ borderColor: tc.borderPrimary }}
+              >
+                <div
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center text-lg font-bold"
+                  style={{
+                    backgroundColor: `${tc.accentPrimary}15`,
+                    border: `1px solid ${tc.accentPrimary}35`,
+                    color: tc.accentPrimary
+                  }}
+                >
                   {user?.initials || 'AT'}
                 </div>
                 <div>
-                  <button className="px-3.5 py-1.5 rounded-xl bg-[#282A2F] hover:bg-zinc-700 text-xs font-semibold text-zinc-200 border border-zinc-700/50 transition-colors">
+                  <button
+                    className="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-colors cursor-pointer"
+                    style={{
+                      backgroundColor: tc.bgTertiary,
+                      border: `1px solid ${tc.borderPrimary}`,
+                      color: tc.textPrimary
+                    }}
+                  >
                     Update Operator Badge
                   </button>
-                  <p className="text-[11px] text-zinc-500 mt-1">Operator ID: KESSLER-FDO-8821</p>
+                  <p className="text-[11px] mt-1" style={{ color: tc.textTertiary }}>
+                    Operator ID: KESSLER-FDO-8821
+                  </p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Operator Full Name</label>
+                  <label className="block text-xs font-medium mb-1.5" style={{ color: tc.textSecondary }}>
+                    Operator Full Name
+                  </label>
                   <input
                     type="text"
                     value={profile.name}
                     onChange={e => setProfile(p => ({ ...p, name: e.target.value }))}
-                    className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                    className="w-full h-10 px-3.5 rounded-xl text-xs focus:outline-none transition-colors"
+                    style={{
+                      backgroundColor: tc.bgTertiary,
+                      border: `1px solid ${tc.borderPrimary}`,
+                      color: tc.textPrimary
+                    }}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Flight Dynamics Role</label>
+                  <label className="block text-xs font-medium mb-1.5" style={{ color: tc.textSecondary }}>
+                    Flight Dynamics Role
+                  </label>
                   <input
                     type="text"
                     value={profile.jobTitle}
                     onChange={e => setProfile(p => ({ ...p, jobTitle: e.target.value }))}
-                    className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                    className="w-full h-10 px-3.5 rounded-xl text-xs focus:outline-none transition-colors"
+                    style={{
+                      backgroundColor: tc.bgTertiary,
+                      border: `1px solid ${tc.borderPrimary}`,
+                      color: tc.textPrimary
+                    }}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Secure Duty Comms</label>
+                  <label className="block text-xs font-medium mb-1.5" style={{ color: tc.textSecondary }}>
+                    Secure Duty Comms
+                  </label>
                   <input
                     type="text"
                     placeholder="+1 (555) 019-2834"
                     value={profile.phone}
                     onChange={e => setProfile(p => ({ ...p, phone: e.target.value }))}
-                    className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                    className="w-full h-10 px-3.5 rounded-xl text-xs focus:outline-none transition-colors"
+                    style={{
+                      backgroundColor: tc.bgTertiary,
+                      border: `1px solid ${tc.borderPrimary}`,
+                      color: tc.textPrimary
+                    }}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Constellation Authority</label>
+                  <label className="block text-xs font-medium mb-1.5" style={{ color: tc.textSecondary }}>
+                    Constellation Authority
+                  </label>
                   <input
                     type="text"
                     value={profile.company}
                     onChange={e => setProfile(p => ({ ...p, company: e.target.value }))}
-                    className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                    className="w-full h-10 px-3.5 rounded-xl text-xs focus:outline-none transition-colors"
+                    style={{
+                      backgroundColor: tc.bgTertiary,
+                      border: `1px solid ${tc.borderPrimary}`,
+                      color: tc.textPrimary
+                    }}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Operator Callsign</label>
+                  <label className="block text-xs font-medium mb-1.5" style={{ color: tc.textSecondary }}>
+                    Operator Callsign
+                  </label>
                   <input
                     type="email"
                     value={user?.email || ''}
                     disabled
-                    className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-400 text-xs cursor-not-allowed opacity-60"
+                    className="w-full h-10 px-3.5 rounded-xl text-xs cursor-not-allowed opacity-60"
+                    style={{
+                      backgroundColor: tc.bgTertiary,
+                      border: `1px solid ${tc.borderPrimary}`,
+                      color: tc.textSecondary
+                    }}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Clearance Tier</label>
+                  <label className="block text-xs font-medium mb-1.5" style={{ color: tc.textSecondary }}>
+                    Clearance Tier
+                  </label>
                   <input
                     type="text"
                     value={user?.role === 'super_admin' ? 'Kessler Flight Director' : user?.role === 'company_admin' ? 'Constellation Lead' : 'Orbital Analyst'}
                     disabled
-                    className="w-full h-10 px-3.5 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-400 text-xs cursor-not-allowed opacity-60"
+                    className="w-full h-10 px-3.5 rounded-xl text-xs cursor-not-allowed opacity-60"
+                    style={{
+                      backgroundColor: tc.bgTertiary,
+                      border: `1px solid ${tc.borderPrimary}`,
+                      color: tc.textSecondary
+                    }}
                   />
                 </div>
               </div>
@@ -192,10 +274,14 @@ export default function SettingsPage() {
                 <button
                   onClick={handleSave}
                   disabled={isSaving}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 text-xs font-semibold tracking-tight transition-colors"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold tracking-tight transition-colors cursor-pointer"
+                  style={{
+                    backgroundColor: theme === 'dark' ? '#FFFFFF' : '#18181B',
+                    color: theme === 'dark' ? '#18181B' : '#FFFFFF'
+                  }}
                 >
                   {isSaving ? <><Loader2 className="w-4 h-4 animate-spin" /> Syncing Telemetry...</>
-                    : saved ? <><Check className="w-4 h-4 text-emerald-600" /> Changes Saved</>
+                    : saved ? <><Check className="w-4 h-4 text-emerald-500" /> Changes Saved</>
                     : 'Save Changes'}
                 </button>
               </div>
@@ -205,25 +291,37 @@ export default function SettingsPage() {
           {activeTab === 'security' && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-base font-semibold text-zinc-100">Cryptographic Key Rotation</h2>
-                <p className="text-xs text-zinc-400 mt-0.5">Rotate uplink authentication keys and mission console password</p>
+                <h2 className="text-base font-semibold" style={{ color: tc.textPrimary }}>
+                  Cryptographic Key Rotation
+                </h2>
+                <p className="text-xs mt-0.5" style={{ color: tc.textSecondary }}>
+                  Rotate uplink authentication keys and mission console password
+                </p>
               </div>
 
               <form onSubmit={handlePasswordUpdate} className="space-y-4 max-w-md">
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">Current Security Key</label>
+                  <label className="block text-xs font-medium mb-1.5" style={{ color: tc.textSecondary }}>
+                    Current Security Key
+                  </label>
                   <div className="relative">
                     <input
                       type={showCurrentPw ? 'text' : 'password'}
                       value={currentPw}
                       onChange={e => setCurrentPw(e.target.value)}
                       placeholder="Enter current key"
-                      className="w-full h-10 pl-3.5 pr-10 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                      className="w-full h-10 pl-3.5 pr-10 rounded-xl text-xs focus:outline-none transition-colors"
+                      style={{
+                        backgroundColor: tc.bgTertiary,
+                        border: `1px solid ${tc.borderPrimary}`,
+                        color: tc.textPrimary
+                      }}
                     />
                     <button
                       type="button"
                       onClick={() => setShowCurrentPw(!showCurrentPw)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-200"
+                      className="absolute right-3 top-1/2 -translate-y-1/2"
+                      style={{ color: tc.textTertiary }}
                     >
                       {showCurrentPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
@@ -231,19 +329,27 @@ export default function SettingsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1.5">New Security Key</label>
+                  <label className="block text-xs font-medium mb-1.5" style={{ color: tc.textSecondary }}>
+                    New Security Key
+                  </label>
                   <div className="relative">
                     <input
                       type={showNewPw ? 'text' : 'password'}
                       value={newPw}
                       onChange={e => setNewPw(e.target.value)}
                       placeholder="At least 8 characters"
-                      className="w-full h-10 pl-3.5 pr-10 rounded-xl bg-[#16171A] border border-[#2A2C32] text-zinc-100 text-xs focus:outline-none focus:border-indigo-500"
+                      className="w-full h-10 pl-3.5 pr-10 rounded-xl text-xs focus:outline-none transition-colors"
+                      style={{
+                        backgroundColor: tc.bgTertiary,
+                        border: `1px solid ${tc.borderPrimary}`,
+                        color: tc.textPrimary
+                      }}
                     />
                     <button
                       type="button"
                       onClick={() => setShowNewPw(!showNewPw)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-200"
+                      className="absolute right-3 top-1/2 -translate-y-1/2"
+                      style={{ color: tc.textTertiary }}
                     >
                       {showNewPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
@@ -251,18 +357,22 @@ export default function SettingsPage() {
                 </div>
 
                 {pwError && (
-                  <p className="text-xs text-rose-400">{pwError}</p>
+                  <p className="text-xs text-rose-500">{pwError}</p>
                 )}
 
                 {pwSuccess && (
-                  <div className="flex items-center gap-1.5 text-xs text-emerald-400">
+                  <div className="flex items-center gap-1.5 text-xs text-emerald-500">
                     <Check className="w-4 h-4" /> Security key rotated successfully!
                   </div>
                 )}
 
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-white hover:bg-zinc-200 text-zinc-950 text-xs font-semibold tracking-tight transition-colors"
+                  className="px-5 py-2.5 rounded-xl text-xs font-semibold tracking-tight transition-colors cursor-pointer"
+                  style={{
+                    backgroundColor: theme === 'dark' ? '#FFFFFF' : '#18181B',
+                    color: theme === 'dark' ? '#18181B' : '#FFFFFF'
+                  }}
                 >
                   Rotate Security Key
                 </button>
