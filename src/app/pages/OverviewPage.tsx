@@ -34,6 +34,7 @@ import { useTheme } from '../context/ThemeContext';
 import { useTelemetry } from '../context/TelemetryContext';
 import { colors } from '../theme/colors';
 import { useNavigate } from 'react-router';
+import { PolarConjunctionRadar } from '../components/PolarConjunctionRadar';
 
 const TELEMETRY_FLOW_DATA: Record<string, { date: string; altitude: number; delta: string }[]> = {
   '30d': [
@@ -117,6 +118,15 @@ const SPACE_VEHICLES: SpaceVehicleRow[] = [
     avatarBg: '#6E4D5E'
   },
   {
+    id: 'VGD-003',
+    name: 'Vanguard-03 (Gamma)',
+    telemetryLink: 'vgd03.sband@kessler.space',
+    status: 'Nominal',
+    epochDate: '2026-02-28',
+    plane: 'Plane A (53°)',
+    avatarBg: '#3E5B6E'
+  },
+  {
     id: 'VGD-004',
     name: 'Vanguard-04 (Delta)',
     telemetryLink: 'vgd04.sband@kessler.space',
@@ -126,6 +136,33 @@ const SPACE_VEHICLES: SpaceVehicleRow[] = [
     avatarBg: '#73563E'
   },
   {
+    id: 'VGD-005',
+    name: 'Vanguard-05 (Epsilon)',
+    telemetryLink: 'vgd05.sband@kessler.space',
+    status: 'Nominal',
+    epochDate: '2026-03-22',
+    plane: 'Plane A (53°)',
+    avatarBg: '#514D6E'
+  },
+  {
+    id: 'VGD-006',
+    name: 'Vanguard-06 (Zeta)',
+    telemetryLink: 'vgd06.sband@kessler.space',
+    status: 'Nominal',
+    epochDate: '2026-03-29',
+    plane: 'Plane B (53°)',
+    avatarBg: '#3E6652'
+  },
+  {
+    id: 'VGD-007',
+    name: 'Vanguard-07 (Eta)',
+    telemetryLink: 'vgd07.sband@kessler.space',
+    status: 'Nominal',
+    epochDate: '2026-04-01',
+    plane: 'Plane A (53°)',
+    avatarBg: '#6E5C3E'
+  },
+  {
     id: 'VGD-008',
     name: 'Vanguard-08 (Theta)',
     telemetryLink: 'vgd08.sband@kessler.space',
@@ -133,6 +170,24 @@ const SPACE_VEHICLES: SpaceVehicleRow[] = [
     epochDate: '2026-04-02',
     plane: 'Plane B (53°)',
     avatarBg: '#3D5C4E'
+  },
+  {
+    id: 'VGD-009',
+    name: 'Vanguard-09 (Iota)',
+    telemetryLink: 'vgd09.sband@kessler.space',
+    status: 'Nominal',
+    epochDate: '2026-04-18',
+    plane: 'Plane A (53°)',
+    avatarBg: '#4A5B6D'
+  },
+  {
+    id: 'VGD-010',
+    name: 'Vanguard-10 (Kappa)',
+    telemetryLink: 'vgd10.sband@kessler.space',
+    status: 'Nominal',
+    epochDate: '2026-05-02',
+    plane: 'Plane B (53°)',
+    avatarBg: '#5D4F6E'
   },
   {
     id: 'VGD-012',
@@ -189,6 +244,8 @@ export default function OverviewPage() {
   const [tableSearch, setTableSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
+  const [hoveredSatId, setHoveredSatId] = useState<string | null>(null);
+  const [selectedSatId, setSelectedSatId] = useState<string | null>(null);
 
   const chartData = TELEMETRY_FLOW_DATA[range];
 
@@ -699,7 +756,15 @@ export default function OverviewPage() {
         </div>
       </div>
 
-      {/* Row 3: Space Vehicle Registry Table (Tempo Style) */}
+      {/* Row 3: Interactive 2D Polar Orbit Conjunction Radar Widget */}
+      <PolarConjunctionRadar
+        hoveredSatId={hoveredSatId}
+        onHoverSat={setHoveredSatId}
+        selectedSatId={selectedSatId}
+        onSelectSat={setSelectedSatId}
+      />
+
+      {/* Row 4: Space Vehicle Registry Table (Tempo Style) */}
       <div
         className="rounded-2xl p-6"
         style={{
@@ -878,17 +943,28 @@ export default function OverviewPage() {
                 const statusBadge = getStatusStyle(sv.status);
                 const planeBadge = getPlaneStyle(sv.plane);
                 const checked = selectedRows.includes(sv.id);
+                const isHovered = hoveredSatId === sv.id;
+                const isSelected = selectedSatId === sv.id;
+                const isHighlighted = isHovered || isSelected;
 
                 return (
                   <tr
                     key={sv.id}
-                    className="transition-colors text-xs"
+                    onMouseEnter={() => setHoveredSatId(sv.id)}
+                    onMouseLeave={() => setHoveredSatId(null)}
+                    onClick={() => setSelectedSatId(sv.id)}
+                    className="transition-colors text-xs cursor-pointer"
                     style={{
                       borderBottom:
                         idx < filteredVehicles.length - 1
                           ? `1px solid ${tc.borderSubtle}`
                           : 'none',
-                      backgroundColor: checked ? 'rgba(99, 102, 241, 0.06)' : 'transparent'
+                      backgroundColor: isHighlighted
+                        ? (theme === 'dark' ? 'rgba(34, 211, 238, 0.12)' : 'rgba(34, 211, 238, 0.08)')
+                        : checked
+                        ? 'rgba(99, 102, 241, 0.06)'
+                        : 'transparent',
+                      outline: isHighlighted ? '1px solid rgba(34, 211, 238, 0.4)' : 'none'
                     }}
                   >
                     <td className="py-3.5 px-3 " style={{ color: tc.textSecondary }}>
