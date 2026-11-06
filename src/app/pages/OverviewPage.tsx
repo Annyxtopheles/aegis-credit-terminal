@@ -31,6 +31,7 @@ import {
   ReferenceDot
 } from 'recharts';
 import { useTheme } from '../context/ThemeContext';
+import { useTelemetry } from '../context/TelemetryContext';
 import { colors } from '../theme/colors';
 import { useNavigate } from 'react-router';
 
@@ -179,6 +180,7 @@ function CustomAreaTooltip({ active, payload }: any) {
 
 export default function OverviewPage() {
   const { theme } = useTheme();
+  const { altitudeFormatted, altitudeDeltaM, isLive, pulseKey } = useTelemetry();
   const tc = colors[theme];
   const navigate = useNavigate();
 
@@ -420,11 +422,23 @@ export default function OverviewPage() {
             {/* Left Summary + Carousel Box */}
             <div className="lg:col-span-5 flex flex-col justify-between h-full">
               <div className="mb-5">
-                <div
-                  className="text-[30px] font-bold tracking-tight leading-tight mb-1"
-                  style={{ color: tc.textPrimary }}
-                >
-                  548,420 m
+                <div className="flex items-baseline gap-2.5 mb-1">
+                  <div
+                    key={pulseKey}
+                    className="text-[30px] font-bold tracking-tight leading-tight tabular-nums transition-all duration-300"
+                    style={{ color: tc.textPrimary }}
+                  >
+                    {altitudeFormatted}
+                  </div>
+                  {isLive && altitudeDeltaM !== 0 && (
+                    <span
+                      className={`text-xs font-mono font-medium transition-opacity duration-300 ${
+                        altitudeDeltaM > 0 ? 'text-emerald-400' : 'text-amber-400'
+                      }`}
+                    >
+                      {altitudeDeltaM > 0 ? `+${altitudeDeltaM}m` : `${altitudeDeltaM}m`}
+                    </span>
+                  )}
                 </div>
                 <div className="text-xs mb-2" style={{ color: tc.textSecondary }}>
                   Mean Constellation Apogee

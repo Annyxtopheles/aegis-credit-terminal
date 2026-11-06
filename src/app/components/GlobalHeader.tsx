@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Radar, Sun, Moon, Bell, ChevronDown, Settings, LogOut, Search, Clock, Satellite } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
+import { useTelemetry } from '../context/TelemetryContext';
 import { colors } from '../theme/colors';
 import { useNavigate } from 'react-router';
 
@@ -22,6 +23,7 @@ const RECENT_CONSTELLATIONS = [
 export function GlobalHeader() {
   const { theme, toggleTheme } = useTheme();
   const { user, logout, isAuthenticated } = useAuth();
+  const { streamMode, toggleStreamMode, isLive } = useTelemetry();
   const tc = colors[theme];
   const navigate = useNavigate();
 
@@ -185,8 +187,26 @@ export function GlobalHeader() {
         )}
       </div>
 
-      {/* Right: Theme, Notifications, User */}
+      {/* Right: Stream Toggle, Theme, Notifications, User */}
       <div className="flex items-center gap-2 md:gap-3">
+        <button
+          onClick={toggleStreamMode}
+          className="flex items-center gap-1.5 h-8 px-2.5 rounded-md text-xs transition-colors cursor-pointer"
+          style={{
+            backgroundColor: isLive
+              ? (theme === 'dark' ? 'rgba(74, 222, 128, 0.08)' : 'rgba(22, 163, 74, 0.08)')
+              : tc.bgTertiary,
+            border: `1px solid ${isLive ? (theme === 'dark' ? 'rgba(74, 222, 128, 0.25)' : 'rgba(22, 163, 74, 0.25)') : tc.borderPrimary}`,
+            color: isLive ? (theme === 'dark' ? '#4ADE80' : '#16A34A') : tc.textSecondary
+          }}
+          title={isLive ? 'Live Telemetry Pulse Active' : 'Simulated Telemetry Mode'}
+        >
+          <span className={`w-1.5 h-1.5 rounded-full ${isLive ? 'bg-emerald-400 animate-ping' : 'bg-zinc-500'}`} />
+          <span className="text-[11px] font-semibold tracking-wider uppercase">
+            {streamMode === 'LIVE' ? 'LIVE' : 'SIMULATED'}
+          </span>
+        </button>
+
         <button
           onClick={toggleTheme}
           onMouseEnter={() => setIsThemeHovered(true)}

@@ -1,5 +1,6 @@
 import { ShieldAlert, Zap, Radio, AlertTriangle } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { useTelemetry } from '../context/TelemetryContext';
 import { colors } from '../theme/colors';
 import { CovenantCompliance } from '../components/CovenantCompliance';
 import { AegisCommentary } from '../components/AegisCommentary';
@@ -7,6 +8,7 @@ import { FinancialPerformanceGrid } from '../components/FinancialPerformanceGrid
 
 export default function CovenantCompliancePage() {
   const { theme } = useTheme();
+  const { signalMarginFormatted } = useTelemetry();
   const tc = colors[theme];
   const kpis = [
     {
@@ -27,7 +29,7 @@ export default function CovenantCompliancePage() {
     },
     {
       label: 'Optical ISL Link Margin',
-      value: '+9.8 dB',
+      value: signalMarginFormatted,
       subtext: 'Above +6.0 dB floor',
       icon: Radio,
       variant: 'success',

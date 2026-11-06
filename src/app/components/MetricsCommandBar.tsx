@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { AlertCircle, Radio, Search, Terminal, ShieldAlert, Satellite, Zap, X } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { useTelemetry } from '../context/TelemetryContext';
 import { colors } from '../theme/colors';
 import { useNavigate } from 'react-router';
 
@@ -15,6 +16,7 @@ const TELEMETRY_COMMANDS = [
 
 export function MetricsCommandBar() {
   const { theme } = useTheme();
+  const { streamMode, toggleStreamMode, isLive, solarFluxFormatted, pulseKey } = useTelemetry();
   const tc = colors[theme];
   const navigate = useNavigate();
   const [utcTime, setUtcTime] = useState(() => new Date().toISOString().slice(11, 19) + ' UTC');
@@ -64,9 +66,9 @@ export function MetricsCommandBar() {
     },
     {
       label: 'Solar Radio Flux',
-      value: '184.2 SFU',
-      secondary: 'Elevated thermospheric drag',
-      badge: '+18.4% Drag',
+      value: solarFluxFormatted,
+      secondary: isLive ? 'Live SWPC telemetry feed' : 'Elevated thermospheric drag',
+      badge: isLive ? 'Live Drag Pulse' : '+18.4% Drag',
       badgeClass: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
       icon: Zap
     },
@@ -122,31 +124,56 @@ export function MetricsCommandBar() {
           })}
         </div>
 
-        {/* Cmd+K Telemetry Command Bar */}
-        <div
-          onClick={() => setShowPalette(true)}
-          className="h-10 px-4 rounded-xl flex items-center justify-between cursor-pointer transition-colors"
-          style={{
-            backgroundColor: tc.bgSecondary,
-            border: `1px solid ${tc.borderPrimary}`
-          }}
-        >
-          <div className="flex items-center gap-2.5 min-w-0">
-            <Terminal className="w-4 h-4 text-indigo-400 shrink-0" />
-            <span className="text-xs truncate" style={{ color: tc.textSecondary }}>
-              Command line // Search NORAD ID, COSPAR designator, or execute CAM simulation...
-            </span>
-          </div>
-          <kbd
-            className="px-2 py-0.5 text-[10px] rounded-lg transition-colors font-semibold"
+        {/* Cmd+K Telemetry Command Bar & Stream Toggle */}
+        <div className="flex items-center gap-3">
+          <div
+            onClick={() => setShowPalette(true)}
+            className="flex-1 h-10 px-4 rounded-xl flex items-center justify-between cursor-pointer transition-colors"
             style={{
-              backgroundColor: tc.bgTertiary,
-              border: `1px solid ${tc.borderPrimary}`,
-              color: tc.textSecondary
+              backgroundColor: tc.bgSecondary,
+              border: `1px solid ${tc.borderPrimary}`
             }}
           >
-            ⌘K
-          </kbd>
+            <div className="flex items-center gap-2.5 min-w-0">
+              <Terminal className="w-4 h-4 text-indigo-400 shrink-0" />
+              <span className="text-xs truncate" style={{ color: tc.textSecondary }}>
+                Command line // Search NORAD ID, COSPAR designator, or execute CAM simulation...
+              </span>
+            </div>
+            <kbd
+              className="px-2 py-0.5 text-[10px] rounded-lg transition-colors font-semibold"
+              style={{
+                backgroundColor: tc.bgTertiary,
+                border: `1px solid ${tc.borderPrimary}`,
+                color: tc.textSecondary
+              }}
+            >
+              ⌘K
+            </kbd>
+          </div>
+
+          <button
+            onClick={toggleStreamMode}
+            className="h-10 px-3.5 rounded-xl flex items-center gap-2 transition-all cursor-pointer font-medium shrink-0"
+            style={{
+              backgroundColor: isLive
+                ? (theme === 'dark' ? 'rgba(74, 222, 128, 0.08)' : 'rgba(22, 163, 74, 0.08)')
+                : tc.bgSecondary,
+              border: `1px solid ${isLive ? (theme === 'dark' ? 'rgba(74, 222, 128, 0.25)' : 'rgba(22, 163, 74, 0.25)') : tc.borderPrimary}`,
+              color: isLive ? (theme === 'dark' ? '#4ADE80' : '#16A34A') : tc.textSecondary
+            }}
+            title={isLive ? 'Telemetry Pulse Active (Click to switch to Simulated)' : 'Simulated Telemetry Mode (Click to switch to Live)'}
+          >
+            <span className="relative flex h-2 w-2">
+              {isLive && (
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              )}
+              <span className={`relative inline-flex rounded-full h-2 w-2 ${isLive ? 'bg-emerald-500' : 'bg-zinc-400'}`} />
+            </span>
+            <span className="text-[11px] font-semibold tracking-wider uppercase">
+              {streamMode === 'LIVE' ? 'LIVE PULSE' : 'SIMULATED'}
+            </span>
+          </button>
         </div>
       </div>
 

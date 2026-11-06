@@ -1,7 +1,8 @@
 import { ReactNode, useState, useEffect } from 'react';
-import { LayoutGrid, Search, Radio, Plus, Share2, X, ArrowRight } from 'lucide-react';
+import { LayoutGrid, Search, Radio, Plus, Share2, X, ArrowRight, Activity } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useSidebar } from '../context/SidebarContext';
+import { useTelemetry } from '../context/TelemetryContext';
 import { colors } from '../theme/colors';
 import { NewSidebar } from './NewSidebar';
 import { SessionTimeoutModal } from './SessionTimeoutModal';
@@ -24,6 +25,7 @@ const TELEMETRY_COMMANDS = [
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const { theme } = useTheme();
   const { isCollapsed } = useSidebar();
+  const { streamMode, toggleStreamMode, isLive } = useTelemetry();
   const tc = colors[theme];
   const location = useLocation();
   const navigate = useNavigate();
@@ -95,6 +97,30 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           </div>
 
           <div className="flex items-center gap-3">
+            {/* Live / Simulated Telemetry Stream Toggle */}
+            <button
+              onClick={toggleStreamMode}
+              className="flex items-center gap-2 h-9 px-3 rounded-xl text-xs transition-all cursor-pointer font-medium"
+              style={{
+                backgroundColor: isLive
+                  ? (theme === 'dark' ? 'rgba(74, 222, 128, 0.08)' : 'rgba(22, 163, 74, 0.08)')
+                  : tc.bgSecondary,
+                border: `1px solid ${isLive ? (theme === 'dark' ? 'rgba(74, 222, 128, 0.25)' : 'rgba(22, 163, 74, 0.25)') : tc.borderPrimary}`,
+                color: isLive ? (theme === 'dark' ? '#4ADE80' : '#16A34A') : tc.textSecondary
+              }}
+              title={isLive ? 'Telemetry Pulse Active (Click to switch to Simulated)' : 'Simulated Telemetry Mode (Click to switch to Live)'}
+            >
+              <span className="relative flex h-2 w-2">
+                {isLive && (
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                )}
+                <span className={`relative inline-flex rounded-full h-2 w-2 ${isLive ? 'bg-emerald-500' : 'bg-zinc-400'}`} />
+              </span>
+              <span className="text-[11px] font-semibold tracking-wider uppercase">
+                {streamMode === 'LIVE' ? 'LIVE STREAM' : 'SIMULATED'}
+              </span>
+            </button>
+
             {/* Live UTC Mission Clock */}
             <div
               className="hidden md:flex items-center gap-2 h-9 px-3 rounded-xl text-xs tabular-nums"
@@ -105,7 +131,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               }}
             >
               <Radio className="w-3 h-3 animate-pulse" style={{ color: tc.alertGreen }} />
-              <span className="font-semibold text-zinc-300">{utcTime}</span>
+              <span className="font-semibold" style={{ color: tc.textPrimary }}>{utcTime}</span>
             </div>
 
             {/* Search Anything Pill */}

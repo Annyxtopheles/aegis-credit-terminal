@@ -1,5 +1,6 @@
 import { Sun, Activity, Shield, Flame } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { useTelemetry } from '../context/TelemetryContext';
 import { colors } from '../theme/colors';
 import { SectorNews } from '../components/SectorNews';
 import { AegisCommentary } from '../components/AegisCommentary';
@@ -7,11 +8,12 @@ import { EquityPricingChart } from '../components/EquityPricingChart';
 
 export default function SectorNewsPage() {
   const { theme } = useTheme();
+  const { solarFluxFormatted } = useTelemetry();
   const tc = colors[theme];
   const kpis = [
     {
       label: 'Solar Radio Flux (F10.7)',
-      value: '184.2 SFU',
+      value: solarFluxFormatted,
       subtext: '+18.4% thermospheric drag',
       icon: Sun,
       variant: 'amber',

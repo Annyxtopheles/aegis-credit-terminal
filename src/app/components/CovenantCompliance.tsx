@@ -1,9 +1,11 @@
 import { ShieldAlert, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { useTelemetry } from '../context/TelemetryContext';
 import { colors } from '../theme/colors';
 
 export function CovenantCompliance() {
   const { theme } = useTheme();
+  const { signalMarginFormatted } = useTelemetry();
   const tc = colors[theme];
 
   const gauges = [
@@ -31,7 +33,7 @@ export function CovenantCompliance() {
       id: 'isl',
       title: 'Optical / Ka-Band Link Margin',
       spacecraft: 'Shell-1 Mesh Ring',
-      actual: '+9.8 dB',
+      actual: signalMarginFormatted,
       threshold: '+6.0 dB Minimum',
       pct: 94,
       status: 'Nominal Lock',
