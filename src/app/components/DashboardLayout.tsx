@@ -6,21 +6,12 @@ import { useTelemetry } from '../context/TelemetryContext';
 import { colors } from '../theme/colors';
 import { NewSidebar } from './NewSidebar';
 import { SessionTimeoutModal } from './SessionTimeoutModal';
+import { CommandPaletteModal } from './CommandPaletteModal';
 import { useLocation, useNavigate } from 'react-router';
 
 interface DashboardLayoutProps {
   children: ReactNode;
 }
-
-const TELEMETRY_COMMANDS = [
-  { id: 'overview', label: 'Dashboard Overview', cmd: 'GOTO // DASHBOARD', path: '/dashboard' },
-  { id: 'radar', label: 'B-Plane Radar Scope', cmd: 'GOTO // B-PLANE-RADAR', path: '/dashboard/radar' },
-  { id: 'ephemeris', label: 'Constellation Ephemeris & Thruster ΔV Ledger', cmd: 'GOTO // EPHEMERIS', path: '/dashboard/capital-structure' },
-  { id: 'safety', label: 'FCC / ESA De-Orbit & Orbital Safety SLA', cmd: 'GOTO // SAFETY-SLA', path: '/dashboard/covenant-compliance' },
-  { id: 'maneuvers', label: 'Maneuver Burn Queue & Ground Station Passes', cmd: 'GOTO // CAM-QUEUE', path: '/dashboard/priorities-events' },
-  { id: 'weather', label: 'Space Weather & Solar Flux Advisories', cmd: 'GOTO // SPACE-WX', path: '/dashboard/sector-news' },
-  { id: 'crew', label: 'Flight Dynamics Crew & Console Clearance', cmd: 'GOTO // CREW-ACCESS', path: '/dashboard/user-management' },
-];
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const { theme } = useTheme();
@@ -32,7 +23,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   const [utcTime, setUtcTime] = useState(() => new Date().toISOString().slice(11, 19) + ' UTC');
   const [showSearchModal, setShowSearchModal] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -43,7 +33,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      const isInput = ['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement)?.tagName);
+      if (((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') || (e.key === '/' && !isInput)) {
         e.preventDefault();
         setShowSearchModal(prev => !prev);
       } else if (e.key === 'Escape') {
@@ -67,12 +58,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     if (location.pathname === '/settings') return 'Settings';
     return 'Dashboard';
   };
-
-  const filteredCommands = TELEMETRY_COMMANDS.filter(
-    c =>
-      c.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      c.cmd.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
     <div
@@ -149,15 +134,26 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 <Search className="w-3.5 h-3.5" style={{ color: tc.textTertiary }} />
                 <span>Search Anything...</span>
               </span>
-              <kbd
-                className="px-1.5 py-0.5 rounded text-[10px] "
-                style={{
-                  backgroundColor: tc.bgTertiary,
-                  color: tc.textTertiary
-                }}
-              >
-                ⌘K
-              </kbd>
+              <div className="flex items-center gap-1">
+                <kbd
+                  className="px-1.5 py-0.5 rounded text-[10px]"
+                  style={{
+                    backgroundColor: tc.bgTertiary,
+                    color: tc.textTertiary
+                  }}
+                >
+                  ⌘K
+                </kbd>
+                <kbd
+                  className="px-1.5 py-0.5 rounded text-[10px]"
+                  style={{
+                    backgroundColor: tc.bgTertiary,
+                    color: tc.textTertiary
+                  }}
+                >
+                  /
+                </kbd>
+              </div>
             </button>
 
             <div
@@ -200,70 +196,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </main>
       </div>
 
-      {/* Cmd+K Telemetry Command Modal */}
-      {showSearchModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-start justify-center pt-24 px-4"
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.65)', backdropFilter: 'blur(4px)' }}
-          onClick={() => setShowSearchModal(false)}
-        >
-          <div
-            className="w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden"
-            style={{
-              backgroundColor: tc.bgSecondary,
-              border: `1px solid ${tc.borderPrimary}`
-            }}
-            onClick={e => e.stopPropagation()}
-          >
-            <div
-              className="flex items-center gap-3 px-4 py-3.5 border-b"
-              style={{ borderColor: tc.borderPrimary }}
-            >
-              <Search className="w-4 h-4" style={{ color: tc.textSecondary }} />
-              <input
-                type="text"
-                autoFocus
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Search orbital modules, NORAD IDs, or views..."
-                className="flex-1 bg-transparent text-sm outline-none"
-                style={{ color: tc.textPrimary }}
-              />
-              <button
-                onClick={() => setShowSearchModal(false)}
-                className="p-1 rounded-lg cursor-pointer"
-                style={{ color: tc.textSecondary }}
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="p-2 max-h-72 overflow-y-auto space-y-1">
-              {filteredCommands.map(cmd => (
-                <button
-                  key={cmd.id}
-                  onClick={() => {
-                    setShowSearchModal(false);
-                    navigate(cmd.path);
-                  }}
-                  className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-left transition-colors cursor-pointer"
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = tc.bgTertiary)}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
-                >
-                  <div>
-                    <div className="text-xs font-semibold" style={{ color: tc.textPrimary }}>
-                      {cmd.label}
-                    </div>
-                    <div className="text-[11px] " style={{ color: tc.accentPrimary }}>
-                      {cmd.cmd}
-                    </div>
-                  </div>
-                  <ArrowRight className="w-3.5 h-3.5" style={{ color: tc.textTertiary }} />
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Military/Aerospace Command Palette Modal (Cmd+K or /) */}
+      <CommandPaletteModal
+        isOpen={showSearchModal}
+        onClose={() => setShowSearchModal(false)}
+      />
 
       <SessionTimeoutModal />
     </div>

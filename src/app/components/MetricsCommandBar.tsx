@@ -4,15 +4,7 @@ import { useTheme } from '../context/ThemeContext';
 import { useTelemetry } from '../context/TelemetryContext';
 import { colors } from '../theme/colors';
 import { useNavigate } from 'react-router';
-
-const TELEMETRY_COMMANDS = [
-  { id: 'overview', label: 'Orbital Telemetry & Conjunction Overview', cmd: 'GOTO // OVERVIEW', path: '/dashboard' },
-  { id: 'radar', label: 'B-Plane Radar Scope & Covariance Ellipsoids', cmd: 'GOTO // RADAR', path: '/dashboard/radar' },
-  { id: 'ephemeris', label: 'Constellation Ephemeris & Thruster Delta-V Ledger', cmd: 'GOTO // EPHEMERIS', path: '/dashboard/capital-structure' },
-  { id: 'compliance', label: 'FCC/ESA De-Orbit & Safety Compliance Matrix', cmd: 'GOTO // SAFETY-SLA', path: '/dashboard/covenant-compliance' },
-  { id: 'maneuvers', label: 'Flight Dynamics Directives & Burn Windows', cmd: 'GOTO // MANEUVERS', path: '/dashboard/priorities-events' },
-  { id: 'weather', label: 'Space Weather & Solar Flux Advisories', cmd: 'GOTO // SPACE-WX', path: '/dashboard/sector-news' },
-];
+import { CommandPaletteModal } from './CommandPaletteModal';
 
 export function MetricsCommandBar() {
   const { theme } = useTheme();
@@ -21,7 +13,6 @@ export function MetricsCommandBar() {
   const navigate = useNavigate();
   const [utcTime, setUtcTime] = useState(() => new Date().toISOString().slice(11, 19) + ' UTC');
   const [showPalette, setShowPalette] = useState(false);
-  const [query, setQuery] = useState('');
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -32,7 +23,8 @@ export function MetricsCommandBar() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      const isInput = ['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement)?.tagName);
+      if (((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') || (e.key === '/' && !isInput)) {
         e.preventDefault();
         setShowPalette(prev => !prev);
       } else if (e.key === 'Escape') {
@@ -42,10 +34,6 @@ export function MetricsCommandBar() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
-
-  const filteredCommands = TELEMETRY_COMMANDS.filter(
-    c => c.label.toLowerCase().includes(query.toLowerCase()) || c.cmd.toLowerCase().includes(query.toLowerCase())
-  );
 
   const metrics = [
     {
@@ -178,63 +166,7 @@ export function MetricsCommandBar() {
       </div>
 
       {/* Command Palette Modal */}
-      {showPalette && (
-        <div
-          className="fixed inset-0 z-50 flex items-start justify-center pt-24 px-4 bg-black/60 backdrop-blur-sm"
-          onClick={() => setShowPalette(false)}
-        >
-          <div
-            className="w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-150 transition-colors"
-            style={{
-              backgroundColor: tc.bgSecondary,
-              border: `1px solid ${tc.borderPrimary}`
-            }}
-            onClick={e => e.stopPropagation()}
-          >
-            <div className="flex items-center px-4 py-3 border-b transition-colors" style={{ borderColor: tc.borderPrimary }}>
-              <Search className="w-4 h-4 mr-3 text-indigo-400" />
-              <input
-                type="text"
-                autoFocus
-                value={query}
-                onChange={e => setQuery(e.target.value)}
-                placeholder="Enter telemetry command or jump to page..."
-                className="w-full bg-transparent text-xs outline-none"
-                style={{ color: tc.textPrimary }}
-              />
-              <button
-                onClick={() => setShowPalette(false)}
-                className="transition-colors p-1 cursor-pointer"
-                style={{ color: tc.textSecondary }}
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="max-h-72 overflow-y-auto p-2 space-y-1">
-              {filteredCommands.map(item => (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    navigate(item.path);
-                    setShowPalette(false);
-                  }}
-                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left transition-colors cursor-pointer"
-                  style={{
-                    color: tc.textPrimary
-                  }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = tc.bgTertiary)}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
-                >
-                  <span className="text-xs font-medium">{item.label}</span>
-                  <span className="text-[10px] text-indigo-400 font-mono">
-                    {item.cmd}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      <CommandPaletteModal isOpen={showPalette} onClose={() => setShowPalette(false)} />
     </>
   );
 }
