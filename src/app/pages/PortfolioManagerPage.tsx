@@ -232,7 +232,7 @@ export default function PortfolioManagerPage() {
                 <div className="flex-1 h-9">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={co.spark}>
-                      <Line type="monotone" dataKey="v" dot={false} strokeWidth={2} stroke={isNeg ? tc.alertAmber : tc.accentPrimary} />
+                      <Line type="monotone" dataKey="v" dot={false} strokeWidth={2} stroke={isNeg ? tc.chartAmber : tc.chartCyan} />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>

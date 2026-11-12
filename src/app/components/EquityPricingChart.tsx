@@ -137,7 +137,7 @@ export function EquityPricingChart() {
               yAxisId="right"
               dataKey="covariance"
               name="3σ Covariance"
-              fill={theme === 'dark' ? 'rgba(129, 140, 248, 0.16)' : 'rgba(99, 102, 241, 0.18)'}
+              fill={theme === 'dark' ? 'rgba(106, 117, 161, 0.24)' : 'rgba(92, 102, 140, 0.20)'}
               radius={[4, 4, 0, 0]}
             />
             <Line
@@ -145,10 +145,10 @@ export function EquityPricingChart() {
               type="monotone"
               dataKey="missDist"
               name="Miss Distance"
-              stroke="#818CF8"
+              stroke={tc.chartCyan}
               strokeWidth={2}
-              dot={{ r: 3, fill: '#818CF8' }}
-              activeDot={{ r: 5, fill: '#818CF8', stroke: '#FFFFFF', strokeWidth: 2 }}
+              dot={{ r: 3, fill: tc.chartCyan }}
+              activeDot={{ r: 5, fill: tc.chartCyan, stroke: '#FFFFFF', strokeWidth: 2 }}
             />
           </ComposedChart>
         </ResponsiveContainer>

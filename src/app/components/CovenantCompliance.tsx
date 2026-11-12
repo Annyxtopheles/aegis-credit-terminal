@@ -94,7 +94,7 @@ export function CovenantCompliance() {
           const dashOffset = circumference - (g.pct / 100) * circumference;
 
           const strokeColor =
-            g.type === 'danger' ? tc.alertRed : g.type === 'warning' ? tc.alertAmber : tc.alertGreen;
+            g.type === 'danger' ? tc.chartDanger : g.type === 'warning' ? tc.chartAmber : tc.chartSuccess;
           const badgeTone =
             g.type === 'danger' ? st.rose : g.type === 'warning' ? st.amber : st.emerald;
 

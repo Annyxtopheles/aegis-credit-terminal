@@ -127,8 +127,8 @@ export function DebtPricingChart() {
               yAxisId="right"
               dataKey="solarFlux"
               name="Solar Flux"
-              fill="#F59E0B"
-              fillOpacity={0.25}
+              fill={tc.chartAmber}
+              fillOpacity={0.28}
               radius={[4, 4, 0, 0]}
             />
             <Line
@@ -136,10 +136,10 @@ export function DebtPricingChart() {
               type="monotone"
               dataKey="altitude"
               name="Altitude"
-              stroke="#818CF8"
+              stroke={tc.chartCyan}
               strokeWidth={2.5}
-              dot={{ r: 3, fill: '#818CF8' }}
-              activeDot={{ r: 5, fill: '#818CF8' }}
+              dot={{ r: 3, fill: tc.chartCyan }}
+              activeDot={{ r: 5, fill: tc.chartCyan }}
             />
           </ComposedChart>
         </ResponsiveContainer>
@@ -150,10 +150,10 @@ export function DebtPricingChart() {
         style={{ borderColor: tc.borderPrimary }}
       >
         <span className="flex items-center gap-1.5" style={{ color: tc.textSecondary }}>
-          <span className="w-2.5 h-2.5 rounded-full bg-indigo-400" /> Mean Altitude (km)
+          <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: tc.chartCyan }} /> Mean Altitude (km)
         </span>
         <span className="flex items-center gap-1.5" style={{ color: tc.textSecondary }}>
-          <span className="w-2.5 h-2.5 rounded-sm bg-amber-400/50" /> F10.7 Solar Flux (SFU)
+          <span className="w-2.5 h-2.5 rounded-sm opacity-60" style={{ backgroundColor: tc.chartAmber }} /> F10.7 Solar Flux (SFU)
         </span>
       </div>
     </div>

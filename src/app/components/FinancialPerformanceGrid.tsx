@@ -105,7 +105,7 @@ export function FinancialPerformanceGrid() {
                 {conjunctionFluxData.map((entry) => (
                   <Cell
                     key={`pc-${entry.id}`}
-                    fill={entry.value >= 4.0 ? tc.alertRed : tc.chartCyan}
+                    fill={entry.value >= 4.0 ? tc.chartDanger : tc.chartCyan}
                   />
                 ))}
               </Bar>
@@ -134,10 +134,10 @@ export function FinancialPerformanceGrid() {
           </div>
           <div className="flex items-center gap-3 text-xs">
             <span className="flex items-center gap-1.5" style={{ color: tc.textSecondary }}>
-              <span className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: tc.chartCyan }} /> Mass (kg)
+              <span className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: tc.chartSlate }} /> Mass (kg)
             </span>
             <span className="flex items-center gap-1.5" style={{ color: tc.textSecondary }}>
-              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: tc.alertAmber }} /> ΔV (m/s)
+              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: tc.chartAmber }} /> ΔV (m/s)
             </span>
           </div>
         </div>
@@ -179,8 +179,8 @@ export function FinancialPerformanceGrid() {
                   boxShadow: theme === 'dark' ? '0 8px 24px rgba(0,0,0,0.4)' : '0 8px 24px rgba(0,0,0,0.08)'
                 }}
               />
-              <Bar yAxisId="left" dataKey="xenonKg" name="Xenon Mass (kg)" fill={tc.chartCyan} radius={[6, 6, 0, 0]} />
-              <Line yAxisId="right" type="monotone" dataKey="deltaV" name="Weekly ΔV (m/s)" stroke={tc.alertAmber} strokeWidth={2.5} dot={{ r: 3, fill: tc.alertAmber }} />
+              <Bar yAxisId="left" dataKey="xenonKg" name="Xenon Mass (kg)" fill={tc.chartSlate} radius={[6, 6, 0, 0]} />
+              <Line yAxisId="right" type="monotone" dataKey="deltaV" name="Weekly ΔV (m/s)" stroke={tc.chartAmber} strokeWidth={2.5} dot={{ r: 3, fill: tc.chartAmber }} />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
@@ -231,7 +231,7 @@ export function FinancialPerformanceGrid() {
                   boxShadow: theme === 'dark' ? '0 8px 24px rgba(0,0,0,0.4)' : '0 8px 24px rgba(0,0,0,0.08)'
                 }}
               />
-              <Bar dataKey="value" name="Active SVs" fill={tc.accentPrimary} radius={[0, 6, 6, 0]} />
+              <Bar dataKey="value" name="Active SVs" fill={tc.chartPlum} radius={[0, 6, 6, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -283,7 +283,7 @@ export function FinancialPerformanceGrid() {
                 }}
                 formatter={(v: any) => [`${v} dB`, 'Link Margin']}
               />
-              <Bar dataKey="margin" name="Link Margin (dB)" fill="#10B981" radius={[0, 6, 6, 0]} />
+              <Bar dataKey="margin" name="Link Margin (dB)" fill={tc.chartSuccess} radius={[0, 6, 6, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

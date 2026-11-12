@@ -17,8 +17,13 @@ export const colors = {
     alertRed: '#F87171',        // Soft Coral Red
     alertAmber: '#FBBF24',      // Soft Amber
     alertGreen: '#4ADE80',      // Soft Emerald Green
-    chartCyan: '#818CF8',       // Primary Indigo Chart Trace
-    chartAmber: '#3B82F6',      // Secondary Blue Chart Trace
+    chartCyan: '#6A75A1',       // Muted Steel Indigo Chart Fill
+    chartSlate: '#63718E',      // Muted Slate Blue Chart Fill
+    chartTeal: '#527D78',       // Muted Sage Teal Chart Fill
+    chartPlum: '#786588',       // Muted Mauve Plum Chart Fill
+    chartAmber: '#B08A54',      // Muted Warm Ochre Chart Trace
+    chartDanger: '#B8656A',     // Muted Dusty Crimson Chart Fill
+    chartSuccess: '#568572',    // Muted Eucalyptus Sage Chart Fill
   },
   light: {
     bgPrimary: '#F4F5F7',
@@ -38,8 +43,13 @@ export const colors = {
     alertRed: '#DC2626',
     alertAmber: '#B45309',
     alertGreen: '#15803D',
-    chartCyan: '#4F46E5',
-    chartAmber: '#2563EB',
+    chartCyan: '#5C668C',       // Muted Steel Indigo Chart Fill
+    chartSlate: '#55657E',      // Muted Slate Blue Chart Fill
+    chartTeal: '#4A6D7C',       // Muted Cadet Teal Chart Fill
+    chartPlum: '#6D5B7B',       // Muted Dusty Plum Chart Fill
+    chartAmber: '#947244',      // Muted Warm Ochre Chart Trace
+    chartDanger: '#A8585D',     // Muted Terracotta Rose Chart Fill
+    chartSuccess: '#4E7A67',    // Muted Sage Green Chart Fill
   }
 } as const;
 
