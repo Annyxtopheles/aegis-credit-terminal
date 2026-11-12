@@ -10,9 +10,9 @@ export default function RadarScopePage() {
   const tc = colors[theme];
 
   const radarStats = [
-    { label: 'Time of Closest Approach', value: 'T-01:42:19', delta: 'Epoch 16:14 UTC', icon: Clock, color: '#F87171' },
-    { label: 'Projected Miss Distance', value: '1,850 m', delta: 'Nominal Post-CAM (142m Raw)', icon: Crosshair, color: '#4ADE80' },
-    { label: 'Collision Probability (Pc)', value: '1.2e-7', delta: 'Mitigated Below 1.0e-4 SLA', icon: ShieldAlert, color: '#4ADE80' },
+    { label: 'Time of Closest Approach', value: 'T-01:42:19', delta: 'Epoch 16:14 UTC', icon: Clock, color: tc.alertRed },
+    { label: 'Projected Miss Distance', value: '1,850 m', delta: 'Nominal Post-CAM (142m Raw)', icon: Crosshair, color: tc.alertGreen },
+    { label: 'Collision Probability (Pc)', value: '1.2e-7', delta: 'Mitigated Below 1.0e-4 SLA', icon: ShieldAlert, color: tc.alertGreen },
     { label: 'Required Delta-V Vector', value: '+0.85 m/s', delta: 'Prograde Hall-Effect Fire', icon: Zap, color: tc.accentPrimary },
   ];
 

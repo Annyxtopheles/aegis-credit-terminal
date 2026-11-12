@@ -437,7 +437,7 @@ export default function OverviewPage() {
               <div className="text-[11.5px] flex items-center gap-1.5">
                 <span
                   className="font-semibold"
-                  style={{ color: '#4ADE80' }}
+                  style={{ color: tc.alertGreen }}
                 >
                   {kpi.delta}
                 </span>
@@ -489,9 +489,8 @@ export default function OverviewPage() {
                   </div>
                   {isLive && altitudeDeltaM !== 0 && (
                     <span
-                      className={`text-xs font-mono font-medium transition-opacity duration-300 ${
-                        altitudeDeltaM > 0 ? 'text-emerald-400' : 'text-amber-400'
-                      }`}
+                      className="text-xs font-medium tabular-nums transition-opacity duration-300"
+                      style={{ color: altitudeDeltaM > 0 ? tc.alertGreen : tc.alertAmber }}
                     >
                       {altitudeDeltaM > 0 ? `+${altitudeDeltaM}m` : `${altitudeDeltaM}m`}
                     </span>
@@ -501,7 +500,7 @@ export default function OverviewPage() {
                   Mean Constellation Apogee
                 </div>
                 <div className="text-xs flex items-center gap-1.5">
-                  <span className="font-semibold" style={{ color: '#4ADE80' }}>
+                  <span className="font-semibold" style={{ color: tc.alertGreen }}>
                     +0.38%(+2,040 m)
                   </span>
                   <span style={{ color: tc.textTertiary }}>•</span>
@@ -541,7 +540,11 @@ export default function OverviewPage() {
                         className="h-1 flex-1 rounded-full transition-colors"
                         style={{
                           backgroundColor:
-                            i === slideIdx ? tc.textPrimary : 'rgba(255,255,255,0.16)'
+                            i === slideIdx
+                              ? tc.textPrimary
+                              : theme === 'dark'
+                              ? 'rgba(255,255,255,0.16)'
+                              : 'rgba(17,24,39,0.18)'
                         }}
                       />
                     ))}
@@ -960,11 +963,13 @@ export default function OverviewPage() {
                           ? `1px solid ${tc.borderSubtle}`
                           : 'none',
                       backgroundColor: isHighlighted
-                        ? (theme === 'dark' ? 'rgba(34, 211, 238, 0.12)' : 'rgba(34, 211, 238, 0.08)')
+                        ? (theme === 'dark' ? 'rgba(34, 211, 238, 0.12)' : 'rgba(14, 116, 144, 0.08)')
                         : checked
                         ? 'rgba(99, 102, 241, 0.06)'
                         : 'transparent',
-                      outline: isHighlighted ? '1px solid rgba(34, 211, 238, 0.4)' : 'none'
+                      outline: isHighlighted
+                        ? (theme === 'dark' ? '1px solid rgba(34, 211, 238, 0.4)' : '1px solid rgba(14, 116, 144, 0.45)')
+                        : 'none'
                     }}
                   >
                     <td className="py-3.5 px-3 " style={{ color: tc.textSecondary }}>

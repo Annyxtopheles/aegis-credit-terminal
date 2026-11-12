@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { Eye, EyeOff, Loader2, Check, Radar, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
-import { colors } from '../theme/colors';
+import { colors, statusTones } from '../theme/colors';
 
 const passwordRules = [
   { id: 'length', label: 'At least 12 characters', test: (p: string) => p.length >= 12 },
@@ -16,6 +16,7 @@ export default function SignUpPage() {
   const { signup, isLoading } = useAuth();
   const { theme } = useTheme();
   const tc = colors[theme];
+  const st = statusTones[theme];
   const navigate = useNavigate();
 
   const [form, setForm] = useState({ name: '', email: 'operator@vanguard.space', password: '', confirm: '', jobTitle: '', phone: '' });
@@ -65,7 +66,14 @@ export default function SignUpPage() {
         </button>
 
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-3">
+          <div
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border mb-3"
+            style={{
+              backgroundColor: st.indigo.bg,
+              color: st.indigo.text,
+              borderColor: st.indigo.border,
+            }}
+          >
             <Radar className="w-3.5 h-3.5" />
             <span>Flight Deck Provisioning</span>
           </div>

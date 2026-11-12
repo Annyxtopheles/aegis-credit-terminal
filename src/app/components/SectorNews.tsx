@@ -1,10 +1,11 @@
-import { Radio, ExternalLink, Sun, Shield, AlertTriangle, FileText } from 'lucide-react';
+import { Radio, ExternalLink, Sun, Shield, FileText } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { colors } from '../theme/colors';
+import { colors, statusTones } from '../theme/colors';
 
 export function SectorNews() {
   const { theme } = useTheme();
   const tc = colors[theme];
+  const tones = statusTones[theme];
 
   const newsCategories = [
     {
@@ -79,19 +80,33 @@ export function SectorNews() {
     >
       <div className="flex items-center justify-between pb-4 mb-5 border-b" style={{ borderColor: tc.borderPrimary }}>
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400">
+          <div
+            className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+            style={{
+              backgroundColor: tones.amber.bg,
+              color: tones.amber.text,
+              border: `1px solid ${tones.amber.border}`
+            }}
+          >
             <Radio className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-[16px] font-semibold tracking-tight text-zinc-100">
+            <h3 className="text-[16px] font-semibold tracking-tight" style={{ color: tc.textPrimary }}>
               Space Weather Advisories & Orbital Bulletins
             </h3>
-            <p className="text-xs text-zinc-400 mt-0.5">
+            <p className="text-xs mt-0.5" style={{ color: tc.textSecondary }}>
               Live intelligence feeds from NOAA SWPC, 18th SDS Space-Track, and ESA networks
             </p>
           </div>
         </div>
-        <span className="px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+        <span
+          className="px-3 py-1 rounded-full text-xs font-medium border shrink-0"
+          style={{
+            backgroundColor: tones.indigo.bg,
+            color: tones.indigo.text,
+            borderColor: tones.indigo.border
+          }}
+        >
           7 New Bulletins
         </span>
       </div>
@@ -101,15 +116,18 @@ export function SectorNews() {
           const CategoryIcon = category.icon;
           return (
             <div key={catIndex} className="space-y-3">
-              <div className="flex items-center gap-2 text-xs font-semibold text-zinc-400 uppercase tracking-wider">
-                <CategoryIcon className="w-3.5 h-3.5 text-zinc-400" />
+              <div
+                className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider"
+                style={{ color: tc.textSecondary }}
+              >
+                <CategoryIcon className="w-3.5 h-3.5" style={{ color: tc.textSecondary }} />
                 <span>{category.category}</span>
               </div>
               <div className="space-y-2.5">
                 {category.items.map((item, itemIndex) => (
                   <div
                     key={itemIndex}
-                    className="p-4 rounded-xl flex flex-col justify-between transition-all duration-200 hover:border-zinc-700/60"
+                    className="p-4 rounded-xl flex flex-col justify-between transition-all duration-200"
                     style={{
                       backgroundColor: tc.bgTertiary,
                       border: `1px solid ${tc.borderPrimary}`
@@ -117,22 +135,33 @@ export function SectorNews() {
                   >
                     <div className="flex items-center justify-between gap-2 mb-1.5">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-semibold text-indigo-400">
+                        <span className="text-xs font-semibold" style={{ color: tc.accentPrimary }}>
                           {item.source}
                         </span>
-                        <span className="text-[11px] text-zinc-500">• {item.time}</span>
+                        <span className="text-[11px]" style={{ color: tc.textTertiary }}>• {item.time}</span>
                       </div>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full font-medium bg-zinc-800 text-zinc-300 border border-zinc-700/50">
+                      <span
+                        className="text-[10px] px-2 py-0.5 rounded-full font-medium border"
+                        style={{
+                          backgroundColor: tc.bgSecondary,
+                          color: tc.textSecondary,
+                          borderColor: tc.borderPrimary
+                        }}
+                      >
                         {item.tag}
                       </span>
                     </div>
                     <a
                       href="#telemetry-bulletin"
                       onClick={(e) => e.preventDefault()}
-                      className="text-xs font-medium text-zinc-200 hover:text-indigo-300 leading-relaxed transition-colors flex items-center justify-between group"
+                      className="text-xs font-medium leading-relaxed transition-opacity hover:opacity-80 flex items-center justify-between group"
+                      style={{ color: tc.textPrimary }}
                     >
                       <span>{item.headline}</span>
-                      <ExternalLink className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity ml-2 shrink-0 text-indigo-400" />
+                      <ExternalLink
+                        className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity ml-2 shrink-0"
+                        style={{ color: tc.accentPrimary }}
+                      />
                     </a>
                   </div>
                 ))}

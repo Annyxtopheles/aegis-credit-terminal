@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
-import { colors } from '../theme/colors';
+import { colors, statusTones } from '../theme/colors';
 import { useLocation, useNavigate } from 'react-router';
 
 const ADMIN_TABS = [
@@ -310,20 +310,35 @@ function UserManagementTab({ tc, theme }: { tc: any; theme: string }) {
                   {u.company}
                 </td>
                 <td className="py-3.5 px-5">
-                  <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                  <span
+                    className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-medium border"
+                    style={{
+                      backgroundColor: statusTones[theme === 'dark' ? 'dark' : 'light'].indigo.bg,
+                      color: statusTones[theme === 'dark' ? 'dark' : 'light'].indigo.text,
+                      borderColor: statusTones[theme === 'dark' ? 'dark' : 'light'].indigo.border,
+                    }}
+                  >
                     {u.role === 'company_admin' ? 'Constellation Lead' : 'Orbital Analyst'}
                   </span>
                 </td>
                 <td className="py-3.5 px-5">
-                  <span
-                    className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-medium border ${
-                      u.status === 'active'
-                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                        : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                    }`}
-                  >
-                    {u.status === 'active' ? 'Nominal' : 'Pending'}
-                  </span>
+                  {(() => {
+                    const tone = u.status === 'active'
+                      ? statusTones[theme === 'dark' ? 'dark' : 'light'].emerald
+                      : statusTones[theme === 'dark' ? 'dark' : 'light'].amber;
+                    return (
+                      <span
+                        className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-medium border"
+                        style={{
+                          backgroundColor: tone.bg,
+                          color: tone.text,
+                          borderColor: tone.border,
+                        }}
+                      >
+                        {u.status === 'active' ? 'Nominal' : 'Pending'}
+                      </span>
+                    );
+                  })()}
                 </td>
                 <td className="py-3.5 px-5 text-[11px]" style={{ color: tc.textSecondary }}>
                   {u.lastActive || '—'}
@@ -532,9 +547,23 @@ function CommentaryEditorTab({ tc, theme }: { tc: any; theme: string }) {
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-semibold" style={{ color: tc.textPrimary }}>{section.label}</span>
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium border ${section.status === 'published' ? 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20' : 'text-amber-500 bg-amber-500/10 border-amber-500/20'}`}>
-                    {section.status === 'published' ? 'Live' : 'Draft'}
-                  </span>
+                  {(() => {
+                    const tone = section.status === 'published'
+                      ? statusTones[theme === 'dark' ? 'dark' : 'light'].emerald
+                      : statusTones[theme === 'dark' ? 'dark' : 'light'].amber;
+                    return (
+                      <span
+                        className="text-[10px] px-2 py-0.5 rounded-full font-medium border"
+                        style={{
+                          backgroundColor: tone.bg,
+                          color: tone.text,
+                          borderColor: tone.border,
+                        }}
+                      >
+                        {section.status === 'published' ? 'Live' : 'Draft'}
+                      </span>
+                    );
+                  })()}
                 </div>
                 <div className="text-[11px] mt-0.5" style={{ color: tc.textSecondary }}>Updated {section.updated}</div>
               </div>

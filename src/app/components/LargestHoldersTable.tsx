@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Download, Check, Radar, Search } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { colors } from '../theme/colors';
+import { colors, orbitalStatusBadges } from '../theme/colors';
 
 export function LargestHoldersTable() {
   const { theme } = useTheme();
   const themeColors = colors[theme];
+  const badges = orbitalStatusBadges[theme];
   const [downloaded, setDownloaded] = useState(false);
   const [search, setSearch] = useState('');
 
@@ -83,9 +84,9 @@ export function LargestHoldersTable() {
   };
 
   const getSeverityBadge = (severity: string) => {
-    if (severity === 'critical') return { bg: 'rgba(239, 68, 68, 0.16)', text: '#F87171' };
-    if (severity === 'warning') return { bg: 'rgba(245, 158, 11, 0.16)', text: '#FBBF24' };
-    return { bg: 'rgba(74, 222, 128, 0.16)', text: '#4ADE80' };
+    if (severity === 'critical') return badges.critical;
+    if (severity === 'warning') return badges.warning;
+    return badges.nominal;
   };
 
   return (
@@ -135,7 +136,7 @@ export function LargestHoldersTable() {
               border: `1px solid ${themeColors.borderPrimary}`
             }}
           >
-            {downloaded ? <><Check className="w-3.5 h-3.5 text-emerald-400" /> Exported</> : <><Download className="w-3.5 h-3.5" style={{ color: themeColors.textSecondary }} /> Export CDM</>}
+            {downloaded ? <><Check className="w-3.5 h-3.5" style={{ color: themeColors.alertGreen }} /> Exported</> : <><Download className="w-3.5 h-3.5" style={{ color: themeColors.textSecondary }} /> Export CDM</>}
           </button>
         </div>
       </div>

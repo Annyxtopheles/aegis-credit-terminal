@@ -1,6 +1,6 @@
 import { Flame, Compass, ShieldCheck, Activity } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { colors } from '../theme/colors';
+import { colors, statusTones } from '../theme/colors';
 import { TopPriorities } from '../components/TopPriorities';
 import { KeyEvents } from '../components/KeyEvents';
 import { MarketTrendsPanel } from '../components/MarketTrendsPanel';
@@ -8,13 +8,15 @@ import { MarketTrendsPanel } from '../components/MarketTrendsPanel';
 export default function PerformanceAnalysisPage() {
   const { theme } = useTheme();
   const tc = colors[theme];
+  const tones = statusTones[theme];
+
   const kpis = [
     {
       label: 'Queued Maneuvers',
       value: '3 Burns Active',
       subtext: 'Next: VGD-04 at 16:40 UTC',
       icon: Flame,
-      variant: 'rose',
+      tone: tones.rose,
       badge: 'Action Required'
     },
     {
@@ -22,7 +24,7 @@ export default function PerformanceAnalysisPage() {
       value: '+3.42 m/s',
       subtext: 'Hall-effect bus reserve: 94.2%',
       icon: Compass,
-      variant: 'indigo',
+      tone: tones.indigo,
       badge: 'Sufficient'
     },
     {
@@ -30,7 +32,7 @@ export default function PerformanceAnalysisPage() {
       value: 'Armed & Nominal',
       subtext: 'Threshold: Pc > 1.0e-4 trigger',
       icon: ShieldCheck,
-      variant: 'emerald',
+      tone: tones.emerald,
       badge: 'Protected'
     },
     {
@@ -38,7 +40,7 @@ export default function PerformanceAnalysisPage() {
       value: '142 ms',
       subtext: 'Optical cross-link mesh locked',
       icon: Activity,
-      variant: 'cyan',
+      tone: tones.cyan,
       badge: 'Real-Time'
     }
   ];
@@ -49,14 +51,6 @@ export default function PerformanceAnalysisPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {kpis.map((kpi, idx) => {
           const Icon = kpi.icon;
-          const badgeClass =
-            kpi.variant === 'rose'
-              ? 'text-rose-400 bg-rose-500/10 border-rose-500/20'
-              : kpi.variant === 'indigo'
-              ? 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20'
-              : kpi.variant === 'emerald'
-              ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20'
-              : 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20';
 
           return (
             <div
@@ -69,7 +63,14 @@ export default function PerformanceAnalysisPage() {
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-medium" style={{ color: tc.textSecondary }}>{kpi.label}</span>
-                <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full border ${badgeClass}`}>
+                <span
+                  className="text-[11px] font-medium px-2 py-0.5 rounded-full border"
+                  style={{
+                    backgroundColor: kpi.tone.bg,
+                    color: kpi.tone.text,
+                    borderColor: kpi.tone.border
+                  }}
+                >
                   {kpi.badge}
                 </span>
               </div>

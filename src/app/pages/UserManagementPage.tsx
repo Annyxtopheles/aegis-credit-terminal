@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Plus, Mail, Trash2, Edit2, X, Copy, Check, Users, ShieldCheck, UserCheck, Clock, Search } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
-import { colors } from '../theme/colors';
+import { colors, statusTones } from '../theme/colors';
 
 interface User {
   id: string;
@@ -24,6 +24,7 @@ export default function UserManagementPage() {
   const { theme } = useTheme();
   const { user: currentUser } = useAuth();
   const tc = colors[theme];
+  const st = statusTones[theme];
   const [users, setUsers] = useState<User[]>(MOCK_USERS);
   const [searchQuery, setSearchQuery] = useState('');
   const [showInviteModal, setShowInviteModal] = useState(false);
@@ -119,7 +120,14 @@ export default function UserManagementPage() {
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-medium" style={{ color: tc.textSecondary }}>{kpi.label}</span>
-                <span className="text-[11px] font-medium px-2 py-0.5 rounded-full border border-indigo-500/20 text-indigo-400 bg-indigo-500/10">
+                <span
+                  className="text-[11px] font-medium px-2 py-0.5 rounded-full border"
+                  style={{
+                    backgroundColor: st.indigo.bg,
+                    color: st.indigo.text,
+                    borderColor: st.indigo.border,
+                  }}
+                >
                   {kpi.badge}
                 </span>
               </div>
@@ -211,7 +219,14 @@ export default function UserManagementPage() {
                   <tr key={user.id} className="transition-colors" style={{ backgroundColor: 'transparent' }}>
                     <td className="py-4 px-5">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-semibold text-xs shrink-0">
+                        <div
+                          className="w-8 h-8 rounded-full border flex items-center justify-center font-semibold text-xs shrink-0"
+                          style={{
+                            backgroundColor: st.indigo.bg,
+                            color: st.indigo.text,
+                            borderColor: st.indigo.border,
+                          }}
+                        >
                           {initials}
                         </div>
                         <div>
@@ -221,17 +236,25 @@ export default function UserManagementPage() {
                       </div>
                     </td>
                     <td className="py-4 px-5">
-                      <span className="inline-flex px-2.5 py-1 rounded-full text-[11px] font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                      <span
+                        className="inline-flex px-2.5 py-1 rounded-full text-[11px] font-medium border"
+                        style={{
+                          backgroundColor: st.indigo.bg,
+                          color: st.indigo.text,
+                          borderColor: st.indigo.border,
+                        }}
+                      >
                         {user.role === 'company_admin' ? 'Constellation Lead' : 'Orbital Analyst'}
                       </span>
                     </td>
                     <td className="py-4 px-5">
                       <span
-                        className={`inline-flex px-2.5 py-1 rounded-full text-[11px] font-medium border ${
+                        className="inline-flex px-2.5 py-1 rounded-full text-[11px] font-medium border"
+                        style={
                           user.status === 'active'
-                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                            : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                        }`}
+                            ? { backgroundColor: st.emerald.bg, color: st.emerald.text, borderColor: st.emerald.border }
+                            : { backgroundColor: st.amber.bg, color: st.amber.text, borderColor: st.amber.border }
+                        }
                       >
                         {user.status === 'active' ? 'Nominal' : 'Pending Signature'}
                       </span>
@@ -279,7 +302,10 @@ export default function UserManagementPage() {
           >
             <div className="flex items-center justify-between pb-3 border-b" style={{ borderColor: tc.borderPrimary }}>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center"
+                  style={{ backgroundColor: st.indigo.bg, color: st.indigo.text }}
+                >
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>

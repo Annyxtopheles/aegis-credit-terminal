@@ -1,6 +1,6 @@
 import { BarChart, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ComposedChart, Cell } from 'recharts';
 import { useTheme } from '../context/ThemeContext';
-import { colors } from '../theme/colors';
+import { colors, statusTones } from '../theme/colors';
 
 const conjunctionFluxData = [
   { id: 1, label: 'Pass 4102', value: 1.2 },
@@ -39,6 +39,7 @@ const linkMarginByPlaneData = [
 export function FinancialPerformanceGrid() {
   const { theme } = useTheme();
   const tc = colors[theme];
+  const st = statusTones[theme];
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
@@ -53,14 +54,21 @@ export function FinancialPerformanceGrid() {
       >
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h4 className="text-[15px] font-semibold text-zinc-100 tracking-tight">
+            <h4 className="text-[15px] font-semibold tracking-tight" style={{ color: tc.textPrimary }}>
               Collision Probability Trend (Pc × 10⁻⁴)
             </h4>
-            <p className="text-xs text-zinc-400 mt-0.5">
+            <p className="text-xs mt-0.5" style={{ color: tc.textSecondary }}>
               Target threshold 4.0e-4 // COSMOS-2251 debris fragment passes
             </p>
           </div>
-          <span className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20">
+          <span
+            className="px-2.5 py-1 rounded-full text-[11px] font-medium border"
+            style={{
+              backgroundColor: st.rose.bg,
+              color: st.rose.text,
+              borderColor: st.rose.border,
+            }}
+          >
             Critical Pass 4116
           </span>
         </div>
@@ -70,13 +78,13 @@ export function FinancialPerformanceGrid() {
               <CartesianGrid strokeDasharray="3 3" stroke={tc.borderPrimary} vertical={false} />
               <XAxis
                 dataKey="label"
-                stroke="#71717A"
+                stroke={tc.textTertiary}
                 style={{ fontSize: '11px', fontFamily: 'inherit' }}
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis
-                stroke="#71717A"
+                stroke={tc.textTertiary}
                 style={{ fontSize: '11px' }}
                 domain={[0, 6]}
                 tickLine={false}
@@ -97,7 +105,7 @@ export function FinancialPerformanceGrid() {
                 {conjunctionFluxData.map((entry) => (
                   <Cell
                     key={`pc-${entry.id}`}
-                    fill={entry.value >= 4.0 ? '#F43F5E' : '#818CF8'}
+                    fill={entry.value >= 4.0 ? tc.alertRed : tc.chartCyan}
                   />
                 ))}
               </Bar>
@@ -117,19 +125,19 @@ export function FinancialPerformanceGrid() {
       >
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h4 className="text-[15px] font-semibold text-zinc-100 tracking-tight">
+            <h4 className="text-[15px] font-semibold tracking-tight" style={{ color: tc.textPrimary }}>
               Xenon Propellant & CAM ΔV Expenditure
             </h4>
-            <p className="text-xs text-zinc-400 mt-0.5">
+            <p className="text-xs mt-0.5" style={{ color: tc.textSecondary }}>
               Weekly mass burn rate vs. cumulative avoidance delta-v
             </p>
           </div>
           <div className="flex items-center gap-3 text-xs">
-            <span className="flex items-center gap-1.5 text-zinc-400">
-              <span className="w-2.5 h-2.5 rounded-sm bg-indigo-500" /> Mass (kg)
+            <span className="flex items-center gap-1.5" style={{ color: tc.textSecondary }}>
+              <span className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: tc.chartCyan }} /> Mass (kg)
             </span>
-            <span className="flex items-center gap-1.5 text-zinc-400">
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-400" /> ΔV (m/s)
+            <span className="flex items-center gap-1.5" style={{ color: tc.textSecondary }}>
+              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: tc.alertAmber }} /> ΔV (m/s)
             </span>
           </div>
         </div>
@@ -139,14 +147,14 @@ export function FinancialPerformanceGrid() {
               <CartesianGrid strokeDasharray="3 3" stroke={tc.borderPrimary} vertical={false} />
               <XAxis
                 dataKey="epoch"
-                stroke="#71717A"
+                stroke={tc.textTertiary}
                 style={{ fontSize: '11px', fontFamily: 'inherit' }}
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis
                 yAxisId="left"
-                stroke="#71717A"
+                stroke={tc.textTertiary}
                 style={{ fontSize: '11px' }}
                 domain={[3.5, 5.2]}
                 tickLine={false}
@@ -155,7 +163,7 @@ export function FinancialPerformanceGrid() {
               <YAxis
                 yAxisId="right"
                 orientation="right"
-                stroke="#71717A"
+                stroke={tc.textTertiary}
                 style={{ fontSize: '11px' }}
                 domain={[0, 6]}
                 tickLine={false}
@@ -171,8 +179,8 @@ export function FinancialPerformanceGrid() {
                   boxShadow: theme === 'dark' ? '0 8px 24px rgba(0,0,0,0.4)' : '0 8px 24px rgba(0,0,0,0.08)'
                 }}
               />
-              <Bar yAxisId="left" dataKey="xenonKg" name="Xenon Mass (kg)" fill="#818CF8" radius={[6, 6, 0, 0]} />
-              <Line yAxisId="right" type="monotone" dataKey="deltaV" name="Weekly ΔV (m/s)" stroke="#F59E0B" strokeWidth={2.5} dot={{ r: 3, fill: '#F59E0B' }} />
+              <Bar yAxisId="left" dataKey="xenonKg" name="Xenon Mass (kg)" fill={tc.chartCyan} radius={[6, 6, 0, 0]} />
+              <Line yAxisId="right" type="monotone" dataKey="deltaV" name="Weekly ΔV (m/s)" stroke={tc.alertAmber} strokeWidth={2.5} dot={{ r: 3, fill: tc.alertAmber }} />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
@@ -189,14 +197,21 @@ export function FinancialPerformanceGrid() {
       >
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h4 className="text-[15px] font-semibold text-zinc-100 tracking-tight">
+            <h4 className="text-[15px] font-semibold tracking-tight" style={{ color: tc.textPrimary }}>
               Constellation Distribution by Orbital Plane
             </h4>
-            <p className="text-xs text-zinc-400 mt-0.5">
+            <p className="text-xs mt-0.5" style={{ color: tc.textSecondary }}>
               Target nominal density: 16 vehicles per sun-synchronous ring
             </p>
           </div>
-          <span className="text-xs font-medium text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+          <span
+            className="text-xs font-medium px-2.5 py-1 rounded-full border"
+            style={{
+              backgroundColor: st.emerald.bg,
+              color: st.emerald.text,
+              borderColor: st.emerald.border,
+            }}
+          >
             48 / 48 Active
           </span>
         </div>
@@ -216,7 +231,7 @@ export function FinancialPerformanceGrid() {
                   boxShadow: theme === 'dark' ? '0 8px 24px rgba(0,0,0,0.4)' : '0 8px 24px rgba(0,0,0,0.08)'
                 }}
               />
-              <Bar dataKey="value" name="Active SVs" fill="#6366F1" radius={[0, 6, 6, 0]} />
+              <Bar dataKey="value" name="Active SVs" fill={tc.accentPrimary} radius={[0, 6, 6, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -240,7 +255,14 @@ export function FinancialPerformanceGrid() {
               Minimum operating threshold +6.0 dB above thermal noise floor
             </p>
           </div>
-          <span className="text-xs font-medium text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/20">
+          <span
+            className="text-xs font-medium px-2.5 py-1 rounded-full border"
+            style={{
+              backgroundColor: st.indigo.bg,
+              color: st.indigo.text,
+              borderColor: st.indigo.border,
+            }}
+          >
             S-Band & Optical Locked
           </span>
         </div>

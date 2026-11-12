@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useTelemetry } from '../context/TelemetryContext';
-import { colors } from '../theme/colors';
+import { colors, statusTones } from '../theme/colors';
 import { useNavigate } from 'react-router';
 
 interface CommandItem {
@@ -43,6 +43,7 @@ export function CommandPaletteModal({ isOpen, onClose }: CommandPaletteModalProp
   const { theme, toggleTheme } = useTheme();
   const { toggleStreamMode, streamMode, isLive } = useTelemetry();
   const tc = colors[theme];
+  const st = statusTones[theme];
   const navigate = useNavigate();
 
   const [query, setQuery] = useState('');
@@ -334,20 +335,20 @@ export function CommandPaletteModal({ isOpen, onClose }: CommandPaletteModalProp
     }
   };
 
-  const getBadgeStyle = (variant: CommandItem['badgeVariant']) => {
+  const getBadgeTone = (variant: CommandItem['badgeVariant']) => {
     switch (variant) {
       case 'red':
-        return 'bg-rose-500/10 text-rose-400 border-rose-500/30';
+        return st.rose;
       case 'amber':
-        return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+        return st.amber;
       case 'cyan':
-        return 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30';
+        return st.cyan;
       case 'emerald':
-        return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
+        return st.emerald;
       case 'indigo':
-        return 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30';
+        return st.indigo;
       default:
-        return 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20';
+        return st.neutral;
     }
   };
 
@@ -371,7 +372,7 @@ export function CommandPaletteModal({ isOpen, onClose }: CommandPaletteModalProp
       >
         {/* Terminal Header Prompt */}
         <div
-          className="flex items-center justify-between px-4 py-2 text-[10px] uppercase font-mono tracking-wider border-b"
+          className="flex items-center justify-between px-4 py-2 text-[10px] uppercase tracking-wider border-b font-semibold"
           style={{
             backgroundColor: tc.bgTertiary,
             borderColor: tc.borderPrimary,
@@ -379,15 +380,15 @@ export function CommandPaletteModal({ isOpen, onClose }: CommandPaletteModalProp
           }}
         >
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: st.cyan.text }} />
             <span>KESSLER ORBITAL COMMAND PALETTE // 18TH SDS TLE INTERCEPTOR</span>
           </div>
-          <span className="hidden sm:inline text-zinc-500">SHORTCUT: ⌘K or /</span>
+          <span className="hidden sm:inline" style={{ color: tc.textTertiary }}>SHORTCUT: ⌘K or /</span>
         </div>
 
         {/* Search Input Bar */}
         <div className="flex items-center gap-3 px-4 py-3.5 border-b" style={{ borderColor: tc.borderPrimary }}>
-          <Search className="w-4 h-4 text-cyan-400 shrink-0" />
+          <Search className="w-4 h-4 shrink-0" style={{ color: st.cyan.text }} />
           <input
             ref={inputRef}
             type="text"
@@ -397,7 +398,7 @@ export function CommandPaletteModal({ isOpen, onClose }: CommandPaletteModalProp
               setSelectedIndex(0);
             }}
             placeholder="Type NORAD ID (e.g. 58214), callsign (VGD-04), alert status (red), or command..."
-            className="flex-1 bg-transparent text-sm outline-none font-medium placeholder-zinc-500"
+            className="flex-1 bg-transparent text-sm outline-none font-medium"
             style={{ color: tc.textPrimary }}
           />
           {query && (
@@ -406,13 +407,14 @@ export function CommandPaletteModal({ isOpen, onClose }: CommandPaletteModalProp
                 setQuery('');
                 inputRef.current?.focus();
               }}
-              className="p-1 rounded text-zinc-400 hover:text-zinc-200 cursor-pointer"
+              className="p-1 rounded cursor-pointer transition-opacity hover:opacity-80"
+              style={{ color: tc.textSecondary }}
             >
               <X className="w-3.5 h-3.5" />
             </button>
           )}
           <kbd
-            className="px-2 py-0.5 rounded text-[10px] font-mono border"
+            className="px-2 py-0.5 rounded text-[10px] font-semibold border"
             style={{
               backgroundColor: tc.bgTertiary,
               borderColor: tc.borderPrimary,
@@ -461,7 +463,7 @@ export function CommandPaletteModal({ isOpen, onClose }: CommandPaletteModalProp
         <div ref={listRef} className="p-2 overflow-y-auto space-y-1 flex-1 max-h-[380px]">
           {filtered.length === 0 ? (
             <div className="py-12 text-center space-y-2">
-              <Search className="w-8 h-8 text-zinc-500 mx-auto" />
+              <Search className="w-8 h-8 mx-auto" style={{ color: tc.textTertiary }} />
               <div className="text-xs font-semibold" style={{ color: tc.textPrimary }}>
                 No orbital telemetry matches "{query}"
               </div>
@@ -473,6 +475,7 @@ export function CommandPaletteModal({ isOpen, onClose }: CommandPaletteModalProp
             filtered.map((item, idx) => {
               const isSelected = idx === selectedIndex;
               const Icon = item.icon;
+              const badgeTone = getBadgeTone(item.badgeVariant);
               return (
                 <button
                   key={item.id}
@@ -501,7 +504,14 @@ export function CommandPaletteModal({ isOpen, onClose }: CommandPaletteModalProp
                         <span className="text-xs font-semibold truncate" style={{ color: tc.textPrimary }}>
                           {item.title}
                         </span>
-                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-medium border shrink-0 ${getBadgeStyle(item.badgeVariant)}`}>
+                        <span
+                          className="text-[10px] px-2 py-0.5 rounded-full font-semibold border shrink-0"
+                          style={{
+                            backgroundColor: badgeTone.bg,
+                            color: badgeTone.text,
+                            borderColor: badgeTone.border,
+                          }}
+                        >
                           {item.badge}
                         </span>
                       </div>
@@ -534,16 +544,43 @@ export function CommandPaletteModal({ isOpen, onClose }: CommandPaletteModalProp
         >
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 font-mono text-[9px]">↑</kbd>
-              <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 font-mono text-[9px]">↓</kbd>
+              <kbd
+                className="px-1.5 py-0.5 rounded border text-[9px] font-semibold"
+                style={{
+                  backgroundColor: tc.bgSecondary,
+                  color: tc.textPrimary,
+                  borderColor: tc.borderPrimary,
+                }}
+              >
+                ↑
+              </kbd>
+              <kbd
+                className="px-1.5 py-0.5 rounded border text-[9px] font-semibold"
+                style={{
+                  backgroundColor: tc.bgSecondary,
+                  color: tc.textPrimary,
+                  borderColor: tc.borderPrimary,
+                }}
+              >
+                ↓
+              </kbd>
               <span>to navigate</span>
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 font-mono text-[9px]">↵</kbd>
+              <kbd
+                className="px-1.5 py-0.5 rounded border text-[9px] font-semibold"
+                style={{
+                  backgroundColor: tc.bgSecondary,
+                  color: tc.textPrimary,
+                  borderColor: tc.borderPrimary,
+                }}
+              >
+                ↵
+              </kbd>
               <span>to select</span>
             </span>
           </div>
-          <span className="text-zinc-500 font-mono">{filtered.length} telemetry entries</span>
+          <span className="tabular-nums font-medium" style={{ color: tc.textTertiary }}>{filtered.length} telemetry entries</span>
         </div>
       </div>
     </div>

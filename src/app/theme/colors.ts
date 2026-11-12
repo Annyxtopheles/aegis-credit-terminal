@@ -8,8 +8,8 @@ export const colors = {
     tableHeaderBg: '#25272C',   // Table Header Surface
     hoverBg: '#282A2F',         // Row Hover Surface
     textPrimary: '#F4F4F5',     // Crisp White
-    textSecondary: '#9CA3AF',   // Soft Muted Slate
-    textTertiary: '#6B7280',    // Subtle Label Grey
+    textSecondary: '#A1A1AA',   // High-Legibility Muted Slate
+    textTertiary: '#8E95A2',    // Readable Label Grey
     borderPrimary: '#2A2C32',   // Clean Card Border
     borderSubtle: '#23252A',    // Subtle Divider
     gridLine: '#2A2C32',        // Chart Grid Hairline
@@ -29,17 +29,36 @@ export const colors = {
     tableHeaderBg: '#F4F5F7',
     hoverBg: '#F3F4F6',
     textPrimary: '#111827',
-    textSecondary: '#6B7280',
-    textTertiary: '#9CA3AF',
+    textSecondary: '#4B5563',
+    textTertiary: '#6B7280',
     borderPrimary: '#E5E7EB',
     borderSubtle: '#F3F4F6',
     gridLine: '#E5E7EB',
-    accentPrimary: '#6366F1',
-    alertRed: '#EF4444',
-    alertAmber: '#F59E0B',
-    alertGreen: '#10B981',
-    chartCyan: '#6366F1',
-    chartAmber: '#3B82F6',
+    accentPrimary: '#4F46E5',
+    alertRed: '#DC2626',
+    alertAmber: '#B45309',
+    alertGreen: '#15803D',
+    chartCyan: '#4F46E5',
+    chartAmber: '#2563EB',
+  }
+} as const;
+
+export const statusTones = {
+  dark: {
+    rose: { bg: 'rgba(244, 63, 94, 0.12)', text: '#FB7185', border: 'rgba(244, 63, 94, 0.25)' },
+    amber: { bg: 'rgba(245, 158, 11, 0.12)', text: '#FBBF24', border: 'rgba(245, 158, 11, 0.25)' },
+    emerald: { bg: 'rgba(16, 185, 129, 0.12)', text: '#34D399', border: 'rgba(16, 185, 129, 0.25)' },
+    indigo: { bg: 'rgba(99, 102, 241, 0.14)', text: '#818CF8', border: 'rgba(99, 102, 241, 0.28)' },
+    cyan: { bg: 'rgba(6, 182, 212, 0.12)', text: '#22D3EE', border: 'rgba(6, 182, 212, 0.26)' },
+    neutral: { bg: '#282A2F', text: '#D4D4D8', border: '#3F3F46' },
+  },
+  light: {
+    rose: { bg: '#FEF2F2', text: '#B91C1C', border: '#FECACA' },
+    amber: { bg: '#FFFBEB', text: '#B45309', border: '#FDE68A' },
+    emerald: { bg: '#ECFDF5', text: '#047857', border: '#A7F3D0' },
+    indigo: { bg: '#EEF2FF', text: '#4338CA', border: '#C7D2FE' },
+    cyan: { bg: '#ECFEFF', text: '#0E7490', border: '#A5F3FC' },
+    neutral: { bg: '#E5E7EB', text: '#374151', border: '#D1D5DB' },
   }
 } as const;
 

@@ -156,7 +156,7 @@ export function CapitalStructureTable() {
             border: `1px solid ${themeColors.borderPrimary}`
           }}
         >
-          {downloaded ? <><Check className="w-3.5 h-3.5 text-emerald-400" /> Exported TLE</> : <><Download className="w-3.5 h-3.5" style={{ color: themeColors.textSecondary }} /> Export TLE CSV</>}
+          {downloaded ? <><Check className="w-3.5 h-3.5" style={{ color: themeColors.alertGreen }} /> Exported TLE</> : <><Download className="w-3.5 h-3.5" style={{ color: themeColors.textSecondary }} /> Export TLE CSV</>}
         </button>
       </div>
 
@@ -180,7 +180,16 @@ export function CapitalStructureTable() {
               className="bg-transparent text-xs outline-none flex-1"
               style={{ color: themeColors.textPrimary }}
             />
-            <kbd className="px-1.5 py-0.5 rounded text-[10px] text-zinc-500">⌘K</kbd>
+            <kbd
+              className="px-1.5 py-0.5 rounded text-[10px] border"
+              style={{
+                backgroundColor: themeColors.bgSecondary,
+                color: themeColors.textTertiary,
+                borderColor: themeColors.borderPrimary,
+              }}
+            >
+              ⌘K
+            </kbd>
           </div>
 
           <button
@@ -198,7 +207,7 @@ export function CapitalStructureTable() {
         </div>
 
         <div className="text-xs" style={{ color: themeColors.textSecondary }}>
-          Showing <span className="font-semibold text-zinc-200">{filteredData.length}</span> of {data.length} records
+          Showing <span className="font-semibold" style={{ color: themeColors.textPrimary }}>{filteredData.length}</span> of {data.length} records
         </div>
       </div>
 
@@ -286,11 +295,11 @@ export function CapitalStructureTable() {
                           className="h-full rounded-full"
                           style={{
                             width: `${row.propellantPct}%`,
-                            backgroundColor: row.propellantPct < 45 ? '#F87171' : row.propellantPct < 65 ? '#FBBF24' : '#4ADE80'
+                            backgroundColor: row.propellantPct < 45 ? themeColors.alertRed : row.propellantPct < 65 ? themeColors.alertAmber : themeColors.alertGreen
                           }}
                         />
                       </div>
-                      <span className="font-semibold" style={{ color: row.propellantPct < 45 ? '#F87171' : themeColors.textPrimary }}>
+                      <span className="font-semibold tabular-nums" style={{ color: row.propellantPct < 45 ? themeColors.alertRed : themeColors.textPrimary }}>
                         {row.propellantPct}%
                       </span>
                     </div>

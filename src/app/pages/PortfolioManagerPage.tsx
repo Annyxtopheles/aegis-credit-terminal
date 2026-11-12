@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Search, Filter, TrendingDown, TrendingUp, Star, Bell, Eye, ChevronDown, AlertTriangle, Orbit } from 'lucide-react';
 import { LineChart, Line, ResponsiveContainer } from 'recharts';
 import { useTheme } from '../context/ThemeContext';
-import { colors } from '../theme/colors';
+import { colors, statusTones } from '../theme/colors';
 import { useNavigate } from 'react-router';
 
 function sparkData(base: number, len = 10) {
@@ -27,6 +27,7 @@ const SPACECRAFT_NODES = [
 export default function PortfolioManagerPage() {
   const { theme } = useTheme();
   const tc = colors[theme];
+  const st = statusTones[theme];
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [filterThreat, setFilterThreat] = useState('All');
@@ -39,11 +40,11 @@ export default function PortfolioManagerPage() {
     { label: 'Scheduled CAM Burns', value: '3 Armed', sub: 'Next 24h UTC window', icon: Bell, badge: 'Queued' },
   ];
 
-  const threatBadgeClasses: Record<string, string> = {
-    High: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
-    Elevated: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-    Moderate: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
-    Low: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+  const threatBadgeTones: Record<string, typeof st.rose> = {
+    High: st.rose,
+    Elevated: st.amber,
+    Moderate: st.indigo,
+    Low: st.emerald,
   };
 
   const filtered = SPACECRAFT_NODES
@@ -76,7 +77,14 @@ export default function PortfolioManagerPage() {
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-medium" style={{ color: tc.textSecondary }}>{stat.label}</span>
-                <span className="text-[11px] font-medium px-2 py-0.5 rounded-full border border-indigo-500/20 text-indigo-400 bg-indigo-500/10">
+                <span
+                  className="text-[11px] font-medium px-2 py-0.5 rounded-full border"
+                  style={{
+                    backgroundColor: st.indigo.bg,
+                    color: st.indigo.text,
+                    borderColor: st.indigo.border,
+                  }}
+                >
                   {stat.badge}
                 </span>
               </div>
@@ -158,7 +166,7 @@ export default function PortfolioManagerPage() {
       {/* Spacecraft Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {filtered.map(co => {
-          const badgeClass = threatBadgeClasses[co.threat] || threatBadgeClasses.Moderate;
+          const badgeTone = threatBadgeTones[co.threat] || threatBadgeTones.Moderate;
           const isNeg = co.change < 0;
 
           return (
@@ -175,7 +183,14 @@ export default function PortfolioManagerPage() {
                   <h3 className="text-sm font-semibold" style={{ color: tc.textPrimary }}>{co.name}</h3>
                   <div className="text-[11px] mt-0.5" style={{ color: tc.textSecondary }}>{co.sector}</div>
                 </div>
-                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-medium border ${badgeClass}`}>
+                <span
+                  className="px-2.5 py-0.5 rounded-full text-[10px] font-medium border"
+                  style={{
+                    backgroundColor: badgeTone.bg,
+                    color: badgeTone.text,
+                    borderColor: badgeTone.border,
+                  }}
+                >
                   {co.threat}
                 </span>
               </div>
@@ -199,7 +214,7 @@ export default function PortfolioManagerPage() {
                   }}
                 >
                   <div className="text-[10px]" style={{ color: tc.textSecondary }}>Xenon</div>
-                  <div className={`text-xs font-bold mt-0.5 tabular-nums ${co.propellantPct < 75 ? 'text-rose-500' : 'text-emerald-500'}`}>{co.propellantPct}%</div>
+                  <div className="text-xs font-bold mt-0.5 tabular-nums" style={{ color: co.propellantPct < 75 ? tc.alertRed : tc.alertGreen }}>{co.propellantPct}%</div>
                 </div>
                 <div
                   className="p-2.5 rounded-xl transition-colors"
@@ -217,11 +232,11 @@ export default function PortfolioManagerPage() {
                 <div className="flex-1 h-9">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={co.spark}>
-                      <Line type="monotone" dataKey="v" dot={false} strokeWidth={2} stroke={isNeg ? '#F59E0B' : '#818CF8'} />
+                      <Line type="monotone" dataKey="v" dot={false} strokeWidth={2} stroke={isNeg ? tc.alertAmber : tc.accentPrimary} />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
-                <div className="flex items-center gap-1 text-xs font-semibold tabular-nums" style={{ color: isNeg ? '#F59E0B' : '#818CF8' }}>
+                <div className="flex items-center gap-1 text-xs font-semibold tabular-nums" style={{ color: isNeg ? tc.alertAmber : tc.accentPrimary }}>
                   {isNeg ? <TrendingDown className="w-3.5 h-3.5" /> : <TrendingUp className="w-3.5 h-3.5" />}
                   <span>{isNeg ? '' : '+'}{co.change} km</span>
                 </div>

@@ -416,10 +416,10 @@ export function NewSidebar() {
                 style={{
                   backgroundColor: tc.bgSecondary,
                   border: `1px solid ${tc.borderPrimary}`,
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+                  boxShadow: theme === 'dark' ? '0 20px 40px rgba(0,0,0,0.5)' : '0 20px 40px rgba(15,23,42,0.12)'
                 }}
               >
-                <div className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-zinc-400 mb-1">
+                <div className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: tc.textTertiary }}>
                   Select Orbital Shell
                 </div>
                 {ORBITAL_SHELLS.map(shell => {
@@ -440,11 +440,11 @@ export function NewSidebar() {
                         <div className="text-xs font-semibold truncate" style={{ color: tc.textPrimary }}>
                           {shell.name}
                         </div>
-                        <div className="text-[10px] text-zinc-400">
+                        <div className="text-[10px]" style={{ color: tc.textSecondary }}>
                           {shell.details}
                         </div>
                       </div>
-                      {isSelected && <Check className="w-3.5 h-3.5 flex-shrink-0 text-indigo-400 ml-2" />}
+                      {isSelected && <Check className="w-3.5 h-3.5 flex-shrink-0 ml-2" style={{ color: tc.accentPrimary }} />}
                     </button>
                   );
                 })}

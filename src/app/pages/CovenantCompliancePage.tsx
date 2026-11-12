@@ -1,7 +1,7 @@
 import { ShieldAlert, Zap, Radio, AlertTriangle } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useTelemetry } from '../context/TelemetryContext';
-import { colors } from '../theme/colors';
+import { colors, statusTones } from '../theme/colors';
 import { CovenantCompliance } from '../components/CovenantCompliance';
 import { AegisCommentary } from '../components/AegisCommentary';
 import { FinancialPerformanceGrid } from '../components/FinancialPerformanceGrid';
@@ -10,13 +10,14 @@ export default function CovenantCompliancePage() {
   const { theme } = useTheme();
   const { signalMarginFormatted } = useTelemetry();
   const tc = colors[theme];
+  const st = statusTones[theme];
   const kpis = [
     {
       label: 'FCC 5-Yr De-Orbit Margin',
       value: '4.12 kg',
       subtext: '0.38 kg below 4.50 kg floor',
       icon: ShieldAlert,
-      variant: 'danger',
+      variant: 'danger' as const,
       badge: 'Deficit Alert'
     },
     {
@@ -24,7 +25,7 @@ export default function CovenantCompliancePage() {
       value: 'T-102 Minutes',
       subtext: 'Hall-Effect bus armed',
       icon: Zap,
-      variant: 'warning',
+      variant: 'warning' as const,
       badge: 'Readiness SLA'
     },
     {
@@ -32,7 +33,7 @@ export default function CovenantCompliancePage() {
       value: signalMarginFormatted,
       subtext: 'Above +6.0 dB floor',
       icon: Radio,
-      variant: 'success',
+      variant: 'success' as const,
       badge: 'Mesh Locked'
     },
     {
@@ -40,7 +41,7 @@ export default function CovenantCompliancePage() {
       value: '4.82e-4',
       subtext: 'VGD-04 vs COSMOS-2251',
       icon: AlertTriangle,
-      variant: 'danger',
+      variant: 'danger' as const,
       badge: 'TCA 01:42:19'
     }
   ];
@@ -51,12 +52,12 @@ export default function CovenantCompliancePage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {kpis.map((kpi, idx) => {
           const Icon = kpi.icon;
-          const badgeClass =
+          const badgeTone =
             kpi.variant === 'danger'
-              ? 'text-rose-400 bg-rose-500/10 border-rose-500/20'
+              ? st.rose
               : kpi.variant === 'warning'
-              ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
-              : 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
+              ? st.amber
+              : st.emerald;
 
           return (
             <div
@@ -69,7 +70,14 @@ export default function CovenantCompliancePage() {
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-medium" style={{ color: tc.textSecondary }}>{kpi.label}</span>
-                <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full border ${badgeClass}`}>
+                <span
+                  className="text-[11px] font-medium px-2 py-0.5 rounded-full border"
+                  style={{
+                    backgroundColor: badgeTone.bg,
+                    color: badgeTone.text,
+                    borderColor: badgeTone.border,
+                  }}
+                >
                   {kpi.badge}
                 </span>
               </div>

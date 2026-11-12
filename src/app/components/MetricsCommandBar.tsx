@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react';
-import { AlertCircle, Radio, Search, Terminal, ShieldAlert, Satellite, Zap, X } from 'lucide-react';
+import { AlertCircle, Radio, Terminal, ShieldAlert, Satellite, Zap } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useTelemetry } from '../context/TelemetryContext';
-import { colors } from '../theme/colors';
-import { useNavigate } from 'react-router';
+import { colors, statusTones } from '../theme/colors';
 import { CommandPaletteModal } from './CommandPaletteModal';
 
 export function MetricsCommandBar() {
   const { theme } = useTheme();
-  const { streamMode, toggleStreamMode, isLive, solarFluxFormatted, pulseKey } = useTelemetry();
+  const { streamMode, toggleStreamMode, isLive, solarFluxFormatted } = useTelemetry();
   const tc = colors[theme];
-  const navigate = useNavigate();
+  const st = statusTones[theme];
   const [utcTime, setUtcTime] = useState(() => new Date().toISOString().slice(11, 19) + ' UTC');
   const [showPalette, setShowPalette] = useState(false);
 
@@ -41,7 +40,7 @@ export function MetricsCommandBar() {
       value: utcTime,
       secondary: 'Epoch J2000.0 sync',
       badge: 'Synchronized',
-      badgeClass: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20',
+      badgeTone: st.indigo,
       icon: Radio
     },
     {
@@ -49,7 +48,7 @@ export function MetricsCommandBar() {
       value: '4.82e-4',
       secondary: 'Red threshold (> 1.0e-4)',
       badge: 'Critical Alert',
-      badgeClass: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
+      badgeTone: st.rose,
       icon: AlertCircle
     },
     {
@@ -57,7 +56,7 @@ export function MetricsCommandBar() {
       value: solarFluxFormatted,
       secondary: isLive ? 'Live SWPC telemetry feed' : 'Elevated thermospheric drag',
       badge: isLive ? 'Live Drag Pulse' : '+18.4% Drag',
-      badgeClass: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
+      badgeTone: st.amber,
       icon: Zap
     },
     {
@@ -65,7 +64,7 @@ export function MetricsCommandBar() {
       value: 'Kp 5.3 (G1)',
       secondary: 'Minor storm watch',
       badge: 'NOAA SWPC',
-      badgeClass: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
+      badgeTone: st.amber,
       icon: ShieldAlert
     },
     {
@@ -73,7 +72,7 @@ export function MetricsCommandBar() {
       value: '48 / 48 Satellites',
       secondary: 'S-band & optical locked',
       badge: 'Nominal',
-      badgeClass: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+      badgeTone: st.emerald,
       icon: Satellite
     }
   ];
@@ -83,7 +82,6 @@ export function MetricsCommandBar() {
       <div className="space-y-3">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {metrics.map((metric, index) => {
-            const Icon = metric.icon;
             return (
               <div
                 key={index}
@@ -95,7 +93,14 @@ export function MetricsCommandBar() {
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-medium truncate" style={{ color: tc.textSecondary }}>{metric.label}</span>
-                  <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full border ${metric.badgeClass}`}>
+                  <span
+                    className="text-[10px] font-medium px-2 py-0.5 rounded-full border shrink-0"
+                    style={{
+                      backgroundColor: metric.badgeTone.bg,
+                      color: metric.badgeTone.text,
+                      borderColor: metric.badgeTone.border,
+                    }}
+                  >
                     {metric.badge}
                   </span>
                 </div>
@@ -123,7 +128,7 @@ export function MetricsCommandBar() {
             }}
           >
             <div className="flex items-center gap-2.5 min-w-0">
-              <Terminal className="w-4 h-4 text-indigo-400 shrink-0" />
+              <Terminal className="w-4 h-4 shrink-0" style={{ color: tc.accentPrimary }} />
               <span className="text-xs truncate" style={{ color: tc.textSecondary }}>
                 Command line // Search NORAD ID, COSPAR designator, or execute CAM simulation...
               </span>

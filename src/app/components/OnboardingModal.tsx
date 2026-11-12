@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Search, Star, Bell, Check, ChevronRight, Radar } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
-import { colors } from '../theme/colors';
+import { colors, statusTones } from '../theme/colors';
 
 const SUGGESTED_SHELLS = [
   { ticker: 'VGD-S1', name: 'Vanguard LEO Shell-1 (550 km)', sector: '53.0° Inclination // 48 SV', threat: 'Critical', added: true },
@@ -22,6 +22,7 @@ export function OnboardingModal() {
   const { user, dismissOnboarding } = useAuth();
   const { theme } = useTheme();
   const tc = colors[theme];
+  const st = statusTones[theme];
   const [step, setStep] = useState(0);
   const [shells, setShells] = useState(SUGGESTED_SHELLS);
   const [search, setSearch] = useState('');
@@ -49,7 +50,14 @@ export function OnboardingModal() {
   const stepContent = [
     // Step 0: Welcome
     <div key="0" className="text-center space-y-4">
-      <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto">
+      <div
+        className="w-16 h-16 rounded-2xl border flex items-center justify-center mx-auto"
+        style={{
+          backgroundColor: st.indigo.bg,
+          borderColor: st.indigo.border,
+          color: st.indigo.text,
+        }}
+      >
         <Radar className="w-8 h-8" />
       </div>
       <div>
@@ -218,7 +226,7 @@ export function OnboardingModal() {
               onClick={() => toggleAlert(alert.id)}
             >
               <div className="flex items-center gap-3">
-                <Bell className={`w-4 h-4 ${isSelected ? 'text-indigo-400' : 'text-zinc-500'}`} />
+                <Bell className="w-4 h-4" style={{ color: isSelected ? tc.accentPrimary : tc.textTertiary }} />
                 <div>
                   <div className="text-xs font-semibold" style={{ color: tc.textPrimary }}>{alert.label}</div>
                   <div className="text-[11px]" style={{ color: tc.textSecondary }}>{alert.desc}</div>

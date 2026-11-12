@@ -1,6 +1,6 @@
-import { Terminal, Radio, Activity } from 'lucide-react';
+import { Terminal } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { colors } from '../theme/colors';
+import { colors, statusTones } from '../theme/colors';
 
 interface AegisCommentaryProps {
   content?: string[];
@@ -15,30 +15,31 @@ const DEFAULT_CONTENT = [
 export function AegisCommentary({ content = DEFAULT_CONTENT }: AegisCommentaryProps) {
   const { theme } = useTheme();
   const tc = colors[theme];
+  const tones = statusTones[theme];
 
   const logMeta = [
     {
       ts: '14:28:04 UTC',
       tag: 'Critical Conjunction',
-      badgeClass: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
+      tone: tones.rose,
       sub: 'B-Plane Ephemeris'
     },
     {
       ts: '14:24:51 UTC',
       tag: 'Solar Storm Watch',
-      badgeClass: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
+      tone: tones.amber,
       sub: 'Atmospheric Drag'
     },
     {
       ts: '14:19:12 UTC',
       tag: 'Propellant Ledger',
-      badgeClass: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20',
+      tone: tones.indigo,
       sub: 'Xenon Reserve'
     },
     {
       ts: '14:11:39 UTC',
       tag: 'Ground Pass Sync',
-      badgeClass: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+      tone: tones.emerald,
       sub: 'Svalbard AOS'
     },
   ];
@@ -54,14 +55,21 @@ export function AegisCommentary({ content = DEFAULT_CONTENT }: AegisCommentaryPr
       {/* Title Bar */}
       <div className="flex items-center justify-between pb-4 mb-4 border-b" style={{ borderColor: tc.borderPrimary }}>
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-[#282A2F] flex items-center justify-center text-indigo-400 border border-zinc-700/50">
+          <div
+            className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+            style={{
+              backgroundColor: tc.bgTertiary,
+              color: tc.accentPrimary,
+              border: `1px solid ${tc.borderPrimary}`
+            }}
+          >
             <Terminal className="w-4 h-4" />
           </div>
           <div>
-            <h4 className="text-sm font-semibold tracking-tight text-zinc-100">
+            <h4 className="text-sm font-semibold tracking-tight" style={{ color: tc.textPrimary }}>
               Autonomous Telemetry Event Stream
             </h4>
-            <p className="text-[11px] text-zinc-400">
+            <p className="text-[11px]" style={{ color: tc.textSecondary }}>
               Live orbital events dispatched from flight computer
             </p>
           </div>
@@ -71,7 +79,7 @@ export function AegisCommentary({ content = DEFAULT_CONTENT }: AegisCommentaryPr
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          <span className="text-[11px] font-medium text-emerald-400">
+          <span className="text-[11px] font-medium" style={{ color: tc.alertGreen }}>
             Live Stream
           </span>
         </div>
@@ -92,18 +100,25 @@ export function AegisCommentary({ content = DEFAULT_CONTENT }: AegisCommentaryPr
             >
               <div className="flex items-center justify-between gap-2 mb-2">
                 <div className="flex items-center gap-2">
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium border ${meta.badgeClass}`}>
+                  <span
+                    className="text-[10px] px-2 py-0.5 rounded-full font-medium border"
+                    style={{
+                      backgroundColor: meta.tone.bg,
+                      color: meta.tone.text,
+                      borderColor: meta.tone.border
+                    }}
+                  >
                     {meta.tag}
                   </span>
-                  <span className="text-[11px] text-zinc-400 ">
+                  <span className="text-[11px] tabular-nums" style={{ color: tc.textSecondary }}>
                     {meta.ts}
                   </span>
                 </div>
-                <span className="text-[10px] text-zinc-500 uppercase tracking-wider ">
+                <span className="text-[10px] uppercase tracking-wider" style={{ color: tc.textTertiary }}>
                   {meta.sub}
                 </span>
               </div>
-              <p className="text-xs text-zinc-300 leading-relaxed">
+              <p className="text-xs leading-relaxed" style={{ color: tc.textPrimary }}>
                 {item}
               </p>
             </div>

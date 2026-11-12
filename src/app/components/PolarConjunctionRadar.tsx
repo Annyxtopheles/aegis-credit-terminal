@@ -1,7 +1,7 @@
 import { useState, useId } from 'react';
-import { Radar, ShieldAlert, Crosshair, Zap, Compass, Info, Radio, AlertTriangle } from 'lucide-react';
+import { Radar, Crosshair } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { colors } from '../theme/colors';
+import { colors, statusTones } from '../theme/colors';
 
 export interface PolarSatellite {
   id: string;
@@ -245,6 +245,7 @@ export function PolarConjunctionRadar({
 }: PolarConjunctionRadarProps) {
   const { theme } = useTheme();
   const tc = colors[theme];
+  const st = statusTones[theme];
   const gradientId = useId();
 
   const [activeShellFilter, setActiveShellFilter] = useState<'ALL' | '400' | '550' | '700'>('ALL');
@@ -281,7 +282,14 @@ export function PolarConjunctionRadar({
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5 pb-4 border-b" style={{ borderColor: tc.borderPrimary }}>
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+          <div
+            className="w-9 h-9 rounded-xl border flex items-center justify-center"
+            style={{
+              backgroundColor: st.cyan.bg,
+              borderColor: st.cyan.border,
+              color: st.cyan.text,
+            }}
+          >
             <Radar className="w-5 h-5 animate-pulse" />
           </div>
           <div>
@@ -289,7 +297,14 @@ export function PolarConjunctionRadar({
               <h3 className="text-[15px] font-semibold tracking-tight" style={{ color: tc.textPrimary }}>
                 Polar Orbit Conjunction Radar // 18th SDS Covariance Plane
               </h3>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase tracking-wide">
+              <span
+                className="px-2 py-0.5 rounded-full text-[10px] font-semibold border uppercase tracking-wide"
+                style={{
+                  backgroundColor: st.emerald.bg,
+                  color: st.emerald.text,
+                  borderColor: st.emerald.border,
+                }}
+              >
                 Live 2D Polar
               </span>
             </div>
@@ -415,7 +430,7 @@ export function PolarConjunctionRadar({
                 stroke={activeShellFilter === '550' || activeShellFilter === 'ALL' ? (theme === 'dark' ? 'rgba(99, 102, 241, 0.5)' : 'rgba(99, 102, 241, 0.7)') : tc.borderPrimary}
                 strokeWidth={activeShellFilter === '550' ? 2 : 1.5}
               />
-              <text x={center + r550 - 4} y={center - 6} fill={theme === 'dark' ? '#818CF8' : '#6366F1'} fontSize="8" fontWeight="700" textAnchor="end">
+              <text x={center + r550 - 4} y={center - 6} fill={tc.accentPrimary} fontSize="8" fontWeight="700" textAnchor="end">
                 550 km (Primary Shell-1)
               </text>
 
@@ -425,7 +440,7 @@ export function PolarConjunctionRadar({
                 cy={center}
                 r={r700}
                 fill="none"
-                stroke={activeShellFilter === '700' || activeShellFilter === 'ALL' ? (theme === 'dark' ? 'rgba(168, 85, 247, 0.4)' : 'rgba(168, 85, 247, 0.6)') : tc.borderPrimary}
+                stroke={activeShellFilter === '700' || activeShellFilter === 'ALL' ? (theme === 'dark' ? 'rgba(168, 85, 247, 0.4)' : 'rgba(126, 34, 206, 0.5)') : tc.borderPrimary}
                 strokeWidth={activeShellFilter === '700' ? 2 : 1.2}
                 strokeDasharray={activeShellFilter === '700' ? 'none' : '4 4'}
               />
@@ -447,10 +462,10 @@ export function PolarConjunctionRadar({
                     y1={center}
                     x2={center + r700 + 12}
                     y2={center}
-                    stroke="#22D3EE"
+                    stroke={st.cyan.text}
                     strokeWidth="1.5"
                     strokeLinecap="round"
-                    opacity="0.8"
+                    opacity="0.85"
                   />
                 </g>
               )}
@@ -502,14 +517,14 @@ export function PolarConjunctionRadar({
                     <rect
                       x={debX + 8}
                       y={debY - 14}
-                      width="88"
+                      width="94"
                       height="16"
                       rx="4"
                       fill={theme === 'dark' ? '#1E1215' : '#FEF2F2'}
-                      stroke="rgba(239, 68, 68, 0.4)"
+                      stroke={st.rose.border}
                       strokeWidth="1"
                     />
-                    <text x={debX + 12} y={debY - 3} fill="#EF4444" fontSize="8" fontWeight="700">
+                    <text x={debX + 12} y={debY - 3} fill={st.rose.text} fontSize="8" fontWeight="700">
                       DEB [34427] Pc: 4.8e-4
                     </text>
                   </g>
@@ -530,8 +545,16 @@ export function PolarConjunctionRadar({
                 // Color by status
                 const isWatch = sat.status === 'Conjunction Watch';
                 const isStation = sat.status === 'Station-Keeping';
-                const blipFill = isWatch ? '#F59E0B' : isStation ? '#818CF8' : '#22D3EE';
-                const blipHalo = isWatch ? 'rgba(245, 158, 11, 0.3)' : isStation ? 'rgba(129, 140, 248, 0.3)' : 'rgba(34, 211, 238, 0.25)';
+                const blipFill = isWatch
+                  ? tc.alertAmber
+                  : isStation
+                  ? tc.accentPrimary
+                  : st.cyan.text;
+                const blipHalo = isWatch
+                  ? (theme === 'dark' ? 'rgba(245, 158, 11, 0.3)' : 'rgba(180, 83, 9, 0.22)')
+                  : isStation
+                  ? (theme === 'dark' ? 'rgba(129, 140, 248, 0.3)' : 'rgba(79, 70, 229, 0.22)')
+                  : (theme === 'dark' ? 'rgba(34, 211, 238, 0.25)' : 'rgba(14, 116, 144, 0.22)');
 
                 return (
                   <g
@@ -607,18 +630,25 @@ export function PolarConjunctionRadar({
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
-                    <span className="text-xs font-bold text-rose-500 uppercase tracking-wider">
+                    <span className="w-2.5 h-2.5 rounded-full animate-ping" style={{ backgroundColor: tc.alertRed }} />
+                    <span className="text-xs font-bold uppercase tracking-wider" style={{ color: st.rose.text }}>
                       CONJUNCTION TARGET ACQUIRED
                     </span>
                   </div>
-                  <span className="text-[10px] px-2 py-0.5 rounded-md bg-rose-500/10 text-rose-400 border border-rose-500/20 font-mono">
+                  <span
+                    className="text-[10px] px-2 py-0.5 rounded-md border tabular-nums font-medium"
+                    style={{
+                      backgroundColor: st.rose.bg,
+                      color: st.rose.text,
+                      borderColor: st.rose.border,
+                    }}
+                  >
                     NORAD 34427
                   </span>
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-bold text-rose-400">
+                  <h4 className="text-sm font-bold" style={{ color: st.rose.text }}>
                     {DEBRIS_TARGET.name}
                   </h4>
                   <p className="text-[11px] mt-0.5" style={{ color: tc.textSecondary }}>
@@ -629,30 +659,31 @@ export function PolarConjunctionRadar({
                 <div className="grid grid-cols-2 gap-2 pt-1 text-xs">
                   <div className="p-2.5 rounded-lg" style={{ backgroundColor: tc.bgSecondary }}>
                     <div className="text-[10px]" style={{ color: tc.textSecondary }}>Collision Pc</div>
-                    <div className="text-sm font-bold text-rose-400 font-mono">{DEBRIS_TARGET.collisionPc}</div>
+                    <div className="text-sm font-bold tabular-nums" style={{ color: tc.alertRed }}>{DEBRIS_TARGET.collisionPc}</div>
                   </div>
                   <div className="p-2.5 rounded-lg" style={{ backgroundColor: tc.bgSecondary }}>
                     <div className="text-[10px]" style={{ color: tc.textSecondary }}>TCA Countdown</div>
-                    <div className="text-sm font-bold text-amber-400 font-mono">{DEBRIS_TARGET.tcaCountdown}</div>
+                    <div className="text-sm font-bold tabular-nums" style={{ color: tc.alertAmber }}>{DEBRIS_TARGET.tcaCountdown}</div>
                   </div>
                   <div className="p-2.5 rounded-lg" style={{ backgroundColor: tc.bgSecondary }}>
                     <div className="text-[10px]" style={{ color: tc.textSecondary }}>Post-CAM Miss Dist</div>
-                    <div className="text-xs font-bold" style={{ color: tc.textPrimary }}>{DEBRIS_TARGET.missDistanceM.toLocaleString()} m</div>
+                    <div className="text-xs font-bold tabular-nums" style={{ color: tc.textPrimary }}>{DEBRIS_TARGET.missDistanceM.toLocaleString()} m</div>
                   </div>
                   <div className="p-2.5 rounded-lg" style={{ backgroundColor: tc.bgSecondary }}>
                     <div className="text-[10px]" style={{ color: tc.textSecondary }}>Relative Velocity</div>
-                    <div className="text-xs font-bold" style={{ color: tc.textPrimary }}>{DEBRIS_TARGET.relativeVelocity}</div>
+                    <div className="text-xs font-bold tabular-nums" style={{ color: tc.textPrimary }}>{DEBRIS_TARGET.relativeVelocity}</div>
                   </div>
                 </div>
 
                 {/* TLE Raw Box */}
                 <div className="pt-2 border-t" style={{ borderColor: tc.borderPrimary }}>
-                  <div className="text-[10px] font-mono text-zinc-400 mb-1">CCSDS 18th SDS TLE Vector:</div>
+                  <div className="text-[10px] font-medium mb-1" style={{ color: tc.textSecondary }}>CCSDS 18th SDS TLE Vector:</div>
                   <pre
-                    className="p-2 rounded-lg text-[9.5px] font-mono leading-relaxed overflow-x-auto select-all"
+                    className="p-2 rounded-lg text-[9.5px] leading-relaxed overflow-x-auto select-all tabular-nums border"
                     style={{
-                      backgroundColor: theme === 'dark' ? '#111214' : '#F1F3F5',
-                      color: theme === 'dark' ? '#F43F5E' : '#BE123C'
+                      backgroundColor: theme === 'dark' ? '#111214' : '#FFFFFF',
+                      borderColor: tc.borderPrimary,
+                      color: st.rose.text
                     }}
                   >
                     {DEBRIS_TARGET.tleLine1}
@@ -671,10 +702,10 @@ export function PolarConjunctionRadar({
                       style={{
                         backgroundColor:
                           activeSat.status === 'Conjunction Watch'
-                            ? '#F59E0B'
+                            ? tc.alertAmber
                             : activeSat.status === 'Station-Keeping'
-                            ? '#818CF8'
-                            : '#22D3EE'
+                            ? tc.accentPrimary
+                            : st.cyan.text
                       }}
                     />
                     <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: tc.textPrimary }}>
@@ -682,13 +713,14 @@ export function PolarConjunctionRadar({
                     </span>
                   </div>
                   <span
-                    className={`text-[10px] px-2 py-0.5 rounded-md border font-medium ${
+                    className="text-[10px] px-2 py-0.5 rounded-md border font-medium"
+                    style={
                       activeSat.status === 'Conjunction Watch'
-                        ? 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+                        ? { backgroundColor: st.rose.bg, color: st.rose.text, borderColor: st.rose.border }
                         : activeSat.status === 'Station-Keeping'
-                        ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20'
-                        : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                    }`}
+                        ? { backgroundColor: st.indigo.bg, color: st.indigo.text, borderColor: st.indigo.border }
+                        : { backgroundColor: st.emerald.bg, color: st.emerald.text, borderColor: st.emerald.border }
+                    }
                   >
                     {activeSat.status}
                   </span>
@@ -697,7 +729,7 @@ export function PolarConjunctionRadar({
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div className="p-2 rounded-lg" style={{ backgroundColor: tc.bgSecondary }}>
                     <div className="text-[10px]" style={{ color: tc.textSecondary }}>NORAD ID</div>
-                    <div className="text-xs font-mono font-bold" style={{ color: tc.textPrimary }}>{activeSat.noradId}</div>
+                    <div className="text-xs font-bold tabular-nums" style={{ color: tc.textPrimary }}>{activeSat.noradId}</div>
                   </div>
                   <div className="p-2 rounded-lg" style={{ backgroundColor: tc.bgSecondary }}>
                     <div className="text-[10px]" style={{ color: tc.textSecondary }}>Orbital Plane</div>
@@ -705,25 +737,26 @@ export function PolarConjunctionRadar({
                   </div>
                   <div className="p-2 rounded-lg" style={{ backgroundColor: tc.bgSecondary }}>
                     <div className="text-[10px]" style={{ color: tc.textSecondary }}>Semi-Major Axis (Alt)</div>
-                    <div className="text-xs font-mono font-bold" style={{ color: tc.textPrimary }}>{activeSat.shellKm}.00 km</div>
+                    <div className="text-xs font-bold tabular-nums" style={{ color: tc.textPrimary }}>{activeSat.shellKm}.00 km</div>
                   </div>
                   <div className="p-2 rounded-lg" style={{ backgroundColor: tc.bgSecondary }}>
                     <div className="text-[10px]" style={{ color: tc.textSecondary }}>Velocity / Period</div>
-                    <div className="text-xs font-mono font-bold" style={{ color: tc.textPrimary }}>{activeSat.velocityKmS} km/s ({activeSat.periodMin}m)</div>
+                    <div className="text-xs font-bold tabular-nums" style={{ color: tc.textPrimary }}>{activeSat.velocityKmS} km/s ({activeSat.periodMin}m)</div>
                   </div>
                 </div>
 
                 {/* TLE Ephemeris Lines */}
                 <div className="pt-2 border-t" style={{ borderColor: tc.borderPrimary }}>
-                  <div className="flex items-center justify-between text-[10px] font-mono text-zinc-400 mb-1">
+                  <div className="flex items-center justify-between text-[10px] font-medium mb-1" style={{ color: tc.textSecondary }}>
                     <span>Live 2-Line Ephemeris (TLE):</span>
-                    <span className="text-cyan-400">EPOCH J2000.0</span>
+                    <span className="font-semibold" style={{ color: st.cyan.text }}>EPOCH J2000.0</span>
                   </div>
                   <pre
-                    className="p-2 rounded-lg text-[9px] font-mono leading-relaxed overflow-x-auto select-all"
+                    className="p-2 rounded-lg text-[9px] leading-relaxed overflow-x-auto select-all tabular-nums border"
                     style={{
-                      backgroundColor: theme === 'dark' ? '#111214' : '#F1F3F5',
-                      color: theme === 'dark' ? '#22D3EE' : '#0284C7'
+                      backgroundColor: theme === 'dark' ? '#111214' : '#FFFFFF',
+                      borderColor: tc.borderPrimary,
+                      color: st.cyan.text
                     }}
                   >
                     {activeSat.tleLine1}
@@ -738,7 +771,7 @@ export function PolarConjunctionRadar({
           {/* Quick Guidance Footer */}
           <div className="flex items-center justify-between text-xs px-2" style={{ color: tc.textSecondary }}>
             <span className="flex items-center gap-1.5">
-              <Crosshair className="w-3.5 h-3.5 text-cyan-400" />
+              <Crosshair className="w-3.5 h-3.5" style={{ color: st.cyan.text }} />
               Hover blip or row to sync telemetry lock
             </span>
             <button

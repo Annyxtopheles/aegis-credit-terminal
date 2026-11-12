@@ -1,7 +1,7 @@
 import { Orbit, Calendar, Download, MessageSquare, Radar, Radio } from 'lucide-react';
 import { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
-import { colors } from '../theme/colors';
+import { colors, statusTones } from '../theme/colors';
 import { MetricsCommandBar } from '../components/MetricsCommandBar';
 import { DebtPricingChart } from '../components/DebtPricingChart';
 import { EquityPricingChart } from '../components/EquityPricingChart';
@@ -105,6 +105,7 @@ function RequestCoordinationModal({ onClose }: { onClose: () => void }) {
 export default function CorporateDashboardPage() {
   const { theme } = useTheme();
   const tc = colors[theme];
+  const st = statusTones[theme];
   const [showMeetingModal, setShowMeetingModal] = useState(false);
 
   return (
@@ -120,7 +121,14 @@ export default function CorporateDashboardPage() {
         }}
       >
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+          <div
+            className="w-12 h-12 rounded-2xl border flex items-center justify-center"
+            style={{
+              backgroundColor: st.indigo.bg,
+              borderColor: st.indigo.border,
+              color: st.indigo.text,
+            }}
+          >
             <Orbit className="w-6 h-6" />
           </div>
           <div>
@@ -128,7 +136,14 @@ export default function CorporateDashboardPage() {
               <h1 className="text-lg font-bold tracking-tight" style={{ color: tc.textPrimary }}>
                 Vanguard LEO Shell-1 Operator Portal
               </h1>
-              <span className="text-[10px] px-2.5 py-0.5 rounded-full font-medium bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+              <span
+                className="text-[10px] px-2.5 py-0.5 rounded-full font-medium border"
+                style={{
+                  backgroundColor: st.emerald.bg,
+                  color: st.emerald.text,
+                  borderColor: st.emerald.border,
+                }}
+              >
                 Live Feed
               </span>
             </div>
@@ -172,7 +187,7 @@ export default function CorporateDashboardPage() {
           border: `1px solid ${tc.borderPrimary}`
         }}
       >
-        <Radar className="w-5 h-5 text-indigo-400 shrink-0" />
+        <Radar className="w-5 h-5 shrink-0" style={{ color: tc.accentPrimary }} />
         <p className="text-xs" style={{ color: tc.textSecondary }}>
           <span className="font-semibold" style={{ color: tc.textPrimary }}>External Coordination Feed:</span> Displaying public 18th SDS TLE vectors and ITU/FCC compliance disclosures for cross-constellation conjunction mitigation.
         </p>
@@ -221,7 +236,7 @@ export default function CorporateDashboardPage() {
                 <div className="flex items-center gap-4">
                   <div>
                     <div className="text-[10px]" style={{ color: tc.textTertiary }}>Vanguard Shell-1</div>
-                    <div className={`text-base font-bold mt-0.5 tabular-nums ${m.better ? 'text-indigo-400' : 'text-rose-400'}`}>{m.your}</div>
+                    <div className="text-base font-bold mt-0.5 tabular-nums" style={{ color: m.better ? tc.accentPrimary : tc.alertRed }}>{m.your}</div>
                   </div>
                   <div className="text-xs" style={{ color: tc.textTertiary }}>vs</div>
                   <div>

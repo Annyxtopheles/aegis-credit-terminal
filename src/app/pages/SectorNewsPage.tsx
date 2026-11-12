@@ -1,7 +1,7 @@
 import { Sun, Activity, Shield, Flame } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useTelemetry } from '../context/TelemetryContext';
-import { colors } from '../theme/colors';
+import { colors, statusTones } from '../theme/colors';
 import { SectorNews } from '../components/SectorNews';
 import { AegisCommentary } from '../components/AegisCommentary';
 import { EquityPricingChart } from '../components/EquityPricingChart';
@@ -10,13 +10,15 @@ export default function SectorNewsPage() {
   const { theme } = useTheme();
   const { solarFluxFormatted } = useTelemetry();
   const tc = colors[theme];
+  const tones = statusTones[theme];
+
   const kpis = [
     {
       label: 'Solar Radio Flux (F10.7)',
       value: solarFluxFormatted,
       subtext: '+18.4% thermospheric drag',
       icon: Sun,
-      variant: 'amber',
+      tone: tones.amber,
       badge: 'Elevated'
     },
     {
@@ -24,7 +26,7 @@ export default function SectorNewsPage() {
       value: 'Kp 5.3 (G1)',
       subtext: 'Minor storm watch in effect',
       icon: Activity,
-      variant: 'amber',
+      tone: tones.amber,
       badge: 'G1 Minor'
     },
     {
@@ -32,7 +34,7 @@ export default function SectorNewsPage() {
       value: '14 Tracked',
       subtext: '1 critical pass / 13 nominal',
       icon: Shield,
-      variant: 'rose',
+      tone: tones.rose,
       badge: '1 Alert'
     },
     {
@@ -40,7 +42,7 @@ export default function SectorNewsPage() {
       value: '0.42 pfu',
       subtext: 'Normal star-tracker envelope',
       icon: Flame,
-      variant: 'emerald',
+      tone: tones.emerald,
       badge: 'Nominal'
     }
   ];
@@ -51,12 +53,6 @@ export default function SectorNewsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {kpis.map((kpi, idx) => {
           const Icon = kpi.icon;
-          const badgeClass =
-            kpi.variant === 'rose'
-              ? 'text-rose-400 bg-rose-500/10 border-rose-500/20'
-              : kpi.variant === 'amber'
-              ? 'text-amber-400 bg-amber-500/10 border-amber-500/20'
-              : 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
 
           return (
             <div
@@ -69,7 +65,14 @@ export default function SectorNewsPage() {
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-medium" style={{ color: tc.textSecondary }}>{kpi.label}</span>
-                <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full border ${badgeClass}`}>
+                <span
+                  className="text-[11px] font-medium px-2 py-0.5 rounded-full border"
+                  style={{
+                    backgroundColor: kpi.tone.bg,
+                    color: kpi.tone.text,
+                    borderColor: kpi.tone.border
+                  }}
+                >
                   {kpi.badge}
                 </span>
               </div>
